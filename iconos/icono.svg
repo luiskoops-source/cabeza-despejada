@@ -1,6 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="112" fill="#ff5f6d"/>
-  <circle cx="256" cy="256" r="150" fill="none" stroke="#f2f5f3" stroke-width="28"/>
-  <circle cx="256" cy="256" r="62" fill="#ffd166"/>
-  <path d="M256 70v60M256 382v60M70 256h60M382 256h60" stroke="#f2f5f3" stroke-width="28" stroke-linecap="round"/>
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b0b3b"/><stop offset=".55" stop-color="#5a1fd6"/><stop offset="1" stop-color="#ff5f6d"/></linearGradient>
+ <radialGradient id="sun" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff3b0"/><stop offset=".6" stop-color="#ffd166"/><stop offset="1" stop-color="#ff8a3d"/></radialGradient>
+ <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="18" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="512" height="512" rx="112" fill="url(#bg)"/>
+<circle cx="256" cy="300" r="118" fill="url(#sun)" filter="url(#glow)"/>
+<rect x="0" y="300" width="512" height="212" fill="#1b0b3b" opacity=".75"/>
+<g fill="#ffd166" opacity=".95">
+ <rect x="96" y="340" width="34" height="90" rx="10"/><rect x="152" y="320" width="34" height="110" rx="10"/><rect x="208" y="356" width="34" height="74" rx="10"/><rect x="264" y="312" width="34" height="118" rx="10"/><rect x="320" y="346" width="34" height="84" rx="10"/><rect x="376" y="328" width="34" height="102" rx="10"/>
+</g>
 </svg>

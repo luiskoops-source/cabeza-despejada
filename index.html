@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="css/estilos.css">
 <!-- App instalable: el manifest describe nombre, ícono y colores para la pantalla de inicio -->
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#ff5f6d">
+<meta name="theme-color" content="#5a1fd6">
 <link rel="apple-touch-icon" href="iconos/icono-192.png">
 </head>
 <body>
@@ -20,7 +20,7 @@
 <!-- HOY -->
 <section class="screen active" id="s-hoy" role="tabpanel">
   <div class="row" style="justify-content:space-between;align-items:center">
-    <div class="logo"><svg viewBox="0 0 512 512" width="30" height="30" aria-hidden="true"><rect width="512" height="512" rx="112" fill="var(--accent)"/><circle cx="256" cy="256" r="150" fill="none" stroke="var(--bg)" stroke-width="28"/><circle cx="256" cy="256" r="62" fill="var(--warm)"/><path d="M256 70v60M256 382v60M70 256h60M382 256h60" stroke="var(--bg)" stroke-width="28" stroke-linecap="round"/></svg><span class="eyebrow">Cabeza Despejada</span></div>
+    <div class="logo"><svg viewBox="0 0 512 512" width="34" height="34" aria-hidden="true"><defs><linearGradient id="lg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b0b3b"/><stop offset=".55" stop-color="#5a1fd6"/><stop offset="1" stop-color="#ff5f6d"/></linearGradient><radialGradient id="lg2" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff3b0"/><stop offset=".6" stop-color="#ffd166"/><stop offset="1" stop-color="#ff8a3d"/></radialGradient></defs><rect width="512" height="512" rx="112" fill="url(#lg1)"/><circle cx="256" cy="300" r="118" fill="url(#lg2)"/><rect x="0" y="300" width="512" height="212" fill="#1b0b3b" opacity=".75"/><g fill="#ffd166"><rect x="96" y="340" width="34" height="90" rx="10"/><rect x="152" y="320" width="34" height="110" rx="10"/><rect x="208" y="356" width="34" height="74" rx="10"/><rect x="264" y="312" width="34" height="118" rx="10"/><rect x="320" y="346" width="34" height="84" rx="10"/><rect x="376" y="328" width="34" height="102" rx="10"/></g></svg><span class="eyebrow">Cabeza Despejada</span></div>
     <span class="small muted" id="today"></span>
   </div>
 
@@ -451,7 +451,7 @@
 <!-- BLOQUEO POR PIN -->
 <div class="crave" id="lock" hidden>
   <div class="inner" style="max-width:360px;margin-top:20vh">
-    <div class="logo"><svg viewBox="0 0 512 512" width="34" height="34" aria-hidden="true"><rect width="512" height="512" rx="112" fill="var(--accent)"/><circle cx="256" cy="256" r="150" fill="none" stroke="var(--bg)" stroke-width="28"/><circle cx="256" cy="256" r="62" fill="var(--warm)"/><path d="M256 70v60M256 382v60M70 256h60M382 256h60" stroke="var(--bg)" stroke-width="28" stroke-linecap="round"/></svg><span class="eyebrow">Cabeza Despejada</span></div>
+    <div class="logo"><svg viewBox="0 0 512 512" width="34" height="34" aria-hidden="true"><defs><linearGradient id="lg3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b0b3b"/><stop offset=".55" stop-color="#5a1fd6"/><stop offset="1" stop-color="#ff5f6d"/></linearGradient><radialGradient id="lg4" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff3b0"/><stop offset=".6" stop-color="#ffd166"/><stop offset="1" stop-color="#ff8a3d"/></radialGradient></defs><rect width="512" height="512" rx="112" fill="url(#lg3)"/><circle cx="256" cy="300" r="118" fill="url(#lg4)"/><rect x="0" y="300" width="512" height="212" fill="#1b0b3b" opacity=".75"/><g fill="#ffd166"><rect x="96" y="340" width="34" height="90" rx="10"/><rect x="152" y="320" width="34" height="110" rx="10"/><rect x="208" y="356" width="34" height="74" rx="10"/><rect x="264" y="312" width="34" height="118" rx="10"/><rect x="320" y="346" width="34" height="84" rx="10"/><rect x="376" y="328" width="34" height="102" rx="10"/></g></svg><span class="eyebrow">Cabeza Despejada</span></div>
     <h1>Tu PIN</h1>
     <input type="password" inputmode="numeric" id="lockPin" maxlength="6" autocomplete="off" aria-label="PIN">
     <button class="primary" id="lockGo">Entrar</button>
