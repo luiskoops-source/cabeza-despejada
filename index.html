@@ -8,6 +8,10 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
 <!-- Estilos: todo lo visual vive en css/estilos.css -->
 <link rel="stylesheet" href="css/estilos.css">
+<!-- App instalable: el manifest describe nombre, ícono y colores para la pantalla de inicio -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f6b61">
+<link rel="apple-touch-icon" href="iconos/icono-192.png">
 </head>
 <body>
 <!-- ESTRUCTURA: cada <section class="screen"> es una pestaña. La barra de abajo (<nav class="tabs">) las muestra u oculta. -->
@@ -19,6 +23,22 @@
     <p class="eyebrow">Cabeza Despejada</p>
     <h1 id="greet">Hoy</h1>
     <p class="muted small" id="today"></p>
+  </div>
+
+  <!-- Bienvenida: solo se ve la primera vez, hasta marcar el Día 0 -->
+  <div class="card" id="welcome" hidden>
+    <h2>Bienvenido. Partamos por una fecha.</h2>
+    <p class="small">¿Cuándo fue tu último consumo? Desde ahí la app cuenta tus días y lo que no gastaste. Después agrega tus razones y tu gasto semanal para que los números sean tuyos.</p>
+    <div class="row">
+      <label class="f">Mi último consumo<input type="date" id="welcomeDay0"></label>
+      <button class="primary" id="welcomeGo">Empezar</button>
+    </div>
+  </div>
+
+  <!-- Aviso que aparece solo en la hora difícil, si hay un plan guardado -->
+  <div class="card" id="planNow" hidden style="border-color:var(--warm)">
+    <p class="eyebrow" style="color:var(--warm)">Es tu hora difícil. Tu plan:</p>
+    <p id="planNowText"></p>
   </div>
 
   <div class="card">
@@ -97,6 +117,25 @@
     </div>
   </div>
 
+  <!-- Resumen de los últimos 7 días -->
+  <div class="card">
+    <p class="eyebrow">Esta semana</p>
+    <div class="tiles">
+      <div class="tile"><div class="v num" id="wkClean">0/7</div><div class="l">días sin consumir</div></div>
+      <div class="tile"><div class="v num" id="wkWaves">0</div><div class="l">olas de ganas superadas</div></div>
+      <div class="tile"><div class="v num" id="wkSleep">—</div><div class="l">sueño promedio</div></div>
+      <div class="tile"><div class="v num" id="wkMoney">$0</div><div class="l">no gastados esta semana</div></div>
+    </div>
+  </div>
+
+  <!-- Plan para la hora en que más llegan las ganas (la hora sale del Registro) -->
+  <div class="card">
+    <p class="eyebrow">Plan para mi hora difícil</p>
+    <p class="small muted">Según tu registro, tus ganas llegan más a <b id="planHour"></b>. Escribe qué vas a hacer a esa hora y la app te lo recordará cuando llegue.</p>
+    <textarea id="planText" placeholder="Ej: a esa hora me ducho, pongo una serie y dejo el celular en la cocina"></textarea>
+    <div class="row"><button class="primary" id="savePlan">Guardar plan</button></div>
+  </div>
+
   <div class="card">
     <p class="eyebrow">Mis razones</p>
     <ul class="reasons" id="reasons"></ul>
@@ -107,13 +146,13 @@
   </div>
 
   <div class="card">
-    <p class="eyebrow">Lo que aprendí sobre mí</p>
+    <p class="eyebrow">Lo que casi todos descubren al dejarlo</p>
     <ul class="small">
-      <li><b>Cuando las cosas van bien</b> aparece el impulso de generar caos. Reconocerlo ya es tener ventaja.</li>
-      <li><b>Lo que no está bajo mi control</b> y <b>el tiempo libre sin plan</b> son mis dos gatillantes principales.</li>
-      <li><b>Sin dormir llega la paranoia.</b> Dormir es parte del tratamiento, no un lujo.</li>
-      <li><b>Trabajar sobrio me sale bien.</b> Consumiendo trabajo lento y me quedo dormido.</li>
-      <li><b>Borrar el contacto</b> funciona. Cada vez que lo hice, costó más recaer.</li>
+      <li><b>Las ganas tienen horario.</b> Suelen llegar a la misma hora y en las mismas situaciones. El Registro te lo muestra.</li>
+      <li><b>El tiempo libre sin plan</b> y <b>lo que no está bajo tu control</b> son los gatillantes más comunes.</li>
+      <li><b>Sin dormir todo empeora.</b> Dormir es parte del tratamiento, no un lujo.</li>
+      <li><b>Cuando todo va bien</b> a veces aparece el impulso de romperlo. Reconocerlo ya es tener ventaja.</li>
+      <li><b>Borrar el contacto</b> funciona. Pone un obstáculo justo donde la ola está más alta.</li>
     </ul>
   </div>
 </section>

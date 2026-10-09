@@ -1,0 +1,15 @@
+{
+  "name": "Cabeza Despejada",
+  "short_name": "Despejada",
+  "description": "Apoyo personal para mantenerme sin consumir",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f2f5f3",
+  "theme_color": "#0f6b61",
+  "lang": "es",
+  "icons": [
+    { "src": "iconos/icono-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "iconos/icono-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

@@ -5,14 +5,13 @@ const $=id=>document.getElementById(id);
 const KEY="cd.v1";
 const defaults={
   day0:null, spendWeek:60000, salary:null,
+  /* Razones de ejemplo. Cada persona las reemplaza por las suyas en la pantalla Hoy. */
   reasons:[
-    "Sobrio trabajo bien y me lo han dicho: Tamara y Javi reconocieron mi desempeño. Consumiendo trabajo lento y me duermo.",
-    "Ahora la psicosis llega casi de inmediato y cada vez es peor. No quiero llegar a algo que no se pueda devolver.",
-    "Mi autoestima y mi amor propio. Ninguna otra cosa me los ha dañado tanto.",
-    "Mi papá. Prefiero pasarle plata a él que al proveedor.",
-    "Quiero volver a sentir gusto por vivir. Eso solo vuelve con tiempo limpio.",
-    "Quiero volver a tener vida social y pareja sin esconder nada."
+    "Quiero volver a sentir gusto por las cosas normales.",
+    "Sobrio trabajo mejor y duermo de verdad.",
+    "Prefiero que mi plata termine en mi casa, no en el proveedor."
   ],
+  plan:"", planHour:null,
   events:[], seenFacts:[], customFacts:[], dailyIdx:null, dailyDate:null, dailyAI:null, craveWins:0
 };
 let S=load();
@@ -61,7 +60,34 @@ function renderHoy(){
   $("resets").textContent=S.events.filter(e=>e.type==="relapse").length;
   renderReasons();
   renderCheckin();
+  renderSemana();
+  renderPlan();
+  /* Bienvenida: se muestra solo hasta que la persona marca su Día 0 */
+  $("welcome").hidden=!!S.day0;
 }
+
+/* ---------- Resumen de la semana ---------- */
+function renderSemana(){
+  const r=C.resumenSemana(S.events,S.spendWeek);
+  $("wkClean").textContent=r.diasLimpios+"/7";
+  $("wkWaves").textContent=r.olas;
+  $("wkSleep").textContent=r.suenoProm==null?"—":r.suenoProm+" h";
+  $("wkMoney").textContent=clp(r.dinero);
+}
+
+/* ---------- Plan para la hora difícil ---------- */
+function renderPlan(){
+  const h=C.horaPico(S.events);
+  S.planHour=h;
+  $("planHour").textContent=h==null?"tu hora difícil (aparece con 3 o más registros)":"las "+h+":00";
+  $("planText").value=S.plan||"";
+  const ahora=new Date().getHours();
+  const esLaHora=h!=null&&S.plan&&Math.abs(ahora-h)<=1;
+  $("planNow").hidden=!esLaHora;
+  if(esLaHora) $("planNowText").textContent=S.plan;
+}
+$("savePlan").onclick=()=>{ S.plan=$("planText").value.trim(); save(); renderPlan(); toast("Plan guardado"); };
+$("welcomeGo").onclick=()=>{ const v=$("welcomeDay0").value; if(!v){ toast("Elige una fecha"); return; } S.day0=v; save(); renderHoy(); renderRegistro(); toast("Empezamos a contar desde ahí."); };
 
 /* ---------- Check-in diario (sueño y ánimo) ---------- */
 function todayCheckin(){ const t=todayStr(); return S.events.find(e=>e.type==="checkin"&&e.ts.slice(0,10)===t); }
@@ -247,6 +273,10 @@ $("craveLost").onclick=()=>{ registerRelapse("Desde modo ganas"); closeCrave(); 
 
 /* ---------- Boot ---------- */
 renderHoy(); pickDaily(); renderFacts(); renderRegistro();
+/* Cada minuto revisa si llegó la hora difícil, para mostrar el plan */
+setInterval(renderPlan,60000);
+/* Registra el service worker (modo sin internet). Solo funciona servido por http(s), no abierto como archivo ni dentro de claude.ai; si no se puede, no pasa nada. */
+try{ if("serviceWorker" in navigator&&location.protocol.startsWith("http")) navigator.serviceWorker.register("sw.js").catch(()=>{}); }catch(e){}
 (async()=>{
   try{ sample=window.claude&&window.claude.use?await window.claude.use("sample"):null; }catch(e){ sample=null; }
   if(!sample){ $("aiState").textContent="no disponible"; $("dailyNew").disabled=true; $("aiAsk").disabled=true; $("craveAiCard").hidden=true; }

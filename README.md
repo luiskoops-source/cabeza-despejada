@@ -30,7 +30,7 @@ Los botones "Cuéntame algo nuevo", "Explícame" y el chat del Modo ganas usan `
 
 1. Separar y entender el código (hecho).
 2. Pruebas automáticas para los cálculos (hecho: tests/pruebas.js).
-3. Convertirla en PWA instalable (ícono en el celular, funciona sin internet).
+3. PWA instalable (hecho: manifest.json, sw.js, iconos/).
 4. Notificaciones a la hora difícil.
 5. Base de datos y cuenta, para que celular y PC muestren lo mismo.
 6. Servicio que agregue un dato o estudio nuevo cada día.
@@ -41,3 +41,13 @@ Los botones "Cuéntame algo nuevo", "Explícame" y el chat del Modo ganas usan `
 node tests/pruebas.js        # corre las pruebas automáticas
 node scripts/construir.js    # arma dist/cabeza-despejada.html (versión de un solo archivo)
 ```
+
+## Instalar como app en el celular
+
+La app es una PWA. Para instalarla necesita servirse por http(s), no abrirse como archivo:
+
+```
+npx serve .        # o cualquier servidor estático
+```
+
+Luego abre la dirección en el celular y usa "Agregar a pantalla de inicio". Desde ahí abre a pantalla completa y funciona sin internet (gracias a `sw.js`).

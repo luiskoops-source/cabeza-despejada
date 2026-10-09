@@ -14,6 +14,8 @@
   --accent:#5fcbb9; --accent-ink:#0b1513; --warm:#f0955a; --warm-soft:#3a2518; --good:#6fcf97; --bad:#f08c8c; --bad-soft:#3c1f1f; color-scheme:dark }
 
 *{box-sizing:border-box}
+/* Cualquier elemento con el atributo hidden desaparece, aunque otra regla le ponga display:flex */
+[hidden]{display:none!important}
 html,body{height:100%}
 body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
 .wrap{max-width:720px;margin:0 auto;padding-inline:16px;padding-block:14px 96px}

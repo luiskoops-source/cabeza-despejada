@@ -9,6 +9,8 @@ const leer=p=>fs.readFileSync(path.join(raiz,p),"utf8");
 let html=leer("index.html");
 /* 1. Hoja de estilos → <style> en línea */
 html=html.replace('<link rel="stylesheet" href="css/estilos.css">',"<style>\n"+leer("css/estilos.css")+"</style>");
+/* 1b. Las líneas de app instalable (manifest, ícono) no aplican dentro de claude.ai */
+html=html.replace(/<link rel="manifest"[^>]*>\n?/,"").replace(/<link rel="apple-touch-icon"[^>]*>\n?/,"");
 /* 2. Cada <script src="..."> → su contenido en línea */
 html=html.replace(/<script src="([^"]+)"><\/script>/g,(m,src)=>"<script>\n"+leer(src)+"\n</script>");
 /* 3. El artefacto pone su propio esqueleto: quitamos doctype, html, head y body, y dejamos el <title> primero */

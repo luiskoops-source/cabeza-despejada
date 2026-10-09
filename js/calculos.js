@@ -58,10 +58,34 @@ function suenoVsGanas(eventos){
   return { conGanas:prom(con), sinGanas:prom(sin), diasConDato:con.length+sin.length };
 }
 
+/* Hora del día (0 a 23) en que más se han registrado ganas o consumos. null si hay menos de 3 registros. */
+function horaPico(eventos){
+  const cr=eventos.filter(e=>e.type==="crave"||e.type==="relapse");
+  if(cr.length<3) return null;
+  const porHora=new Array(24).fill(0);
+  cr.forEach(e=>porHora[new Date(e.ts).getHours()]++);
+  let pico=0; porHora.forEach((v,i)=>{ if(v>porHora[pico]) pico=i; });
+  return pico;
+}
+
+/* Resumen de los últimos 7 días: días sin consumo, olas superadas, sueño promedio y dinero no gastado. */
+function resumenSemana(eventos, gastoSemana, hoy){
+  const fin=hoy?new Date(hoy+"T12:00:00"):new Date(); fin.setHours(12,0,0,0);
+  const dias=[]; for(let i=6;i>=0;i--){ const d=new Date(fin); d.setDate(d.getDate()-i); dias.push(fechaTexto(d)); }
+  const consumos=new Set(eventos.filter(e=>e.type==="relapse").map(e=>e.ts.slice(0,10)));
+  const diasLimpios=dias.filter(k=>!consumos.has(k)).length;
+  const enSemana=e=>dias.includes(e.ts.slice(0,10));
+  const olas=eventos.filter(e=>e.type==="win"&&enSemana(e)).length;
+  const suenos=eventos.filter(e=>e.type==="checkin"&&enSemana(e)&&typeof e.sueno==="number").map(e=>e.sueno);
+  const suenoProm=suenos.length?Math.round(suenos.reduce((a,b)=>a+b,0)/suenos.length*10)/10:null;
+  const dinero=dineroAhorrado(gastoSemana,diasLimpios).total;
+  return { diasLimpios, olas, suenoProm, dinero };
+}
+
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, pesos };
+const Calculos={ fechaTexto, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);

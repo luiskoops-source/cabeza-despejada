@@ -42,6 +42,28 @@ const ev2=[
 prueba("promedia 5 h con ganas y 8 h sin ganas",()=>{ const r=C.suenoVsGanas(ev2); assert.strictEqual(r.conGanas,5); assert.strictEqual(r.sinGanas,8); assert.strictEqual(r.diasConDato,3); });
 prueba("sin check-ins devuelve null",()=>assert.deepStrictEqual(C.suenoVsGanas([{type:"crave",ts:"2026-10-01T22:00:00.000Z"}]),{conGanas:null,sinGanas:null,diasConDato:0}));
 
+console.log("horaPico");
+prueba("con menos de 3 registros devuelve null",()=>assert.strictEqual(C.horaPico(ev2.slice(0,2)),null));
+prueba("encuentra la hora con más registros",()=>{
+  const h=d=>new Date(d).getHours();
+  const evs=[1,2,3].map(()=>({type:"crave",ts:"2026-10-01T23:30:00"}));
+  assert.strictEqual(C.horaPico(evs),h("2026-10-01T23:30:00"));
+});
+
+console.log("resumenSemana");
+prueba("cuenta días limpios, olas y sueño de los últimos 7 días",()=>{
+  const evs=[
+    {type:"relapse",ts:"2026-10-05T12:00:00.000Z"},
+    {type:"win",ts:"2026-10-07T12:00:00.000Z"},
+    {type:"win",ts:"2026-10-08T12:00:00.000Z"},
+    {type:"checkin",ts:"2026-10-08T12:00:00.000Z",sueno:6},
+    {type:"checkin",ts:"2026-10-09T12:00:00.000Z",sueno:8},
+    {type:"win",ts:"2026-09-01T12:00:00.000Z"}, /* fuera de la semana, no cuenta */
+  ];
+  const r=C.resumenSemana(evs,70000,"2026-10-09");
+  assert.strictEqual(r.diasLimpios,6); assert.strictEqual(r.olas,2); assert.strictEqual(r.suenoProm,7); assert.strictEqual(Math.round(r.dinero),60000);
+});
+
 console.log("pesos");
 prueba("formatea con punto de miles",()=>assert.strictEqual(C.pesos(1234567),"$1.234.567"));
 
