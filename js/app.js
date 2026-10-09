@@ -317,16 +317,17 @@ $("addReason").onclick=()=>{ const v=$("newReason").value.trim(); if(!v) return;
 function esc(s){ return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
 
 /* ---------- Daily fact ---------- */
+function factsMios(){ const m=FACTS.filter(f=>f.s===S.sustancia||f.s==="general"); return m.length?m:FACTS; }
 function pickDaily(){
   const t=todayStr();
-  if(S.dailyDate!==t||S.dailyIdx==null){ S.dailyIdx=Math.floor(Math.random()*FACTS.length); S.dailyDate=t; S.dailyAI=null; save(); }
+  if(S.dailyDate!==t||S.dailyIdx==null){ const pool=factsMios(); S.dailyIdx=FACTS.indexOf(pool[Math.floor(Math.random()*pool.length)]); S.dailyDate=t; S.dailyAI=null; save(); }
   showDaily();
 }
 function showDaily(){
   if(S.dailyAI){ $("dailyTitle").textContent=S.dailyAI.t; $("dailyBody").textContent=S.dailyAI.b; $("dailyPill").textContent="nuevo, de hoy"; $("dailyPill").className="pill warm"; $("dailyFact").classList.add("new"); }
   else { const f=FACTS[S.dailyIdx%FACTS.length]; $("dailyTitle").textContent=f.t; $("dailyBody").textContent=f.b; $("dailyPill").textContent="de la base"; $("dailyPill").className="pill"; $("dailyFact").classList.remove("new"); }
 }
-$("dailyNext").onclick=()=>{ S.dailyAI=null; S.dailyIdx=(S.dailyIdx+1+Math.floor(Math.random()*(FACTS.length-1)))%FACTS.length; save(); showDaily(); };
+$("dailyNext").onclick=()=>{ S.dailyAI=null; const pool=factsMios().filter((f,i,a)=>FACTS.indexOf(f)!==S.dailyIdx); S.dailyIdx=FACTS.indexOf(pool[Math.floor(Math.random()*pool.length)]); save(); showDaily(); };
 
 /* ---------- Claude (sample) ---------- */
 let sample=null;
@@ -396,13 +397,13 @@ Responde en máximo 5 frases cortas. Primero reconoce lo que dice, después UNA 
 };
 
 /* ---------- Facts list ---------- */
-let cat="todo";
+let cat="mia";
 document.querySelectorAll(".catBtn").forEach(b=>b.onclick=()=>{ cat=b.dataset.cat; document.querySelectorAll(".catBtn").forEach(x=>x.classList.toggle("primary",x===b)); renderFacts(); });
 function renderFacts(){
-  const all=S.customFacts.concat(FACTS);
+  const all=S.customFacts.concat(FACTS.slice().sort((a,b)=>(a.s===S.sustancia?-1:b.s===S.sustancia?1:0)));
   $("factCount").textContent=all.length+" temas";
-  const list=all.filter(f=>cat==="todo"||f.c===cat);
-  $("factList").innerHTML=list.length?list.map(f=>`<div class="fact ${f.c==="nuevo"?"new":""}"><div class="row" style="justify-content:space-between"><h3>${esc(f.t)}</h3>${f.c==="nuevo"?`<span class="pill warm">${esc(f.d||"")}</span>`:""}</div><p class="small">${esc(f.b)}</p></div>`).join(""):`<p class="small muted">Todavía no has pedido nada. Usa el botón de arriba.</p>`;
+  const list=all.filter(f=>cat==="todo"||f.c===cat||(cat==="mia"&&(f.s===S.sustancia||f.s==="general")));
+  $("factList").innerHTML=list.length?list.map(f=>`<div class="fact ${f.c==="nuevo"?"new":""}"><div class="row" style="justify-content:space-between"><h3>${esc(f.t)}</h3>${f.c==="nuevo"?`<span class="pill warm">${esc(f.d||"")}</span>`:(f.s?`<span class="pill">${esc(f.s==="general"?"Todas":(SUST.find(x=>x.id===f.s)||{}).nombre||"")}</span>`:"")}</div><p class="small">${esc(f.b)}</p></div>`).join(""):`<p class="small muted">Todavía no has pedido nada. Usa el botón de arriba.</p>`;
 }
 
 /* ---------- Registro ---------- */
