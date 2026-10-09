@@ -13,7 +13,7 @@ const defaults={
   ],
   plan:"", planHour:null,
   /* Configuración: sustancia principal, modo ("dejar" o "reducir"), meta semanal en modo reducir, PIN opcional */
-  sustancia:"cocaina", modo:"dejar", metaSemana:2, pin:"",
+  sustancia:"cocaina", modo:"dejar", metaSemana:2, pin:"", tema:"auto", tourVisto:false, ganasMin:15,
   celebrado:0, pledgeDate:null, salirDate:null, salirOk:[], rapidoDate:null, rapidoCount:0, rapidoSeen:[], quizDate:null, quizIdx:null, quizDone:false, quizStreak:0, quizBest:0,
   events:[], seenFacts:[], customFacts:[], dailyIdx:null, dailyDate:null, dailyAI:null, craveWins:0
 };
@@ -74,6 +74,7 @@ function renderHoy(){
   renderReduccion();
   /* Bienvenida: se muestra solo hasta que la persona marca su Día 0 */
   $("welcome").hidden=!!S.day0;
+  renderTour();
   $("sustName").textContent=sustActual().nombre.toLowerCase();
 }
 
@@ -131,7 +132,7 @@ $("celebraOk").onclick=()=>{ S.celebrado=C.hitos(daysSince(S.day0)).ultimo||0; s
 const PREG=window.PREGUNTAS||[];
 function renderQuiz(){
   const t=todayStr();
-  if(S.quizDate!==t){ S.quizDate=t; S.quizDone=false; S.quizIdx=Math.floor(Math.random()*PREG.length); save(); }
+  if(S.quizDate!==t){ const pool=PREG.filter(q=>!q.s||q.s===S.sustancia||q.s==="general"); const pick=pool.length?pool[Math.floor(Math.random()*pool.length)]:PREG[0]; S.quizDate=t; S.quizDone=false; S.quizIdx=Math.max(0,PREG.indexOf(pick)); save(); }
   const q=PREG[S.quizIdx%PREG.length]; if(!q) return;
   $("quizQ").textContent=q.q;
   $("quizStreak").textContent=S.quizStreak?S.quizStreak+" seguidas":"";
@@ -157,15 +158,23 @@ function renderReduccion(){
   $("redMsg").textContent=w.dentroDeMeta?(w.mejora>0?`Vas dentro de tu meta y ${w.mejora} menos que la semana pasada.`:"Vas dentro de tu meta."):"Pasaste la meta esta semana. No es un fracaso: es información. Mira en Registro qué pasó esos días.";
 }
 
+/* ---------- Tema claro / oscuro ---------- */
+function aplicarTema(){ const r=document.documentElement; if(S.tema==="claro") r.setAttribute("data-theme","light"); else if(S.tema==="oscuro") r.setAttribute("data-theme","dark"); else r.removeAttribute("data-theme"); }
+$("cfgTema").onchange=()=>{ S.tema=$("cfgTema").value; save(); aplicarTema(); };
+
+/* ---------- Primeros pasos (una sola vez) ---------- */
+function renderTour(){ $("tour").hidden=!S.day0||!!S.tourVisto; }
+$("tourOk").onclick=()=>{ S.tourVisto=true; save(); renderTour(); };
+
 /* ---------- Configuración ---------- */
 function fillConfig(){
   const sel=$("cfgSust"); sel.innerHTML=SUST.map(s=>`<option value="${s.id}">${esc(s.nombre)}</option>`).join(""); sel.value=S.sustancia;
-  $("cfgModo").value=S.modo; $("cfgMeta").value=S.metaSemana; $("cfgMetaWrap").hidden=S.modo!=="reducir";
+  $("cfgModo").value=S.modo; $("cfgMeta").value=S.metaSemana; $("cfgTema").value=S.tema||"auto"; $("cfgGanas").value=S.ganasMin||15; $("cfgMetaWrap").hidden=S.modo!=="reducir";
   const ws=$("welcomeSust"); ws.innerHTML=sel.innerHTML; ws.value=S.sustancia;
 }
 $("cfgModo").onchange=()=>{ $("cfgMetaWrap").hidden=$("cfgModo").value!=="reducir"; };
 $("saveConfig").onclick=()=>{
-  S.sustancia=$("cfgSust").value; S.modo=$("cfgModo").value; S.metaSemana=Math.max(0,Number($("cfgMeta").value)||0);
+  S.sustancia=$("cfgSust").value; S.modo=$("cfgModo").value; S.metaSemana=Math.max(0,Number($("cfgMeta").value)||0); S.ganasMin=Math.min(60,Math.max(5,Number($("cfgGanas").value)||15));
   save(); renderHoy(); renderSust(); toast("Configuración guardada");
 };
 
@@ -369,7 +378,7 @@ function renderPlan(){
   if(esLaHora) $("planNowText").textContent=S.plan;
 }
 $("savePlan").onclick=()=>{ S.plan=$("planText").value.trim(); save(); renderPlan(); toast("Plan guardado"); };
-$("welcomeGo").onclick=()=>{ const v=$("welcomeDay0").value; if(!v){ toast("Elige una fecha"); return; } S.day0=v; S.sustancia=$("welcomeSust").value; S.modo=$("welcomeModo").value; save(); fillConfig(); renderHoy(); renderRegistro(); renderSust(); toast("Empezamos a contar desde ahí."); };
+$("welcomeGo").onclick=()=>{ const v=$("welcomeDay0").value; if(!v){ toast("Elige una fecha"); return; } S.day0=v; S.sustancia=$("welcomeSust").value; S.modo=$("welcomeModo").value; save(); aplicarTema(); fillConfig(); renderHoy(); renderRegistro(); renderSust(); toast("Empezamos a contar desde ahí."); };
 
 /* ---------- Check-in diario (sueño y ánimo) ---------- */
 function todayCheckin(){ const t=todayStr(); return S.events.find(e=>e.type==="checkin"&&e.ts.slice(0,10)===t); }
@@ -544,11 +553,12 @@ function copyText(t){ try{ navigator.clipboard.writeText(t).then(()=>toast("Copi
 document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=()=>copyText(b.dataset.copy));
 
 /* ---------- Craving mode ---------- */
-let tInt=null, bInt=null, left=0; const TOTAL=15*60;
+let tInt=null, bInt=null, left=0, TOTAL=15*60;
 $("openCrave").onclick=openCrave;
 function openCrave(){
   $("crave").hidden=false; document.body.style.overflow="hidden";
-  left=TOTAL; tick(); clearInterval(tInt); tInt=setInterval(()=>{ left=Math.max(0,left-1); tick(); if(left===0){ clearInterval(tInt); $("craveTitle").textContent="Pasaron 15 minutos. Fíjate si bajó."; } },1000);
+  TOTAL=(S.ganasMin||15)*60; $("craveMins").textContent=S.ganasMin||15;
+  left=TOTAL; tick(); clearInterval(tInt); tInt=setInterval(()=>{ left=Math.max(0,left-1); tick(); if(left===0){ clearInterval(tInt); $("craveTitle").textContent="Pasaron "+(S.ganasMin||15)+" minutos. Fíjate si bajó."; } },1000);
   let inhale=false; clearInterval(bInt); const breathe=()=>{ inhale=!inhale; $("breath").classList.toggle("in",inhale); $("breathTxt").textContent=inhale?"Inhala":"Exhala"; }; breathe(); bInt=setInterval(breathe,4000);
   craveTurns=[]; $("craveReply").textContent="";
   try{ navigator.wakeLock&&navigator.wakeLock.request("screen").catch(()=>{}); }catch(e){}
@@ -556,7 +566,12 @@ function openCrave(){
 function tick(){ const m=String(Math.floor(left/60)).padStart(2,"0"), s=String(left%60).padStart(2,"0"); $("timer").textContent=m+":"+s; $("barFill").style.width=((TOTAL-left)/TOTAL*100)+"%"; }
 function closeCrave(){ $("crave").hidden=true; document.body.style.overflow=""; clearInterval(tInt); clearInterval(bInt); $("craveTitle").textContent="Esto dura menos de lo que parece"; }
 $("closeCrave").onclick=closeCrave;
-$("craveWon").onclick=()=>{ S.craveWins=(S.craveWins||0)+1; addEvent("win",{i:null,trig:"",did:"Modo ganas: "+Math.round((TOTAL-left)/60)+" min"}); closeCrave(); renderHoy(); renderRegistro(); toast("Una ola más superada."); };
+$("craveWon").onclick=()=>{ $("craveWinBox").hidden=false; $("craveWon").hidden=true; $("craveLost").hidden=true; };
+document.querySelectorAll("[data-ayudo]").forEach(b=>b.onclick=()=>{
+  S.craveWins=(S.craveWins||0)+1; addEvent("win",{i:null,trig:"",did:"Modo ganas: "+Math.round((TOTAL-left)/60)+" min · me ayudó: "+b.dataset.ayudo});
+  $("craveWinBox").hidden=true; $("craveWon").hidden=false; $("craveLost").hidden=false;
+  closeCrave(); renderHoy(); renderRegistro(); toast("Una ola más superada. Anotado lo que te ayudó.");
+});
 $("craveLost").onclick=()=>{ registerRelapse("Desde modo ganas"); closeCrave(); };
 
 /* ---------- Boot ---------- */

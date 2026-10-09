@@ -40,6 +40,17 @@
     <p class="small muted">Si lo que usas es alcohol o benzodiacepinas todos los días, lee primero su ficha en Saber: dejarlos de golpe puede ser peligroso.</p>
   </div>
 
+  <!-- Primeros pasos: una sola vez, después de marcar el Día 0 -->
+  <div class="card" id="tour" hidden>
+    <div class="row" style="justify-content:space-between"><p class="eyebrow">Primeros pasos</p><button class="ghost small" id="tourOk">Entendido</button></div>
+    <ul class="small">
+      <li><b>Hoy</b>: tu contador, el compromiso del día y el botón para cuando lleguen las ganas.</li>
+      <li><b>Saber</b>: qué es lo que consumes o te ofrecen, cómo reconocerlo en otros, y qué dice la ciencia este año.</li>
+      <li><b>Registro</b>: anota las ganas aunque no consumas; en una semana vas a ver tu patrón.</li>
+      <li><b>Ayuda</b>: 1412, 131 y primeros auxilios paso a paso. Y tu PIN, si quieres uno.</li>
+    </ul>
+  </div>
+
   <div class="card celebra" id="celebra" hidden>
     <div class="row" style="justify-content:space-between">
       <p class="eyebrow">Hito alcanzado</p>
@@ -182,6 +193,10 @@
       <label class="f">Sustancia principal<select id="cfgSust"></select></label>
       <label class="f">Modo<select id="cfgModo"><option value="dejar">Dejarlo del todo</option><option value="reducir">Reducir de a poco</option></select></label>
       <label class="f" id="cfgMetaWrap">Meta: consumos por semana como máximo<input type="number" id="cfgMeta" min="0" max="30"></label>
+    </div>
+    <div class="row">
+      <label class="f">Apariencia<select id="cfgTema"><option value="auto">Como el teléfono</option><option value="claro">Claro</option><option value="oscuro">Oscuro</option></select></label>
+      <label class="f">Reloj del Modo ganas (minutos)<input type="number" id="cfgGanas" min="5" max="60"></label>
     </div>
     <div class="row"><button class="primary" id="saveConfig">Guardar</button></div>
   </div>
@@ -517,7 +532,7 @@
       <button class="ghost" id="closeCrave">Salir</button>
     </div>
     <h1 id="craveTitle">Esto dura menos de lo que parece</h1>
-    <p class="muted">Las ganas suben, llegan a un punto máximo y bajan solas, normalmente en 15 a 30 minutos, hagas lo que hagas. Tu trabajo es solo aguantar la ola, no pelear con ella.</p>
+    <p class="muted">Las ganas suben, llegan a un punto máximo y bajan solas, normalmente en 15 a 30 minutos, hagas lo que hagas. Tu trabajo es solo aguantar la ola, no pelear con ella. Este reloj dura <b><span id="craveMins">15</span> minutos</b> (se cambia en Configuración).</p>
     <div class="timer" id="timer">15:00</div>
     <div class="bar"><i id="barFill"></i></div>
     <div class="breath" id="breath"><span id="breathTxt">Inhala</span></div>
@@ -547,6 +562,13 @@
     <div class="card">
       <p class="eyebrow">Si no puedes solo</p>
       <div class="contact"><div><div class="eyebrow">SENDA 1412, gratis, anónimo</div><b>1412</b></div><button data-copy="1412">Copiar</button></div>
+    </div>
+    <div class="card" id="craveWinBox" hidden>
+      <p class="eyebrow">Qué te ayudó más esta vez</p>
+      <div class="row">
+        <button data-ayudo="respirar">Respirar</button><button data-ayudo="cambiar de lugar">Cambiar de lugar</button><button data-ayudo="comer o tomar agua">Comer / agua</button><button data-ayudo="música o serie">Música / serie</button><button data-ayudo="hablar con alguien">Hablar con alguien</button><button data-ayudo="borrar el contacto">Borrar el contacto</button><button data-ayudo="esperar">Solo esperar</button>
+      </div>
+      <p class="small muted">Queda en tu registro. Con el tiempo vas a saber qué te funciona.</p>
     </div>
     <div class="row">
       <button class="primary" id="craveWon">Pasó, no consumí</button>

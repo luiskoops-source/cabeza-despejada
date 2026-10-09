@@ -27,3 +27,21 @@ window.PREGUNTAS=[
 {q:"Varios días sin dormir con estimulantes pueden provocar psicosis incluso en personas sanas.",v:true,e:"Verdadero. Dormir no es opcional en esos casos: es urgente.",s:"anfetaminas"},
 {q:"Si usas benzodiacepinas todos los días, lo correcto es dejarlas de golpe cuanto antes.",v:false,e:"Falso. Es la excepción: se bajan de a poco con un médico. Dejarlas de golpe puede causar convulsiones.",s:"benzodiacepinas"}
 ];
+
+/* Más preguntas, para que la del día no sea siempre de cocaína */
+window.PREGUNTAS.push(
+{q:"Un café fuerte baja la borrachera.",v:false,e:"Falso. Solo el tiempo baja el alcohol en la sangre. El café deja a la persona despierta y borracha, que es peor para manejar.",s:"alcohol"},
+{q:"Beber mucho a diario y dejar de golpe puede provocar convulsiones.",v:true,e:"Verdadero. Es de las pocas abstinencias que pueden matar. Se deja con apoyo médico.",s:"alcohol"},
+{q:"La pasta base engancha más rápido que la cocaína aspirada.",v:true,e:"Verdadero. Se fuma, llega al cerebro en segundos, dura minutos y deja una angustia que empuja a repetir de inmediato.",s:"pasta-base"},
+{q:"SENDA tiene tratamiento residencial gratuito para pasta base.",v:true,e:"Verdadero. Llamando al 1412 se pide evaluación. Para esta sustancia, salir del entorno un tiempo suele ser lo que mejor funciona.",s:"pasta-base"},
+{q:"Si alguien fuma marihuana todos los días y deja, no siente nada al dejarla.",v:false,e:"Falso. Hay abstinencia real: irritabilidad, insomnio, sueños muy vívidos, poco apetito. Dura una o dos semanas y no es peligrosa.",s:"marihuana"},
+{q:"Dos pastillas de éxtasis con el mismo logo traen lo mismo.",v:false,e:"Falso. El logo se copia. Pueden traer cantidades muy distintas o sustancias distintas (metanfetamina, catinonas, PMA).",s:"mdma"},
+{q:"El Ritalín sin receta para estudiar es inofensivo.",v:false,e:"Falso. Es una anfetamina. Trae insomnio, ansiedad y dependencia, y lo que se memoriza sin dormir se olvida rápido.",s:"anfetaminas"},
+{q:"En el 'k-hole' de la ketamina la persona no siente dolor.",v:true,e:"Verdadero. Por eso las lesiones son por caídas, quemaduras o ahogarse con vómito, no por la droga en sí.",s:"ketamina"},
+{q:"El tramadol no se puede mezclar con alcohol.",v:true,e:"Verdadero. Es un opioide: con alcohol o benzodiacepinas puede detener la respiración.",s:"opioides"},
+{q:"Vapear no tiene nicotina.",v:false,e:"Falso. La mayoría de los vapeadores entregan nicotina en cantidades altas. Para dejar de fumar, los parches y chicles son más seguros.",s:"tabaco"},
+{q:"Alguien con pupilas muy pequeñas y que cabecea probablemente tomó un estimulante.",v:false,e:"Falso. Pupilas pequeñas y cabeceo son señales de opioides. Los estimulantes dilatan las pupilas.",s:"general"},
+{q:"La anhedonia después de dejar una sustancia mejora sola con tiempo limpio.",v:true,e:"Verdadero. Es el cerebro recuperando sus receptores. Suele mejorar entre el mes y los tres meses. Si pasados varios meses sigue, conviene consultar: puede ser distimia.",s:"general"},
+{q:"La posición lateral de seguridad evita que alguien inconsciente se ahogue con su vómito.",v:true,e:"Verdadero. De lado, pierna de arriba doblada, mano bajo la mejilla, boca hacia el suelo. Y llamar al 131.",s:"general"},
+{q:"Si un amigo se puso paranoico tras varios días sin dormir con estimulantes, lo que más necesita es dormir.",v:true,e:"Verdadero. La psicosis por falta de sueño pasa al dormir. Si hay riesgo para él o para otros, 131.",s:"general"}
+);
