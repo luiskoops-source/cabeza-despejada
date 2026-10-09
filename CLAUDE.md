@@ -18,6 +18,7 @@ Cabeza Despejada es una app anónima de apoyo para dejar o reducir el consumo de
 - Los hechos de `datos/hechos.js` deben ser verdaderos y basados en evidencia médica. Si no estás seguro de una cifra, descríbelo sin cifra.
 - `datos/primeros-auxilios.js`: pasos de primeros auxilios basados en protocolos de reducción de daños y primeros auxilios generales; siempre con el 131 como primer paso en situaciones graves. Nunca indicar medicamentos salvo naloxona para opioides y aspirina masticada en dolor de pecho (práctica estándar), ambos con la indicación de avisar al 131.
 - `datos/actualidad.js`: solo entradas verificadas en la fuente enlazada, con fecha y fuente. Si una cifra no está en la fuente, no se pone. Las columnas de opinión se marcan como "Análisis".
+- Modo calma (crisis de paranoia/psicosis): nunca discutir las ideas de la persona ni decir "no es real"; acompañar, bajar estímulos, no tomar nada más, dormir, y 131 ante riesgo. Mantener ese tono en cualquier cambio.
 - Teléfonos de ayuda en Chile que la app muestra: SENDA 1412, emergencias 131, Salud Responde 600 360 7777.
 
 ## Comandos útiles

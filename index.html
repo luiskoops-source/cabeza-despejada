@@ -458,14 +458,59 @@
       <li>Si mezclaste con alcohol u otra cosa y te sientes raro.</li>
     </ul>
   </div>
+  <!-- Crisis psicótica por sustancias: botón de calma + ficha completa -->
+  <div class="card" style="border-color:var(--accent)">
+    <h2>Si ahora mismo sientes paranoia, escuchas cosas o crees que te siguen</h2>
+    <p class="small">Es de lo más frecuente después de estimulantes, marihuana potente o varios días sin dormir. Se siente real y es muy desagradable. Pasa. Esta pantalla te acompaña mientras pasa.</p>
+    <button class="primary" id="openCalma" style="width:100%">Abrir Modo calma</button>
+  </div>
+
   <div class="card">
-    <h2>Si tuviste un episodio de paranoia</h2>
-    <ul class="small">
-      <li>Lo que escuchas o sientes que te siguen viene de la droga y de no dormir. Pasa cuando pasa el efecto y duermes.</li>
-      <li>Quédate en un lugar conocido, con luz, sin alcohol.</li>
-      <li>Duerme en cuanto puedas. Mañana vas a ver esto distinto.</li>
-      <li>Si te repite varias veces, pide hora médica: la psicosis que vuelve cada vez más rápido es una señal que un psiquiatra sabe leer.</li>
-    </ul>
+    <h2>Psicosis por sustancias: lo que hay que saber</h2>
+    <details><summary class="small"><b>Qué es y cómo se siente</b></summary>
+      <ul class="small" style="margin-top:8px">
+        <li>Es cuando el cerebro, sobrecargado de dopamina y sin descanso, empieza a dar importancia a cosas que no la tienen: ruidos que parecen voces, miradas que parecen amenazas, coincidencias que parecen complots.</li>
+        <li>Se siente completamente real. Esa es la trampa: desde adentro no parece un efecto, parece la verdad.</li>
+        <li>Lo producen sobre todo la cocaína, la pasta base, las anfetaminas y la metanfetamina, la marihuana potente en personas sensibles, y cualquiera de ellas sumada a dos o tres noches sin dormir.</li>
+        <li>Suele durar lo que dura el efecto más el tiempo hasta dormir: horas, a veces un día o dos. Casi siempre desaparece al dormir.</li>
+      </ul>
+    </details>
+    <details><summary class="small"><b>Si te pasa a ti</b></summary>
+      <ol class="small" style="margin-top:8px">
+        <li>Repítete esto, aunque no lo creas del todo: "es la sustancia y la falta de sueño; va a pasar".</li>
+        <li>Quédate en un lugar conocido y seguro, con luz suave. No salgas a la calle a "comprobar" nada.</li>
+        <li>No tomes nada más: ni más sustancia, ni alcohol para bajar, ni pastillas que no sean tuyas.</li>
+        <li>Agua y algo dulce. El cuerpo lleva horas sin combustible.</li>
+        <li>Llama o escribe a una persona de confianza y dile exactamente eso: "tomé X, no he dormido, me siento paranoico". No tiene que resolver nada, solo acompañar.</li>
+        <li>Haz el ejercicio 5-4-3-2-1 (está en el Modo calma): devuelve la cabeza al cuerpo.</li>
+        <li>Cuando puedas, duerme. Mañana vas a ver lo mismo con otros ojos.</li>
+      </ol>
+    </details>
+    <details><summary class="small"><b>Si le pasa a alguien contigo</b></summary>
+      <ul class="small" style="margin-top:8px">
+        <li>Habla bajo y lento. No discutas lo que cree ni le digas "no es real": dile que estás ahí y que lo vas a acompañar.</li>
+        <li>Menos luz, menos ruido, menos gente, sin pantallas.</li>
+        <li>No lo acorrales ni lo sujetes. Deja una salida libre para los dos.</li>
+        <li>Agua, comida, y la idea de dormir como meta.</li>
+        <li>Si hay riesgo para él o para otros, o no se calma en una o dos horas: 131. Para orientación: 1412 o Salud Responde 600 360 7777.</li>
+      </ul>
+    </details>
+    <details><summary class="small"><b>Cuándo es emergencia</b></summary>
+      <ul class="small" style="margin-top:8px">
+        <li>Piensa en hacerse daño o en hacérselo a otros.</li>
+        <li>Agitación extrema que no baja, o quiere salir a la calle en ese estado.</li>
+        <li>Junto con dolor en el pecho, convulsiones, fiebre o dificultad para respirar.</li>
+        <li>Lleva más de 24 horas sin dormir y sin mejorar.</li>
+      </ul>
+    </details>
+    <details><summary class="small"><b>Después: lo que nadie te dice</b></summary>
+      <ul class="small" style="margin-top:8px">
+        <li>Cada episodio hace que el siguiente llegue más fácil y más rápido. Se llama sensibilización. Por eso lo que antes requería tres días, después pasa en horas.</li>
+        <li>En una parte de las personas, los episodios repetidos terminan en un trastorno psicótico que ya no depende de la sustancia. No es la mayoría, pero no se sabe de antemano quién.</li>
+        <li>Si te pasó más de una vez, es una señal importante: pide hora con un médico o psiquiatra. Decírselo no es confesar un delito; es darle la información que necesita para ayudarte. Un psiquiatra oye esto todas las semanas.</li>
+        <li>Dormir bien de forma regular es la medida que más protege.</li>
+      </ul>
+    </details>
   </div>
   <div class="card">
     <h2>Tu privacidad</h2>
@@ -485,6 +530,12 @@
     <h2>Lo que dice la evidencia sobre pedir ayuda</h2>
     <p class="small">La gente que combina estrategias propias (como esta app) con apoyo profesional o grupos tiene muchas más probabilidades de mantenerse limpia que la que lo hace sola. No es debilidad: es usar todas las herramientas.</p>
   </div>
+  <div class="card" id="offlineCard">
+    <h2>Funciona sin internet</h2>
+    <p class="small" id="offlineText">Instalada desde Chrome, la app guarda todo su contenido en tu celular: las fichas, los primeros auxilios, el Modo ganas y el Modo calma abren aunque no tengas señal ni datos. No sabemos dónde vas a estar cuando la necesites.</p>
+    <p class="small muted" id="offlineState"></p>
+  </div>
+
   <div class="card">
     <h2>Compartir la app</h2>
     <p class="small muted">Si crees que le puede servir a alguien, pásale el enlace. No hay que registrarse ni dar datos para usarla.</p>
@@ -493,7 +544,12 @@
 
   <div class="card">
     <h2>Acerca de esta app</h2>
-    <p class="small">Cabeza Despejada es una app gratuita, anónima y sin fines de lucro para personas que quieren dejar o reducir el consumo de alguna sustancia. La hizo una persona en recuperación, en Chile, con ayuda de inteligencia artificial, para tener a mano lo que a él le habría servido: un contador, un botón para las ganas, información clara sin sermones y un lugar donde no se siente solo.</p>
+    <p class="small">Cabeza Despejada es una app gratuita, anónima y sin fines de lucro para personas que quieren dejar o reducir el consumo de alguna sustancia.</p>
+    <div class="fact" style="border-left-color:var(--warm)">
+      <h3>Una nota de quien la hizo</h3>
+      <p class="small">La hice en Chile, con ayuda de inteligencia artificial, porque yo también estuve ahí. A veces todavía estoy. Conozco el infierno de adentro: las ganas a las tres de la mañana, el bajón, la paranoia, el "nadie puede saber esto". Esta app es lo que me habría gustado tener a mano esas noches.</p>
+      <p class="small">No te voy a decir qué hacer con tu vida. Te voy a dar información verdadera, sin sermones, y un lugar que no te juzga. Nadie sabe que usas esta app: no pide tu nombre, no guarda nada fuera de tu celular, y lo que anotas es solo tuyo. Si hoy consumes, quiero que llegues vivo a mañana. Si quieres dejarlo, quiero que sepas que se puede, y que no estás solo.</p>
+    </div>
     <p class="small">La información de salud viene de fuentes públicas: SENDA (Chile), NIDA (EE.UU.), la ONU, la OEA y organizaciones de reducción de daños como DanceSafe y TripSit. No reemplaza a un médico ni a un tratamiento. Si tu consumo te está haciendo daño, el 1412 es gratuito y anónimo.</p>
     <details>
       <summary class="small">Política de privacidad</summary>
@@ -526,6 +582,50 @@
     <input type="password" inputmode="numeric" id="lockPin" maxlength="6" autocomplete="off" aria-label="PIN">
     <button class="primary" id="lockGo">Entrar</button>
     <p class="small muted" id="lockMsg"></p>
+  </div>
+</div>
+
+<!-- MODO CALMA: para una crisis de paranoia o psicosis en curso -->
+<div class="crave" id="calma" hidden>
+  <div class="inner">
+    <div class="row" style="justify-content:space-between">
+      <span class="pill">Modo calma</span>
+      <button class="ghost" id="closeCalma">Salir</button>
+    </div>
+    <h1>Lo que sientes es la sustancia y la falta de sueño. Va a pasar.</h1>
+    <p class="muted">No tienes que resolver nada ahora. Solo pasar este rato lo más tranquilo posible. Aquí no hay nadie mirándote ni nada que demostrar.</p>
+    <div class="breath" id="breathC"><span id="breathTxtC">Inhala</span></div>
+    <p class="small muted" style="text-align:center">Respira siguiendo el círculo: 4 segundos adentro, 4 afuera.</p>
+    <div class="card">
+      <p class="eyebrow">Devuelve la cabeza al cuerpo: 5-4-3-2-1</p>
+      <ol class="steps">
+        <li>Nombra <b>5 cosas que ves</b>. Dilas en voz baja: la lámpara, la puerta, mi mano...</li>
+        <li><b>4 cosas que puedes tocar</b>. Tócalas: la silla, la ropa, la pared, el suelo.</li>
+        <li><b>3 sonidos</b> que escuchas de verdad: el refrigerador, un auto, tu respiración.</li>
+        <li><b>2 olores</b>, o dos cosas que te gustaría oler.</li>
+        <li><b>1 cosa que puedes saborear</b>: agua, algo dulce.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <p class="eyebrow">Mientras pasa</p>
+      <ol class="steps">
+        <li>Quédate donde estás si es seguro. Luz suave. No salgas a comprobar nada.</li>
+        <li>No tomes nada más. Ni más sustancia, ni alcohol, ni pastillas de otro.</li>
+        <li>Agua y algo dulce.</li>
+        <li>Escríbele a alguien de confianza: "tomé algo, no he dormido, me siento paranoico, ¿me acompañas un rato?".</li>
+        <li>Cuando puedas, duerme. Es lo que lo termina.</li>
+      </ol>
+    </div>
+    <div class="card" style="border-color:var(--bad)">
+      <p class="eyebrow" style="color:var(--bad)">Llama al 131 si</p>
+      <ul class="small">
+        <li>Piensas en hacerte daño o en hacérselo a alguien.</li>
+        <li>Tienes dolor en el pecho, convulsiones, fiebre o no puedes respirar bien.</li>
+        <li>No mejoras después de muchas horas o no logras dormir en más de un día.</li>
+      </ul>
+      <div class="contact"><div><div class="eyebrow">Orientación ahora, gratis y anónima</div><b>1412</b></div><button data-copy="1412">Copiar</button></div>
+    </div>
+    <p class="small muted">Cuando esto pase, vale la pena leer "Psicosis por sustancias" en Ayuda, sobre todo la parte de "Después".</p>
   </div>
 </div>
 

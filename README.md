@@ -64,3 +64,16 @@ Luego abre la dirección en el celular y usa "Agregar a pantalla de inicio". Des
 ## Camino a Android (Play Store)
 
 La app ya es una PWA instalable. Para publicarla en Google Play se envuelve en un "TWA" (Trusted Web Activity) con [PWABuilder](https://www.pwabuilder.com): se pega la dirección de la app, genera el paquete Android (.aab), y se sube a la consola de Google Play (cuenta de desarrollador, pago único de 25 USD). La app sigue siendo esta misma; el paquete solo la abre a pantalla completa.
+
+## Muro de notas (diseño, pendiente de servidor)
+
+Idea: un espacio donde un usuario anónimo pueda dejar una nota pública corta para animar a otros a dejar o reducir. No es un foro ni una red social.
+
+Reglas de diseño:
+- Solo texto, máximo 280 caracteres. Sin fotos, sin enlaces, sin teléfonos ni usuarios de redes (se filtran automáticamente).
+- Anónimo: no se guarda nombre, correo ni identificador del aparato. Solo el texto, la fecha y la sustancia elegida (opcional).
+- Moderación previa: ninguna nota se publica hasta que el dueño de la app la aprueba desde un panel simple. Se rechaza todo lo que fomente el consumo, venda, ofrezca o describa cómo usar, o insulte.
+- Sin "me gusta", sin comentarios, sin perfiles. Solo leer y, si quieres, escribir una.
+- Tope: una nota por aparato por día.
+
+Necesita un servidor pequeño (base de datos + dos funciones: enviar y listar aprobadas). Opción sugerida: Supabase (gratis), con una tabla `notas` (texto, fecha, sustancia, estado) y una regla que solo permite leer las aprobadas. El panel de moderación puede ser una página privada protegida por clave.

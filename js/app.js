@@ -514,7 +514,7 @@ function renderRegistro(){
   const max=Math.max(1,...days.map(d=>d.c));
   $("chart").innerHTML=days.map(d=>`<div class="${d.r?"r":""}" style="height:${d.r?100:Math.max(d.c?8:2,d.c/max*100)}%" ${d.c||d.r?`data-n="${d.r?"C":d.c}"`:""} title="${d.label}"></div>`).join("");
   $("axisFrom").textContent=days[0].label; $("axisTo").textContent=days[13].label;
-  $("log").innerHTML=S.events.length?S.events.slice(0,60).map(e=>{ const t=new Date(e.ts); return `<div class="e"><time>${t.toLocaleDateString("es-CL",{day:"2-digit",month:"2-digit"})} ${t.toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"})}</time><div><span class="pill ${e.type==="relapse"?"bad":e.type==="win"?"good":""}">${e.type==="relapse"?"consumo":e.type==="win"?"ola superada":e.type==="checkin"?"dormí "+e.sueno+" h · ánimo "+e.animo+"/5":"ganas "+e.i+"/10"}</span>${e.trig?" · "+esc(e.trig):""}${e.did?"<br>"+esc(e.did):""}</div></div>`; }).join(""):`<p class="small muted">Nada todavía. Lo primero que anotes empieza a mostrar tu patrón.</p>`;
+  $("log").innerHTML=S.events.length?S.events.slice(0,60).map(e=>{ const t=new Date(e.ts); return `<div class="e"><time>${t.toLocaleDateString("es-CL",{day:"2-digit",month:"2-digit"})} ${t.toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"})}</time><div><span class="pill ${e.type==="relapse"?"bad":e.type==="win"?"good":""}">${e.type==="relapse"?"consumo":e.type==="win"?"ola superada":e.type==="checkin"?"dormí "+e.sueno+" h · ánimo "+e.animo+"/5":e.type==="calma"?"modo calma":"ganas "+e.i+"/10"}</span>${e.trig?" · "+esc(e.trig):""}${e.did?"<br>"+esc(e.did):""}</div></div>`; }).join(""):`<p class="small muted">Nada todavía. Lo primero que anotes empieza a mostrar tu patrón.</p>`;
   renderPatterns();
   renderCal();
 }
@@ -578,10 +578,27 @@ document.querySelectorAll("[data-ayudo]").forEach(b=>b.onclick=()=>{
 });
 $("craveLost").onclick=()=>{ registerRelapse("Desde modo ganas"); closeCrave(); };
 
+/* ---------- Modo calma ---------- */
+let bIntC=null;
+$("openCalma").onclick=()=>{
+  $("calma").hidden=false; document.body.style.overflow="hidden";
+  let inhale=false; clearInterval(bIntC); const breathe=()=>{ inhale=!inhale; $("breathC").classList.toggle("in",inhale); $("breathTxtC").textContent=inhale?"Inhala":"Exhala"; }; breathe(); bIntC=setInterval(breathe,4000);
+  addEvent("calma",{});
+  try{ navigator.wakeLock&&navigator.wakeLock.request("screen").catch(()=>{}); }catch(e){}
+};
+$("closeCalma").onclick=()=>{ $("calma").hidden=true; document.body.style.overflow=""; clearInterval(bIntC); };
+
 /* ---------- Boot ---------- */
 fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderSenales(); renderSalir(); renderRapido(); renderOfChips(); lockIfNeeded();
 /* Cada minuto revisa si llegó la hora difícil, para mostrar el plan */
 setInterval(renderPlan,60000);
+/* Estado del modo sin conexión */
+function renderOffline(){
+  const inst=window.matchMedia("(display-mode: standalone)").matches;
+  const sw="serviceWorker" in navigator && !!navigator.serviceWorker.controller;
+  $("offlineState").textContent=sw?(inst?"Lista: esta copia funciona sin conexión.":"Lista para funcionar sin conexión. Para tenerla como app, usa \"Instalar app\" en el menú de Chrome."):"Para que funcione sin internet, ábrela desde su dirección en Chrome e instálala (menú de tres puntos → Instalar app).";
+}
+try{ renderOffline(); if("serviceWorker" in navigator) navigator.serviceWorker.addEventListener("controllerchange",renderOffline); }catch(e){}
 /* Registra el service worker (modo sin internet). Solo funciona servido por http(s), no abierto como archivo ni dentro de claude.ai; si no se puede, no pasa nada. */
 try{ if("serviceWorker" in navigator&&location.protocol.startsWith("http")) navigator.serviceWorker.register("sw.js").catch(()=>{}); }catch(e){}
 (async()=>{
