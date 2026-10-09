@@ -11,10 +11,10 @@ let html=leer("index.html");
 html=html.replace('<link rel="stylesheet" href="css/estilos.css">',"<style>\n"+leer("css/estilos.css")+"</style>");
 /* 1b. Las líneas de app instalable (manifest, ícono) no aplican dentro de claude.ai */
 html=html.replace(/<link rel="manifest"[^>]*>\n?/,"").replace(/<link rel="apple-touch-icon"[^>]*>\n?/,"");
-/* 1c. El service worker tampoco aplica dentro de claude.ai */
-html=html.split("\n").filter(l=>!l.includes("navigator.serviceWorker.register")).join("\n");
 /* 2. Cada <script src="..."> → su contenido en línea */
 html=html.replace(/<script src="([^"]+)"><\/script>/g,(m,src)=>"<script>\n"+leer(src)+"\n</script>");
+/* 2b. El service worker tampoco aplica dentro de claude.ai (se filtra después de pegar los scripts) */
+html=html.split("\n").filter(l=>!l.includes("navigator.serviceWorker.register")).join("\n");
 /* 3. El artefacto pone su propio esqueleto: quitamos doctype, html, head y body, y dejamos el <title> primero */
 const titulo='<title>Cabeza Despejada</title>';
 html=html.replace(/<!doctype html>\s*<html[^>]*>\s*<head>[\s\S]*?<\/head>\s*<body>/i,m=>{
