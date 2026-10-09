@@ -116,3 +116,9 @@ details summary{cursor:pointer;font-weight:600}
 @media (prefers-reduced-motion:no-preference){ .celebra{animation:pop .5s ease-out} @keyframes pop{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}} }
 /* Pregunta del día */
 #quizA.ok{color:var(--good)} #quizA.no{color:var(--bad)}
+
+/* Chips del identificador */
+.chip{padding:6px 11px;border-radius:999px;font-size:.84rem;font-weight:600}
+.chip.on{background:var(--accent);color:var(--accent-ink);border-color:transparent}
+.ofItem{display:flex;flex-direction:column;gap:6px;margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:12px}
+.ofItem .em{background:var(--bad-soft);border-radius:8px;padding:8px 10px}

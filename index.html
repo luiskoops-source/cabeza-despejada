@@ -215,6 +215,25 @@
     <p class="muted small">Explicaciones en lenguaje simple, basadas en lo que la medicina sabe hoy. La lista crece: cada vez que pides algo nuevo, se guarda aquí.</p>
   </div>
 
+  <!-- Rápido: tarjetas de 15 segundos, una por toque, con tope diario. Sin autoplay ni scroll infinito, a propósito. -->
+  <div class="card" id="rapidoCard">
+    <div class="row" style="justify-content:space-between">
+      <h2>En 15 segundos</h2>
+      <span class="pill" id="rapidoCount"></span>
+    </div>
+    <div class="fact" id="rapidoBox"><div class="row"><span class="pill warm" id="rapidoTipo"></span></div><h3 id="rapidoT"></h3><p class="small" id="rapidoB"></p></div>
+    <div class="row"><button class="primary" id="rapidoNext">Otra</button><span class="small muted" id="rapidoNote"></span></div>
+  </div>
+
+  <!-- ¿Qué me ofrecieron?: identificar por aspecto o por nombre -->
+  <div class="card">
+    <h2>¿Qué me ofrecieron?</h2>
+    <p class="small muted">Toca cómo se ve, o escribe cómo lo llamaron. Te dice qué suele ser, qué puede traer en realidad y cuál es la señal de emergencia.</p>
+    <input id="ofBuscar" placeholder="Ej: tusi, pepa, clona, cristal...">
+    <div class="row" id="ofChips"></div>
+    <div id="ofOut" hidden></div>
+  </div>
+
   <div class="card">
     <div class="row" style="justify-content:space-between">
       <h2>Explícame algo nuevo</h2>
@@ -467,6 +486,8 @@
 <script src="datos/preguntas.js"></script>
 <!-- DATOS: actualidad y comunidades -->
 <script src="datos/actualidad.js"></script>
+<!-- DATOS: identificador "¿qué me ofrecieron?" -->
+<script src="datos/ofrecieron.js"></script>
 <!-- CÁLCULOS: funciones puras, probadas en tests/pruebas.js -->
 <script src="js/calculos.js"></script>
 <!-- LÓGICA: todo lo que "hace" la app -->

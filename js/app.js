@@ -14,7 +14,7 @@ const defaults={
   plan:"", planHour:null,
   /* Configuración: sustancia principal, modo ("dejar" o "reducir"), meta semanal en modo reducir, PIN opcional */
   sustancia:"cocaina", modo:"dejar", metaSemana:2, pin:"",
-  celebrado:0, quizDate:null, quizIdx:null, quizDone:false, quizStreak:0, quizBest:0,
+  celebrado:0, rapidoDate:null, rapidoCount:0, rapidoSeen:[], quizDate:null, quizIdx:null, quizDone:false, quizStreak:0, quizBest:0,
   events:[], seenFacts:[], customFacts:[], dailyIdx:null, dailyDate:null, dailyAI:null, craveWins:0
 };
 const SUST=window.SUSTANCIAS||[];
@@ -143,6 +143,66 @@ $("lockGo").onclick=()=>{ if($("lockPin").value===S.pin){ $("lock").hidden=true;
 $("lockPin").onkeydown=e=>{ if(e.key==="Enter") $("lockGo").click(); };
 $("savePin").onclick=()=>{ const v=$("pinNew").value.trim(); if(v&&!/^\d{4,6}$/.test(v)){ toast("El PIN debe tener 4 a 6 números"); return; } S.pin=v; save(); $("pinNew").value=""; toast(v?"PIN activado":"PIN desactivado"); };
 $("wipeAll").onclick=()=>{ const el=$("wipeAll"); if(el.dataset.c!=="1"){ el.dataset.c="1"; el.textContent="Toca de nuevo para borrar todo"; setTimeout(()=>{ el.dataset.c=""; el.textContent="Borrar todos mis datos"; },4000); return; } try{ localStorage.removeItem(KEY); }catch(e){} location.reload(); };
+
+/* ---------- En 15 segundos (con tope diario) ---------- */
+const RAPIDO_MAX=7;
+function poolRapido(){
+  const p=[];
+  (window.FACTS||[]).forEach(f=>p.push({k:"h:"+f.t,tipo:"Dato",t:f.t,b:f.b}));
+  (window.PREGUNTAS||[]).forEach(q=>p.push({k:"p:"+q.q,tipo:"¿Verdadero?",t:q.q,b:(q.v?"Verdadero. ":"Falso. ")+q.e}));
+  (window.SUSTANCIAS||[]).forEach(s=>s.danos.forEach((d,i)=>p.push({k:"s:"+s.id+i,tipo:s.nombre,t:d.includes(":")?d.split(":")[0]:s.nombre,b:d.includes(":")?d.split(":").slice(1).join(":").trim():d})));
+  (window.ACTUALIDAD||[]).forEach(x=>p.push({k:"a:"+x.titulo,tipo:x.fecha,t:x.titulo,b:x.resumen.split(". ").slice(0,2).join(". ")+"."}));
+  return p;
+}
+function renderRapido(){
+  const t=todayStr();
+  if(S.rapidoDate!==t){ S.rapidoDate=t; S.rapidoCount=0; save(); }
+  $("rapidoCount").textContent=S.rapidoCount+" de "+RAPIDO_MAX+" hoy";
+  if(S.rapidoCount>=RAPIDO_MAX){
+    $("rapidoTipo").textContent="Listo por hoy";
+    $("rapidoT").textContent="Ya viste tus "+RAPIDO_MAX+" de hoy.";
+    $("rapidoB").textContent="Mañana hay otras. El tope es a propósito: esta app está hecha para que aprendas y sigas con tu día, no para que te quedes pegado.";
+    $("rapidoNext").disabled=true; $("rapidoNote").textContent="";
+    return;
+  }
+  $("rapidoNext").disabled=false;
+  $("rapidoNote").textContent=S.rapidoCount===0?"Toca para ver la primera.":"";
+  if(S.rapidoCount===0){ $("rapidoTipo").textContent="Rápido"; $("rapidoT").textContent="Una idea útil, en lo que dura un video corto."; $("rapidoB").textContent="Datos, preguntas y alertas de la guía, de a una. Sin autoplay y sin scroll infinito: cada una la pides tú."; }
+}
+$("rapidoNext").onclick=()=>{
+  const pool=poolRapido().filter(x=>!(S.rapidoSeen||[]).includes(x.k));
+  const src=pool.length?pool:poolRapido();
+  const x=src[Math.floor(Math.random()*src.length)];
+  S.rapidoSeen=(S.rapidoSeen||[]).concat(x.k).slice(-200);
+  S.rapidoCount++; save();
+  $("rapidoTipo").textContent=x.tipo; $("rapidoT").textContent=x.t; $("rapidoB").textContent=x.b;
+  renderRapido();
+};
+
+/* ---------- ¿Qué me ofrecieron? ---------- */
+const OF=window.OFRECIERON||[];
+function renderOfChips(){
+  $("ofChips").innerHTML=OF.map(o=>`<button class="chip" data-of="${o.id}">${esc(o.aspecto)}</button>`).join("");
+  $("ofChips").querySelectorAll("[data-of]").forEach(b=>b.onclick=()=>{ $("ofBuscar").value=""; mostrarOf([OF.find(o=>o.id===b.dataset.of)],b.dataset.of); });
+}
+function mostrarOf(lista,activo){
+  $("ofChips").querySelectorAll(".chip").forEach(c=>c.classList.toggle("on",c.dataset.of===activo));
+  $("ofOut").hidden=!lista.length;
+  $("ofOut").innerHTML=lista.map(o=>`<div class="ofItem">
+    <div class="row"><b>${esc(o.aspecto)}</b><span class="small muted">${esc(o.nombres.join(" · "))}</span></div>
+    <p class="small"><b>Suele ser:</b> ${esc(o.suele)}</p>
+    <p class="small"><b>Pero puede traer:</b> ${esc(o.puede)}</p>
+    <p class="small"><b>Riesgo principal:</b> ${esc(o.riesgo)}</p>
+    <p class="small em"><b>Llamar al 131 si:</b> ${esc(o.emergencia)}</p>
+    ${o.sust.length?`<p class="small muted">Ficha completa en la guía: ${o.sust.map(id=>{ const s=(window.SUSTANCIAS||[]).find(x=>x.id===id); return s?esc(s.nombre):""; }).filter(Boolean).join(", ")}.</p>`:""}
+  </div>`).join("");
+}
+function normalizar(s){ return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,""); }
+$("ofBuscar").oninput=()=>{
+  const q=normalizar($("ofBuscar").value.trim()); if(q.length<2){ mostrarOf([],null); return; }
+  const r=OF.filter(o=>normalizar(o.aspecto).includes(q)||o.nombres.some(n=>normalizar(n).includes(q))||normalizar(o.suele).includes(q));
+  mostrarOf(r.slice(0,3),null);
+};
 
 /* ---------- Actualidad y comunidades ---------- */
 function renderActualidad(){
@@ -383,7 +443,7 @@ $("craveWon").onclick=()=>{ S.craveWins=(S.craveWins||0)+1; addEvent("win",{i:nu
 $("craveLost").onclick=()=>{ registerRelapse("Desde modo ganas"); closeCrave(); };
 
 /* ---------- Boot ---------- */
-fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); lockIfNeeded();
+fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderRapido(); renderOfChips(); lockIfNeeded();
 /* Cada minuto revisa si llegó la hora difícil, para mostrar el plan */
 setInterval(renderPlan,60000);
 /* Registra el service worker (modo sin internet). Solo funciona servido por http(s), no abierto como archivo ni dentro de claude.ai; si no se puede, no pasa nada. */

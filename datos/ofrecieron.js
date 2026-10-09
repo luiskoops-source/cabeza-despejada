@@ -1,0 +1,36 @@
+/* "¿Qué me ofrecieron?": identificar rápido qué puede ser algo por cómo se ve o cómo lo llaman.
+   Enfoque: saber qué es y qué puede traer adentro, para decidir con información. Sin cantidades ni formas de uso.
+   Cada entrada: id, aspecto (cómo se ve), nombres (cómo lo llaman en Chile y la región), suele (qué suele ser),
+   puede (qué puede traer en realidad), riesgo (el principal, en una frase), emergencia (la señal que obliga a llamar al 131), sust (ids de la guía). */
+window.OFRECIERON=[
+{id:"polvo-blanco",aspecto:"Polvo blanco",nombres:["coca","jale","pichicata","falopa","blanca","perico","una línea"],
+ suele:"Cocaína.",puede:"Casi siempre viene cortada: levamisol (desparasitante animal), cafeína, anestésicos, fenacetina. En otros países se han encontrado opioides sintéticos (carfentanilo en Argentina, 2022). No se distingue a simple vista.",
+ riesgo:"Corazón: en la hora siguiente el riesgo de infarto se dispara, incluso en jóvenes.",emergencia:"Dolor en el pecho, pulso que no baja, o alguien que no despierta.",sust:["cocaina"]},
+{id:"polvo-rosado",aspecto:"Polvo rosado",nombres:["tusi","tucibi","cocaína rosada","2C-B (casi nunca lo es)"],
+ suele:"Una mezcla: ketamina + MDMA + cafeína + colorante, en proporciones que cambian de bolsa en bolsa.",puede:"Hasta 9 sustancias en una sola muestra según la OEA: metanfetamina, catinonas, benzodiacepinas, opioides. El nombre no dice nada de lo que trae.",
+ riesgo:"Impredecible: la misma cantidad puede ser suave una vez y peligrosa la siguiente.",emergencia:"Calor extremo sin sudar, o persona que no responde y vomita.",sust:["tusi","ketamina","mdma"]},
+{id:"piedra",aspecto:"Piedritas o pasta amarillenta, se fuma",nombres:["pasta base","pasta","base","angustia","monos","marciano (con marihuana)"],
+ suele:"Pasta base de cocaína.",puede:"Restos de solventes (queroseno, ácido) y cortes. Lo que se fuma no es cocaína pura, es el residuo del proceso.",
+ riesgo:"Engancha en días: el efecto dura minutos y deja una angustia que empuja a repetir.",emergencia:"Dolor en el pecho, convulsiones, paranoia con riesgo para sí mismo.",sust:["pasta-base"]},
+{id:"cristal",aspecto:"Cristales transparentes o blancos",nombres:["cristal","ice","meta","hielo","vidrio","tina"],
+ suele:"Metanfetamina.",puede:"A veces es MDMA en cristal (se ven parecidos) o catinonas sintéticas ('sales de baño'). Sin análisis no hay forma de saberlo.",
+ riesgo:"Días sin dormir: psicosis y paranoia; daño rápido a dientes, piel y corazón.",emergencia:"Temperatura muy alta, convulsiones, agitación extrema.",sust:["anfetaminas","mdma"]},
+{id:"pastilla",aspecto:"Pastilla con logo o de color",nombres:["pepa","éxtasis","tacha","rola","molly (en polvo o cápsula)"],
+ suele:"Se vende como MDMA.",puede:"Puede tener poco o nada de MDMA y traer metanfetamina, catinonas o PMA/PMMA (mucho más tóxica y de efecto lento, que lleva a tomar más). Las pastillas con el mismo logo no son iguales entre sí.",
+ riesgo:"Golpe de calor al bailar horas en lugar cerrado; exceso de agua también es peligroso.",emergencia:"Piel muy caliente y dejó de sudar, confusión, convulsiones.",sust:["mdma"]},
+{id:"pastilla-farmacia",aspecto:"Pastilla de farmacia, sin receta",nombres:["clona","clonazepam","rivotril","alprazolam","diazepam","zopi","tramadol","ritalín"],
+ suele:"Un medicamento desviado: benzodiacepina, hipnótico, opioide (tramadol) o estimulante (metilfenidato).",puede:"Si no viene en su blíster original, puede ser una pastilla falsa. En otros países las pastillas falsas 'de farmacia' son la principal vía de entrada de fentanilo y nitazenos.",
+ riesgo:"Con alcohol, las benzodiacepinas y los opioides pueden parar la respiración durmiendo.",emergencia:"Respiración lenta, labios azulados, no despierta.",sust:["benzodiacepinas","opioides"]},
+{id:"hierba",aspecto:"Hierba verde, cogollos",nombres:["marihuana","hierba","weed","mota","porro","cogollo","prensado"],
+ suele:"Cannabis.",puede:"Potencia muy variable. 'Prensado' con aditivos. Si viene como hierba seca rociada o en sobre con dibujos, puede ser cannabinoide sintético (spice, K2), mucho más peligroso.",
+ riesgo:"Crisis de pánico o paranoia en personas sensibles; psicosis con uso frecuente de variedades potentes.",emergencia:"Si fue sintético: convulsiones, agitación, pulso muy alto.",sust:["marihuana"]},
+{id:"liquido-polvo-k",aspecto:"Polvo blanco fino o líquido en frasquito",nombres:["keta","K","ketamina","special K","kit kat"],
+ suele:"Ketamina.",puede:"Ingrediente principal del tusi. A veces se vende otra cosa como ketamina (análogos como 2-FDCK) con efectos más largos.",
+ riesgo:"No sentir el cuerpo: caídas, accidentes, ahogarse con vómito. Con uso frecuente, daño serio a la vejiga.",emergencia:"No responde y vomita; con alcohol, respiración lenta.",sust:["ketamina"]},
+{id:"papel",aspecto:"Papelito o cartón pequeño, a veces con dibujo",nombres:["ácido","LSD","tripa","cartón","papel"],
+ suele:"LSD.",puede:"Puede ser otra cosa (25I-NBOMe, 'N-bomb'), que a diferencia del LSD sí ha causado muertes. Si amarga mucho o adormece la lengua, no es LSD.",
+ riesgo:"Un mal viaje con pánico; con NBOMe, convulsiones y daño real.",emergencia:"Convulsiones, temperatura muy alta, pulso disparado.",sust:[]},
+{id:"liquido",aspecto:"Líquido transparente en botella o gotero",nombres:["G","GHB","éxtasis líquido","GBL"],
+ suele:"GHB o GBL.",puede:"La diferencia entre una dosis que se siente y una que deja inconsciente es muy pequeña. Con alcohol, el riesgo se multiplica.",
+ riesgo:"Quedar inconsciente de golpe; se usa también para abusar de personas.",emergencia:"No despierta, respira lento: 131, de lado, no dejarla sola.",sust:[]}
+];
