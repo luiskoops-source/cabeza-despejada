@@ -236,6 +236,18 @@ $("ofBuscar").oninput=()=>{
   mostrarOf(r.slice(0,3),null);
 };
 
+/* ---------- Primeros auxilios ---------- */
+function renderPA(){
+  const L=window.PRIMEROS_AUXILIOS||[];
+  $("paList").innerHTML=L.map(x=>`<details class="pa">
+    <summary><span class="pill bad">131</span> ${esc(x.titulo)}</summary>
+    <p class="small muted" style="margin-top:8px"><b>Cómo reconocerlo:</b> ${esc(x.cuando)}</p>
+    <ol class="small">${x.pasos.map(p=>`<li>${esc(p)}</li>`).join("")}</ol>
+    <p class="small no"><b>Qué no hacer:</b> ${esc(x.no.join(" "))}</p>
+    <p class="small muted"><b>Llamar al 131:</b> ${esc(x.llamar)}</p>
+  </details>`).join("");
+}
+
 /* ---------- Actualidad y comunidades ---------- */
 function renderActualidad(){
   const A=window.ACTUALIDAD||[], K=window.COMUNIDADES||[];
@@ -260,6 +272,7 @@ function renderSust(){
       <div><b>Qué daña</b><ul class="small">${s.danos.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
       <div class="alerta"><b>Señales de emergencia (llamar al 131)</b><ul class="small">${s.emergencia.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
       <div><b>Mezclas peligrosas</b><ul class="small">${s.mezclas.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+      ${s.mitos&&s.mitos.length?`<div><b>Mitos y realidad</b><div class="stack" style="margin-top:6px">${s.mitos.map(x=>`<div class="mito small"><span><b>Mito:</b> ${esc(x.m)}</span><span><i>Realidad:</i> ${esc(x.r)}</span></div>`).join("")}</div></div>`:""}
       <p><b>Dejarla.</b> ${esc(s.dejar)}</p>
       <p class="small muted"><b>Cuánto dura lo peor:</b> ${esc(s.abstinencia)}</p>
     </div></details>`).join("");
@@ -476,7 +489,7 @@ $("craveWon").onclick=()=>{ S.craveWins=(S.craveWins||0)+1; addEvent("win",{i:nu
 $("craveLost").onclick=()=>{ registerRelapse("Desde modo ganas"); closeCrave(); };
 
 /* ---------- Boot ---------- */
-fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderRapido(); renderOfChips(); lockIfNeeded();
+fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderRapido(); renderOfChips(); lockIfNeeded();
 /* Cada minuto revisa si llegó la hora difícil, para mostrar el plan */
 setInterval(renderPlan,60000);
 /* Registra el service worker (modo sin internet). Solo funciona servido por http(s), no abierto como archivo ni dentro de claude.ai; si no se puede, no pasa nada. */

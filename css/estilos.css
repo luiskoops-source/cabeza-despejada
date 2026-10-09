@@ -38,10 +38,10 @@ p{margin:0}
 .tile{background:var(--surface2);border-radius:12px;padding:12px;min-width:0}
 .tile .v{font-family:var(--mono);font-size:1.35rem;font-weight:700;font-variant-numeric:tabular-nums}
 .tile .l{font-size:.78rem;color:var(--muted)}
-button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:10px;padding:9px 14px;font-weight:600}
+button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:10px;padding:8px 12px;font-weight:600;font-size:.95rem}
 button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 button.primary{background:var(--accent);color:var(--accent-ink);border-color:transparent}
-button.warm{background:linear-gradient(135deg,#ffb02e,#ff6a3d);color:#2a1335;box-shadow:0 10px 24px -12px #ff6a3d;border-color:transparent;font-family:var(--display);font-size:1.15rem;padding:16px;border-radius:14px;width:100%}
+button.warm{background:linear-gradient(135deg,#ffb02e,#ff6a3d);color:#2a1335;box-shadow:0 8px 20px -12px #ff6a3d;border-color:transparent;font-family:var(--display);font-size:1rem;padding:12px 16px;border-radius:12px;width:100%}
 button.ghost{background:transparent}
 button.danger{color:var(--bad);border-color:var(--bad)}
 button:disabled{opacity:.55;cursor:default}
@@ -124,10 +124,10 @@ details summary{cursor:pointer;font-weight:600}
 .ofItem .em{background:var(--bad-soft);border-radius:8px;padding:8px 10px}
 
 /* HERO del inicio */
-.hero{background:linear-gradient(140deg,#ffb347 0%,var(--hero1) 38%,var(--hero2) 100%);color:var(--hero-ink);border-radius:20px;padding:22px 18px;display:flex;flex-direction:column;gap:8px;box-shadow:0 10px 30px -18px var(--hero1)}
+.hero{background:linear-gradient(140deg,#ffb347 0%,var(--hero1) 38%,var(--hero2) 100%);color:var(--hero-ink);border-radius:20px;padding:18px 16px;display:flex;flex-direction:column;gap:8px;box-shadow:0 10px 30px -18px var(--hero1)}
 .hero-eyebrow{font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;opacity:.85;font-weight:600}
 .hero-num{display:flex;align-items:baseline;gap:10px}
-.hero-num>span:first-child{font-family:var(--display);font-size:4.6rem;font-weight:800;line-height:1;letter-spacing:-.04em}
+.hero-num>span:first-child{font-family:var(--display);font-size:4rem;font-weight:800;line-height:1;letter-spacing:-.04em}
 .hero-unit{font-size:1.2rem;opacity:.9}
 .hero-live{font-size:1rem;opacity:.9;letter-spacing:.04em}
 .hero-sub{font-size:.88rem;opacity:.85}
@@ -136,7 +136,7 @@ details summary{cursor:pointer;font-weight:600}
 .hero-tile{background:rgba(255,255,255,.14);color:var(--hero-ink)}.hero-tile .l{color:rgba(255,255,255,.8)}
 .hero-stats{gap:14px;margin-top:6px;font-size:.82rem;opacity:.95}.hero-stats b{font-size:1rem;margin-right:4px}
 /* Compromiso del día */
-.pledge{width:100%;padding:14px;border-radius:14px;font-family:var(--display);font-size:1.05rem;border:2px solid var(--accent);background:var(--surface);color:var(--accent)}
+.pledge{width:100%;padding:10px 14px;border-radius:12px;font-family:var(--display);font-size:.95rem;border:2px solid var(--accent);background:var(--surface);color:var(--accent)}
 .pledge.done{background:linear-gradient(135deg,var(--accent),#7b2ff7);color:#fff;border-color:transparent}
 /* No estás solo */
 .solo{border-color:var(--warm);background:linear-gradient(180deg,var(--surface),var(--warm-soft))}
@@ -148,3 +148,11 @@ details summary{cursor:pointer;font-weight:600}
 .fold[open]>summary::after{content:"–"}
 .fold>summary::-webkit-details-marker{display:none}
 .fold>.card{border:0;border-top:1px solid var(--line);border-radius:0 0 14px 14px}
+
+/* Primeros auxilios */
+.pa{border:1px solid var(--line);border-radius:12px;padding:12px}
+.pa summary{font-weight:700;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pa ol{margin-top:8px}
+.pa .no{background:var(--bad-soft);border-radius:8px;padding:8px 10px;margin-top:8px}
+.mito{display:flex;flex-direction:column;gap:2px;padding:8px 10px;background:var(--surface2);border-radius:8px}
+.mito b{color:var(--bad)} .mito i{color:var(--good);font-style:normal;font-weight:700}

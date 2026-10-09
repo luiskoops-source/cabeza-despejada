@@ -10,6 +10,7 @@ window.SUSTANCIAS=[
  danos:["Corazón: aprieta las arterias y acelera el pulso. Es la causa más común de infarto en menores de 40 años en urgencias.","Cerebro: baja los receptores de dopamina. Todo lo normal se siente plano (anhedonia). Con uso intenso: paranoia, oír cosas, sentir que te siguen.","Nariz: destruye el tabique por falta de riego.","Levamisol: puede destruir glóbulos blancos y causar heridas en piel que no sanan.","Sueño: el consumo sin dormir multiplica la paranoia y la psicosis."],
  emergencia:["Dolor u opresión en el pecho, aunque sea leve.","Latidos muy rápidos o irregulares que no bajan.","Temperatura muy alta, convulsiones, confusión fuerte.","Dificultad para respirar.","Si pasa alguna, llamar al 131. Decir qué se consumió: no te van a denunciar, te van a tratar bien."],
  mezclas:["Con alcohol: el hígado produce cocaetileno, más tóxico para el corazón y de efecto más largo. Es una de las combinaciones con más muertes súbitas.","Con otros estimulantes (anfetaminas, MDMA, mucha cafeína): sobrecarga del corazón.","Con benzodiacepinas o alcohol 'para bajar': enmascara los síntomas y lleva a consumir más."],
+ mitos:[{"m": "Si es 'buena' no hace daño.", "r": "La pureza no quita el riesgo al corazón: a más pura, más fuerte el efecto sobre la presión y el pulso."}, {"m": "Un poco los fines de semana no engancha.", "r": "La dependencia a la cocaína suele ser psicológica y se instala por el patrón (fiesta = cocaína), no por la cantidad."}, {"m": "Tomar alcohol baja el bajón.", "r": "Crea cocaetileno, más tóxico, y alarga la noche. El bajón llega igual, más fuerte."}],
  dejar:"La abstinencia no es peligrosa físicamente, pero sí dura: bajón de ánimo, mucho sueño, hambre, ganas intensas los primeros días, y anhedonia que puede durar semanas. No necesita desintoxicación médica, pero el apoyo psicológico sube mucho las probabilidades de mantenerse.",
  abstinencia:"Lo peor: 3 a 7 días. Ganas fuertes: hasta 4 semanas. El gusto por las cosas vuelve entre el mes y los tres meses."},
 
@@ -19,6 +20,7 @@ window.SUSTANCIAS=[
  danos:["Pulmones: los solventes queman las vías respiratorias.","Pérdida rápida de peso y de sueño; deterioro físico visible en semanas.","Angustia, paranoia, agresividad durante y después.","Daño social acelerado: deudas, pérdida de vínculos, riesgo en la calle."],
  emergencia:["Dolor en el pecho, convulsiones, temperatura muy alta.","Dificultad para respirar o tos con sangre.","Crisis de paranoia con riesgo para sí mismo o para otros.","Llamar al 131 o al 1412 para orientación."],
  mezclas:["Con alcohol: mismo riesgo que la cocaína (cocaetileno), más impulsividad.","Con marihuana ('marciano'): no reduce el daño, suma el de ambas."],
+ mitos:[{"m": "Es lo mismo que la cocaína, más barata.", "r": "Es el residuo del proceso, con solventes. Se fuma, llega al cerebro en segundos y dura minutos: por eso engancha mucho más rápido."}, {"m": "Si la mezclo con marihuana es más suave.", "r": "El 'marciano' suma los daños de las dos; no reduce ninguno."}],
  dejar:"La abstinencia es intensa en lo psicológico (angustia, ganas, insomnio o sueño excesivo) pero no requiere desintoxicación médica. Los programas de SENDA tienen tratamiento gratuito específico, incluyendo residencial, que para esta sustancia suele ser lo que mejor funciona.",
  abstinencia:"Lo peor: la primera semana. Ganas intensas: 2 a 4 semanas. Mejora clara del cuerpo: 1 a 2 meses."},
 
@@ -28,6 +30,7 @@ window.SUSTANCIAS=[
  danos:["Hígado: hígado graso, hepatitis, cirrosis.","Cerebro: pérdida de memoria, daño cognitivo con los años.","Cáncer: boca, garganta, esófago, hígado, mama. No hay cantidad segura.","Depresión y ansiedad: alivia en el momento y las empeora a mediano plazo.","Accidentes, violencia y decisiones que no se tomarían sobrio."],
  emergencia:["Persona que no despierta ni con estímulos fuertes.","Respiración lenta o irregular (menos de 8 por minuto), labios azulados.","Vómitos estando inconsciente (riesgo de ahogarse): ponerla de lado.","Piel fría y pálida, convulsiones.","Llamar al 131. No dejarla 'dormir la mona' sola."],
  mezclas:["Con benzodiacepinas (clonazepam, alprazolam) u opioides: deprimen la respiración juntos. Es la mezcla que más mata.","Con cocaína: cocaetileno.","Con medicamentos comunes (paracetamol en dosis altas, antidepresivos): daño hepático o efectos impredecibles."],
+ mitos:[{"m": "Es legal, así que es seguro.", "r": "Es la sustancia que más muertes causa en Chile. Legal no significa inofensivo."}, {"m": "Sé aguantar el alcohol, no me hace nada.", "r": "Tener 'resistencia' es señal de tolerancia, es decir, de que el cuerpo ya se adaptó: es un factor de riesgo, no una ventaja."}, {"m": "Un café o una ducha fría te quitan la borrachera.", "r": "Solo el tiempo baja el alcohol en la sangre (una copa estándar por hora, aproximadamente). El café te deja despierto y borracho."}],
  dejar:"ATENCIÓN: si se bebe mucho todos los días, dejar de golpe puede provocar convulsiones y delirium tremens, que pueden ser mortales. En ese caso se deja con supervisión médica (consultorio, SENDA, urgencias). Si el consumo es de fin de semana o moderado, se puede dejar sin riesgo físico.",
  abstinencia:"Síntomas físicos: 2 a 7 días (los peligrosos aparecen entre las 48 y 72 horas). Insomnio y ansiedad: semanas."},
 
@@ -37,6 +40,7 @@ window.SUSTANCIAS=[
  danos:["Memoria y concentración mientras se usa y en los días siguientes.","Psicosis: en personas con predisposición, el uso frecuente de variedades potentes puede desencadenar episodios y adelantar trastornos.","Motivación y ánimo con el uso diario.","Pulmones si se fuma, igual que el tabaco.","Dependencia: existe, y la abstinencia es real aunque sea leve."],
  emergencia:["Crisis de pánico intensa: no es mortal, pasa en 1 a 3 horas. Lugar tranquilo, agua, compañía.","Vómitos repetidos e incontrolables en usuarios diarios (hiperemesis cannabinoide): a urgencias.","Si se sospecha un sintético: convulsiones, agitación extrema, pulso muy alto: 131."],
  mezclas:["Con alcohol: mareo, vómitos, 'pálida'.","Con tabaco: suma la adicción a la nicotina.","Con estimulantes: ansiedad y taquicardia."],
+ mitos:[{"m": "Es natural, no puede hacer daño.", "r": "La cicuta también es natural. La potencia de hoy y el uso diario tienen efectos reales en memoria, motivación y, en algunos, psicosis."}, {"m": "No engancha.", "r": "Alrededor de 1 de cada 10 personas que la usan desarrolla dependencia; más si empezaron antes de los 18."}, {"m": "Fumada es más sana que el tabaco.", "r": "El humo de marihuana tiene muchos de los mismos irritantes y cancerígenos que el del tabaco."}],
  dejar:"No requiere supervisión médica. Los síntomas son irritabilidad, insomnio, sueños muy vívidos, poco apetito y ansiedad, más fuertes en quien fuma todos los días.",
  abstinencia:"Lo peor: días 2 a 6. Sueño normal: 2 a 4 semanas."},
 
@@ -46,6 +50,7 @@ window.SUSTANCIAS=[
  danos:["Dependencia física en semanas de uso diario.","Memoria: lagunas y pérdida de recuerdos.","Caídas, accidentes, torpeza.","Depresión que se agrava con el uso prolongado."],
  emergencia:["Persona que no despierta, respiración lenta, labios azulados: 131. Decir qué tomó: existe un antídoto (flumazenil) que solo se usa en hospital.","Convulsiones al dejarlas de golpe: 131."],
  mezclas:["Con alcohol: la mezcla que más gente mata por paro respiratorio, a menudo durmiendo.","Con opioides (tramadol, codeína, morfina, fentanilo): igual o peor.","Con otras benzodiacepinas o 'pastillas para dormir' sin saber qué son."],
+ mitos:[{"m": "Me las dio el médico, así que son seguras.", "r": "Son seguras por semanas, no por meses o años. La dependencia aparece con uso diario prolongado, con o sin receta."}, {"m": "Puedo dejarlas cuando quiera.", "r": "Dejarlas de golpe tras uso diario puede causar convulsiones. Se bajan de a poco, con un médico."}, {"m": "Con una copa no pasa nada.", "r": "Es la combinación que más muertes causa por paro respiratorio durmiendo."}],
  dejar:"ATENCIÓN: NO dejarlas de golpe si se usan todos los días. La abstinencia brusca puede causar convulsiones. Se bajan de a poco con un médico, en semanas o meses. Esto es lo opuesto a la cocaína: aquí 'dejarlo de a poco' no es una opción, es la única forma segura.",
  abstinencia:"Depende de la bajada. Con reducción gradual los síntomas son manejables; sin ella pueden ser graves durante 1 a 2 semanas y la ansiedad de rebote durar meses."},
 
@@ -55,6 +60,7 @@ window.SUSTANCIAS=[
  danos:["Temperatura corporal: el riesgo principal. Bailar horas sin parar en un lugar cerrado puede causar golpe de calor mortal.","Sodio: tomar demasiada agua de golpe también puede matar (hiponatremia). Agua a sorbos, no litros.","Serotonina: el uso frecuente agota la serotonina; depresión y problemas de memoria.","Corazón y mandíbula (bruxismo), y en pastillas adulteradas, efectos impredecibles."],
  emergencia:["Temperatura muy alta, piel muy caliente, confusión, dejó de sudar: 131, es golpe de calor.","Convulsiones, desmayo, rigidez.","Dolor de cabeza fuerte con vómitos tras tomar mucha agua.","Pulso muy acelerado que no baja al descansar."],
  mezclas:["Con antidepresivos (ISRS, IMAO) y tramadol: síndrome serotoninérgico, potencialmente mortal.","Con alcohol: deshidrata más y aumenta el calor.","Con otros estimulantes o 'tusi': sobrecarga."],
+ mitos:[{"m": "El MDMA no es adictivo, así que no es peligroso.", "r": "Lo peligroso no es la adicción sino el golpe de calor, el sodio bajo y lo que la pastilla trae en vez de MDMA."}, {"m": "Hay que tomar mucha agua.", "r": "Demasiada agua de golpe puede matar (hiponatremia). Agua a sorbos y descansar del calor."}, {"m": "Las pastillas con logo conocido son confiables.", "r": "El logo se copia. Dos pastillas iguales pueden traer cantidades muy distintas o sustancias distintas."}],
  dejar:"No produce dependencia física fuerte. El riesgo es el daño acumulado por uso frecuente. Dejar espacios largos entre usos es la primera medida de reducción de daños; dejarlo del todo es lo que recupera el ánimo.",
  abstinencia:"Bajón: 2 a 5 días después de cada uso. Ánimo estable: semanas a meses sin usar."},
 
@@ -64,6 +70,7 @@ window.SUSTANCIAS=[
  danos:["Días sin dormir: psicosis, paranoia, alucinaciones.","Corazón y presión arterial.","Dientes y piel (metanfetamina).","Pérdida de peso, infecciones, deterioro rápido."],
  emergencia:["Dolor en el pecho, convulsiones, temperatura muy alta.","Psicosis con agitación extrema: pedir ayuda, 131.","Varios días sin dormir con confusión: dormir no es opcional, es urgente."],
  mezclas:["Con otros estimulantes (cocaína, MDMA, cafeína en exceso).","Con alcohol: oculta la borrachera y se bebe más.","Con antidepresivos IMAO: crisis hipertensiva."],
+ mitos:[{"m": "El Ritalín es para estudiar, no es droga.", "r": "El metilfenidato es una anfetamina. Sin receta, en dosis para estudiar sin dormir, trae insomnio, ansiedad y dependencia."}, {"m": "La metanfetamina es como la cocaína pero dura más.", "r": "Dura mucho más, y por eso los días sin dormir y la psicosis llegan más rápido. El deterioro físico es más veloz que con cualquier otra droga común."}],
  dejar:"No requiere desintoxicación médica, pero la abstinencia de metanfetamina puede traer depresión fuerte: pedir apoyo. Dormir y comer son el tratamiento de la primera semana.",
  abstinencia:"Lo peor: 1 a 2 semanas (sueño excesivo, hambre, ánimo muy bajo). Ganas: semanas. Recuperación cognitiva: meses."},
 
@@ -73,6 +80,7 @@ window.SUSTANCIAS=[
  danos:["Vejiga: el uso frecuente la daña de forma seria (cistitis por ketamina), con dolor y necesidad de orinar constante. Puede ser irreversible.","Memoria con el uso regular.","Accidentes: no se siente el cuerpo ni el dolor.","Dependencia psicológica fuerte."],
  emergencia:["Persona que no responde y vomita: ponerla de lado, 131.","Caídas o lesiones que la persona no nota.","Dificultad para respirar con otras sustancias."],
  mezclas:["Con alcohol o benzodiacepinas: deprime la respiración y aumenta el riesgo de ahogarse con vómito.","Con opioides: lo mismo, peor.","En 'tusi': no se sabe qué más trae."],
+ mitos:[{"m": "Es un anestésico de hospital, así que es segura.", "r": "En hospital se usa con monitoreo. En la calle, sin saber qué es ni cuánta, el riesgo es caerse, ahogarse con vómito o mezclarla con alcohol."}, {"m": "Un poco no hace nada.", "r": "El daño a la vejiga aparece con el uso frecuente, aunque sea 'poco' cada vez."}],
  dejar:"No requiere supervisión médica. Si hay síntomas urinarios, consultar: dejarla a tiempo permite recuperar la vejiga.",
  abstinencia:"Ganas y ánimo bajo: 1 a 2 semanas. Vejiga: meses sin usar."},
 
@@ -82,6 +90,7 @@ window.SUSTANCIAS=[
  danos:["Los de la ketamina (vejiga, memoria) y del MDMA (temperatura, serotonina) juntos.","Variación de potencia: la misma cantidad puede ser suave una vez y peligrosa la siguiente.","Adulterantes impredecibles."],
  emergencia:["Las señales de MDMA (calor extremo) o de ketamina (no responde) aplican. 131 y decir que fue tusi."],
  mezclas:["Con alcohol: la ketamina más alcohol es una de las combinaciones más riesgosas de la noche.","Con cualquier otra cosa: ya es una mezcla."],
+ mitos:[{"m": "El tusi es 2C-B.", "r": "Casi nunca. Los análisis muestran ketamina, MDMA y cafeína. El nombre es marketing."}, {"m": "Como es rosado y caro, es de mejor calidad.", "r": "El color es colorante. El precio no dice nada de lo que trae."}],
  dejar:"Igual que ketamina y MDMA. Lo más efectivo es espaciar y luego dejar.",
  abstinencia:"1 a 2 semanas de ánimo bajo y ganas."},
 
@@ -91,6 +100,7 @@ window.SUSTANCIAS=[
  danos:["Depresión respiratoria: la sobredosis mata porque se deja de respirar.","Dependencia física intensa con abstinencia muy dolorosa.","Estreñimiento, problemas hormonales, caídas."],
  emergencia:["Respiración muy lenta o ausente, labios azulados, no despierta, pupilas muy pequeñas: 131 inmediatamente.","Si hay naloxona disponible, usarla: revierte la sobredosis y no hace daño si no era opioide.","Mantener a la persona despierta y respirando hasta que llegue ayuda."],
  mezclas:["Con benzodiacepinas o alcohol: la combinación más mortal que existe.","Con gabapentina o pregabalina: aumenta el riesgo respiratorio."],
+ mitos:[{"m": "El tramadol es solo un analgésico.", "r": "Es un opioide. Produce dependencia física real y, con alcohol o benzodiacepinas, puede detener la respiración."}, {"m": "En Chile no hay fentanilo, así que no me preocupa.", "r": "Ya hay casos documentados. Y en Argentina en 2022, cocaína adulterada con carfentanilo mató a 24 personas en 48 horas. La lección es que cualquier polvo o pastilla puede traer un opioide."}],
  dejar:"La abstinencia no suele ser mortal pero es muy dura (dolor, vómitos, insomnio, angustia). Existe tratamiento médico que la hace manejable y, para dependencia fuerte, tratamiento de sustitución. Consultar en consultorio o SENDA.",
  abstinencia:"Lo peor: días 2 a 4. Síntomas físicos: 1 a 2 semanas. Ganas y ánimo: meses."},
 
@@ -100,6 +110,7 @@ window.SUSTANCIAS=[
  danos:["Cáncer de pulmón, boca, vejiga y más.","Enfermedad cardíaca y pulmonar crónica.","Vapeo: daño pulmonar y niveles de nicotina muy altos."],
  emergencia:["Rara vez. En niños o con líquidos de vapeo ingeridos: 131."],
  mezclas:["Con otros estimulantes: más presión y pulso.","Con cocaína: el efecto de cada una pide la otra."],
+ mitos:[{"m": "Fumar me calma.", "r": "Calma la abstinencia de nicotina que el cigarro anterior creó. Sin fumar, a las 3 semanas esa ansiedad desaparece."}, {"m": "Vapear es inofensivo.", "r": "Tiene menos tóxicos que el humo, pero entrega mucha nicotina y daña el pulmón. Para dejar de fumar, los parches y chicles son más seguros."}, {"m": "Ya es tarde para dejarlo.", "r": "A cualquier edad, dejar el tabaco baja el riesgo de infarto en un año y de cáncer de pulmón a la mitad en diez."}],
  dejar:"Seguro de dejar en cualquier momento. Los parches y chicles de nicotina duplican las probabilidades de éxito y se compran sin receta. Muchas personas prefieren dejar primero la otra sustancia y después el tabaco; es una decisión válida.",
  abstinencia:"Lo peor: días 2 a 3. Ganas intensas: 2 a 4 semanas. Ganas ocasionales: meses."}
 ];
