@@ -14,7 +14,7 @@ const defaults={
   plan:"", planHour:null,
   /* Configuración: sustancia principal, modo ("dejar" o "reducir"), meta semanal en modo reducir, PIN opcional */
   sustancia:"cocaina", modo:"dejar", metaSemana:2, pin:"",
-  celebrado:0, pledgeDate:null, rapidoDate:null, rapidoCount:0, rapidoSeen:[], quizDate:null, quizIdx:null, quizDone:false, quizStreak:0, quizBest:0,
+  celebrado:0, pledgeDate:null, salirDate:null, salirOk:[], rapidoDate:null, rapidoCount:0, rapidoSeen:[], quizDate:null, quizIdx:null, quizDone:false, quizStreak:0, quizBest:0,
   events:[], seenFacts:[], customFacts:[], dailyIdx:null, dailyDate:null, dailyAI:null, craveWins:0
 };
 const SUST=window.SUSTANCIAS||[];
@@ -255,6 +255,57 @@ function renderSenales(){
   $("factoresList").innerHTML=(window.FACTORES||[]).map(f=>`<div class="mito small"><span><b style="color:var(--accent)">${esc(f.t)}.</b> ${esc(f.b)}</span></div>`).join("");
 }
 
+/* ---------- Calendario del mes ---------- */
+function renderCal(){
+  const r=C.calendario(S.events,S.day0,30);
+  const hoy=todayStr();
+  $("cal").innerHTML=r.dias.map(d=>`<div class="${d.consumo?"no":d.antes?"antes":d.ganas?"ganas":"ok"} ${d.k===hoy?"hoy":""}" title="${d.k}${d.ganas?" · "+d.ganas+" ganas":""}${d.sueno!=null?" · durmió "+d.sueno+" h":""}">${d.dia}</div>`).join("");
+  $("calText").textContent=`${r.limpios} días limpios de los últimos 30 · ${r.ganas} ganas anotadas · ${r.consumos} ${r.consumos===1?"consumo":"consumos"}.`;
+}
+
+/* ---------- Antes de salir ---------- */
+function renderSalir(){
+  const L=window.ANTES_DE_SALIR||[]; const t=todayStr();
+  if(S.salirDate!==t){ S.salirDate=t; S.salirOk=[]; save(); }
+  $("salirCount").textContent=(S.salirOk||[]).length+" de "+L.length;
+  $("salirList").innerHTML=L.map(x=>{ const on=(S.salirOk||[]).includes(x.id); return `<div class="salir ${on?"on":""}"><input type="checkbox" id="salir-${x.id}" ${on?"checked":""}><label for="salir-${x.id}"><span class="small"><b>${esc(x.t)}</b></span><span class="small muted">${esc(x.por)}</span></label></div>`; }).join("");
+  $("salirList").querySelectorAll("input").forEach(i=>i.onchange=()=>{ const id=i.id.replace("salir-",""); S.salirOk=i.checked?(S.salirOk||[]).concat(id):(S.salirOk||[]).filter(x=>x!==id); save(); renderSalir(); });
+}
+
+/* ---------- Buscador general ---------- */
+function indice(){
+  const it=[];
+  (window.FACTS||[]).forEach(f=>it.push({tipo:"Dato",t:f.t,b:f.b}));
+  (window.SUSTANCIAS||[]).forEach(s=>{
+    it.push({tipo:"Ficha",t:s.nombre+": qué es",b:s.que});
+    it.push({tipo:"Ficha",t:s.nombre+": qué daña",b:s.danos.join(" ")});
+    it.push({tipo:"Ficha",t:s.nombre+": emergencia",b:s.emergencia.join(" ")});
+    it.push({tipo:"Ficha",t:s.nombre+": mezclas peligrosas",b:s.mezclas.join(" ")});
+    it.push({tipo:"Ficha",t:s.nombre+": dejarla",b:s.dejar+" "+s.abstinencia});
+    (s.mitos||[]).forEach(m=>it.push({tipo:"Mito",t:s.nombre+": "+m.m,b:"Realidad: "+m.r}));
+  });
+  (window.OFRECIERON||[]).forEach(o=>it.push({tipo:"Me ofrecieron",t:o.aspecto+" · "+o.nombres.join(", "),b:o.suele+" "+o.puede+" "+o.riesgo}));
+  (window.SENALES||[]).forEach(s=>it.push({tipo:"En la fiesta",t:"Reconocer: "+s.nombre,b:s.cuerpo.join(" ")+" "+s.conducta.join(" ")+" "+s.dosCaras}));
+  (window.PRIMEROS_AUXILIOS||[]).forEach(p=>it.push({tipo:"Primeros auxilios",t:p.titulo,b:p.cuando+" "+p.pasos.join(" ")}));
+  (window.PREGUNTAS||[]).forEach(q=>it.push({tipo:"Pregunta",t:q.q,b:q.e}));
+  (window.ACTUALIDAD||[]).forEach(x=>it.push({tipo:x.tipo+" "+x.fecha,t:x.titulo,b:x.resumen}));
+  (window.FACTORES||[]).forEach(f=>it.push({tipo:"Por qué pega distinto",t:f.t,b:f.b}));
+  return it;
+}
+let IDX=null;
+function resaltar(txt,q){ const n=normalizar(txt); const i=n.indexOf(q); if(i<0) return esc(txt.slice(0,160))+(txt.length>160?"…":""); const a=Math.max(0,i-60), b=Math.min(txt.length,i+q.length+100); return (a>0?"…":"")+esc(txt.slice(a,i))+"<mark>"+esc(txt.slice(i,i+q.length))+"</mark>"+esc(txt.slice(i+q.length,b))+(b<txt.length?"…":""); }
+$("buscar").oninput=()=>{
+  const q=normalizar($("buscar").value.trim()); const out=$("buscarOut");
+  if(q.length<3){ out.hidden=true; return; }
+  IDX=IDX||indice();
+  const r=IDX.map(x=>({x,s:(normalizar(x.t).includes(q)?2:0)+(normalizar(x.b).includes(q)?1:0)})).filter(z=>z.s>0).sort((a,b)=>b.s-a.s).slice(0,12);
+  out.hidden=false;
+  out.innerHTML=r.length?r.map(z=>`<div class="res"><div class="row" style="justify-content:space-between"><b class="small">${esc(z.x.t)}</b><span class="pill">${esc(z.x.tipo)}</span></div><p class="small">${resaltar(z.x.b,q)}</p></div>`).join("")+`<p class="small muted">${r.length} resultados${r.length===12?" (los más relevantes)":""}. Las secciones completas están más abajo.</p>`:`<p class="small muted">Nada con "${esc($("buscar").value.trim())}". Prueba con otra palabra.</p>`;
+};
+
+/* ---------- Compartir ---------- */
+$("compartir").onclick=()=>copyText("Cabeza Despejada: app gratis y anónima para dejar o reducir el consumo. Sin cuenta, sin datos. https://luiskoops-source.github.io/cabeza-despejada/");
+
 /* ---------- Primeros auxilios ---------- */
 function renderPA(){
   const L=window.PRIMEROS_AUXILIOS||[];
@@ -452,6 +503,7 @@ function renderRegistro(){
   $("axisFrom").textContent=days[0].label; $("axisTo").textContent=days[13].label;
   $("log").innerHTML=S.events.length?S.events.slice(0,60).map(e=>{ const t=new Date(e.ts); return `<div class="e"><time>${t.toLocaleDateString("es-CL",{day:"2-digit",month:"2-digit"})} ${t.toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"})}</time><div><span class="pill ${e.type==="relapse"?"bad":e.type==="win"?"good":""}">${e.type==="relapse"?"consumo":e.type==="win"?"ola superada":e.type==="checkin"?"dormí "+e.sueno+" h · ánimo "+e.animo+"/5":"ganas "+e.i+"/10"}</span>${e.trig?" · "+esc(e.trig):""}${e.did?"<br>"+esc(e.did):""}</div></div>`; }).join(""):`<p class="small muted">Nada todavía. Lo primero que anotes empieza a mostrar tu patrón.</p>`;
   renderPatterns();
+  renderCal();
 }
 function renderPatterns(){
   const cr=S.events.filter(e=>e.type==="crave"||e.type==="relapse");
@@ -508,7 +560,7 @@ $("craveWon").onclick=()=>{ S.craveWins=(S.craveWins||0)+1; addEvent("win",{i:nu
 $("craveLost").onclick=()=>{ registerRelapse("Desde modo ganas"); closeCrave(); };
 
 /* ---------- Boot ---------- */
-fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderSenales(); renderRapido(); renderOfChips(); lockIfNeeded();
+fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderSenales(); renderSalir(); renderRapido(); renderOfChips(); lockIfNeeded();
 /* Cada minuto revisa si llegó la hora difícil, para mostrar el plan */
 setInterval(renderPlan,60000);
 /* Registra el service worker (modo sin internet). Solo funciona servido por http(s), no abierto como archivo ni dentro de claude.ai; si no se puede, no pasa nada. */

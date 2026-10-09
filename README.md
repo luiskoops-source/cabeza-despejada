@@ -54,6 +54,13 @@ npx serve .        # o cualquier servidor estático
 
 Luego abre la dirección en el celular y usa "Agregar a pantalla de inicio". Desde ahí abre a pantalla completa y funciona sin internet (gracias a `sw.js`).
 
+## Qué tiene la app (octubre 2026)
+
+- **Hoy**: contador en vivo, hitos, compromiso diario, botón de ganas (reloj de 15 min, respiración, pasos), "No estás solo", check-in de sueño y ánimo, dinero no gastado, plan para la hora difícil, razones, semana, configuración (sustancia, modo dejar/reducir, meta).
+- **Saber**: buscador general, tarjetas de 15 segundos con tope diario, "¿Qué me ofrecieron?" (10 aspectos), "En la fiesta: reconocer qué tomó alguien" (12 sustancias + 8 factores), "Antes de salir" (lista diaria), dato del día, pregunta del día, biblioteca (54 datos), guía de 11 sustancias con mitos, actualidad 2026, estudios, comunidades.
+- **Registro**: ganas con gatillante, consumos, gráfico de 14 días, calendario de 30 días, patrones (gatillante, hora pico, sueño vs ganas), respaldo.
+- **Ayuda**: 1412, 131, Salud Responde, primeros auxilios paso a paso (6 situaciones), paranoia, privacidad y PIN, compartir, acerca de y política de privacidad.
+
 ## Camino a Android (Play Store)
 
 La app ya es una PWA instalable. Para publicarla en Google Play se envuelve en un "TWA" (Trusted Web Activity) con [PWABuilder](https://www.pwabuilder.com): se pega la dirección de la app, genera el paquete Android (.aab), y se sube a la consola de Google Play (cuenta de desarrollador, pago único de 25 USD). La app sigue siendo esta misma; el paquete solo la abre a pantalla completa.

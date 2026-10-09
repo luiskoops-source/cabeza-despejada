@@ -82,4 +82,15 @@ prueba("cuenta consumos de esta semana (lunes a hoy) y de la anterior",()=>{
 });
 prueba("marca cuando se pasa la meta",()=>{ const evs=[1,2,3].map(d=>({type:"relapse",ts:"2026-10-0"+(5+d)+"T12:00:00"})); assert.strictEqual(C.semanaReduccion(evs,2,"2026-10-09").dentroDeMeta,false); });
 
+console.log("calendario");
+prueba("30 días con un consumo y dos ganas",()=>{
+  const evs=[{type:"relapse",ts:"2026-10-01T12:00:00"},{type:"crave",ts:"2026-10-05T12:00:00",i:5},{type:"crave",ts:"2026-10-05T20:00:00",i:7},{type:"checkin",ts:"2026-10-09T09:00:00",sueno:6}];
+  const r=C.calendario(evs,"2026-10-01",30,"2026-10-09");
+  assert.strictEqual(r.dias.length,30); assert.strictEqual(r.consumos,1); assert.strictEqual(r.ganas,2);
+  const d5=r.dias.find(x=>x.k==="2026-10-05"); assert.strictEqual(d5.ganas,2);
+  assert.strictEqual(r.dias[r.dias.length-1].sueno,6);
+  assert.strictEqual(r.dias[0].antes,true); /* 10 de septiembre es antes del Día 0 */
+  assert.strictEqual(r.limpios,8); /* 2 al 9 de octubre */
+});
+
 console.log(process.exitCode?"\nHay pruebas fallando.":"\nOK: "+n+" pruebas pasaron.");

@@ -156,3 +156,19 @@ details summary{cursor:pointer;font-weight:600}
 .pa .no{background:var(--bad-soft);border-radius:8px;padding:8px 10px;margin-top:8px}
 .mito{display:flex;flex-direction:column;gap:2px;padding:8px 10px;background:var(--surface2);border-radius:8px}
 .mito b{color:var(--bad)} .mito i{color:var(--good);font-style:normal;font-weight:700}
+
+/* Calendario mensual */
+.cal{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px}
+.cal div{aspect-ratio:1;border-radius:8px;background:var(--surface2);display:grid;place-items:center;font-family:var(--mono);font-size:.68rem;color:var(--muted);position:relative}
+.cal div.ok{background:var(--good);color:#fff}.cal div.ganas{background:var(--warm);color:#2a1335}.cal div.no{background:var(--bad);color:#fff}.cal div.antes{opacity:.45}
+.cal div.hoy{outline:2px solid var(--accent);outline-offset:1px}
+.dot{display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--surface2);vertical-align:middle;margin-right:4px}
+.dot.ok{background:var(--good)}.dot.ganas{background:var(--warm)}.dot.no{background:var(--bad)}.dot.antes{background:var(--line)}
+/* Antes de salir */
+.salir{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:var(--surface2);border-radius:10px}
+.salir input{width:20px;height:20px;margin-top:2px;flex:none;accent-color:var(--accent)}
+.salir label{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;cursor:pointer}
+.salir.on{opacity:.65}.salir.on label>span:first-child{text-decoration:line-through}
+/* Buscador */
+.res{padding:10px 12px;border:1px solid var(--line);border-radius:10px;display:flex;flex-direction:column;gap:4px}
+.res mark{background:var(--warm-soft);color:inherit;border-radius:3px;padding:0 2px}

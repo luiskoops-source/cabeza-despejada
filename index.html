@@ -196,6 +196,12 @@
     <p class="muted small">Explicaciones en lenguaje simple, basadas en lo que la medicina sabe hoy. La lista crece: cada vez que pides algo nuevo, se guarda aquí.</p>
   </div>
 
+  <!-- Buscador general: busca en toda la base de la app -->
+  <div class="card">
+    <input id="buscar" placeholder="Buscar en toda la app: tusi, infarto, abstinencia, 1412..." aria-label="Buscar">
+    <div id="buscarOut" class="stack" hidden></div>
+  </div>
+
   <!-- Rápido: tarjetas de 15 segundos, una por toque, con tope diario. Sin autoplay ni scroll infinito, a propósito. -->
   <div class="card" id="rapidoCard">
     <div class="row" style="justify-content:space-between">
@@ -250,6 +256,16 @@
       <div class="stack" id="factoresList" style="margin-top:8px"></div>
       <p class="small" style="margin-top:8px"><b>Lo práctico:</b> mira a la persona, no a la sustancia. Las señales de alarma (no despierta, respira lento, dolor en el pecho, calor extremo, convulsiones) son las mismas para todos, consuma lo que consuma.</p>
     </details>
+  </div>
+
+  <!-- Antes de salir: lista para una noche más segura (se reinicia cada día) -->
+  <div class="card">
+    <div class="row" style="justify-content:space-between">
+      <h2>Antes de salir</h2>
+      <span class="pill" id="salirCount"></span>
+    </div>
+    <p class="small muted">Once cosas que cambian cómo termina la noche. Marca las que ya tienes. Se reinicia cada día.</p>
+    <div class="stack" id="salirList"></div>
   </div>
 
   <div class="card">
@@ -342,6 +358,13 @@
     <div class="chart" id="chart"></div>
     <div class="axis"><span id="axisFrom"></span><span id="axisTo"></span></div>
     <p class="small muted">Barras verdes: ganas registradas por día. Barras rojas: días con consumo.</p>
+  </div>
+
+  <div class="card">
+    <p class="eyebrow">Últimos 30 días</p>
+    <div class="cal" id="cal"></div>
+    <div class="row small muted" style="gap:14px"><span><i class="dot ok"></i> limpio</span><span><i class="dot ganas"></i> con ganas</span><span><i class="dot no"></i> consumo</span><span><i class="dot antes"></i> antes del Día 0</span></div>
+    <p class="small" id="calText"></p>
   </div>
 
   <div class="card">
@@ -448,6 +471,12 @@
     <p class="small">La gente que combina estrategias propias (como esta app) con apoyo profesional o grupos tiene muchas más probabilidades de mantenerse limpia que la que lo hace sola. No es debilidad: es usar todas las herramientas.</p>
   </div>
   <div class="card">
+    <h2>Compartir la app</h2>
+    <p class="small muted">Si crees que le puede servir a alguien, pásale el enlace. No hay que registrarse ni dar datos para usarla.</p>
+    <div class="row"><button class="primary" id="compartir">Copiar mensaje con el enlace</button></div>
+  </div>
+
+  <div class="card">
     <h2>Acerca de esta app</h2>
     <p class="small">Cabeza Despejada es una app gratuita, anónima y sin fines de lucro para personas que quieren dejar o reducir el consumo de alguna sustancia. La hizo una persona en recuperación, en Chile, con ayuda de inteligencia artificial, para tener a mano lo que a él le habría servido: un contador, un botón para las ganas, información clara sin sermones y un lugar donde no se siente solo.</p>
     <p class="small">La información de salud viene de fuentes públicas: SENDA (Chile), NIDA (EE.UU.), la ONU, la OEA y organizaciones de reducción de daños como DanceSafe y TripSit. No reemplaza a un médico ni a un tratamiento. Si tu consumo te está haciendo daño, el 1412 es gratuito y anónimo.</p>
@@ -547,6 +576,8 @@
 <script src="datos/primeros-auxilios.js"></script>
 <!-- DATOS: señales para reconocer qué tomó alguien -->
 <script src="datos/senales.js"></script>
+<!-- DATOS: lista antes de salir -->
+<script src="datos/antes-de-salir.js"></script>
 <!-- CÁLCULOS: funciones puras, probadas en tests/pruebas.js -->
 <script src="js/calculos.js"></script>
 <!-- LÓGICA: todo lo que "hace" la app -->

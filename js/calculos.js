@@ -105,10 +105,27 @@ function semanaReduccion(eventos, meta, hoy){
   return { actual, anterior, meta:Number(meta)||0, dentroDeMeta:actual<=(Number(meta)||0), mejora:anterior-actual };
 }
 
+/* Calendario de los últimos N días: por día, si hubo consumo, cuántas ganas, horas de sueño y si está antes del Día 0. */
+function calendario(eventos, dia0, dias, hoy){
+  const fin=hoy?new Date(hoy+"T12:00:00"):new Date(); fin.setHours(12,0,0,0);
+  const out=[];
+  for(let i=dias-1;i>=0;i--){
+    const d=new Date(fin); d.setDate(fin.getDate()-i); const k=fechaTexto(d);
+    out.push({k, dia:d.getDate(), consumo:false, ganas:0, sueno:null, antes:!!dia0&&k<dia0});
+  }
+  const idx={}; out.forEach(x=>idx[x.k]=x);
+  eventos.forEach(e=>{ const x=idx[e.ts.slice(0,10)]; if(!x) return;
+    if(e.type==="relapse") x.consumo=true;
+    if(e.type==="crave") x.ganas++;
+    if(e.type==="checkin"&&typeof e.sueno==="number") x.sueno=e.sueno; });
+  const limpios=out.filter(x=>!x.consumo&&!x.antes).length;
+  return { dias:out, limpios, consumos:out.filter(x=>x.consumo).length, ganas:out.reduce((a,x)=>a+x.ganas,0) };
+}
+
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, HITOS, pesos };
+const Calculos={ fechaTexto, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, HITOS, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);
