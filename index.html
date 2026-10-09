@@ -19,14 +19,12 @@
 
 <!-- HOY -->
 <section class="screen active" id="s-hoy" role="tabpanel">
-  <div>
-    <div class="logo"><svg viewBox="0 0 512 512" width="34" height="34" aria-hidden="true"><rect width="512" height="512" rx="112" fill="var(--accent)"/><circle cx="256" cy="256" r="150" fill="none" stroke="var(--bg)" stroke-width="28"/><circle cx="256" cy="256" r="62" fill="var(--warm)"/><path d="M256 70v60M256 382v60M70 256h60M382 256h60" stroke="var(--bg)" stroke-width="28" stroke-linecap="round"/></svg><span class="eyebrow">Cabeza Despejada</span></div>
-    <h1 id="greet">Hoy</h1>
-    <p class="muted small" id="today"></p>
+  <div class="row" style="justify-content:space-between;align-items:center">
+    <div class="logo"><svg viewBox="0 0 512 512" width="30" height="30" aria-hidden="true"><rect width="512" height="512" rx="112" fill="var(--accent)"/><circle cx="256" cy="256" r="150" fill="none" stroke="var(--bg)" stroke-width="28"/><circle cx="256" cy="256" r="62" fill="var(--warm)"/><path d="M256 70v60M256 382v60M70 256h60M382 256h60" stroke="var(--bg)" stroke-width="28" stroke-linecap="round"/></svg><span class="eyebrow">Cabeza Despejada</span></div>
+    <span class="small muted" id="today"></span>
   </div>
 
-  <!-- Bienvenida: solo se ve la primera vez, hasta marcar el Día 0 -->
-  <div class="card" id="welcome" hidden>
+<div class="card" id="welcome" hidden>
     <h2>Bienvenido. Partamos por una fecha.</h2>
     <p class="small">Esta app es anónima: no pide nombre, correo ni cuenta. Lo que anotes queda solo en este aparato. Tres preguntas y partimos.</p>
     <div class="row">
@@ -42,7 +40,6 @@
     <p class="small muted">Si lo que usas es alcohol o benzodiacepinas todos los días, lee primero su ficha en Saber: dejarlos de golpe puede ser peligroso.</p>
   </div>
 
-  <!-- Celebración: aparece una sola vez cuando se alcanza un hito nuevo -->
   <div class="card celebra" id="celebra" hidden>
     <div class="row" style="justify-content:space-between">
       <p class="eyebrow">Hito alcanzado</p>
@@ -52,50 +49,54 @@
     <p class="small" id="celebraText"></p>
   </div>
 
-  <!-- Aviso que aparece solo en la hora difícil, si hay un plan guardado -->
-  <div class="card" id="planNow" hidden style="border-color:var(--warm)">
+<div class="card" id="planNow" hidden style="border-color:var(--warm)">
     <p class="eyebrow" style="color:var(--warm)">Es tu hora difícil. Tu plan:</p>
     <p id="planNowText"></p>
   </div>
 
-  <div class="card">
-    <p class="eyebrow">Tiempo sin consumir</p>
-    <div class="row" style="align-items:baseline">
-      <span class="big num" id="days">0</span>
-      <span class="muted" id="daysLabel">días</span>
-    </div>
-    <p class="small muted" id="sinceText"></p>
-    <div class="tiles">
-      <div class="tile"><div class="v num" id="bestStreak">0</div><div class="l">racha más larga (días)</div></div>
-      <div class="tile"><div class="v num" id="resets">0</div><div class="l">veces que volviste a empezar</div></div>
-    </div>
+  <!-- HERO: lo único que importa al abrir: cuánto llevas, en vivo -->
+  <div class="hero">
+    <p class="hero-eyebrow" id="greet">Hoy</p>
+    <div class="hero-num"><span id="days">0</span><span class="hero-unit" id="daysLabel">días</span></div>
+    <p class="hero-live num" id="liveTime"></p>
+    <p class="hero-sub" id="sinceText"></p>
     <div class="soloDejar">
-      <div class="hitos" id="hitoRow"></div>
-      <p class="small muted" id="hitoText"></p>
+      <div class="hitos hero-hitos" id="hitoRow"></div>
+      <p class="hero-sub" id="hitoText"></p>
     </div>
     <div id="reduccion" hidden class="stack">
-      <p class="eyebrow">Reducir de a poco</p>
       <div class="tiles">
-        <div class="tile"><div class="v num"><span id="redActual">0</span> / <span id="redMeta">0</span></div><div class="l">consumos esta semana / mi meta</div></div>
-        <div class="tile"><div class="v num" id="redAnterior">0</div><div class="l">la semana pasada</div></div>
+        <div class="tile hero-tile"><div class="v num"><span id="redActual">0</span> / <span id="redMeta">0</span></div><div class="l">esta semana / mi meta</div></div>
+        <div class="tile hero-tile"><div class="v num" id="redAnterior">0</div><div class="l">la semana pasada</div></div>
       </div>
-      <p class="small" id="redMsg"></p>
+      <p class="hero-sub" id="redMsg"></p>
     </div>
-    <details>
-      <summary class="small">Ajustar mi Día 0</summary>
-      <div class="row" style="margin-top:8px">
-        <label class="f">Fecha de mi último consumo
-          <input type="date" id="day0">
-        </label>
-        <button id="saveDay0">Guardar</button>
-      </div>
-    </details>
+    <div class="row hero-stats">
+      <span><b class="num" id="bestStreak">0</b> racha más larga</span>
+      <span><b class="num" id="resets">0</b> reinicios</span>
+      <span><b class="num" id="heroSaved">$0</b> no gastados</span>
+    </div>
   </div>
+
+  <!-- Compromiso del día: un toque -->
+  <button class="pledge" id="pledgeBtn"><span id="pledgeTxt">Hoy me comprometo a no consumir</span></button>
 
   <button class="warm" id="openCrave">Tengo ganas de consumir</button>
 
-  <!-- Check-in diario: una pregunta rápida al día sobre sueño y ánimo -->
-  <div class="card">
+  <!-- No estás solo -->
+  <div class="card solo">
+    <p class="eyebrow">No estás solo en esto</p>
+    <p id="soloLine"></p>
+    <div class="row">
+      <div class="contact" style="flex:1"><div><div class="eyebrow">Hablar con alguien ahora, gratis y anónimo</div><b>1412</b></div><button data-copy="1412">Copiar</button></div>
+    </div>
+    <p class="small muted">En Saber hay comunidades de gente que está en lo mismo. Leer sin participar también sirve.</p>
+  </div>
+
+  <!-- Lo de todos los días, plegado -->
+  <details class="fold" open>
+    <summary>Cómo amanecí</summary>
+<div class="card">
     <p class="eyebrow">Cómo amanecí</p>
     <div id="checkinForm" class="stack">
       <div class="row">
@@ -111,8 +112,10 @@
       <button class="ghost small" id="editCheckin">Cambiar</button>
     </div>
   </div>
-
-  <div class="card">
+  </details>
+  <details class="fold">
+    <summary>Mi dinero</summary>
+<div class="card">
     <p class="eyebrow">Dinero que no se fue en droga</p>
     <div class="tiles">
       <div class="tile"><div class="v num" id="saved">$0</div><div class="l">desde el Día 0</div></div>
@@ -132,33 +135,30 @@
       </div>
     </details>
   </div>
-
-  <div class="card">
-    <div class="row" style="justify-content:space-between">
-      <p class="eyebrow">Dato de hoy</p>
-      <span class="pill" id="dailyPill">de la base</span>
-    </div>
-    <div class="fact" id="dailyFact"><h3 id="dailyTitle"></h3><p id="dailyBody"></p></div>
-    <p class="small muted" id="dailyNote"></p>
+  </details>
+  <details class="fold">
+    <summary>Mi plan para la hora difícil</summary>
+<div class="card">
+    <p class="eyebrow">Plan para mi hora difícil</p>
+    <p class="small muted">Según tu registro, tus ganas llegan más a <b id="planHour"></b>. Escribe qué vas a hacer a esa hora y la app te lo recordará cuando llegue.</p>
+    <textarea id="planText" placeholder="Ej: a esa hora me ducho, pongo una serie y dejo el celular en la cocina"></textarea>
+    <div class="row"><button class="primary" id="savePlan">Guardar plan</button></div>
+  </div>
+  </details>
+  <details class="fold">
+    <summary>Mis razones</summary>
+<div class="card">
+    <p class="eyebrow">Mis razones</p>
+    <ul class="reasons" id="reasons"></ul>
     <div class="row">
-      <button id="dailyNew" class="primary">Cuéntame algo nuevo</button>
-      <button id="dailyNext" class="ghost">Otro dato</button>
+      <input id="newReason" placeholder="Agregar una razón para no consumir">
+      <button id="addReason">Agregar</button>
     </div>
   </div>
-
-  <!-- Pregunta del día: una pregunta de verdadero/falso sobre la guía de sustancias -->
-  <div class="card">
-    <div class="row" style="justify-content:space-between">
-      <p class="eyebrow">Pregunta del día</p>
-      <span class="pill" id="quizStreak"></span>
-    </div>
-    <p id="quizQ"></p>
-    <div class="row" id="quizBtns"><button id="quizV">Verdadero</button><button id="quizF">Falso</button></div>
-    <p class="small" id="quizA" hidden></p>
-  </div>
-
-  <!-- Resumen de los últimos 7 días -->
-  <div class="card">
+  </details>
+  <details class="fold">
+    <summary>Esta semana</summary>
+<div class="card">
     <p class="eyebrow">Esta semana</p>
     <div class="tiles">
       <div class="tile"><div class="v num" id="wkClean">0/7</div><div class="l">días sin consumir</div></div>
@@ -167,36 +167,16 @@
       <div class="tile"><div class="v num" id="wkMoney">$0</div><div class="l">no gastados esta semana</div></div>
     </div>
   </div>
-
-  <!-- Plan para la hora en que más llegan las ganas (la hora sale del Registro) -->
-  <div class="card">
-    <p class="eyebrow">Plan para mi hora difícil</p>
-    <p class="small muted">Según tu registro, tus ganas llegan más a <b id="planHour"></b>. Escribe qué vas a hacer a esa hora y la app te lo recordará cuando llegue.</p>
-    <textarea id="planText" placeholder="Ej: a esa hora me ducho, pongo una serie y dejo el celular en la cocina"></textarea>
-    <div class="row"><button class="primary" id="savePlan">Guardar plan</button></div>
-  </div>
-
-  <div class="card">
-    <p class="eyebrow">Mis razones</p>
-    <ul class="reasons" id="reasons"></ul>
-    <div class="row">
-      <input id="newReason" placeholder="Agregar una razón para no consumir">
-      <button id="addReason">Agregar</button>
+  </details>
+  <details class="fold">
+    <summary>Ajustar mi Día 0 y configuración</summary>
+    <div class="card">
+      <div class="row">
+        <label class="f">Fecha de mi último consumo<input type="date" id="day0"></label>
+        <button id="saveDay0">Guardar</button>
+      </div>
     </div>
-  </div>
-
-  <div class="card">
-    <p class="eyebrow">Lo que casi todos descubren al dejarlo</p>
-    <ul class="small">
-      <li><b>Las ganas tienen horario.</b> Suelen llegar a la misma hora y en las mismas situaciones. El Registro te lo muestra.</li>
-      <li><b>El tiempo libre sin plan</b> y <b>lo que no está bajo tu control</b> son los gatillantes más comunes.</li>
-      <li><b>Sin dormir todo empeora.</b> Dormir es parte del tratamiento, no un lujo.</li>
-      <li><b>Cuando todo va bien</b> a veces aparece el impulso de romperlo. Reconocerlo ya es tener ventaja.</li>
-      <li><b>Borrar el contacto</b> funciona. Pone un obstáculo justo donde la ola está más alta.</li>
-    </ul>
-  </div>
-
-  <div class="card">
+<div class="card">
     <p class="eyebrow">Configuración</p>
     <div class="row">
       <label class="f">Sustancia principal<select id="cfgSust"></select></label>
@@ -205,6 +185,7 @@
     </div>
     <div class="row"><button class="primary" id="saveConfig">Guardar</button></div>
   </div>
+  </details>
 </section>
 
 <!-- SABER -->
@@ -223,6 +204,29 @@
     </div>
     <div class="fact" id="rapidoBox"><div class="row"><span class="pill warm" id="rapidoTipo"></span></div><h3 id="rapidoT"></h3><p class="small" id="rapidoB"></p></div>
     <div class="row"><button class="primary" id="rapidoNext">Otra</button><span class="small muted" id="rapidoNote"></span></div>
+  </div>
+
+<div class="card">
+    <div class="row" style="justify-content:space-between">
+      <p class="eyebrow">Dato de hoy</p>
+      <span class="pill" id="dailyPill">de la base</span>
+    </div>
+    <div class="fact" id="dailyFact"><h3 id="dailyTitle"></h3><p id="dailyBody"></p></div>
+    <p class="small muted" id="dailyNote"></p>
+    <div class="row">
+      <button id="dailyNew" class="primary">Cuéntame algo nuevo</button>
+      <button id="dailyNext" class="ghost">Otro dato</button>
+    </div>
+  </div>
+
+<div class="card">
+    <div class="row" style="justify-content:space-between">
+      <p class="eyebrow">Pregunta del día</p>
+      <span class="pill" id="quizStreak"></span>
+    </div>
+    <p id="quizQ"></p>
+    <div class="row" id="quizBtns"><button id="quizV">Verdadero</button><button id="quizF">Falso</button></div>
+    <p class="small" id="quizA" hidden></p>
   </div>
 
   <!-- ¿Qué me ofrecieron?: identificar por aspecto o por nombre -->
@@ -278,6 +282,17 @@
     <p class="small muted">Para saber qué es lo que estás consumiendo o dejando, qué daña, qué mezclas matan y cuándo llamar al 131. Es información de reducción de daños, la misma que usan SENDA, DanceSafe y TripSit. No hay cantidades ni formas de uso: eso no es educación.</p>
     <div class="stack" id="sustList"></div>
     <p class="small muted">Fuentes para leer más: <a href="https://www.senda.gob.cl" target="_blank" rel="noopener">SENDA</a>, <a href="https://dancesafe.org/drug-information/" target="_blank" rel="noopener">DanceSafe</a>, <a href="https://wiki.tripsit.me" target="_blank" rel="noopener">TripSit</a>, <a href="https://nida.nih.gov/research-topics/commonly-used-drugs-charts" target="_blank" rel="noopener">NIDA</a>.</p>
+  </div>
+
+<div class="card">
+    <p class="eyebrow">Lo que casi todos descubren al dejarlo</p>
+    <ul class="small">
+      <li><b>Las ganas tienen horario.</b> Suelen llegar a la misma hora y en las mismas situaciones. El Registro te lo muestra.</li>
+      <li><b>El tiempo libre sin plan</b> y <b>lo que no está bajo tu control</b> son los gatillantes más comunes.</li>
+      <li><b>Sin dormir todo empeora.</b> Dormir es parte del tratamiento, no un lujo.</li>
+      <li><b>Cuando todo va bien</b> a veces aparece el impulso de romperlo. Reconocerlo ya es tener ventaja.</li>
+      <li><b>Borrar el contacto</b> funciona. Pone un obstáculo justo donde la ola está más alta.</li>
+    </ul>
   </div>
 
   <div class="card">

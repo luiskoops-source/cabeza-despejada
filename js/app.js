@@ -14,7 +14,7 @@ const defaults={
   plan:"", planHour:null,
   /* Configuración: sustancia principal, modo ("dejar" o "reducir"), meta semanal en modo reducir, PIN opcional */
   sustancia:"cocaina", modo:"dejar", metaSemana:2, pin:"",
-  celebrado:0, rapidoDate:null, rapidoCount:0, rapidoSeen:[], quizDate:null, quizIdx:null, quizDone:false, quizStreak:0, quizBest:0,
+  celebrado:0, pledgeDate:null, rapidoDate:null, rapidoCount:0, rapidoSeen:[], quizDate:null, quizIdx:null, quizDone:false, quizStreak:0, quizBest:0,
   events:[], seenFacts:[], customFacts:[], dailyIdx:null, dailyDate:null, dailyAI:null, craveWins:0
 };
 const SUST=window.SUSTANCIAS||[];
@@ -54,7 +54,7 @@ function renderHoy(){
   $("spendWeek").value=S.spendWeek||"";
   $("salary").value=S.salary||"";
   const dinero=C.dineroAhorrado(S.spendWeek,d);
-  $("saved").textContent=clp(dinero.total);
+  $("saved").textContent=clp(dinero.total); $("heroSaved").textContent=clp(dinero.total);
   $("savedMonth").textContent=clp(dinero.mes);
   $("savedYear").textContent=clp(dinero.anio);
   const horas=C.horasTrabajo(dinero.total,S.salary);
@@ -68,6 +68,7 @@ function renderHoy(){
   renderSemana();
   renderPlan();
   renderHitos(d);
+  renderLive(); renderPledge(); renderSolo();
   checkCelebra(d);
   renderQuiz();
   renderReduccion();
@@ -75,6 +76,37 @@ function renderHoy(){
   $("welcome").hidden=!!S.day0;
   $("sustName").textContent=sustActual().nombre.toLowerCase();
 }
+
+/* ---------- Contador en vivo (horas:minutos:segundos desde el Día 0) ---------- */
+function renderLive(){
+  if(!S.day0){ $("liveTime").textContent=""; return; }
+  const ms=Date.now()-new Date(S.day0+"T00:00:00").getTime(); if(ms<0){ $("liveTime").textContent=""; return; }
+  const h=Math.floor(ms/3600000)%24, m=Math.floor(ms/60000)%60, s=Math.floor(ms/1000)%60;
+  $("liveTime").textContent=`${String(h).padStart(2,"0")} h ${String(m).padStart(2,"0")} min ${String(s).padStart(2,"0")} s`;
+}
+setInterval(renderLive,1000);
+
+/* ---------- Compromiso del día ---------- */
+function renderPledge(){
+  const done=S.pledgeDate===todayStr();
+  $("pledgeBtn").classList.toggle("done",done);
+  $("pledgeTxt").textContent=done?"Hoy me comprometí. Un día a la vez.":(S.modo==="reducir"?"Hoy me comprometo a respetar mi meta":"Hoy me comprometo a no consumir");
+}
+$("pledgeBtn").onclick=()=>{ if(S.pledgeDate===todayStr()) return; S.pledgeDate=todayStr(); save(); renderPledge(); toast("Compromiso guardado. Nos vemos mañana."); };
+
+/* ---------- No estás solo: una frase por día ---------- */
+const SOLO=[
+  "Millones de personas están dejando algo hoy mismo. Tú eres una de ellas.",
+  "Las ganas pasan. Lo que haces mientras pasan es lo que cuenta.",
+  "Volver a empezar no es fracasar. Es la parte más valiente.",
+  "Hoy no tienes que resolver tu vida. Solo este día.",
+  "El cerebro se repara. Más lento de lo que quisieras, más rápido de lo que crees.",
+  "Si hoy fue difícil, igual llegaste hasta aquí.",
+  "Nadie en esta app sabe tu nombre. Pero mucha gente sabe exactamente cómo te sientes.",
+  "Dormir también es recuperarse.",
+  "Pedir ayuda no es debilidad. Es usar todas las herramientas."
+];
+function renderSolo(){ const d=Math.floor(Date.now()/86400000); $("soloLine").textContent=SOLO[d%SOLO.length]; }
 
 /* ---------- Hitos ---------- */
 function renderHitos(d){
