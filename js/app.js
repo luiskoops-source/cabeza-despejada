@@ -236,6 +236,25 @@ $("ofBuscar").oninput=()=>{
   mostrarOf(r.slice(0,3),null);
 };
 
+/* ---------- En la fiesta: señales ---------- */
+const SEN=window.SENALES||[];
+function renderSenales(){
+  $("senChips").innerHTML=SEN.map(s=>`<button class="chip" data-sen="${s.id}">${esc(s.nombre)}</button>`).join("");
+  $("senChips").querySelectorAll("[data-sen]").forEach(b=>b.onclick=()=>{
+    const s=SEN.find(x=>x.id===b.dataset.sen);
+    $("senChips").querySelectorAll(".chip").forEach(c=>c.classList.toggle("on",c===b));
+    $("senOut").hidden=false;
+    $("senOut").innerHTML=`<div class="ofItem">
+      <div class="row" style="justify-content:space-between"><b>${esc(s.nombre)}</b><span class="small muted">mirar sin preguntar</span></div>
+      <div><b class="small">En el cuerpo</b><ul class="small">${s.cuerpo.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+      <div><b class="small">En la conducta</b><ul class="small">${s.conducta.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+      <p class="small" style="border-left:3px solid var(--warm);padding-left:10px"><b>Dos caras:</b> ${esc(s.dosCaras)}</p>
+      <p class="small em"><b>Pasa a ser emergencia si:</b> ${esc(s.alarma)}</p>
+    </div>`;
+  });
+  $("factoresList").innerHTML=(window.FACTORES||[]).map(f=>`<div class="mito small"><span><b style="color:var(--accent)">${esc(f.t)}.</b> ${esc(f.b)}</span></div>`).join("");
+}
+
 /* ---------- Primeros auxilios ---------- */
 function renderPA(){
   const L=window.PRIMEROS_AUXILIOS||[];
@@ -489,7 +508,7 @@ $("craveWon").onclick=()=>{ S.craveWins=(S.craveWins||0)+1; addEvent("win",{i:nu
 $("craveLost").onclick=()=>{ registerRelapse("Desde modo ganas"); closeCrave(); };
 
 /* ---------- Boot ---------- */
-fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderRapido(); renderOfChips(); lockIfNeeded();
+fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderSenales(); renderRapido(); renderOfChips(); lockIfNeeded();
 /* Cada minuto revisa si llegó la hora difícil, para mostrar el plan */
 setInterval(renderPlan,60000);
 /* Registra el service worker (modo sin internet). Solo funciona servido por http(s), no abierto como archivo ni dentro de claude.ai; si no se puede, no pasa nada. */
