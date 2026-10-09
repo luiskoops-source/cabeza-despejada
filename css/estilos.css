@@ -1,17 +1,17 @@
 /* Layout: one column phone-first, sticky tab bar at the bottom; each tab is a screen. Calm surfaces, one warm accent reserved for the craving mode. */
 :root{
-  --bg:#f2f5f3; --surface:#ffffff; --surface2:#e6ece9; --fg:#172220; --muted:#5a6b66; --line:#cfd9d5;
-  --accent:#0f6b61; --accent-ink:#ffffff; --warm:#b4511c; --warm-soft:#f6e3d6; --good:#2f7d4f; --bad:#a93c3c; --bad-soft:#f5dede;
+  --bg:#f3f4f8; --surface:#ffffff; --surface2:#e7e9f1; --fg:#161a2b; --muted:#5b6176; --line:#d2d6e4;
+  --accent:#2f4fa8; --accent-ink:#ffffff; --warm:#c7791a; --warm-soft:#f9ead3; --good:#2f7d4f; --bad:#a93c3c; --bad-soft:#f5dede;
   --display:"Bricolage Grotesque","Instrument Sans",system-ui,sans-serif;
   --body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --bg:#0f1715; --surface:#172220; --surface2:#1f2d2a; --fg:#e8efec; --muted:#9bb0aa; --line:#2b3b37;
-  --accent:#5fcbb9; --accent-ink:#0b1513; --warm:#f0955a; --warm-soft:#3a2518; --good:#6fcf97; --bad:#f08c8c; --bad-soft:#3c1f1f; color-scheme:dark }}
+  --bg:#0f1220; --surface:#171b2e; --surface2:#20253c; --fg:#e9ebf4; --muted:#9ea5c0; --line:#2c3350;
+  --accent:#8fa6ff; --accent-ink:#0b0f1f; --warm:#f2b350; --warm-soft:#3a2a12; --good:#6fcf97; --bad:#f08c8c; --bad-soft:#3c1f1f; color-scheme:dark }}
 :root[data-theme="dark"]{
-  --bg:#0f1715; --surface:#172220; --surface2:#1f2d2a; --fg:#e8efec; --muted:#9bb0aa; --line:#2b3b37;
-  --accent:#5fcbb9; --accent-ink:#0b1513; --warm:#f0955a; --warm-soft:#3a2518; --good:#6fcf97; --bad:#f08c8c; --bad-soft:#3c1f1f; color-scheme:dark }
+  --bg:#0f1220; --surface:#171b2e; --surface2:#20253c; --fg:#e9ebf4; --muted:#9ea5c0; --line:#2c3350;
+  --accent:#8fa6ff; --accent-ink:#0b0f1f; --warm:#f2b350; --warm-soft:#3a2a12; --good:#6fcf97; --bad:#f08c8c; --bad-soft:#3c1f1f; color-scheme:dark }
 
 *{box-sizing:border-box}
 /* Cualquier elemento con el atributo hidden desaparece, aunque otra regla le ponga display:flex */
