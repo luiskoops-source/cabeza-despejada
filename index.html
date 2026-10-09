@@ -246,6 +246,15 @@
   </div>
 
   <div class="card">
+    <div class="row" style="justify-content:space-between">
+      <h2>Lo que está pasando ahora</h2>
+      <span class="pill warm">2026</span>
+    </div>
+    <p class="small muted">Estudios, informes y alertas recientes, con enlace a la fuente. Lo que se consume hoy no es lo mismo que hace cinco años: cada vez más mezclas y opioides sintéticos que la gente toma sin saber.</p>
+    <div class="stack" id="actualidadList"></div>
+  </div>
+
+  <div class="card">
     <h2>Guía de sustancias</h2>
     <p class="small muted">Para saber qué es lo que estás consumiendo o dejando, qué daña, qué mezclas matan y cuándo llamar al 131. Es información de reducción de daños, la misma que usan SENDA, DanceSafe y TripSit. No hay cantidades ni formas de uso: eso no es educación.</p>
     <div class="stack" id="sustList"></div>
@@ -265,15 +274,9 @@
   </div>
 
   <div class="card">
-    <h2>Comunidades y foros</h2>
+    <h2>Comunidades y servicios activos</h2>
     <p class="small muted">Gente que está pasando por lo mismo. Leer sin participar también sirve.</p>
-    <div class="stack">
-      <div class="study"><span class="pill">Reddit, inglés</span><h3>r/StopSpeeding</h3><p class="small">Comunidad para dejar estimulantes (cocaína, anfetaminas). Mucha gente contando sus días limpios, recaídas y lo que les funcionó.</p><a href="https://www.reddit.com/r/StopSpeeding/" target="_blank" rel="noopener">reddit.com/r/StopSpeeding</a></div>
-      <div class="study"><span class="pill">Reddit, inglés</span><h3>r/REDDITORSINRECOVERY</h3><p class="small">Recuperación de cualquier sustancia. Buen lugar para leer historias largas de gente con años limpios.</p><a href="https://www.reddit.com/r/REDDITORSINRECOVERY/" target="_blank" rel="noopener">reddit.com/r/REDDITORSINRECOVERY</a></div>
-      <div class="study"><span class="pill">Reddit, español</span><h3>r/Adicciones y r/es_Adicciones</h3><p class="small">Comunidades en español, más pequeñas, pero con gente de Chile y Latinoamérica.</p><a href="https://www.reddit.com/r/Adicciones/" target="_blank" rel="noopener">reddit.com/r/Adicciones</a></div>
-      <div class="study"><span class="pill">Presencial y online</span><h3>Narcóticos Anónimos</h3><p class="small">Reuniones gratuitas, anónimas, en todo Chile y también por videollamada. No hay que creer en nada ni inscribirse: solo llegar.</p><a href="https://www.na.org/meetingsearch/" target="_blank" rel="noopener">na.org → buscar reunión</a></div>
-      <div class="study"><span class="pill">SMART Recovery</span><h3>Alternativa a los 12 pasos</h3><p class="small">Enfoque basado en herramientas prácticas (parecido a lo que haces aquí), con reuniones online en español.</p><a href="https://smartrecovery.org" target="_blank" rel="noopener">smartrecovery.org</a></div>
-    </div>
+    <div class="stack" id="comunidadesList"></div>
   </div>
 </section>
 
@@ -462,6 +465,8 @@
 <script src="datos/sustancias.js"></script>
 <!-- DATOS: preguntas de verdadero/falso -->
 <script src="datos/preguntas.js"></script>
+<!-- DATOS: actualidad y comunidades -->
+<script src="datos/actualidad.js"></script>
 <!-- CÁLCULOS: funciones puras, probadas en tests/pruebas.js -->
 <script src="js/calculos.js"></script>
 <!-- LÓGICA: todo lo que "hace" la app -->

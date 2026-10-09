@@ -16,6 +16,7 @@ Cabeza Despejada es una app anónima de apoyo para dejar o reducir el consumo de
 - Nada en la app puede dar instrucciones de consumo, dosis, formas de uso ni cómo conseguir droga. La guía de `datos/sustancias.js` es de reducción de daños: qué es, qué daña, mezclas peligrosas como advertencia, señales de emergencia y cómo dejarla con seguridad. Nunca cantidades.
 - Anonimato: la app no pide nombre, correo ni cuenta, y no envía datos a ningún servidor. Cualquier función nueva debe respetar eso.
 - Los hechos de `datos/hechos.js` deben ser verdaderos y basados en evidencia médica. Si no estás seguro de una cifra, descríbelo sin cifra.
+- `datos/actualidad.js`: solo entradas verificadas en la fuente enlazada, con fecha y fuente. Si una cifra no está en la fuente, no se pone. Las columnas de opinión se marcan como "Análisis".
 - Teléfonos de ayuda en Chile que la app muestra: SENDA 1412, emergencias 131, Salud Responde 600 360 7777.
 
 ## Comandos útiles

@@ -144,6 +144,18 @@ $("lockPin").onkeydown=e=>{ if(e.key==="Enter") $("lockGo").click(); };
 $("savePin").onclick=()=>{ const v=$("pinNew").value.trim(); if(v&&!/^\d{4,6}$/.test(v)){ toast("El PIN debe tener 4 a 6 números"); return; } S.pin=v; save(); $("pinNew").value=""; toast(v?"PIN activado":"PIN desactivado"); };
 $("wipeAll").onclick=()=>{ const el=$("wipeAll"); if(el.dataset.c!=="1"){ el.dataset.c="1"; el.textContent="Toca de nuevo para borrar todo"; setTimeout(()=>{ el.dataset.c=""; el.textContent="Borrar todos mis datos"; },4000); return; } try{ localStorage.removeItem(KEY); }catch(e){} location.reload(); };
 
+/* ---------- Actualidad y comunidades ---------- */
+function renderActualidad(){
+  const A=window.ACTUALIDAD||[], K=window.COMUNIDADES||[];
+  $("actualidadList").innerHTML=A.map(x=>`<div class="study">
+    <div class="row"><span class="pill ${x.tipo==="Alerta"?"bad":x.tipo==="Estudio"?"good":""}">${esc(x.tipo)}</span><span class="small muted">${esc(x.fecha)} · ${esc(x.fuente)}</span></div>
+    <h3>${esc(x.titulo)}</h3>
+    <p class="small">${esc(x.resumen)}</p>
+    ${x.nota?`<p class="small" style="border-left:3px solid var(--warm);padding-left:10px"><b>Para ti:</b> ${esc(x.nota)}</p>`:""}
+    <a href="${esc(x.enlace)}" target="_blank" rel="noopener">Leer la fuente</a></div>`).join("");
+  $("comunidadesList").innerHTML=K.map(x=>`<div class="study"><h3>${esc(x.nombre)}</h3><p class="small">${esc(x.que)}</p><a href="${esc(x.enlace)}" target="_blank" rel="noopener">${esc(x.enlace.replace(/^https?:\/\//,""))}</a></div>`).join("");
+}
+
 /* ---------- Guía de sustancias ---------- */
 function renderSust(){
   const mia=S.sustancia;
@@ -371,7 +383,7 @@ $("craveWon").onclick=()=>{ S.craveWins=(S.craveWins||0)+1; addEvent("win",{i:nu
 $("craveLost").onclick=()=>{ registerRelapse("Desde modo ganas"); closeCrave(); };
 
 /* ---------- Boot ---------- */
-fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); lockIfNeeded();
+fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); lockIfNeeded();
 /* Cada minuto revisa si llegó la hora difícil, para mostrar el plan */
 setInterval(renderPlan,60000);
 /* Registra el service worker (modo sin internet). Solo funciona servido por http(s), no abierto como archivo ni dentro de claude.ai; si no se puede, no pasa nada. */
