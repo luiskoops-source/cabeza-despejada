@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Cabeza Despejada</title>
+<!-- Tipografías (Google Fonts) -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<!-- Estilos: todo lo visual vive en css/estilos.css -->
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+<!-- ESTRUCTURA: cada <section class="screen"> es una pestaña. La barra de abajo (<nav class="tabs">) las muestra u oculta. -->
+<div class="wrap">
+
+<!-- HOY -->
+<section class="screen active" id="s-hoy" role="tabpanel">
+  <div>
+    <p class="eyebrow">Cabeza Despejada</p>
+    <h1 id="greet">Hoy</h1>
+    <p class="muted small" id="today"></p>
+  </div>
+
+  <div class="card">
+    <p class="eyebrow">Tiempo sin consumir</p>
+    <div class="row" style="align-items:baseline">
+      <span class="big num" id="days">0</span>
+      <span class="muted" id="daysLabel">días</span>
+    </div>
+    <p class="small muted" id="sinceText"></p>
+    <details>
+      <summary class="small">Ajustar mi Día 0</summary>
+      <div class="row" style="margin-top:8px">
+        <label class="f">Fecha de mi último consumo
+          <input type="date" id="day0">
+        </label>
+        <button id="saveDay0">Guardar</button>
+      </div>
+    </details>
+  </div>
+
+  <button class="warm" id="openCrave">Tengo ganas de consumir</button>
+
+  <div class="card">
+    <p class="eyebrow">Dinero que no se fue en droga</p>
+    <div class="tiles">
+      <div class="tile"><div class="v num" id="saved">$0</div><div class="l">desde el Día 0</div></div>
+      <div class="tile"><div class="v num" id="savedMonth">$0</div><div class="l">en un mes limpio</div></div>
+      <div class="tile"><div class="v num" id="savedYear">$0</div><div class="l">en un año limpio</div></div>
+      <div class="tile"><div class="v num" id="savedHours">0 h</div><div class="l">de trabajo que no se perdieron</div></div>
+    </div>
+    <details>
+      <summary class="small">Cómo se calcula (edítalo con tus números)</summary>
+      <div class="stack" style="margin-top:8px">
+        <div class="row">
+          <label class="f">Gasto por semana cuando consumía (CLP)<input type="number" id="spendWeek" min="0" step="1000"></label>
+          <label class="f">Mi sueldo líquido mensual (CLP, opcional)<input type="number" id="salary" min="0" step="10000"></label>
+        </div>
+        <button id="saveMoney">Guardar</button>
+        <p class="small muted">El dinero ahorrado se calcula con tu gasto semanal multiplicado por las semanas desde tu Día 0. Las horas de trabajo salen de dividir ese ahorro por tu valor hora (sueldo ÷ 180 horas).</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="card">
+    <div class="row" style="justify-content:space-between">
+      <p class="eyebrow">Dato de hoy</p>
+      <span class="pill" id="dailyPill">de la base</span>
+    </div>
+    <div class="fact" id="dailyFact"><h3 id="dailyTitle"></h3><p id="dailyBody"></p></div>
+    <p class="small muted" id="dailyNote"></p>
+    <div class="row">
+      <button id="dailyNew" class="primary">Cuéntame algo nuevo</button>
+      <button id="dailyNext" class="ghost">Otro dato</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="eyebrow">Mis razones</p>
+    <ul class="reasons" id="reasons"></ul>
+    <div class="row">
+      <input id="newReason" placeholder="Agregar una razón para no consumir">
+      <button id="addReason">Agregar</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="eyebrow">Lo que aprendí sobre mí</p>
+    <ul class="small">
+      <li><b>Cuando las cosas van bien</b> aparece el impulso de generar caos. Reconocerlo ya es tener ventaja.</li>
+      <li><b>Lo que no está bajo mi control</b> y <b>el tiempo libre sin plan</b> son mis dos gatillantes principales.</li>
+      <li><b>Sin dormir llega la paranoia.</b> Dormir es parte del tratamiento, no un lujo.</li>
+      <li><b>Trabajar sobrio me sale bien.</b> Consumiendo trabajo lento y me quedo dormido.</li>
+      <li><b>Borrar el contacto</b> funciona. Cada vez que lo hice, costó más recaer.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- SABER -->
+<section class="screen" id="s-saber" role="tabpanel">
+  <div>
+    <p class="eyebrow">Saber más</p>
+    <h1>Qué le hace la cocaína al cuerpo y la cabeza</h1>
+    <p class="muted small">Explicaciones en lenguaje simple, basadas en lo que la medicina sabe hoy. La lista crece: cada vez que pides algo nuevo, se guarda aquí.</p>
+  </div>
+
+  <div class="card">
+    <div class="row" style="justify-content:space-between">
+      <h2>Explícame algo nuevo</h2>
+      <span class="pill" id="aiState">Claude</span>
+    </div>
+    <p class="small muted">Pide un efecto negativo que todavía no esté en tu lista, explicado para entenderlo de verdad. Puedes pedir un tema específico o dejarlo en blanco.</p>
+    <div class="row">
+      <input id="aiTopic" placeholder="Ej: qué pasa con el corazón, con la memoria, con el sueño...">
+      <button id="aiAsk" class="primary">Explícame</button>
+      <button id="aiStop" class="ghost" hidden>Parar</button>
+    </div>
+    <div class="fact new" id="aiOut" hidden><h3 id="aiTitle"></h3><p class="ai" id="aiBody"></p></div>
+    <p class="small muted" id="aiNote"></p>
+  </div>
+
+  <div class="card">
+    <div class="row" style="justify-content:space-between">
+      <h2>Mi biblioteca</h2>
+      <span class="pill" id="factCount"></span>
+    </div>
+    <div class="row">
+      <button data-cat="todo" class="catBtn primary">Todo</button>
+      <button data-cat="cerebro" class="catBtn">Cerebro</button>
+      <button data-cat="cuerpo" class="catBtn">Cuerpo</button>
+      <button data-cat="vida" class="catBtn">Vida diaria</button>
+      <button data-cat="nuevo" class="catBtn">Lo que pedí</button>
+    </div>
+    <div class="stack" id="factList"></div>
+  </div>
+
+  <div class="card">
+    <h2>Estudios y fuentes serias</h2>
+    <p class="small muted">Para cuando quieras leer la evidencia completa. Todas abren fuera de la app.</p>
+    <div class="stack">
+      <div class="study"><span class="pill">Instituto NIDA, EE.UU.</span><h3>Informe de investigación sobre cocaína</h3><p class="small">El resumen más completo y actualizado: cómo actúa en el cerebro, efectos a corto y largo plazo, tratamiento. En inglés, pero el navegador lo traduce.</p><a href="https://nida.nih.gov/publications/research-reports/cocaine" target="_blank" rel="noopener">nida.nih.gov → cocaine</a></div>
+      <div class="study"><span class="pill">SENDA, Chile</span><h3>Guía de tratamiento y centros</h3><p class="small">Qué programas existen en Chile, cuáles son gratuitos y cómo entrar. Incluye tratamiento ambulatorio que se puede combinar con el trabajo.</p><a href="https://www.senda.gob.cl" target="_blank" rel="noopener">senda.gob.cl</a></div>
+      <div class="study"><span class="pill">Chile Atiende</span><h3>Tratamiento y rehabilitación SENDA</h3><p class="small">La ficha oficial de cómo acceder a tratamiento por el sistema público.</p><a href="https://www.ventanillaunicasocial.gob.cl/ficha/243/tratamiento-rehabilitacion-senda" target="_blank" rel="noopener">ventanillaunicasocial.gob.cl</a></div>
+      <div class="study"><span class="pill">OMS</span><h3>Trastornos por consumo de sustancias</h3><p class="small">Marco general de la Organización Mundial de la Salud: la adicción como condición de salud tratable, no como falla moral.</p><a href="https://www.who.int/health-topics/drugs-psychoactive" target="_blank" rel="noopener">who.int → drogas psicoactivas</a></div>
+      <div class="study"><span class="pill">PubMed</span><h3>Buscar estudios tú mismo</h3><p class="small">La base de datos médica más grande. Prueba buscar "cocaine induced psychosis" o "cocaine cardiovascular risk".</p><a href="https://pubmed.ncbi.nlm.nih.gov/?term=cocaine+induced+psychosis" target="_blank" rel="noopener">pubmed.ncbi.nlm.nih.gov</a></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Comunidades y foros</h2>
+    <p class="small muted">Gente que está pasando por lo mismo. Leer sin participar también sirve.</p>
+    <div class="stack">
+      <div class="study"><span class="pill">Reddit, inglés</span><h3>r/StopSpeeding</h3><p class="small">Comunidad para dejar estimulantes (cocaína, anfetaminas). Mucha gente contando sus días limpios, recaídas y lo que les funcionó.</p><a href="https://www.reddit.com/r/StopSpeeding/" target="_blank" rel="noopener">reddit.com/r/StopSpeeding</a></div>
+      <div class="study"><span class="pill">Reddit, inglés</span><h3>r/REDDITORSINRECOVERY</h3><p class="small">Recuperación de cualquier sustancia. Buen lugar para leer historias largas de gente con años limpios.</p><a href="https://www.reddit.com/r/REDDITORSINRECOVERY/" target="_blank" rel="noopener">reddit.com/r/REDDITORSINRECOVERY</a></div>
+      <div class="study"><span class="pill">Reddit, español</span><h3>r/Adicciones y r/es_Adicciones</h3><p class="small">Comunidades en español, más pequeñas, pero con gente de Chile y Latinoamérica.</p><a href="https://www.reddit.com/r/Adicciones/" target="_blank" rel="noopener">reddit.com/r/Adicciones</a></div>
+      <div class="study"><span class="pill">Presencial y online</span><h3>Narcóticos Anónimos</h3><p class="small">Reuniones gratuitas, anónimas, en todo Chile y también por videollamada. No hay que creer en nada ni inscribirse: solo llegar.</p><a href="https://www.na.org/meetingsearch/" target="_blank" rel="noopener">na.org → buscar reunión</a></div>
+      <div class="study"><span class="pill">SMART Recovery</span><h3>Alternativa a los 12 pasos</h3><p class="small">Enfoque basado en herramientas prácticas (parecido a lo que haces aquí), con reuniones online en español.</p><a href="https://smartrecovery.org" target="_blank" rel="noopener">smartrecovery.org</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- REGISTRO -->
+<section class="screen" id="s-registro" role="tabpanel">
+  <div>
+    <p class="eyebrow">Registro</p>
+    <h1>Lo que pasa, cuándo pasa</h1>
+    <p class="muted small">Anotar las ganas, aunque no consumas, es lo que deja ver los patrones. Las barras muestran los últimos 14 días.</p>
+  </div>
+
+  <div class="card">
+    <p class="eyebrow">Últimos 14 días</p>
+    <div class="chart" id="chart"></div>
+    <div class="axis"><span id="axisFrom"></span><span id="axisTo"></span></div>
+    <p class="small muted">Barras verdes: ganas registradas por día. Barras rojas: días con consumo.</p>
+  </div>
+
+  <div class="card">
+    <h2>Anotar ganas</h2>
+    <div class="row">
+      <label class="f">Qué tan fuertes (1 a 10)<input type="number" id="cInt" min="1" max="10" value="5"></label>
+      <label class="f">Gatillante
+        <select id="cTrig">
+          <option>Tiempo libre / nada que hacer</option>
+          <option>Algo fuera de mi control</option>
+          <option>Todo va bien y quiero caos</option>
+          <option>Falta de sueño</option>
+          <option>Discusión o algo que me dijeron</option>
+          <option>Recibí dinero</option>
+          <option>Vi a alguien que consume</option>
+          <option>Otro</option>
+        </select>
+      </label>
+    </div>
+    <label class="f">Qué hice con las ganas<textarea id="cDid" placeholder="Ej: fumé un cigarro, vi teleserie, trabajé, llamé a alguien..."></textarea></label>
+    <div class="row">
+      <button class="primary" id="addCrave">Guardar ganas</button>
+      <button class="danger" id="addRelapse">Registrar consumo</button>
+    </div>
+    <p class="small muted">Registrar un consumo mueve tu Día 0 a hoy. No borra nada: el registro queda para que veas qué pasó antes.</p>
+  </div>
+
+  <div class="card">
+    <div class="row" style="justify-content:space-between">
+      <h2>Historial</h2>
+      <button class="ghost small" id="exportBtn">Copiar todo como texto</button>
+    </div>
+    <div class="log" id="log"></div>
+  </div>
+
+  <div class="card">
+    <h2>Patrones que ya ves</h2>
+    <div id="patterns" class="small"></div>
+  </div>
+</section>
+
+<!-- AYUDA -->
+<section class="screen" id="s-ayuda" role="tabpanel">
+  <div>
+    <p class="eyebrow">Ayuda ahora</p>
+    <h1>Si esto se pone difícil</h1>
+  </div>
+  <div class="card">
+    <div class="contact"><div><div class="eyebrow">SENDA, gratis, anónimo, 24 horas</div><b>1412</b></div><button data-copy="1412">Copiar</button></div>
+    <div class="contact"><div><div class="eyebrow">Chat 1412, también fin de semana, 8 a 20 h</div><a href="https://www.senda.gob.cl" target="_blank" rel="noopener">senda.gob.cl</a></div></div>
+    <div class="contact"><div><div class="eyebrow">Emergencia médica (dolor al pecho, no puedes respirar)</div><b>131</b></div><button data-copy="131">Copiar</button></div>
+    <div class="contact"><div><div class="eyebrow">Salud Responde, Minsal, 24 horas</div><b>600 360 7777</b></div><button data-copy="6003607777">Copiar</button></div>
+  </div>
+  <div class="card">
+    <h2>Cuándo llamar al 131 sin pensarlo</h2>
+    <ul class="small">
+      <li>Dolor u opresión en el pecho, aunque sea leve.</li>
+      <li>Latidos muy rápidos o irregulares que no bajan.</li>
+      <li>Convulsiones, confusión fuerte o temperatura muy alta.</li>
+      <li>Si mezclaste con alcohol u otra cosa y te sientes raro.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h2>Si tuviste un episodio de paranoia</h2>
+    <ul class="small">
+      <li>Lo que escuchas o sientes que te siguen viene de la droga y de no dormir. Pasa cuando pasa el efecto y duermes.</li>
+      <li>Quédate en un lugar conocido, con luz, sin alcohol.</li>
+      <li>Duerme en cuanto puedas. Mañana vas a ver esto distinto.</li>
+      <li>Si te repite varias veces, pide hora médica: la psicosis que vuelve cada vez más rápido es una señal que un psiquiatra sabe leer.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h2>Lo que dice la evidencia sobre pedir ayuda</h2>
+    <p class="small">La gente que combina estrategias propias (como esta app) con apoyo profesional o grupos tiene muchas más probabilidades de mantenerse limpia que la que lo hace sola. No es debilidad: es usar todas las herramientas.</p>
+  </div>
+</section>
+
+</div>
+
+<!-- CRAVING MODE -->
+<div class="crave" id="crave" hidden>
+  <div class="inner">
+    <div class="row" style="justify-content:space-between">
+      <span class="pill warm">Modo ganas</span>
+      <button class="ghost" id="closeCrave">Salir</button>
+    </div>
+    <h1 id="craveTitle">Esto dura menos de lo que parece</h1>
+    <p class="muted">Las ganas suben, llegan a un punto máximo y bajan solas, normalmente en 15 a 30 minutos, hagas lo que hagas. Tu trabajo es solo aguantar la ola, no pelear con ella.</p>
+    <div class="timer" id="timer">15:00</div>
+    <div class="bar"><i id="barFill"></i></div>
+    <div class="breath" id="breath"><span id="breathTxt">Inhala</span></div>
+    <p class="small muted" style="text-align:center">Respira siguiendo el círculo: 4 segundos adentro, 4 afuera.</p>
+    <div class="card">
+      <p class="eyebrow">Qué hacer ahora, en orden</p>
+      <ol class="steps" id="craveSteps">
+        <li>Si tienes el contacto del proveedor, bórralo ahora. Después sigues.</li>
+        <li>Sal de la pieza donde estás. Cambia de lugar, aunque sea a la cocina.</li>
+        <li>Come algo dulce y toma agua. El bajón de azúcar empeora las ganas.</li>
+        <li>Ponte los audífonos. Teleserie, música, lo que sea que te saque de la cabeza.</li>
+        <li>Si tienes plata encima, déjala en otra pieza o transfiérela a alguien de confianza.</li>
+        <li>Cuando termine el reloj, anota qué pasó en Registro. Eso es lo que te hace fuerte.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <p class="eyebrow">Mis razones</p>
+      <ul class="reasons" id="craveReasons"></ul>
+    </div>
+    <div class="card" id="craveAiCard">
+      <p class="eyebrow">Habla con alguien ahora</p>
+      <p class="small muted">Cuéntale a Claude qué está pasando. Te responde corto y sin sermones.</p>
+      <textarea id="craveMsg" placeholder="Ej: tengo 20 lucas en la billetera y el vecino está despierto"></textarea>
+      <div class="row"><button class="primary" id="craveAsk">Enviar</button><button class="ghost" id="craveStop" hidden>Parar</button></div>
+      <p class="ai" id="craveReply"></p>
+    </div>
+    <div class="card">
+      <p class="eyebrow">Si no puedes solo</p>
+      <div class="contact"><div><div class="eyebrow">SENDA 1412, gratis, anónimo</div><b>1412</b></div><button data-copy="1412">Copiar</button></div>
+    </div>
+    <div class="row">
+      <button class="primary" id="craveWon">Pasó, no consumí</button>
+      <button class="danger" id="craveLost">Consumí</button>
+    </div>
+  </div>
+</div>
+
+<nav class="tabs" role="tablist">
+  <button role="tab" data-tab="hoy" aria-selected="true"><span class="i">●</span>Hoy</button>
+  <button role="tab" data-tab="saber" aria-selected="false"><span class="i">?</span>Saber</button>
+  <button role="tab" data-tab="registro" aria-selected="false"><span class="i">≡</span>Registro</button>
+  <button role="tab" data-tab="ayuda" aria-selected="false"><span class="i">+</span>Ayuda</button>
+</nav>
+<div class="toast" id="toast"></div>
+<!-- DATOS: la biblioteca de hechos, separada para editarla sin tocar la lógica -->
+<script src="datos/hechos.js"></script>
+<!-- LÓGICA: todo lo que "hace" la app -->
+<script src="js/app.js"></script>
+</body>
+</html>
