@@ -24,7 +24,7 @@ const path = require("path");
   if (!(await pagina.isVisible("#crave"))) errores.push("El Modo ganas no abre");
   await pagina.click("#closeCrave");
   /* 3. Las cuatro pestañas */
-  for (const t of ["saber", "registro", "ayuda", "hoy"]) { await pagina.click(`[data-tab="${t}"]`); await pagina.waitForTimeout(100); }
+  for (const t of ["noche", "saber", "registro", "ayuda", "hoy"]) { await pagina.click(`[data-tab="${t}"]`); await pagina.waitForTimeout(100); }
   /* 4. Registro: anotar ganas y check-in */
   await pagina.click('[data-tab="registro"]'); await pagina.click("#addCrave");
   await pagina.click('[data-tab="hoy"]'); await pagina.click("#saveCheckin");
@@ -34,6 +34,10 @@ const path = require("path");
   if (n < 1) errores.push("El buscador no encuentra 'infarto'");
   const fichas = await pagina.evaluate(() => document.querySelectorAll("#sustList .sust").length);
   if (fichas < 11) errores.push("Faltan fichas de sustancias: " + fichas);
+  /* 5b. Noche: atajos */
+  await pagina.click('[data-tab="noche"]'); await pagina.click("#nocheCalma"); await pagina.waitForTimeout(200);
+  if (!(await pagina.isVisible("#calma"))) errores.push("El Modo calma no abre desde Noche");
+  await pagina.click("#closeCalma");
   /* 6. Sin scroll horizontal en celular */
   const ancho = await pagina.evaluate(() => document.documentElement.scrollWidth);
   if (ancho > 400) errores.push("La página se desborda a lo ancho: " + ancho + "px");

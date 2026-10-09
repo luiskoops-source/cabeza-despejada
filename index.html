@@ -203,6 +203,72 @@
   </details>
 </section>
 
+
+<!-- NOCHE: acompañar antes, durante y la mañana siguiente -->
+<section class="screen" id="s-noche" role="tabpanel">
+  <div>
+    <p class="eyebrow">Noche</p>
+    <h1>Si vas a salir, que vuelvas</h1>
+    <p class="muted small">Esta pestaña no te dice que no salgas. Te acompaña: antes, durante y la mañana siguiente. Sin preguntas, sin juicios.</p>
+  </div>
+
+  <div class="card" style="border-color:var(--bad)">
+    <p class="eyebrow" style="color:var(--bad)">Ahora mismo</p>
+    <div class="row">
+      <button class="primary" id="nocheCalma">Me siento paranoico</button>
+      <button id="nocheGanas">Tengo ganas</button>
+      <button id="nocheAuxilios">Alguien está mal</button>
+    </div>
+    <div class="row">
+      <div class="contact" style="flex:1"><div><div class="eyebrow">Emergencia</div><b>131</b></div><button data-copy="131">Copiar</button></div>
+      <div class="contact" style="flex:1"><div><div class="eyebrow">Orientación, anónimo</div><b>1412</b></div><button data-copy="1412">Copiar</button></div>
+    </div>
+  </div>
+
+<div class="card">
+    <div class="row" style="justify-content:space-between">
+      <h2>Antes de salir</h2>
+      <span class="pill" id="salirCount"></span>
+    </div>
+    <p class="small muted">Once cosas que cambian cómo termina la noche. Marca las que ya tienes. Se reinicia cada día.</p>
+    <div class="stack" id="salirList"></div>
+  </div>
+
+<div class="card">
+    <h2>¿Qué me ofrecieron?</h2>
+    <p class="small muted">Toca cómo se ve, o escribe cómo lo llamaron. Te dice qué suele ser, qué puede traer en realidad y cuál es la señal de emergencia.</p>
+    <input id="ofBuscar" placeholder="Ej: tusi, pepa, clona, cristal...">
+    <div class="row" id="ofChips"></div>
+    <div id="ofOut" hidden></div>
+  </div>
+
+<div class="card">
+    <h2>En la fiesta: reconocer qué tomó alguien</h2>
+    <p class="small muted">Para cuidar, no para juzgar. Saber qué consumió alguien es lo primero que pregunta el 131 y lo que decide qué hacer si se pone mal. Toca una sustancia y mira las señales en el cuerpo y en la conducta.</p>
+    <div class="row" id="senChips"></div>
+    <div id="senOut" hidden></div>
+    <details style="margin-top:6px">
+      <summary class="small"><b>Por qué la misma droga le pega distinto a cada persona</b></summary>
+      <p class="small muted" style="margin-top:8px">Con marihuana, una persona es un ser de paz y otra se pone paranoica. Con alcohol, uno se ríe y otro pelea. No es que la sustancia sea distinta: es que cambian estas ocho cosas.</p>
+      <div class="stack" id="factoresList" style="margin-top:8px"></div>
+      <p class="small" style="margin-top:8px"><b>Lo práctico:</b> mira a la persona, no a la sustancia. Las señales de alarma (no despierta, respira lento, dolor en el pecho, calor extremo, convulsiones) son las mismas para todos, consuma lo que consuma.</p>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2>La mañana siguiente</h2>
+    <p class="small muted">Lo que viene después de una noche de consumo tiene nombre y tiene salida.</p>
+    <ul class="small">
+      <li><b>El bajón es químico, no es tu vida.</b> Tristeza, irritabilidad y cansancio por uno o varios días: el cerebro gastó lo que tenía guardado. No tomes decisiones grandes hoy.</li>
+      <li><b>Dormir, comer, agua.</b> Es el tratamiento completo del primer día. El azúcar bajo y la deshidratación empeoran todo.</li>
+      <li><b>No "curarse" con más.</b> Una copa o una línea para bajar el bajón lo alargan y lo profundizan.</li>
+      <li><b>Si escuchaste cosas o te sentiste perseguido,</b> léelo en Ayuda: Psicosis por sustancias. Sobre todo si no es la primera vez.</li>
+      <li><b>Anota cómo amaneciste</b> en Hoy. Con el tiempo vas a ver qué noches te cuestan más caro.</li>
+    </ul>
+    <div class="row"><button id="nocheCheckin">Anotar cómo amanecí</button><button id="nocheRegistro" class="ghost">Registrar lo de anoche</button></div>
+  </div>
+</section>
+
 <!-- SABER -->
 <section class="screen" id="s-saber" role="tabpanel">
   <div>
@@ -250,38 +316,11 @@
     <p class="small" id="quizA" hidden></p>
   </div>
 
-  <!-- ¿Qué me ofrecieron?: identificar por aspecto o por nombre -->
-  <div class="card">
-    <h2>¿Qué me ofrecieron?</h2>
-    <p class="small muted">Toca cómo se ve, o escribe cómo lo llamaron. Te dice qué suele ser, qué puede traer en realidad y cuál es la señal de emergencia.</p>
-    <input id="ofBuscar" placeholder="Ej: tusi, pepa, clona, cristal...">
-    <div class="row" id="ofChips"></div>
-    <div id="ofOut" hidden></div>
-  </div>
+  
 
-  <!-- En la fiesta: reconocer qué tomó alguien, mirando sin preguntar -->
-  <div class="card">
-    <h2>En la fiesta: reconocer qué tomó alguien</h2>
-    <p class="small muted">Para cuidar, no para juzgar. Saber qué consumió alguien es lo primero que pregunta el 131 y lo que decide qué hacer si se pone mal. Toca una sustancia y mira las señales en el cuerpo y en la conducta.</p>
-    <div class="row" id="senChips"></div>
-    <div id="senOut" hidden></div>
-    <details style="margin-top:6px">
-      <summary class="small"><b>Por qué la misma droga le pega distinto a cada persona</b></summary>
-      <p class="small muted" style="margin-top:8px">Con marihuana, una persona es un ser de paz y otra se pone paranoica. Con alcohol, uno se ríe y otro pelea. No es que la sustancia sea distinta: es que cambian estas ocho cosas.</p>
-      <div class="stack" id="factoresList" style="margin-top:8px"></div>
-      <p class="small" style="margin-top:8px"><b>Lo práctico:</b> mira a la persona, no a la sustancia. Las señales de alarma (no despierta, respira lento, dolor en el pecho, calor extremo, convulsiones) son las mismas para todos, consuma lo que consuma.</p>
-    </details>
-  </div>
+  
 
-  <!-- Antes de salir: lista para una noche más segura (se reinicia cada día) -->
-  <div class="card">
-    <div class="row" style="justify-content:space-between">
-      <h2>Antes de salir</h2>
-      <span class="pill" id="salirCount"></span>
-    </div>
-    <p class="small muted">Once cosas que cambian cómo termina la noche. Marca las que ya tienes. Se reinicia cada día.</p>
-    <div class="stack" id="salirList"></div>
-  </div>
+  
 
   <div class="card">
     <div class="row" style="justify-content:space-between">
@@ -544,7 +583,7 @@
 
   <div class="card">
     <h2>Acerca de esta app</h2>
-    <p class="small">Cabeza Despejada es una app gratuita, anónima y sin fines de lucro para personas que quieren dejar o reducir el consumo de alguna sustancia.</p>
+    <p class="small">Cabeza Despejada es una app gratuita, anónima y sin fines de lucro para personas que quieren dejar o reducir el consumo de alguna sustancia. No tiene suscripción, ni anuncios, ni compras: todo lo que ves es para todos. Se mantiene con el tiempo de quien la hace y, cuando exista la opción, con donaciones voluntarias de quien quiera apoyarla. El código es abierto: cualquiera puede leerlo, revisarlo y proponer mejoras.</p>
     <div class="fact" style="border-left-color:var(--warm)">
       <h3>Una nota de quien la hizo</h3>
       <p class="small">La hice en Chile, con ayuda de inteligencia artificial, porque yo también estuve ahí. A veces todavía estoy. Conozco el infierno de adentro: las ganas a las tres de la mañana, el bajón, la paranoia, el "nadie puede saber esto". Esta app es lo que me habría gustado tener a mano esas noches.</p>
@@ -684,6 +723,7 @@
 
 <nav class="tabs" role="tablist">
   <button role="tab" data-tab="hoy" aria-selected="true"><span class="i">●</span>Hoy</button>
+  <button role="tab" data-tab="noche" aria-selected="false"><span class="i">☾</span>Noche</button>
   <button role="tab" data-tab="saber" aria-selected="false"><span class="i">?</span>Saber</button>
   <button role="tab" data-tab="registro" aria-selected="false"><span class="i">≡</span>Registro</button>
   <button role="tab" data-tab="ayuda" aria-selected="false"><span class="i">+</span>Ayuda</button>

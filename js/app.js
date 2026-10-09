@@ -34,6 +34,7 @@ const daysSince=iso=>C.diasDesde(iso);
 /* FACTS viene de datos/hechos.js */
 
 /* ---------- Tabs ---------- */
+function irA(tab){ const b=document.querySelector(`.tabs [data-tab="${tab}"]`); if(b) b.click(); }
 document.querySelectorAll('.tabs [role="tab"]').forEach(b=>b.addEventListener("click",()=>{
   document.querySelectorAll('.tabs [role="tab"]').forEach(x=>x.setAttribute("aria-selected",x===b?"true":"false"));
   document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("active",s.id==="s-"+b.dataset.tab));
@@ -587,6 +588,13 @@ $("openCalma").onclick=()=>{
   try{ navigator.wakeLock&&navigator.wakeLock.request("screen").catch(()=>{}); }catch(e){}
 };
 $("closeCalma").onclick=()=>{ $("calma").hidden=true; document.body.style.overflow=""; clearInterval(bIntC); };
+
+/* ---------- Atajos de la pestaña Noche ---------- */
+$("nocheCalma").onclick=()=>$("openCalma").click();
+$("nocheGanas").onclick=()=>$("openCrave").click();
+$("nocheAuxilios").onclick=()=>{ irA("ayuda"); setTimeout(()=>{ const el=$("paList"); if(el) el.scrollIntoView({behavior:"smooth",block:"start"}); },50); };
+$("nocheCheckin").onclick=()=>{ irA("hoy"); setTimeout(()=>{ const d=$("checkinForm").closest("details"); if(d) d.open=true; $("checkinForm").closest("details").scrollIntoView({behavior:"smooth",block:"start"}); },50); };
+$("nocheRegistro").onclick=()=>{ irA("registro"); setTimeout(()=>{ $("cInt").scrollIntoView({behavior:"smooth",block:"center"}); },50); };
 
 /* ---------- Boot ---------- */
 fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderSenales(); renderSalir(); renderRapido(); renderOfChips(); lockIfNeeded();

@@ -12,6 +12,9 @@ Cabeza Despejada es una app anónima de apoyo para dejar o reducir el consumo de
 - No agregues dependencias sin preguntar.
 - Nunca pongas en el código datos personales del dueño (nombres de familiares, montos reales, episodios). Las razones personales se cargan desde la app, no desde el código.
 
+## Modelo
+- Gratis para siempre, sin suscripción ni anuncios ni compras. Solo donaciones voluntarias cuando el dueño decida la vía. Nunca agregar nada de pago.
+
 ## Contenido
 - Nada en la app puede dar instrucciones de consumo, dosis, formas de uso ni cómo conseguir droga. La guía de `datos/sustancias.js` es de reducción de daños: qué es, qué daña, mezclas peligrosas como advertencia, señales de emergencia y cómo dejarla con seguridad. Nunca cantidades.
 - Anonimato: la app no pide nombre, correo ni cuenta, y no envía datos a ningún servidor. Cualquier función nueva debe respetar eso.

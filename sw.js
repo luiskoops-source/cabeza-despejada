@@ -2,7 +2,7 @@
    Guarda una copia de todos los archivos para que la app abra sin internet, y la mantiene al día.
    Estrategia: la app abre SIEMPRE desde la copia guardada (rápido y consistente, nunca mezcla versiones)
    y, si hay internet, baja la versión nueva en segundo plano para la próxima vez que se abra. */
-const CACHE = "cabeza-despejada-v14";
+const CACHE = "cabeza-despejada-v15";
 const ARCHIVOS = ["./", "./index.html", "./css/estilos.css", "./js/calculos.js", "./js/app.js", "./datos/hechos.js", "./datos/sustancias.js", "./datos/preguntas.js", "./datos/actualidad.js", "./datos/ofrecieron.js", "./datos/primeros-auxilios.js", "./datos/senales.js", "./datos/antes-de-salir.js", "./manifest.json", "./iconos/icono-192.png", "./iconos/icono-512.png", "./privacidad.html"];
 
 /* Al instalarse una versión nueva, descarga el juego completo de archivos a un caché nuevo */
