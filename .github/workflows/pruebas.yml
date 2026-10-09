@@ -1,0 +1,22 @@
+# Cada vez que se sube código, GitHub corre las pruebas. Si algo falla, avisa por correo al dueño del repositorio.
+name: Pruebas
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Pruebas de cálculos
+        run: node tests/pruebas.js
+      - name: Instalar navegador de prueba
+        run: npm i --no-save playwright@1.47.2 && npx playwright install --with-deps chromium
+      - name: Prueba en navegador
+        run: node tests/navegador.js
+      - name: Construir versión de un archivo
+        run: node scripts/construir.js

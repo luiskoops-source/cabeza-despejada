@@ -312,6 +312,10 @@ $("buscar").oninput=()=>{
   out.innerHTML=r.length?r.map(z=>`<div class="res"><div class="row" style="justify-content:space-between"><b class="small">${esc(z.x.t)}</b><span class="pill">${esc(z.x.tipo)}</span></div><p class="small">${resaltar(z.x.b,q)}</p></div>`).join("")+`<p class="small muted">${r.length} resultados${r.length===12?" (los más relevantes)":""}. Las secciones completas están más abajo.</p>`:`<p class="small muted">Nada con "${esc($("buscar").value.trim())}". Prueba con otra palabra.</p>`;
 };
 
+/* ---------- Diagnóstico para reportar problemas (sin datos personales) ---------- */
+const VERSION_APP="2026.10.09";
+$("copiarDiag").onclick=()=>copyText(`Cabeza Despejada ${VERSION_APP} · ${navigator.userAgent} · pantalla ${window.innerWidth}x${window.innerHeight} · modo ${document.documentElement.getAttribute("data-theme")||"auto"} · instalada: ${window.matchMedia("(display-mode: standalone)").matches?"sí":"no"}`);
+
 /* ---------- Compartir ---------- */
 $("compartir").onclick=()=>copyText("Cabeza Despejada: app gratis y anónima para dejar o reducir el consumo. Sin cuenta, sin datos. https://luiskoops-source.github.io/cabeza-despejada/");
 

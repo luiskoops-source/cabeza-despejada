@@ -21,6 +21,7 @@ Cabeza Despejada es una app anónima de apoyo para dejar o reducir el consumo de
 - Teléfonos de ayuda en Chile que la app muestra: SENDA 1412, emergencias 131, Salud Responde 600 360 7777.
 
 ## Comandos útiles
-- Pruebas: `node tests/pruebas.js` (correrlas después de cada cambio en js/calculos.js)
+- Pruebas de cálculos: `node tests/pruebas.js` (correrlas después de cada cambio en js/calculos.js)
+- Prueba en navegador: `node tests/navegador.js` (necesita `npm i --no-save playwright`; GitHub la corre sola en cada push)
 - Construir la versión de un archivo: `node scripts/construir.js`
 - Abrir: `index.html` en el navegador.
