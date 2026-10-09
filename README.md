@@ -1,6 +1,6 @@
 # Cabeza Despejada
 
-App personal de apoyo para dejar la cocaína. Hecha en HTML, CSS y JavaScript puros, sin frameworks, para que cada archivo se pueda leer y entender.
+App anónima de apoyo para dejar o reducir el consumo de sustancias, con enfoque de reducción de daños. Nació como app personal para dejar la cocaína. Hecha en HTML, CSS y JavaScript puros, sin frameworks, para que cada archivo se pueda leer y entender.
 
 ## Cómo abrirla
 
@@ -14,6 +14,7 @@ cabeza-despejada/
 ├── css/estilos.css   Todo lo visual: colores, tipografías, tamaños, modo oscuro
 ├── js/app.js         La lógica: contador, dinero, registro, gráfico, modo ganas, chat
 ├── datos/hechos.js   La biblioteca de hechos (fácil de editar sin tocar la lógica)
+├── datos/sustancias.js  Guía de 11 sustancias (reducción de daños)
 ├── CLAUDE.md         Instrucciones para Claude Code (cómo trabajar en este proyecto)
 └── README.md         Este archivo
 ```
@@ -29,6 +30,7 @@ Los botones "Cuéntame algo nuevo", "Explícame" y el chat del Modo ganas usan `
 ## Plan de mejoras
 
 1. Separar y entender el código (hecho).
+1b. Anonimato, PIN, configuración de sustancia y modo reducción, hitos, guía de sustancias (hecho).
 2. Pruebas automáticas para los cálculos (hecho: tests/pruebas.js).
 3. PWA instalable (hecho: manifest.json, sw.js, iconos/).
 4. Notificaciones a la hora difícil.

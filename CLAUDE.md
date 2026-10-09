@@ -1,7 +1,7 @@
 # Instrucciones para Claude Code en este proyecto
 
 ## Contexto
-Cabeza Despejada es una app personal del dueño del repositorio para mantenerse sin consumir cocaína. Es también su proyecto para aprender a programar. Las dos cosas importan igual.
+Cabeza Despejada es una app anónima de apoyo para dejar o reducir el consumo de sustancias (inspirada en I Am Sober), con enfoque de reducción de daños. Nació como app personal del dueño del repositorio y es también su proyecto para aprender a programar. Las dos cosas importan igual.
 
 ## Cómo trabajar aquí
 - Responde siempre en español neutro, sin modismos.
@@ -13,7 +13,8 @@ Cabeza Despejada es una app personal del dueño del repositorio para mantenerse 
 - Nunca pongas en el código datos personales del dueño (nombres de familiares, montos reales, episodios). Las razones personales se cargan desde la app, no desde el código.
 
 ## Contenido
-- Nada en la app puede dar instrucciones de consumo, dosis, mezclas ni cómo conseguir droga.
+- Nada en la app puede dar instrucciones de consumo, dosis, formas de uso ni cómo conseguir droga. La guía de `datos/sustancias.js` es de reducción de daños: qué es, qué daña, mezclas peligrosas como advertencia, señales de emergencia y cómo dejarla con seguridad. Nunca cantidades.
+- Anonimato: la app no pide nombre, correo ni cuenta, y no envía datos a ningún servidor. Cualquier función nueva debe respetar eso.
 - Los hechos de `datos/hechos.js` deben ser verdaderos y basados en evidencia médica. Si no estás seguro de una cifra, descríbelo sin cifra.
 - Teléfonos de ayuda en Chile que la app muestra: SENDA 1412, emergencias 131, Salud Responde 600 360 7777.
 

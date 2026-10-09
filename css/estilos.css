@@ -95,3 +95,14 @@ ul,ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
 .toast.show{opacity:1}
 details summary{cursor:pointer;font-weight:600}
 @media (prefers-reduced-motion: reduce){ .breath{transition:none} .bar i{transition:none} }
+
+/* Hitos: fila de círculos, los alcanzados se pintan */
+.hitos{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.hito{width:38px;height:38px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-family:var(--mono);font-size:.7rem;color:var(--muted);font-weight:700}
+.hito.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+/* Guía de sustancias */
+.sust{border:1px solid var(--line);border-radius:12px;padding:12px}
+.sust.mine{border-color:var(--warm)}
+.sust summary{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.alerta{background:var(--bad-soft);border-radius:10px;padding:10px;color:var(--fg)}
+.alerta b{color:var(--bad)}

@@ -67,4 +67,19 @@ prueba("cuenta días limpios, olas y sueño de los últimos 7 días",()=>{
 console.log("pesos");
 prueba("formatea con punto de miles",()=>assert.strictEqual(C.pesos(1234567),"$1.234.567"));
 
+
+console.log("hitos");
+prueba("con 0 días no hay logrados y el próximo es 1",()=>{ const h=C.hitos(0); assert.deepStrictEqual(h.logrados,[]); assert.strictEqual(h.proximo,1); assert.strictEqual(h.faltan,1); });
+prueba("con 45 días logró 1,3,7,14,30 y faltan 15 para 60",()=>{ const h=C.hitos(45); assert.deepStrictEqual(h.logrados,[1,3,7,14,30]); assert.strictEqual(h.ultimo,30); assert.strictEqual(h.proximo,60); assert.strictEqual(h.faltan,15); });
+prueba("pasados todos, próximo es null",()=>assert.strictEqual(C.hitos(1000).proximo,null));
+
+console.log("semanaReduccion");
+prueba("cuenta consumos de esta semana (lunes a hoy) y de la anterior",()=>{
+  /* 2026-10-09 es viernes; el lunes de esa semana es 2026-10-05 */
+  const evs=[{type:"relapse",ts:"2026-10-06T12:00:00"},{type:"relapse",ts:"2026-10-08T12:00:00"},{type:"relapse",ts:"2026-10-01T12:00:00"},{type:"relapse",ts:"2026-09-30T12:00:00"},{type:"relapse",ts:"2026-09-27T12:00:00"}];
+  const r=C.semanaReduccion(evs,3,"2026-10-09");
+  assert.strictEqual(r.actual,2); assert.strictEqual(r.anterior,2); assert.strictEqual(r.dentroDeMeta,true); assert.strictEqual(r.mejora,0);
+});
+prueba("marca cuando se pasa la meta",()=>{ const evs=[1,2,3].map(d=>({type:"relapse",ts:"2026-10-0"+(5+d)+"T12:00:00"})); assert.strictEqual(C.semanaReduccion(evs,2,"2026-10-09").dentroDeMeta,false); });
+
 console.log(process.exitCode?"\nHay pruebas fallando.":"\nOK: "+n+" pruebas pasaron.");

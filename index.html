@@ -28,11 +28,18 @@
   <!-- Bienvenida: solo se ve la primera vez, hasta marcar el Día 0 -->
   <div class="card" id="welcome" hidden>
     <h2>Bienvenido. Partamos por una fecha.</h2>
-    <p class="small">¿Cuándo fue tu último consumo? Desde ahí la app cuenta tus días y lo que no gastaste. Después agrega tus razones y tu gasto semanal para que los números sean tuyos.</p>
+    <p class="small">Esta app es anónima: no pide nombre, correo ni cuenta. Lo que anotes queda solo en este aparato. Tres preguntas y partimos.</p>
+    <div class="row">
+      <label class="f">Qué quiero dejar o reducir<select id="welcomeSust"></select></label>
+      <label class="f">Cómo quiero hacerlo
+        <select id="welcomeModo"><option value="dejar">Dejarlo del todo</option><option value="reducir">Reducir de a poco</option></select>
+      </label>
+    </div>
     <div class="row">
       <label class="f">Mi último consumo<input type="date" id="welcomeDay0"></label>
       <button class="primary" id="welcomeGo">Empezar</button>
     </div>
+    <p class="small muted">Si lo que usas es alcohol o benzodiacepinas todos los días, lee primero su ficha en Saber: dejarlos de golpe puede ser peligroso.</p>
   </div>
 
   <!-- Aviso que aparece solo en la hora difícil, si hay un plan guardado -->
@@ -51,6 +58,18 @@
     <div class="tiles">
       <div class="tile"><div class="v num" id="bestStreak">0</div><div class="l">racha más larga (días)</div></div>
       <div class="tile"><div class="v num" id="resets">0</div><div class="l">veces que volviste a empezar</div></div>
+    </div>
+    <div class="soloDejar">
+      <div class="hitos" id="hitoRow"></div>
+      <p class="small muted" id="hitoText"></p>
+    </div>
+    <div id="reduccion" hidden class="stack">
+      <p class="eyebrow">Reducir de a poco</p>
+      <div class="tiles">
+        <div class="tile"><div class="v num"><span id="redActual">0</span> / <span id="redMeta">0</span></div><div class="l">consumos esta semana / mi meta</div></div>
+        <div class="tile"><div class="v num" id="redAnterior">0</div><div class="l">la semana pasada</div></div>
+      </div>
+      <p class="small" id="redMsg"></p>
     </div>
     <details>
       <summary class="small">Ajustar mi Día 0</summary>
@@ -155,13 +174,23 @@
       <li><b>Borrar el contacto</b> funciona. Pone un obstáculo justo donde la ola está más alta.</li>
     </ul>
   </div>
+
+  <div class="card">
+    <p class="eyebrow">Configuración</p>
+    <div class="row">
+      <label class="f">Sustancia principal<select id="cfgSust"></select></label>
+      <label class="f">Modo<select id="cfgModo"><option value="dejar">Dejarlo del todo</option><option value="reducir">Reducir de a poco</option></select></label>
+      <label class="f" id="cfgMetaWrap">Meta: consumos por semana como máximo<input type="number" id="cfgMeta" min="0" max="30"></label>
+    </div>
+    <div class="row"><button class="primary" id="saveConfig">Guardar</button></div>
+  </div>
 </section>
 
 <!-- SABER -->
 <section class="screen" id="s-saber" role="tabpanel">
   <div>
     <p class="eyebrow">Saber más</p>
-    <h1>Qué le hace la cocaína al cuerpo y la cabeza</h1>
+    <h1>Qué le hace <span id="sustName">la sustancia</span> al cuerpo y la cabeza</h1>
     <p class="muted small">Explicaciones en lenguaje simple, basadas en lo que la medicina sabe hoy. La lista crece: cada vez que pides algo nuevo, se guarda aquí.</p>
   </div>
 
@@ -193,6 +222,13 @@
       <button data-cat="nuevo" class="catBtn">Lo que pedí</button>
     </div>
     <div class="stack" id="factList"></div>
+  </div>
+
+  <div class="card">
+    <h2>Guía de sustancias</h2>
+    <p class="small muted">Para saber qué es lo que estás consumiendo o dejando, qué daña, qué mezclas matan y cuándo llamar al 131. Es información de reducción de daños, la misma que usan SENDA, DanceSafe y TripSit. No hay cantidades ni formas de uso: eso no es educación.</p>
+    <div class="stack" id="sustList"></div>
+    <p class="small muted">Fuentes para leer más: <a href="https://www.senda.gob.cl" target="_blank" rel="noopener">SENDA</a>, <a href="https://dancesafe.org/drug-information/" target="_blank" rel="noopener">DanceSafe</a>, <a href="https://wiki.tripsit.me" target="_blank" rel="noopener">TripSit</a>, <a href="https://nida.nih.gov/research-topics/commonly-used-drugs-charts" target="_blank" rel="noopener">NIDA</a>.</p>
   </div>
 
   <div class="card">
@@ -314,11 +350,36 @@
     </ul>
   </div>
   <div class="card">
+    <h2>Tu privacidad</h2>
+    <ul class="small">
+      <li>No hay cuenta, nombre ni correo. Nadie sabe que usas esta app.</li>
+      <li>Todo lo que anotas queda en este aparato. No se envía a ningún servidor.</li>
+      <li>Si usas los botones de Claude, lo que escribes ahí se envía a Claude para responderte, nada más.</li>
+    </ul>
+    <div class="row">
+      <label class="f">PIN para abrir la app (4 a 6 números, vacío para quitarlo)<input type="password" inputmode="numeric" id="pinNew" maxlength="6" autocomplete="off"></label>
+      <button id="savePin">Guardar PIN</button>
+    </div>
+    <div class="row"><button class="danger" id="wipeAll">Borrar todos mis datos</button></div>
+  </div>
+
+  <div class="card">
     <h2>Lo que dice la evidencia sobre pedir ayuda</h2>
     <p class="small">La gente que combina estrategias propias (como esta app) con apoyo profesional o grupos tiene muchas más probabilidades de mantenerse limpia que la que lo hace sola. No es debilidad: es usar todas las herramientas.</p>
   </div>
 </section>
 
+</div>
+
+<!-- BLOQUEO POR PIN -->
+<div class="crave" id="lock" hidden>
+  <div class="inner" style="max-width:360px;margin-top:20vh">
+    <p class="eyebrow">Cabeza Despejada</p>
+    <h1>Tu PIN</h1>
+    <input type="password" inputmode="numeric" id="lockPin" maxlength="6" autocomplete="off" aria-label="PIN">
+    <button class="primary" id="lockGo">Entrar</button>
+    <p class="small muted" id="lockMsg"></p>
+  </div>
 </div>
 
 <!-- CRAVING MODE -->
@@ -376,6 +437,8 @@
 <div class="toast" id="toast"></div>
 <!-- DATOS: la biblioteca de hechos, separada para editarla sin tocar la lógica -->
 <script src="datos/hechos.js"></script>
+<!-- DATOS: guía de sustancias (reducción de daños) -->
+<script src="datos/sustancias.js"></script>
 <!-- CÁLCULOS: funciones puras, probadas en tests/pruebas.js -->
 <script src="js/calculos.js"></script>
 <!-- LÓGICA: todo lo que "hace" la app -->

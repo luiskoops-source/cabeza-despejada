@@ -12,8 +12,12 @@ const defaults={
     "Prefiero que mi plata termine en mi casa, no en el proveedor."
   ],
   plan:"", planHour:null,
+  /* Configuración: sustancia principal, modo ("dejar" o "reducir"), meta semanal en modo reducir, PIN opcional */
+  sustancia:"cocaina", modo:"dejar", metaSemana:2, pin:"",
   events:[], seenFacts:[], customFacts:[], dailyIdx:null, dailyDate:null, dailyAI:null, craveWins:0
 };
+const SUST=window.SUSTANCIAS||[];
+function sustActual(){ return SUST.find(s=>s.id===S.sustancia)||SUST[0]; }
 let S=load();
 function load(){ try{ const r=localStorage.getItem(KEY); if(r){ return Object.assign({},defaults,JSON.parse(r)); } }catch(e){} return Object.assign({},defaults); }
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
@@ -62,8 +66,65 @@ function renderHoy(){
   renderCheckin();
   renderSemana();
   renderPlan();
+  renderHitos(d);
+  renderReduccion();
   /* Bienvenida: se muestra solo hasta que la persona marca su Día 0 */
   $("welcome").hidden=!!S.day0;
+  $("sustName").textContent=sustActual().nombre.toLowerCase();
+}
+
+/* ---------- Hitos ---------- */
+function renderHitos(d){
+  const h=C.hitos(d);
+  $("hitoRow").innerHTML=C.HITOS.map(x=>`<span class="hito ${d>=x?"on":""}" title="${x} días">${x}</span>`).join("");
+  $("hitoText").textContent=h.proximo?(h.ultimo?`Último hito: ${h.ultimo} días. `:"")+`Faltan ${h.faltan} para los ${h.proximo}.`:"Pasaste todos los hitos. Ahora cada día es tuyo.";
+}
+
+/* ---------- Modo reducción ---------- */
+function renderReduccion(){
+  const r=S.modo==="reducir";
+  $("reduccion").hidden=!r;
+  document.querySelectorAll(".soloDejar").forEach(el=>el.hidden=r);
+  if(!r) return;
+  const w=C.semanaReduccion(S.events,S.metaSemana);
+  $("redActual").textContent=w.actual; $("redMeta").textContent=w.meta; $("redAnterior").textContent=w.anterior;
+  $("redMsg").textContent=w.dentroDeMeta?(w.mejora>0?`Vas dentro de tu meta y ${w.mejora} menos que la semana pasada.`:"Vas dentro de tu meta."):"Pasaste la meta esta semana. No es un fracaso: es información. Mira en Registro qué pasó esos días.";
+}
+
+/* ---------- Configuración ---------- */
+function fillConfig(){
+  const sel=$("cfgSust"); sel.innerHTML=SUST.map(s=>`<option value="${s.id}">${esc(s.nombre)}</option>`).join(""); sel.value=S.sustancia;
+  $("cfgModo").value=S.modo; $("cfgMeta").value=S.metaSemana; $("cfgMetaWrap").hidden=S.modo!=="reducir";
+  const ws=$("welcomeSust"); ws.innerHTML=sel.innerHTML; ws.value=S.sustancia;
+}
+$("cfgModo").onchange=()=>{ $("cfgMetaWrap").hidden=$("cfgModo").value!=="reducir"; };
+$("saveConfig").onclick=()=>{
+  S.sustancia=$("cfgSust").value; S.modo=$("cfgModo").value; S.metaSemana=Math.max(0,Number($("cfgMeta").value)||0);
+  save(); renderHoy(); renderSust(); toast("Configuración guardada");
+};
+
+/* ---------- PIN y privacidad ---------- */
+function lockIfNeeded(){ if(S.pin){ $("lock").hidden=false; document.body.style.overflow="hidden"; $("lockPin").focus(); } }
+$("lockGo").onclick=()=>{ if($("lockPin").value===S.pin){ $("lock").hidden=true; document.body.style.overflow=""; $("lockPin").value=""; $("lockMsg").textContent=""; } else { $("lockMsg").textContent="PIN incorrecto"; $("lockPin").value=""; } };
+$("lockPin").onkeydown=e=>{ if(e.key==="Enter") $("lockGo").click(); };
+$("savePin").onclick=()=>{ const v=$("pinNew").value.trim(); if(v&&!/^\d{4,6}$/.test(v)){ toast("El PIN debe tener 4 a 6 números"); return; } S.pin=v; save(); $("pinNew").value=""; toast(v?"PIN activado":"PIN desactivado"); };
+$("wipeAll").onclick=()=>{ const el=$("wipeAll"); if(el.dataset.c!=="1"){ el.dataset.c="1"; el.textContent="Toca de nuevo para borrar todo"; setTimeout(()=>{ el.dataset.c=""; el.textContent="Borrar todos mis datos"; },4000); return; } try{ localStorage.removeItem(KEY); }catch(e){} location.reload(); };
+
+/* ---------- Guía de sustancias ---------- */
+function renderSust(){
+  const mia=S.sustancia;
+  const orden=SUST.slice().sort((a,b)=>(a.id===mia?-1:b.id===mia?1:0));
+  $("sustList").innerHTML=orden.map(s=>`<details class="sust ${s.id===mia?"mine":""}" ${s.id===mia?"open":""}>
+    <summary><span class="pill ${s.id===mia?"warm":""}">${esc(s.tipo)}</span> <b>${esc(s.nombre)}</b>${s.id===mia?' <span class="small muted">· la mía</span>':""}</summary>
+    <div class="stack" style="margin-top:10px">
+      <p><b>Qué es.</b> ${esc(s.que)}</p>
+      <p><b>Por qué la gente la usa.</b> ${esc(s.efecto)}</p>
+      <div><b>Qué daña</b><ul class="small">${s.danos.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+      <div class="alerta"><b>Señales de emergencia (llamar al 131)</b><ul class="small">${s.emergencia.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+      <div><b>Mezclas peligrosas</b><ul class="small">${s.mezclas.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+      <p><b>Dejarla.</b> ${esc(s.dejar)}</p>
+      <p class="small muted"><b>Cuánto dura lo peor:</b> ${esc(s.abstinencia)}</p>
+    </div></details>`).join("");
 }
 
 /* ---------- Resumen de la semana ---------- */
@@ -87,7 +148,7 @@ function renderPlan(){
   if(esLaHora) $("planNowText").textContent=S.plan;
 }
 $("savePlan").onclick=()=>{ S.plan=$("planText").value.trim(); save(); renderPlan(); toast("Plan guardado"); };
-$("welcomeGo").onclick=()=>{ const v=$("welcomeDay0").value; if(!v){ toast("Elige una fecha"); return; } S.day0=v; save(); renderHoy(); renderRegistro(); toast("Empezamos a contar desde ahí."); };
+$("welcomeGo").onclick=()=>{ const v=$("welcomeDay0").value; if(!v){ toast("Elige una fecha"); return; } S.day0=v; S.sustancia=$("welcomeSust").value; S.modo=$("welcomeModo").value; save(); fillConfig(); renderHoy(); renderRegistro(); renderSust(); toast("Empezamos a contar desde ahí."); };
 
 /* ---------- Check-in diario (sueño y ánimo) ---------- */
 function todayCheckin(){ const t=todayStr(); return S.events.find(e=>e.type==="checkin"&&e.ts.slice(0,10)===t); }
@@ -131,12 +192,12 @@ $("dailyNext").onclick=()=>{ S.dailyAI=null; S.dailyIdx=(S.dailyIdx+1+Math.floor
 
 /* ---------- Claude (sample) ---------- */
 let sample=null;
-const RULES=`Eres parte de una app privada de apoyo para una persona adulta en Chile que está dejando la cocaína. Hablas en español neutro, cercano, directo, sin moralizar y sin frases hechas. Nunca das instrucciones de dosis, mezclas, formas de consumo ni de conseguir droga. Nunca sugieres que un consumo "controlado" sea opción. Si la persona describe dolor al pecho, convulsiones o riesgo de muerte, le dices que llame al 131 (emergencias Chile). Siempre puedes recordar que el fono 1412 de SENDA es gratuito, anónimo y 24 horas.`;
+const RULES=()=>`Eres parte de una app privada y anónima de apoyo para una persona adulta en Chile que está dejando o reduciendo ${sustActual().nombre.toLowerCase()}. Hablas en español neutro, cercano, directo, sin moralizar y sin frases hechas. Nunca das instrucciones de dosis, mezclas, formas de consumo ni de conseguir droga. Si la persona eligió reducir de a poco, la apoyas en eso sin juzgar; si eligió dejar, no le propones "consumir controlado". Nunca das cantidades. Si la persona describe dolor al pecho, convulsiones o riesgo de muerte, le dices que llame al 131 (emergencias Chile). Siempre puedes recordar que el fono 1412 de SENDA es gratuito, anónimo y 24 horas.`;
 function knownTitles(){ return FACTS.map(f=>f.t).concat(S.customFacts.map(f=>f.t)); }
 function factPrompt(topic){
-  return RULES+`
+  return RULES()+`
 
-Tarea: explica UN efecto negativo del consumo de cocaína que NO esté en esta lista de temas ya cubiertos:
+Tarea: explica UN efecto negativo del consumo de ${sustActual().nombre.toLowerCase()} que NO esté en esta lista de temas ya cubiertos:
 ${knownTitles().map(t=>"- "+t).join("\n")}
 ${topic?`\nLa persona pidió este tema específico: "${topic}". Si ya está cubierto arriba, busca un ángulo distinto del mismo tema.`:"\nElige algo poco conocido, sorprendente y verdadero (puede ser físico, mental, social, económico o legal en Chile)."}
 
@@ -172,6 +233,10 @@ $("aiAsk").onclick=async()=>{
 };
 $("aiStop").onclick=()=>askFact.ctl&&askFact.ctl.abort();
 
+/* Resúmenes del registro para darle contexto a Claude sin inventar nada */
+function gatillantesTop(){ const m={}; S.events.forEach(e=>{ if(e.trig) m[e.trig]=(m[e.trig]||0)+1; }); const t=Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,3).map(x=>x[0]); return t.length?t.join(", "):"aún sin registros"; }
+function loQueSirvio(){ const t=S.events.filter(e=>e.type==="crave"&&e.did).slice(0,5).map(e=>e.did); return t.length?t.join("; "):"aún sin registros"; }
+
 /* craving chat */
 let craveTurns=[];
 $("craveAsk").onclick=async()=>{
@@ -180,9 +245,9 @@ $("craveAsk").onclick=async()=>{
   craveTurns.push({role:"user",content:msg}); $("craveMsg").value="";
   const ctl=new AbortController(); $("craveStop").hidden=false; $("craveAsk").disabled=true; $("craveStop").onclick=()=>ctl.abort();
   $("craveReply").textContent="Pensando...";
-  const ctx=`${RULES}
+  const ctx=`${RULES()}
 
-Contexto: la persona está AHORA MISMO con ganas intensas de consumir y abrió el modo de emergencia de la app. Lleva ${daysSince(S.day0)} días sin consumir. Sus propias razones para no consumir: ${S.reasons.join(" | ")}. Sus gatillantes conocidos: tiempo libre, cosas fuera de su control, cuando todo va bien le dan ganas de generar caos, falta de sueño. Lo que le ha servido antes: fumar cigarro, ver teleserie, dormir, trabajar, borrar el contacto, darle plata a su papá.
+Contexto: la persona está AHORA MISMO con ganas intensas de consumir y abrió el modo de emergencia de la app. Lleva ${daysSince(S.day0)} días sin consumir. Sus propias razones para no consumir: ${S.reasons.join(" | ")}. Sus gatillantes más frecuentes según su registro: ${gatillantesTop()}. Lo que ha anotado que le sirvió antes: ${loQueSirvio()}.
 
 Responde en máximo 5 frases cortas. Primero reconoce lo que dice, después UNA acción concreta para los próximos 10 minutos, y recuérdale que la ola baja sola. Sin listas, sin negritas, sin sermones.`;
   try{
@@ -272,7 +337,7 @@ $("craveWon").onclick=()=>{ S.craveWins=(S.craveWins||0)+1; addEvent("win",{i:nu
 $("craveLost").onclick=()=>{ registerRelapse("Desde modo ganas"); closeCrave(); };
 
 /* ---------- Boot ---------- */
-renderHoy(); pickDaily(); renderFacts(); renderRegistro();
+fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); lockIfNeeded();
 /* Cada minuto revisa si llegó la hora difícil, para mostrar el plan */
 setInterval(renderPlan,60000);
 /* Registra el service worker (modo sin internet). Solo funciona servido por http(s), no abierto como archivo ni dentro de claude.ai; si no se puede, no pasa nada. */

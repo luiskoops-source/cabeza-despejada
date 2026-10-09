@@ -82,10 +82,33 @@ function resumenSemana(eventos, gastoSemana, hoy){
   return { diasLimpios, olas, suenoProm, dinero };
 }
 
+/* Hitos de días limpios. Devuelve el último alcanzado y el próximo, con cuánto falta. */
+const HITOS=[1,3,7,14,30,60,90,180,365,730];
+function hitos(dias){
+  const logrados=HITOS.filter(h=>dias>=h);
+  const proximo=HITOS.find(h=>dias<h)||null;
+  return { logrados, ultimo:logrados[logrados.length-1]||null, proximo, faltan:proximo?proximo-dias:0, total:HITOS.length };
+}
+
+/* Modo reducción: consumos de esta semana (lunes a hoy) y de la anterior, comparados con la meta. */
+function semanaReduccion(eventos, meta, hoy){
+  const ref=hoy?new Date(hoy+"T12:00:00"):new Date(); ref.setHours(12,0,0,0);
+  const dow=(ref.getDay()+6)%7; /* lunes=0 */
+  const lunes=new Date(ref); lunes.setDate(ref.getDate()-dow);
+  const lunesAnt=new Date(lunes); lunesAnt.setDate(lunes.getDate()-7);
+  const k=d=>fechaTexto(d);
+  const enRango=(ts,a,b)=>{ const t=ts.slice(0,10); return t>=k(a)&&t<k(b); };
+  const finSemana=new Date(lunes); finSemana.setDate(lunes.getDate()+7);
+  const consumos=eventos.filter(e=>e.type==="relapse");
+  const actual=consumos.filter(e=>enRango(e.ts,lunes,finSemana)).length;
+  const anterior=consumos.filter(e=>enRango(e.ts,lunesAnt,lunes)).length;
+  return { actual, anterior, meta:Number(meta)||0, dentroDeMeta:actual<=(Number(meta)||0), mejora:anterior-actual };
+}
+
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, pesos };
+const Calculos={ fechaTexto, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, HITOS, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);
