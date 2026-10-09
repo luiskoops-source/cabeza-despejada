@@ -18,5 +18,6 @@ Cabeza Despejada es una app personal del dueño del repositorio para mantenerse 
 - Teléfonos de ayuda en Chile que la app muestra: SENDA 1412, emergencias 131, Salud Responde 600 360 7777.
 
 ## Comandos útiles
-- Verificar sintaxis: `node -e "new Function(require('fs').readFileSync('js/app.js','utf8'))"`
+- Pruebas: `node tests/pruebas.js` (correrlas después de cada cambio en js/calculos.js)
+- Construir la versión de un archivo: `node scripts/construir.js`
 - Abrir: `index.html` en el navegador.

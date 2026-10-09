@@ -19,10 +19,12 @@ let S=load();
 function load(){ try{ const r=localStorage.getItem(KEY); if(r){ return Object.assign({},defaults,JSON.parse(r)); } }catch(e){} return Object.assign({},defaults); }
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
 function toast(t){ const el=$("toast"); el.textContent=t; el.classList.add("show"); clearTimeout(toast.t); toast.t=setTimeout(()=>el.classList.remove("show"),2200); }
-const clp=n=>"$"+Math.round(n).toLocaleString("es-CL");
-const dstr=d=>d.toISOString().slice(0,10);
-const todayStr=()=>{ const d=new Date(); d.setMinutes(d.getMinutes()-d.getTimezoneOffset()); return d.toISOString().slice(0,10); };
-function daysSince(iso){ if(!iso) return 0; const a=new Date(iso+"T12:00:00"); const b=new Date(); b.setHours(12,0,0,0); return Math.max(0,Math.round((b-a)/86400000)); }
+/* Los cálculos viven en js/calculos.js; aquí solo les ponemos nombres cortos. */
+const C=window.Calculos;
+const clp=C.pesos;
+const dstr=C.fechaTexto;
+const todayStr=()=>C.fechaTexto(new Date());
+const daysSince=iso=>C.diasDesde(iso);
 
 /* ---------- Facts base ---------- */
 /* FACTS viene de datos/hechos.js */
@@ -47,14 +49,36 @@ function renderHoy(){
   $("day0").value=S.day0||"";
   $("spendWeek").value=S.spendWeek||"";
   $("salary").value=S.salary||"";
-  const perDay=(S.spendWeek||0)/7;
-  const saved=perDay*d;
-  $("saved").textContent=clp(saved);
-  $("savedMonth").textContent=clp(perDay*30);
-  $("savedYear").textContent=clp(perDay*365);
-  if(S.salary){ const hour=S.salary/180; $("savedHours").textContent=Math.round(saved/hour)+" h"; } else { $("savedHours").textContent="—"; }
+  const dinero=C.dineroAhorrado(S.spendWeek,d);
+  $("saved").textContent=clp(dinero.total);
+  $("savedMonth").textContent=clp(dinero.mes);
+  $("savedYear").textContent=clp(dinero.anio);
+  const horas=C.horasTrabajo(dinero.total,S.salary);
+  $("savedHours").textContent=horas==null?"—":horas+" h";
+  /* Racha más larga y cantidad de reinicios */
+  const mejor=C.rachaMasLarga(S.events,S.day0);
+  $("bestStreak").textContent=mejor;
+  $("resets").textContent=S.events.filter(e=>e.type==="relapse").length;
   renderReasons();
+  renderCheckin();
 }
+
+/* ---------- Check-in diario (sueño y ánimo) ---------- */
+function todayCheckin(){ const t=todayStr(); return S.events.find(e=>e.type==="checkin"&&e.ts.slice(0,10)===t); }
+function renderCheckin(){
+  const c=todayCheckin();
+  $("checkinDone").hidden=!c;
+  $("checkinForm").hidden=!!c;
+  if(c){ $("checkinSummary").textContent=`Dormiste ${c.sueno} h y tu ánimo es ${c.animo}/5.`; }
+}
+$("saveCheckin").onclick=()=>{
+  const sueno=Number($("ciSleep").value), animo=Number($("ciMood").value);
+  if(!(sueno>=0&&sueno<=24)){ toast("Pon las horas que dormiste (0 a 24)"); return; }
+  addEvent("checkin",{sueno,animo});
+  renderHoy(); renderRegistro();
+  toast(sueno<6?"Dormiste poco. Hoy cuídate más de lo normal.":"Anotado.");
+};
+$("editCheckin").onclick=()=>{ const i=S.events.indexOf(todayCheckin()); if(i>-1) S.events.splice(i,1); save(); renderCheckin(); };
 $("saveDay0").onclick=()=>{ S.day0=$("day0").value||null; save(); renderHoy(); renderRegistro(); toast("Día 0 guardado"); };
 $("saveMoney").onclick=()=>{ S.spendWeek=Number($("spendWeek").value)||0; S.salary=Number($("salary").value)||null; save(); renderHoy(); toast("Guardado"); };
 
@@ -164,7 +188,7 @@ function renderRegistro(){
   const max=Math.max(1,...days.map(d=>d.c));
   $("chart").innerHTML=days.map(d=>`<div class="${d.r?"r":""}" style="height:${d.r?100:Math.max(d.c?8:2,d.c/max*100)}%" ${d.c||d.r?`data-n="${d.r?"C":d.c}"`:""} title="${d.label}"></div>`).join("");
   $("axisFrom").textContent=days[0].label; $("axisTo").textContent=days[13].label;
-  $("log").innerHTML=S.events.length?S.events.slice(0,60).map(e=>{ const t=new Date(e.ts); return `<div class="e"><time>${t.toLocaleDateString("es-CL",{day:"2-digit",month:"2-digit"})} ${t.toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"})}</time><div><span class="pill ${e.type==="relapse"?"bad":e.type==="win"?"good":""}">${e.type==="relapse"?"consumo":e.type==="win"?"ola superada":"ganas "+e.i+"/10"}</span>${e.trig?" · "+esc(e.trig):""}${e.did?"<br>"+esc(e.did):""}</div></div>`; }).join(""):`<p class="small muted">Nada todavía. Lo primero que anotes empieza a mostrar tu patrón.</p>`;
+  $("log").innerHTML=S.events.length?S.events.slice(0,60).map(e=>{ const t=new Date(e.ts); return `<div class="e"><time>${t.toLocaleDateString("es-CL",{day:"2-digit",month:"2-digit"})} ${t.toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"})}</time><div><span class="pill ${e.type==="relapse"?"bad":e.type==="win"?"good":""}">${e.type==="relapse"?"consumo":e.type==="win"?"ola superada":e.type==="checkin"?"dormí "+e.sueno+" h · ánimo "+e.animo+"/5":"ganas "+e.i+"/10"}</span>${e.trig?" · "+esc(e.trig):""}${e.did?"<br>"+esc(e.did):""}</div></div>`; }).join(""):`<p class="small muted">Nada todavía. Lo primero que anotes empieza a mostrar tu patrón.</p>`;
   renderPatterns();
 }
 function renderPatterns(){
@@ -176,8 +200,26 @@ function renderPatterns(){
   let peak=0; byHour.forEach((v,i)=>{ if(v>byHour[peak]) peak=i; });
   const rel=S.events.filter(e=>e.type==="relapse").length, wins=S.events.filter(e=>e.type==="win").length;
   const avgInt=(cr.filter(e=>e.i).reduce((a,e)=>a+e.i,0)/Math.max(1,cr.filter(e=>e.i).length)).toFixed(1);
-  $("patterns").innerHTML=`<ul><li>Tu gatillante más frecuente: <b>${esc(topTrig[0])}</b> (${topTrig[1]} veces).</li><li>La hora en que más te llegan las ganas: <b>alrededor de las ${peak}:00</b>. Ten un plan para esa hora.</li><li>Intensidad promedio de las ganas: <b>${avgInt}/10</b>.</li><li>Olas superadas sin consumir: <b>${wins}</b>. Consumos registrados: <b>${rel}</b>.</li></ul>`;
+  const sv=C.suenoVsGanas(S.events);
+  let suenoTxt="";
+  if(sv.conGanas!=null&&sv.sinGanas!=null) suenoTxt=`<li>Sueño: los días con ganas dormiste en promedio <b>${sv.conGanas} h</b>; los días tranquilos, <b>${sv.sinGanas} h</b>.${sv.conGanas<sv.sinGanas?" Dormir menos y tener ganas van juntos en tus datos.":""}</li>`;
+  else if(sv.diasConDato<3) suenoTxt=`<li>Anota cómo dormiste cada día (en Hoy) y aquí aparecerá la relación entre sueño y ganas.</li>`;
+  $("patterns").innerHTML=`<ul><li>Tu gatillante más frecuente: <b>${esc(topTrig[0])}</b> (${topTrig[1]} veces).</li><li>La hora en que más te llegan las ganas: <b>alrededor de las ${peak}:00</b>. Ten un plan para esa hora.</li><li>Intensidad promedio de las ganas: <b>${avgInt}/10</b>.</li><li>Olas superadas sin consumir: <b>${wins}</b>. Consumos registrados: <b>${rel}</b>.</li>${suenoTxt}</ul>`;
 }
+
+/* ---------- Respaldo: copiar y pegar todos los datos entre aparatos ---------- */
+$("backupCopy").onclick=()=>{ copyText(JSON.stringify(S)); };
+$("backupRestore").onclick=()=>{
+  const raw=$("backupText").value.trim(); if(!raw) return;
+  try{
+    const data=JSON.parse(raw);
+    if(!data||typeof data!=="object"||!Array.isArray(data.events)) throw new Error("formato");
+    S=Object.assign({},defaults,data); save();
+    $("backupText").value="";
+    renderHoy(); renderFacts(); renderRegistro(); showDaily();
+    toast("Datos restaurados");
+  }catch(e){ toast("Ese texto no es un respaldo válido"); }
+};
 $("exportBtn").onclick=()=>{
   const txt=S.events.map(e=>`${e.ts.slice(0,16).replace("T"," ")}\t${e.type}\t${e.i||""}\t${e.trig||""}\t${e.did||""}`).join("\n");
   copyText(txt||"(sin registros)");

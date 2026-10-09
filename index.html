@@ -28,6 +28,10 @@
       <span class="muted" id="daysLabel">días</span>
     </div>
     <p class="small muted" id="sinceText"></p>
+    <div class="tiles">
+      <div class="tile"><div class="v num" id="bestStreak">0</div><div class="l">racha más larga (días)</div></div>
+      <div class="tile"><div class="v num" id="resets">0</div><div class="l">veces que volviste a empezar</div></div>
+    </div>
     <details>
       <summary class="small">Ajustar mi Día 0</summary>
       <div class="row" style="margin-top:8px">
@@ -40,6 +44,24 @@
   </div>
 
   <button class="warm" id="openCrave">Tengo ganas de consumir</button>
+
+  <!-- Check-in diario: una pregunta rápida al día sobre sueño y ánimo -->
+  <div class="card">
+    <p class="eyebrow">Cómo amanecí</p>
+    <div id="checkinForm" class="stack">
+      <div class="row">
+        <label class="f">Horas que dormí<input type="number" id="ciSleep" min="0" max="24" step="0.5" value="7"></label>
+        <label class="f">Ánimo (1 mal, 5 bien)
+          <select id="ciMood"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option></select>
+        </label>
+      </div>
+      <div class="row"><button class="primary" id="saveCheckin">Guardar</button><span class="small muted">Con esto la app cruza sueño y ganas en Registro.</span></div>
+    </div>
+    <div id="checkinDone" class="row" hidden>
+      <span id="checkinSummary"></span>
+      <button class="ghost small" id="editCheckin">Cambiar</button>
+    </div>
+  </div>
 
   <div class="card">
     <p class="eyebrow">Dinero que no se fue en droga</p>
@@ -211,6 +233,15 @@
     <h2>Patrones que ya ves</h2>
     <div id="patterns" class="small"></div>
   </div>
+
+  <!-- Respaldo: la app guarda en este navegador; esto permite llevar los datos a otro aparato -->
+  <div class="card">
+    <h2>Respaldo</h2>
+    <p class="small muted">Tus datos viven en este aparato. Para pasarlos a otro: copia aquí, pégalos allá.</p>
+    <div class="row"><button id="backupCopy">Copiar mis datos</button></div>
+    <label class="f">Pegar un respaldo<textarea id="backupText" placeholder="Pega aquí el texto copiado en el otro aparato"></textarea></label>
+    <div class="row"><button class="primary" id="backupRestore">Restaurar</button><span class="small muted">Reemplaza lo que hay en este aparato.</span></div>
+  </div>
 </section>
 
 <!-- AYUDA -->
@@ -306,6 +337,8 @@
 <div class="toast" id="toast"></div>
 <!-- DATOS: la biblioteca de hechos, separada para editarla sin tocar la lógica -->
 <script src="datos/hechos.js"></script>
+<!-- CÁLCULOS: funciones puras, probadas en tests/pruebas.js -->
+<script src="js/calculos.js"></script>
 <!-- LÓGICA: todo lo que "hace" la app -->
 <script src="js/app.js"></script>
 </body>

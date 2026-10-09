@@ -29,8 +29,15 @@ Los botones "Cuéntame algo nuevo", "Explícame" y el chat del Modo ganas usan `
 ## Plan de mejoras
 
 1. Separar y entender el código (hecho).
-2. Pruebas automáticas para el contador de días y el cálculo de dinero.
+2. Pruebas automáticas para los cálculos (hecho: tests/pruebas.js).
 3. Convertirla en PWA instalable (ícono en el celular, funciona sin internet).
 4. Notificaciones a la hora difícil.
 5. Base de datos y cuenta, para que celular y PC muestren lo mismo.
 6. Servicio que agregue un dato o estudio nuevo cada día.
+
+## Comandos
+
+```
+node tests/pruebas.js        # corre las pruebas automáticas
+node scripts/construir.js    # arma dist/cabeza-despejada.html (versión de un solo archivo)
+```
