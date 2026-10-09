@@ -106,3 +106,13 @@ details summary{cursor:pointer;font-weight:600}
 .sust summary{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .alerta{background:var(--bad-soft);border-radius:10px;padding:10px;color:var(--fg)}
 .alerta b{color:var(--bad)}
+
+/* Logo */
+.logo{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.logo svg{flex:none;border-radius:9px}
+/* Celebración de hito */
+.celebra{border-color:var(--accent);background:linear-gradient(135deg,var(--surface),var(--surface2))}
+.celebra h2{font-size:1.5rem}
+@media (prefers-reduced-motion:no-preference){ .celebra{animation:pop .5s ease-out} @keyframes pop{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}} }
+/* Pregunta del día */
+#quizA.ok{color:var(--good)} #quizA.no{color:var(--bad)}

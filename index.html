@@ -20,7 +20,7 @@
 <!-- HOY -->
 <section class="screen active" id="s-hoy" role="tabpanel">
   <div>
-    <p class="eyebrow">Cabeza Despejada</p>
+    <div class="logo"><svg viewBox="0 0 512 512" width="34" height="34" aria-hidden="true"><rect width="512" height="512" rx="112" fill="var(--accent)"/><circle cx="256" cy="256" r="150" fill="none" stroke="var(--bg)" stroke-width="28"/><circle cx="256" cy="256" r="62" fill="var(--warm)"/><path d="M256 70v60M256 382v60M70 256h60M382 256h60" stroke="var(--bg)" stroke-width="28" stroke-linecap="round"/></svg><span class="eyebrow">Cabeza Despejada</span></div>
     <h1 id="greet">Hoy</h1>
     <p class="muted small" id="today"></p>
   </div>
@@ -40,6 +40,16 @@
       <button class="primary" id="welcomeGo">Empezar</button>
     </div>
     <p class="small muted">Si lo que usas es alcohol o benzodiacepinas todos los días, lee primero su ficha en Saber: dejarlos de golpe puede ser peligroso.</p>
+  </div>
+
+  <!-- Celebración: aparece una sola vez cuando se alcanza un hito nuevo -->
+  <div class="card celebra" id="celebra" hidden>
+    <div class="row" style="justify-content:space-between">
+      <p class="eyebrow">Hito alcanzado</p>
+      <button class="ghost small" id="celebraOk">Gracias</button>
+    </div>
+    <h2 id="celebraTitle"></h2>
+    <p class="small" id="celebraText"></p>
   </div>
 
   <!-- Aviso que aparece solo en la hora difícil, si hay un plan guardado -->
@@ -134,6 +144,17 @@
       <button id="dailyNew" class="primary">Cuéntame algo nuevo</button>
       <button id="dailyNext" class="ghost">Otro dato</button>
     </div>
+  </div>
+
+  <!-- Pregunta del día: una pregunta de verdadero/falso sobre la guía de sustancias -->
+  <div class="card">
+    <div class="row" style="justify-content:space-between">
+      <p class="eyebrow">Pregunta del día</p>
+      <span class="pill" id="quizStreak"></span>
+    </div>
+    <p id="quizQ"></p>
+    <div class="row" id="quizBtns"><button id="quizV">Verdadero</button><button id="quizF">Falso</button></div>
+    <p class="small" id="quizA" hidden></p>
   </div>
 
   <!-- Resumen de los últimos 7 días -->
@@ -374,7 +395,7 @@
 <!-- BLOQUEO POR PIN -->
 <div class="crave" id="lock" hidden>
   <div class="inner" style="max-width:360px;margin-top:20vh">
-    <p class="eyebrow">Cabeza Despejada</p>
+    <div class="logo"><svg viewBox="0 0 512 512" width="34" height="34" aria-hidden="true"><rect width="512" height="512" rx="112" fill="var(--accent)"/><circle cx="256" cy="256" r="150" fill="none" stroke="var(--bg)" stroke-width="28"/><circle cx="256" cy="256" r="62" fill="var(--warm)"/><path d="M256 70v60M256 382v60M70 256h60M382 256h60" stroke="var(--bg)" stroke-width="28" stroke-linecap="round"/></svg><span class="eyebrow">Cabeza Despejada</span></div>
     <h1>Tu PIN</h1>
     <input type="password" inputmode="numeric" id="lockPin" maxlength="6" autocomplete="off" aria-label="PIN">
     <button class="primary" id="lockGo">Entrar</button>
@@ -439,6 +460,8 @@
 <script src="datos/hechos.js"></script>
 <!-- DATOS: guía de sustancias (reducción de daños) -->
 <script src="datos/sustancias.js"></script>
+<!-- DATOS: preguntas de verdadero/falso -->
+<script src="datos/preguntas.js"></script>
 <!-- CÁLCULOS: funciones puras, probadas en tests/pruebas.js -->
 <script src="js/calculos.js"></script>
 <!-- LÓGICA: todo lo que "hace" la app -->

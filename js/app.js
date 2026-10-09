@@ -14,6 +14,7 @@ const defaults={
   plan:"", planHour:null,
   /* Configuración: sustancia principal, modo ("dejar" o "reducir"), meta semanal en modo reducir, PIN opcional */
   sustancia:"cocaina", modo:"dejar", metaSemana:2, pin:"",
+  celebrado:0, quizDate:null, quizIdx:null, quizDone:false, quizStreak:0, quizBest:0,
   events:[], seenFacts:[], customFacts:[], dailyIdx:null, dailyDate:null, dailyAI:null, craveWins:0
 };
 const SUST=window.SUSTANCIAS||[];
@@ -67,6 +68,8 @@ function renderHoy(){
   renderSemana();
   renderPlan();
   renderHitos(d);
+  checkCelebra(d);
+  renderQuiz();
   renderReduccion();
   /* Bienvenida: se muestra solo hasta que la persona marca su Día 0 */
   $("welcome").hidden=!!S.day0;
@@ -79,6 +82,37 @@ function renderHitos(d){
   $("hitoRow").innerHTML=C.HITOS.map(x=>`<span class="hito ${d>=x?"on":""}" title="${x} días">${x}</span>`).join("");
   $("hitoText").textContent=h.proximo?(h.ultimo?`Último hito: ${h.ultimo} días. `:"")+`Faltan ${h.faltan} para los ${h.proximo}.`:"Pasaste todos los hitos. Ahora cada día es tuyo.";
 }
+
+/* ---------- Celebración de hito ---------- */
+const FRASES={1:"Un día entero. El primero siempre es el más difícil.",3:"Tres días. Lo peor del cuerpo ya va pasando.",7:"Una semana. Ya tienes un patrón nuevo.",14:"Dos semanas. El sueño empieza a volver a la normalidad.",30:"Un mes. Mucha gente dice que aquí empieza a volver el color.",60:"Dos meses. Tu cerebro ya fabricó receptores nuevos.",90:"Tres meses. El plazo que la medicina marca como el más difícil ya pasó.",180:"Medio año. Esto ya no es un intento: es tu vida.",365:"Un año. Léelo de nuevo: un año.",730:"Dos años. Gracias por seguir aquí."};
+function checkCelebra(d){
+  const h=C.hitos(d);
+  if(h.ultimo&&h.ultimo>(S.celebrado||0)&&S.modo==="dejar"){
+    $("celebraTitle").textContent=h.ultimo+" días";
+    $("celebraText").textContent=FRASES[h.ultimo]||"Un hito más.";
+    $("celebra").hidden=false;
+  } else $("celebra").hidden=true;
+}
+$("celebraOk").onclick=()=>{ S.celebrado=C.hitos(daysSince(S.day0)).ultimo||0; save(); $("celebra").hidden=true; };
+
+/* ---------- Pregunta del día ---------- */
+const PREG=window.PREGUNTAS||[];
+function renderQuiz(){
+  const t=todayStr();
+  if(S.quizDate!==t){ S.quizDate=t; S.quizDone=false; S.quizIdx=Math.floor(Math.random()*PREG.length); save(); }
+  const q=PREG[S.quizIdx%PREG.length]; if(!q) return;
+  $("quizQ").textContent=q.q;
+  $("quizStreak").textContent=S.quizStreak?S.quizStreak+" seguidas":"";
+  $("quizBtns").hidden=S.quizDone; $("quizA").hidden=!S.quizDone;
+  if(S.quizDone){ $("quizA").textContent=q.e; }
+}
+function responder(v){
+  const q=PREG[S.quizIdx%PREG.length]; const ok=v===q.v;
+  S.quizDone=true; S.quizStreak=ok?(S.quizStreak||0)+1:0; S.quizBest=Math.max(S.quizBest||0,S.quizStreak); save();
+  renderQuiz();
+  $("quizA").className="small "+(ok?"ok":"no"); $("quizA").textContent=(ok?"Correcto. ":"No era así. ")+q.e;
+}
+$("quizV").onclick=()=>responder(true); $("quizF").onclick=()=>responder(false);
 
 /* ---------- Modo reducción ---------- */
 function renderReduccion(){

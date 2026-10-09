@@ -53,3 +53,7 @@ npx serve .        # o cualquier servidor estático
 ```
 
 Luego abre la dirección en el celular y usa "Agregar a pantalla de inicio". Desde ahí abre a pantalla completa y funciona sin internet (gracias a `sw.js`).
+
+## Camino a Android (Play Store)
+
+La app ya es una PWA instalable. Para publicarla en Google Play se envuelve en un "TWA" (Trusted Web Activity) con [PWABuilder](https://www.pwabuilder.com): se pega la dirección de la app, genera el paquete Android (.aab), y se sube a la consola de Google Play (cuenta de desarrollador, pago único de 25 USD). La app sigue siendo esta misma; el paquete solo la abre a pantalla completa.
