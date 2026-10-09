@@ -1,17 +1,17 @@
 /* Layout: one column phone-first, sticky tab bar at the bottom; each tab is a screen. Calm surfaces, one warm accent reserved for the craving mode. */
 :root{
-  --bg:#f5f3fa; --surface:#ffffff; --surface2:#ebe8f4; --fg:#161a2b; --muted:#5b6176; --line:#d2d6e4;
-  --accent:#2f4fa8; --accent-ink:#ffffff; --warm:#c7791a; --warm-soft:#f9ead3; --hero1:#2b3f9e; --hero2:#1f8a86; --hero-ink:#ffffff; --good:#2f7d4f; --bad:#a93c3c; --bad-soft:#f5dede;
+  --bg:#fff4ec; --surface:#ffffff; --surface2:#fde9e0; --fg:#2a1335; --muted:#7a5c7f; --line:#f3d3c6;
+  --accent:#c0269a; --accent-ink:#ffffff; --warm:#ff8a3d; --warm-soft:#ffe3cf; --hero1:#ff5f6d; --hero2:#7b2ff7; --hero-ink:#ffffff; --good:#1f9d6b; --bad:#d6336c; --bad-soft:#ffe0ea;
   --display:"Bricolage Grotesque","Instrument Sans",system-ui,sans-serif;
   --body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --bg:#0f1220; --surface:#171b2e; --surface2:#20253c; --fg:#e9ebf4; --muted:#9ea5c0; --line:#2c3350;
-  --accent:#8fa6ff; --accent-ink:#0b0f1f; --warm:#f2b350; --warm-soft:#3a2a12; --hero1:#24307a; --hero2:#176b68; --hero-ink:#ffffff; --good:#6fcf97; --bad:#f08c8c; --bad-soft:#3c1f1f; color-scheme:dark }}
+  --bg:#1a1030; --surface:#241741; --surface2:#2f1f52; --fg:#fbeefc; --muted:#c3a6cf; --line:#3f2b66;
+  --accent:#ff7ad9; --accent-ink:#2a0a2e; --warm:#ffb02e; --warm-soft:#3a2347; --hero1:#ff4d6d; --hero2:#5a1fd6; --hero-ink:#ffffff; --good:#5fe3a6; --bad:#ff7aa2; --bad-soft:#4a1f33; color-scheme:dark }}
 :root[data-theme="dark"]{
-  --bg:#0f1220; --surface:#171b2e; --surface2:#20253c; --fg:#e9ebf4; --muted:#9ea5c0; --line:#2c3350;
-  --accent:#8fa6ff; --accent-ink:#0b0f1f; --warm:#f2b350; --warm-soft:#3a2a12; --hero1:#24307a; --hero2:#176b68; --hero-ink:#ffffff; --good:#6fcf97; --bad:#f08c8c; --bad-soft:#3c1f1f; color-scheme:dark }
+  --bg:#1a1030; --surface:#241741; --surface2:#2f1f52; --fg:#fbeefc; --muted:#c3a6cf; --line:#3f2b66;
+  --accent:#ff7ad9; --accent-ink:#2a0a2e; --warm:#ffb02e; --warm-soft:#3a2347; --hero1:#ff4d6d; --hero2:#5a1fd6; --hero-ink:#ffffff; --good:#5fe3a6; --bad:#ff7aa2; --bad-soft:#4a1f33; color-scheme:dark }
 
 *{box-sizing:border-box}
 /* Cualquier elemento con el atributo hidden desaparece, aunque otra regla le ponga display:flex */
@@ -41,7 +41,7 @@ p{margin:0}
 button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:10px;padding:9px 14px;font-weight:600}
 button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 button.primary{background:var(--accent);color:var(--accent-ink);border-color:transparent}
-button.warm{background:var(--warm);color:#fff;border-color:transparent;font-family:var(--display);font-size:1.15rem;padding:16px;border-radius:14px;width:100%}
+button.warm{background:linear-gradient(135deg,#ffb02e,#ff6a3d);color:#2a1335;box-shadow:0 10px 24px -12px #ff6a3d;border-color:transparent;font-family:var(--display);font-size:1.15rem;padding:16px;border-radius:14px;width:100%}
 button.ghost{background:transparent}
 button.danger{color:var(--bad);border-color:var(--bad)}
 button:disabled{opacity:.55;cursor:default}
@@ -59,7 +59,7 @@ ul,ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
 .tabs{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));display:flex;justify-content:center;gap:4px;z-index:5}
 .tabs button{flex:1;max-width:120px;border:0;background:transparent;border-radius:10px;padding:8px 4px;font-size:.74rem;display:flex;flex-direction:column;gap:3px;align-items:center;color:var(--muted);font-weight:600}
 .tabs button span.i{font-family:var(--display);font-size:1.05rem;font-weight:800;line-height:1}
-.tabs button[aria-selected="true"]{color:var(--accent);background:var(--surface2)}
+.tabs button[aria-selected="true"]{color:var(--accent);background:var(--warm-soft)}
 
 /* craving mode */
 .crave{position:fixed;inset:0;background:var(--bg);z-index:20;overflow:auto;padding:calc(16px + env(safe-area-inset-top,0px)) 16px calc(24px + env(safe-area-inset-bottom,0px))}
@@ -124,7 +124,7 @@ details summary{cursor:pointer;font-weight:600}
 .ofItem .em{background:var(--bad-soft);border-radius:8px;padding:8px 10px}
 
 /* HERO del inicio */
-.hero{background:linear-gradient(145deg,var(--hero1),var(--hero2));color:var(--hero-ink);border-radius:20px;padding:22px 18px;display:flex;flex-direction:column;gap:8px;box-shadow:0 10px 30px -18px var(--hero1)}
+.hero{background:linear-gradient(140deg,#ffb347 0%,var(--hero1) 38%,var(--hero2) 100%);color:var(--hero-ink);border-radius:20px;padding:22px 18px;display:flex;flex-direction:column;gap:8px;box-shadow:0 10px 30px -18px var(--hero1)}
 .hero-eyebrow{font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;opacity:.85;font-weight:600}
 .hero-num{display:flex;align-items:baseline;gap:10px}
 .hero-num>span:first-child{font-family:var(--display);font-size:4.6rem;font-weight:800;line-height:1;letter-spacing:-.04em}
@@ -132,12 +132,12 @@ details summary{cursor:pointer;font-weight:600}
 .hero-live{font-size:1rem;opacity:.9;letter-spacing:.04em}
 .hero-sub{font-size:.88rem;opacity:.85}
 .hero-hitos .hito{border-color:rgba(255,255,255,.35);color:rgba(255,255,255,.8);width:32px;height:32px;font-size:.64rem}
-.hero-hitos .hito.on{background:var(--warm);border-color:var(--warm);color:#1a1200}
+.hero-hitos .hito.on{background:#ffd166;border-color:#ffd166;color:#3a2200;box-shadow:0 0 0 3px rgba(255,209,102,.35)}
 .hero-tile{background:rgba(255,255,255,.14);color:var(--hero-ink)}.hero-tile .l{color:rgba(255,255,255,.8)}
 .hero-stats{gap:14px;margin-top:6px;font-size:.82rem;opacity:.95}.hero-stats b{font-size:1rem;margin-right:4px}
 /* Compromiso del día */
 .pledge{width:100%;padding:14px;border-radius:14px;font-family:var(--display);font-size:1.05rem;border:2px solid var(--accent);background:var(--surface);color:var(--accent)}
-.pledge.done{background:var(--accent);color:var(--accent-ink)}
+.pledge.done{background:linear-gradient(135deg,var(--accent),#7b2ff7);color:#fff;border-color:transparent}
 /* No estás solo */
 .solo{border-color:var(--warm);background:linear-gradient(180deg,var(--surface),var(--warm-soft))}
 .solo #soloLine{font-family:var(--display);font-size:1.15rem;font-weight:700;line-height:1.3}

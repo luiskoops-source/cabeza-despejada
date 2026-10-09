@@ -1,6 +1,6 @@
 /* Service worker: un pequeño programa que el navegador deja corriendo "detrás" de la app.
    Su trabajo aquí es guardar una copia de los archivos para que la app abra sin internet. */
-const CACHE = "cabeza-despejada-v6";
+const CACHE = "cabeza-despejada-v7";
 const ARCHIVOS = ["./", "./index.html", "./css/estilos.css", "./js/calculos.js", "./js/app.js", "./datos/hechos.js", "./datos/sustancias.js", "./datos/preguntas.js", "./datos/actualidad.js", "./datos/ofrecieron.js", "./manifest.json", "./iconos/icono-192.png", "./iconos/icono-512.png"];
 
 /* Al instalarse, descarga y guarda todos los archivos de la lista */
