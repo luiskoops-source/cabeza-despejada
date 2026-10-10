@@ -76,7 +76,7 @@ function renderHoy(){
   /* Bienvenida: se muestra solo hasta que la persona marca su Día 0 */
   $("welcome").hidden=!!S.day0;
   renderTour();
-  $("sustName").textContent=sustActual().nombre.toLowerCase();
+  $("sustName").textContent=sustActual().nombre;
 }
 
 /* ---------- Contador en vivo (horas:minutos:segundos desde el Día 0) ---------- */
@@ -314,7 +314,7 @@ $("buscar").oninput=()=>{
 };
 
 /* ---------- Diagnóstico para reportar problemas (sin datos personales) ---------- */
-const VERSION_APP="2026.10.09";
+const VERSION_APP="2026.10.10";
 $("copiarDiag").onclick=()=>copyText(`Cabeza Despejada ${VERSION_APP} · ${navigator.userAgent} · pantalla ${window.innerWidth}x${window.innerHeight} · modo ${document.documentElement.getAttribute("data-theme")||"auto"} · instalada: ${window.matchMedia("(display-mode: standalone)").matches?"sí":"no"}`);
 
 /* ---------- Compartir ---------- */
