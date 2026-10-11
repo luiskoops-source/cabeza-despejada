@@ -114,7 +114,11 @@ function renderSolo(){ const d=Math.floor(Date.now()/86400000); $("soloLine").te
 function renderHitos(d){
   const h=C.hitos(d);
   $("hitoRow").innerHTML=C.HITOS.map(x=>`<span class="hito ${d>=x?"on":""}" title="${x} días">${x}</span>`).join("");
-  $("hitoText").textContent=h.proximo?(h.ultimo?`Último hito: ${h.ultimo} días. `:"")+`Faltan ${h.faltan} para los ${h.proximo}.`:"Pasaste todos los hitos. Ahora cada día es tuyo.";
+  /* Singular o plural según el número: "1 día", "4 días"; y el hito de 1 día se nombra "el primer hito" */
+  const ultimo=h.ultimo?`Último hito: ${h.ultimo} ${h.ultimo===1?"día":"días"}. `:"";
+  const faltan=h.faltan===1?"Falta 1 día":`Faltan ${h.faltan} días`;
+  const meta=h.proximo===1?"el primer hito":`los ${h.proximo}`;
+  $("hitoText").textContent=h.proximo?`${ultimo}${faltan} para ${meta}.`:"Pasaste todos los hitos. Ahora cada día es tuyo.";
 }
 
 /* ---------- Celebración de hito ---------- */
