@@ -372,6 +372,7 @@ function renderActualidad(){
     <p class="small">${esc(x.resumen)}</p>
     ${x.nota?`<p class="small" style="border-left:3px solid var(--warm);padding-left:10px"><b>Para ti:</b> ${esc(x.nota)}</p>`:""}
     <a href="${esc(x.enlace)}" target="_blank" rel="noopener">Leer la fuente</a></div>`).join("");
+  $("comunidadesRev").textContent=window.COMUNIDADES_REVISADO?"Enlaces revisados el "+new Date(window.COMUNIDADES_REVISADO+"T12:00:00").toLocaleDateString("es-CL",{day:"numeric",month:"long",year:"numeric"})+".":"";
   $("comunidadesList").innerHTML=K.map(x=>`<div class="study"><h3>${esc(x.nombre)}</h3><p class="small">${esc(x.que)}</p><a href="${esc(x.enlace)}" target="_blank" rel="noopener">${esc(x.enlace.replace(/^https?:\/\//,""))}</a></div>`).join("");
 }
 

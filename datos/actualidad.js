@@ -39,13 +39,15 @@ window.ACTUALIDAD=[
 ];
 
 /* Comunidades y servicios activos. Sin fechas: se revisan cada tanto para confirmar que siguen funcionando. */
+/* Fecha de la última revisión de los enlaces. La tarea nocturna la actualiza cada vez que revisa la lista. */
+window.COMUNIDADES_REVISADO="2026-10-12";
 window.COMUNIDADES=[
 {nombre:"Chat 1412 de SENDA",que:"Consejería por chat, gratuita y anónima, también fines de semana de 8:00 a 20:00. Complementa al fono 1412, que atiende 24 horas.",enlace:"https://www.senda.gob.cl"},
 {nombre:"r/StopSpeeding",que:"Comunidad en inglés para dejar estimulantes (cocaína, anfetaminas, metanfetamina). Muy activa: gente contando sus días limpios, recaídas y qué les sirvió.",enlace:"https://www.reddit.com/r/StopSpeeding/"},
 {nombre:"r/REDDITORSINRECOVERY",que:"Recuperación de cualquier sustancia, en inglés. Historias largas de gente con años limpios.",enlace:"https://www.reddit.com/r/REDDITORSINRECOVERY/"},
 {nombre:"r/Adicciones",que:"Comunidad en español, más pequeña, con gente de Chile y Latinoamérica.",enlace:"https://www.reddit.com/r/Adicciones/"},
-{nombre:"Narcóticos Anónimos",que:"Reuniones gratuitas y anónimas en todo Chile y por videollamada. No hay que inscribirse.",enlace:"https://www.na.org/meetingsearch/"},
-{nombre:"SMART Recovery",que:"Alternativa a los 12 pasos, basada en herramientas prácticas. Reuniones online en español.",enlace:"https://smartrecovery.org"},
+{nombre:"Narcóticos Anónimos",que:"Reuniones gratuitas y anónimas, presenciales y por videollamada. El buscador lleva a los grupos de cada país y a las reuniones virtuales. No hay que inscribirse.",enlace:"https://www.na.org/meetingsearch/"},
+{nombre:"SMART Recovery en español",que:"Alternativa a los 12 pasos, basada en herramientas prácticas. Reuniones por Zoom en español, organizadas desde España.",enlace:"https://smartrecovery.org.es"},
 {nombre:"DanceSafe",que:"Organización de reducción de daños (EE.UU.). Fichas por sustancia y kits de prueba para saber qué contiene algo.",enlace:"https://dancesafe.org/drug-information/"},
 {nombre:"Échele Cabeza (Colombia)",que:"Programa colombiano que analiza sustancias en fiestas y publica alertas sobre lo que realmente contienen (incluido el tusi).",enlace:"https://www.echelecabeza.com"},
 {nombre:"TripSit",que:"Wiki y chat de reducción de daños en inglés, con tabla de combinaciones peligrosas.",enlace:"https://wiki.tripsit.me"}
