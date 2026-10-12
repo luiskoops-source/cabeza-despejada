@@ -362,7 +362,7 @@
       <button data-cat="cerebro" class="catBtn">Cerebro</button>
       <button data-cat="cuerpo" class="catBtn">Cuerpo</button>
       <button data-cat="vida" class="catBtn">Vida diaria</button>
-      <button data-cat="nuevo" class="catBtn">Lo que pedí</button>
+      <button data-cat="nuevo" class="catBtn" id="catNuevo">Lo que pedí</button>
     </div>
     <div class="stack" id="factList"></div>
   </div>
@@ -476,8 +476,9 @@
   <!-- Respaldo: la app guarda en este navegador; esto permite llevar los datos a otro aparato -->
   <div class="card">
     <h2>Respaldo</h2>
-    <p class="small muted">Tus datos viven en este aparato. Para pasarlos a otro: copia aquí, pégalos allá.</p>
-    <div class="row"><button id="backupCopy">Copiar mis datos</button></div>
+    <p class="small muted">Tus datos viven solo en este aparato. Si cambias o pierdes el teléfono, sin respaldo se pierden. Guarda un archivo de vez en cuando y llévalo al teléfono nuevo.</p>
+    <div class="row"><button class="primary" id="backupFile">Guardar respaldo en un archivo</button><button id="backupCopy">Copiar mis datos</button></div>
+    <label class="f">Cargar un archivo de respaldo<input type="file" id="backupLoad" accept=".json,application/json"></label>
     <label class="f">Pegar un respaldo<textarea id="backupText" placeholder="Pega aquí el texto copiado en el otro aparato"></textarea></label>
     <div class="row"><button class="primary" id="backupRestore">Restaurar</button><span class="small muted">Reemplaza lo que hay en este aparato.</span></div>
   </div>
@@ -706,6 +707,12 @@
         <li>Cuando termine el reloj, anota qué pasó en Registro. Eso es lo que te hace fuerte.</li>
       </ol>
     </div>
+    <!-- Lo que dice la voz: toca la frase que estás escuchando y aparece una respuesta -->
+    <div class="card">
+      <p class="eyebrow">Lo que dice la voz</p>
+      <p class="small muted">Las ganas hablan con tu voz. Toca la frase que estás escuchando ahora.</p>
+      <div class="stack" id="vozList"></div>
+    </div>
     <div class="card">
       <p class="eyebrow">Mis razones</p>
       <ul class="reasons" id="craveReasons"></ul>
@@ -757,6 +764,8 @@
 <script src="datos/primeros-auxilios.js"></script>
 <!-- DATOS: señales para reconocer qué tomó alguien -->
 <script src="datos/senales.js"></script>
+<!-- DATOS: frases de la voz de la adicción y sus respuestas -->
+<script src="datos/voz.js"></script>
 <!-- DATOS: lista antes de salir -->
 <script src="datos/antes-de-salir.js"></script>
 <!-- CÁLCULOS: funciones puras, probadas en tests/pruebas.js -->

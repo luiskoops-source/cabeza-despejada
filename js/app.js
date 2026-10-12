@@ -568,8 +568,9 @@ function renderPatterns(){
 
 /* ---------- Respaldo: copiar y pegar todos los datos entre aparatos ---------- */
 $("backupCopy").onclick=()=>{ copyText(JSON.stringify(S)); };
-$("backupRestore").onclick=()=>{
-  const raw=$("backupText").value.trim(); if(!raw) return;
+/* Restaurar: recibe el texto de un respaldo, revisa que sea válido y reemplaza los datos */
+function restaurar(raw){
+  if(!raw) return;
   try{
     const data=JSON.parse(raw);
     if(!data||typeof data!=="object"||!Array.isArray(data.events)) throw new Error("formato");
@@ -577,7 +578,27 @@ $("backupRestore").onclick=()=>{
     $("backupText").value="";
     renderHoy(); renderFacts(); renderRegistro(); showDaily();
     toast("Datos restaurados");
-  }catch(e){ toast("Ese texto no es un respaldo válido"); }
+  }catch(e){ toast("Eso no es un respaldo válido"); }
+}
+$("backupRestore").onclick=()=>restaurar($("backupText").value.trim());
+/* Guardar como archivo: arma un archivo con los datos y el navegador lo descarga. No pasa por ningún servidor. */
+$("backupFile").onclick=()=>{
+  try{
+    const archivo=new Blob([JSON.stringify(S)],{type:"application/json"});
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(archivo);
+    a.download="cabeza-despejada-respaldo-"+todayStr()+".json";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+    toast("Respaldo guardado en Descargas");
+  }catch(e){ toast("Aquí no se puede descargar. Usa Copiar mis datos."); }
+};
+/* Cargar archivo: lee el archivo elegido y lo restaura */
+$("backupLoad").onchange=()=>{
+  const f=$("backupLoad").files[0]; if(!f) return;
+  const lector=new FileReader();
+  lector.onload=()=>{ restaurar(String(lector.result)); $("backupLoad").value=""; };
+  lector.readAsText(f);
 };
 $("exportBtn").onclick=()=>{
   const txt=S.events.map(e=>`${e.ts.slice(0,16).replace("T"," ")}\t${e.type}\t${e.i||""}\t${e.trig||""}\t${e.did||""}`).join("\n");
@@ -600,6 +621,12 @@ function openCrave(){
   try{ navigator.wakeLock&&navigator.wakeLock.request("screen").catch(()=>{}); }catch(e){}
 }
 function tick(){ const m=String(Math.floor(left/60)).padStart(2,"0"), s=String(left%60).padStart(2,"0"); $("timer").textContent=m+":"+s; $("barFill").style.width=((TOTAL-left)/TOTAL*100)+"%"; }
+/* Lo que dice la voz: cada frase es un botón; al tocarlo se muestra su respuesta debajo */
+function renderVoz(){
+  const V=window.VOZ||[];
+  $("vozList").innerHTML=V.map((x,i)=>`<details class="voz"><summary>"${esc(x.f)}"</summary><p class="small">${esc(x.r)}</p></details>`).join("");
+}
+renderVoz();
 function closeCrave(){ $("crave").hidden=true; document.body.style.overflow=""; clearInterval(tInt); clearInterval(bInt); $("craveTitle").textContent="Esto dura menos de lo que parece"; }
 $("closeCrave").onclick=closeCrave;
 $("craveWon").onclick=()=>{ $("craveWinBox").hidden=false; $("craveWon").hidden=true; $("craveLost").hidden=true; };
@@ -643,7 +670,7 @@ try{ if("serviceWorker" in navigator&&location.protocol.startsWith("http")) navi
 (async()=>{
   try{ sample=window.claude&&window.claude.use?await window.claude.use("sample"):null; }catch(e){ sample=null; }
   /* Sin Claude (por ejemplo en la versión pública instalada) se ocultan sus botones en vez de mostrarlos apagados */
-  if(!sample){ $("aiCard").hidden=true; $("dailyNew").hidden=true; $("aiPriv").hidden=true; $("craveAiCard").hidden=true; }
+  if(!sample){ $("aiCard").hidden=true; $("dailyNew").hidden=true; $("aiPriv").hidden=true; $("craveAiCard").hidden=true; if(!S.customFacts.length) $("catNuevo").hidden=true; }
   else { $("aiState").textContent="listo"; }
 })();
 })();

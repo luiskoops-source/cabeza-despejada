@@ -173,3 +173,9 @@ details summary{cursor:pointer;font-weight:600}
 .res{padding:10px 12px;border:1px solid var(--line);border-radius:10px;display:flex;flex-direction:column;gap:4px}
 .res mark{background:var(--warm-soft);color:inherit;border-radius:3px;padding:0 2px}
 .volver{border:1px solid var(--accent)}.volver h2{margin:0}
+/* Lo que dice la voz */
+.voz{background:var(--surface2);border-radius:10px;padding:10px 12px}
+.voz summary{font-family:var(--display);font-weight:700;list-style:none}
+.voz summary::-webkit-details-marker{display:none}
+.voz[open] summary{color:var(--accent)}
+.voz p{margin-top:6px}
