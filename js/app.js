@@ -642,7 +642,8 @@ try{ renderOffline(); if("serviceWorker" in navigator) navigator.serviceWorker.a
 try{ if("serviceWorker" in navigator&&location.protocol.startsWith("http")) navigator.serviceWorker.register("sw.js").catch(()=>{}); }catch(e){}
 (async()=>{
   try{ sample=window.claude&&window.claude.use?await window.claude.use("sample"):null; }catch(e){ sample=null; }
-  if(!sample){ $("aiState").textContent="no disponible"; $("dailyNew").disabled=true; $("aiAsk").disabled=true; $("craveAiCard").hidden=true; }
+  /* Sin Claude (por ejemplo en la versión pública instalada) se ocultan sus botones en vez de mostrarlos apagados */
+  if(!sample){ $("aiCard").hidden=true; $("dailyNew").hidden=true; $("aiPriv").hidden=true; $("craveAiCard").hidden=true; }
   else { $("aiState").textContent="listo"; }
 })();
 })();
