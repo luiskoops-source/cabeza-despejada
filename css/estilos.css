@@ -75,6 +75,7 @@ ul,ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
 /* facts */
 .fact{border-left:4px solid var(--accent);padding-left:12px}
 .fact.new{border-left-color:var(--warm)}
+.fuentes{margin-top:6px;overflow-wrap:anywhere}.fuentes a{font-weight:500}
 .ai{white-space:pre-wrap;line-height:1.55}
 .chart{display:flex;gap:4px;align-items:flex-end;height:90px;border-bottom:1px solid var(--line);padding-bottom:4px}
 .chart div{flex:1;background:var(--accent);border-radius:3px 3px 0 0;min-width:4px;position:relative}

@@ -452,9 +452,14 @@ function pickDaily(){
   if(S.dailyDate!==t||S.dailyIdx==null){ const pool=factsMios(); S.dailyIdx=FACTS.indexOf(pool[Math.floor(Math.random()*pool.length)]); S.dailyDate=t; S.dailyAI=null; save(); }
   showDaily();
 }
+/* Fuentes de un dato: devuelve "Fuentes: A · B" con enlaces que abren fuera de la app, o "" si el dato no tiene */
+function fuentesHTML(f){
+  if(!f||!f.f||!f.f.length) return "";
+  return (f.f.length===1?"Fuente: ":"Fuentes: ")+f.f.map(x=>`<a href="${esc(x.u)}" target="_blank" rel="noopener">${esc(x.n)}</a>`).join(" · ");
+}
 function showDaily(){
-  if(S.dailyAI){ $("dailyTitle").textContent=S.dailyAI.t; $("dailyBody").textContent=S.dailyAI.b; $("dailyPill").textContent="nuevo, de hoy"; $("dailyPill").className="pill warm"; $("dailyFact").classList.add("new"); }
-  else { const f=FACTS[S.dailyIdx%FACTS.length]; $("dailyTitle").textContent=f.t; $("dailyBody").textContent=f.b; $("dailyPill").textContent="de la base"; $("dailyPill").className="pill"; $("dailyFact").classList.remove("new"); }
+  if(S.dailyAI){ $("dailyTitle").textContent=S.dailyAI.t; $("dailyBody").textContent=S.dailyAI.b; $("dailyPill").textContent="nuevo, de hoy"; $("dailyPill").className="pill warm"; $("dailyFact").classList.add("new"); $("dailySrc").hidden=true; }
+  else { const f=FACTS[S.dailyIdx%FACTS.length]; $("dailyTitle").textContent=f.t; $("dailyBody").textContent=f.b; $("dailyPill").textContent="de la base"; $("dailyPill").className="pill"; $("dailyFact").classList.remove("new"); const src=fuentesHTML(f); $("dailySrc").innerHTML=src; $("dailySrc").hidden=!src; }
 }
 $("dailyNext").onclick=()=>{ S.dailyAI=null; const pool=factsMios().filter((f,i,a)=>FACTS.indexOf(f)!==S.dailyIdx); S.dailyIdx=FACTS.indexOf(pool[Math.floor(Math.random()*pool.length)]); save(); showDaily(); };
 
@@ -532,7 +537,7 @@ function renderFacts(){
   const all=S.customFacts.concat(FACTS.slice().sort((a,b)=>(a.s===S.sustancia?-1:b.s===S.sustancia?1:0)));
   $("factCount").textContent=all.length+" temas";
   const list=all.filter(f=>cat==="todo"||f.c===cat||(cat==="mia"&&(f.s===S.sustancia||f.s==="general")));
-  $("factList").innerHTML=list.length?list.map(f=>`<div class="fact ${f.c==="nuevo"?"new":""}"><div class="row" style="justify-content:space-between"><h3>${esc(f.t)}</h3>${f.c==="nuevo"?`<span class="pill warm">${esc(f.d||"")}</span>`:(f.s?`<span class="pill">${esc(f.s==="general"?"Todas":(SUST.find(x=>x.id===f.s)||{}).nombre||"")}</span>`:"")}</div><p class="small">${esc(f.b)}</p></div>`).join(""):`<p class="small muted">Todavía no has pedido nada. Usa el botón de arriba.</p>`;
+  $("factList").innerHTML=list.length?list.map(f=>`<div class="fact ${f.c==="nuevo"?"new":""}"><div class="row" style="justify-content:space-between"><h3>${esc(f.t)}</h3>${f.c==="nuevo"?`<span class="pill warm">${esc(f.d||"")}</span>`:(f.s?`<span class="pill">${esc(f.s==="general"?"Todas":(SUST.find(x=>x.id===f.s)||{}).nombre||"")}</span>`:"")}</div><p class="small">${esc(f.b)}</p>${fuentesHTML(f)?`<p class="small muted fuentes">${fuentesHTML(f)}</p>`:""}</div>`).join(""):`<p class="small muted">Todavía no has pedido nada. Usa el botón de arriba.</p>`;
 }
 
 /* ---------- Registro ---------- */
