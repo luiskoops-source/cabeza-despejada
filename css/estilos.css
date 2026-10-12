@@ -138,6 +138,7 @@ details summary{cursor:pointer;font-weight:600}
 .hero-stats{gap:14px;margin-top:6px;font-size:.82rem;opacity:.95}.hero-stats b{font-size:1rem;margin-right:4px}
 /* Compromiso del día */
 .pledge{width:100%;padding:10px 14px;border-radius:12px;font-family:var(--display);font-size:.95rem;border:2px solid var(--accent);background:var(--surface);color:var(--accent)}
+.reiniciar{width:100%;font-size:.85rem;padding:6px 10px;border:none;color:var(--muted);text-decoration:underline}
 .pledge.done{background:linear-gradient(135deg,var(--accent),#7b2ff7);color:#fff;border-color:transparent}
 /* No estás solo */
 .solo{border-color:var(--warm);background:linear-gradient(180deg,var(--surface),var(--warm-soft))}

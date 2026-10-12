@@ -4,7 +4,7 @@
 const $=id=>document.getElementById(id);
 const KEY="cd.v1";
 const defaults={
-  day0:null, spendWeek:60000, salary:null,
+  day0:null, day0Hora:null, spendWeek:60000, salary:null,
   /* Razones de ejemplo. Cada persona las reemplaza por las suyas en la pantalla Hoy. */
   reasons:[
     "Quiero volver a sentir gusto por las cosas normales.",
@@ -29,6 +29,10 @@ const clp=C.pesos;
 const dstr=C.fechaTexto;
 const todayStr=()=>C.fechaTexto(new Date());
 const daysSince=iso=>C.diasDesde(iso);
+/* Fecha (AAAA-MM-DD, hora local) de un momento guardado como texto ISO */
+const todayStrDe=iso=>C.fechaTexto(new Date(iso));
+/* Guarda el momento exacto solo si el Día 0 elegido es hoy; para fechas pasadas se cuenta desde la medianoche */
+const horaDia0=fecha=>fecha===todayStr()?new Date().toISOString():null;
 
 /* ---------- Facts base ---------- */
 /* FACTS viene de datos/hechos.js */
@@ -82,7 +86,10 @@ function renderHoy(){
 /* ---------- Contador en vivo (horas:minutos:segundos desde el Día 0) ---------- */
 function renderLive(){
   if(!S.day0){ $("liveTime").textContent=""; return; }
-  const ms=Date.now()-new Date(S.day0+"T00:00:00").getTime(); if(ms<0){ $("liveTime").textContent=""; return; }
+  /* Si sabemos el momento exacto del Día 0 (day0Hora), contamos desde ahí; si no, desde la medianoche de ese día */
+  const exacto=S.day0Hora&&todayStrDe(S.day0Hora)===S.day0;
+  const inicio=exacto?new Date(S.day0Hora).getTime():new Date(S.day0+"T00:00:00").getTime();
+  const ms=Date.now()-inicio; if(ms<0){ $("liveTime").textContent=""; return; }
   const h=Math.floor(ms/3600000)%24, m=Math.floor(ms/60000)%60, s=Math.floor(ms/1000)%60;
   $("liveTime").textContent=`${String(h).padStart(2,"0")} h ${String(m).padStart(2,"0")} min ${String(s).padStart(2,"0")} s`;
 }
@@ -95,6 +102,15 @@ function renderPledge(){
   $("pledgeTxt").textContent=done?"Hoy me comprometí. Un día a la vez.":(S.modo==="reducir"?"Hoy me comprometo a respetar mi meta":"Hoy me comprometo a no consumir");
 }
 $("pledgeBtn").onclick=()=>{ if(S.pledgeDate===todayStr()) return; S.pledgeDate=todayStr(); save(); renderPledge(); toast("Compromiso guardado. Nos vemos mañana."); };
+
+/* ---------- Reiniciar el Día 0 desde Hoy ---------- */
+/* Pide un segundo toque para confirmar, igual que "Registrar consumo" en Registro, y luego usa la misma función */
+$("reiniciarHoy").onclick=()=>{
+  const el=$("reiniciarHoy");
+  if(el.dataset.confirm!=="1"){ el.dataset.confirm="1"; el.textContent="Toca de nuevo para reiniciar"; setTimeout(()=>{ el.dataset.confirm=""; el.textContent="Consumí. Reiniciar mi Día 0"; },4000); return; }
+  el.dataset.confirm=""; el.textContent="Consumí. Reiniciar mi Día 0";
+  S.pledgeDate=null; registerRelapse("");
+};
 
 /* ---------- No estás solo: una frase por día ---------- */
 const SOLO=[
@@ -415,7 +431,7 @@ function renderPlan(){
   if(esLaHora) $("planNowText").textContent=S.plan;
 }
 $("savePlan").onclick=()=>{ S.plan=$("planText").value.trim(); save(); renderPlan(); toast("Plan guardado"); };
-$("welcomeGo").onclick=()=>{ const v=$("welcomeDay0").value; if(!v){ toast("Elige una fecha"); return; } S.day0=v; S.sustancia=$("welcomeSust").value; S.modo=$("welcomeModo").value; save(); aplicarTema(); fillConfig(); renderHoy(); renderRegistro(); renderSust(); toast("Empezamos a contar desde ahí."); };
+$("welcomeGo").onclick=()=>{ const v=$("welcomeDay0").value; if(!v){ toast("Elige una fecha"); return; } S.day0=v; S.day0Hora=horaDia0(v); S.sustancia=$("welcomeSust").value; S.modo=$("welcomeModo").value; save(); aplicarTema(); fillConfig(); renderHoy(); renderRegistro(); renderSust(); toast("Empezamos a contar desde ahí."); };
 
 /* ---------- Check-in diario (sueño y ánimo) ---------- */
 function todayCheckin(){ const t=todayStr(); return S.events.find(e=>e.type==="checkin"&&e.ts.slice(0,10)===t); }
@@ -433,7 +449,7 @@ $("saveCheckin").onclick=()=>{
   toast(sueno<6?"Dormiste poco. Hoy cuídate más de lo normal.":"Anotado.");
 };
 $("editCheckin").onclick=()=>{ const i=S.events.indexOf(todayCheckin()); if(i>-1) S.events.splice(i,1); save(); renderCheckin(); };
-$("saveDay0").onclick=()=>{ S.day0=$("day0").value||null; save(); renderHoy(); renderRegistro(); toast("Día 0 guardado"); };
+$("saveDay0").onclick=()=>{ S.day0=$("day0").value||null; S.day0Hora=S.day0?horaDia0(S.day0):null; save(); renderHoy(); renderRegistro(); toast("Día 0 guardado"); };
 $("saveMoney").onclick=()=>{ S.spendWeek=Number($("spendWeek").value)||0; S.salary=Number($("salary").value)||null; save(); renderHoy(); toast("Guardado"); };
 
 function renderReasons(){
@@ -544,7 +560,7 @@ function renderFacts(){
 function addEvent(type,extra){ S.events.unshift(Object.assign({type,ts:new Date().toISOString()},extra||{})); save(); }
 $("addCrave").onclick=()=>{ addEvent("crave",{i:Number($("cInt").value)||5,trig:$("cTrig").value,did:$("cDid").value.trim()}); $("cDid").value=""; renderRegistro(); toast("Anotado. Eso cuenta."); };
 $("addRelapse").onclick=()=>{ const el=$("addRelapse"); if(el.dataset.confirm!=="1"){ el.dataset.confirm="1"; el.textContent="Toca de nuevo para confirmar"; setTimeout(()=>{ el.dataset.confirm=""; el.textContent="Registrar consumo"; },4000); return; } el.dataset.confirm=""; el.textContent="Registrar consumo"; registerRelapse($("cDid").value.trim()); $("cDid").value=""; };
-function registerRelapse(note){ addEvent("relapse",{did:note||"",trig:$("cTrig").value}); S.day0=todayStr(); save(); renderHoy(); renderRegistro(); toast("Día 0 reiniciado. Lo que aprendiste se queda."); }
+function registerRelapse(note){ addEvent("relapse",{did:note||"",trig:$("cTrig").value}); S.day0=todayStr(); S.day0Hora=new Date().toISOString(); save(); renderHoy(); renderRegistro(); toast("Día 0 reiniciado. Lo que aprendiste se queda."); }
 function renderRegistro(){
   const days=[]; const now=new Date(); now.setHours(12,0,0,0);
   for(let i=13;i>=0;i--){ const d=new Date(now); d.setDate(d.getDate()-i); days.push({k:dstr(d),c:0,r:false,label:d.toLocaleDateString("es-CL",{day:"numeric",month:"short"})}); }

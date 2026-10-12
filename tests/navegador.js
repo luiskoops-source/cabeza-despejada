@@ -20,6 +20,10 @@ const path = require("path");
   if (await pagina.isVisible("#welcome")) errores.push("La bienvenida sigue visible tras marcar el Día 0");
   /* 2. Botones principales */
   await pagina.click("#pledgeBtn");
+  /* 2a. Reiniciar desde Hoy: dos toques dejan el Día 0 en hoy y el contador parte en 00 h */
+  await pagina.click("#reiniciarHoy"); await pagina.click("#reiniciarHoy"); await pagina.waitForTimeout(1200);
+  const vivo = await pagina.textContent("#liveTime");
+  if (!/^00 h 00 min/.test(vivo)) errores.push("Tras reiniciar, el contador no parte desde cero: " + vivo);
   await pagina.click("#openCrave"); await pagina.waitForTimeout(200);
   if (!(await pagina.isVisible("#crave"))) errores.push("El Modo ganas no abre");
   await pagina.click("#closeCrave");
