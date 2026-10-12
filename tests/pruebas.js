@@ -93,4 +93,15 @@ prueba("30 días con un consumo y dos ganas",()=>{
   assert.strictEqual(r.limpios,8); /* 2 al 9 de octubre */
 });
 
+console.log("limpiosAcumulados");
+prueba("un consumo no borra los días anteriores",()=>{
+  const evs=[{type:"crave",ts:"2026-10-01T12:00:00.000Z"},{type:"relapse",ts:"2026-10-12T12:00:00.000Z"}];
+  const r=C.limpiosAcumulados(evs,"2026-10-12",30,"2026-10-12");
+  assert.strictEqual(r.total,11); assert.strictEqual(r.enVentana,11); assert.strictEqual(r.desde,"2026-10-01");
+});
+prueba("la ventana de 30 días no cuenta lo más antiguo",()=>{
+  const r=C.limpiosAcumulados([{type:"crave",ts:"2026-08-01T12:00:00.000Z"}],"2026-08-01",30,"2026-10-12");
+  assert.strictEqual(r.enVentana,30); assert.strictEqual(r.total,73);
+});
+prueba("sin datos devuelve ceros",()=>assert.deepStrictEqual(C.limpiosAcumulados([],null,30,"2026-10-12"),{total:0,enVentana:0,ventana:30,desde:null}));
 console.log(process.exitCode?"\nHay pruebas fallando.":"\nOK: "+n+" pruebas pasaron.");

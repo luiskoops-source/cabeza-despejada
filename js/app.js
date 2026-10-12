@@ -14,7 +14,7 @@ const defaults={
   plan:"", planHour:null,
   /* Configuración: sustancia principal, modo ("dejar" o "reducir"), meta semanal en modo reducir, PIN opcional */
   sustancia:"cocaina", modo:"dejar", metaSemana:2, pin:"", tema:"auto", tourVisto:false, ganasMin:15,
-  celebrado:0, pledgeDate:null, salirDate:null, salirOk:[], rapidoDate:null, rapidoCount:0, rapidoSeen:[], quizDate:null, quizIdx:null, quizDone:false, quizStreak:0, quizBest:0,
+  celebrado:0, pledgeDate:null, salirDate:null, salirOk:[], rapidoDate:null, rapidoCount:0, rapidoSeen:[], quizDate:null, quizIdx:null, quizDone:false, quizStreak:0, quizBest:0, volverDia:null, volverOk:[],
   events:[], seenFacts:[], customFacts:[], dailyIdx:null, dailyDate:null, dailyAI:null, craveWins:0
 };
 const SUST=window.SUSTANCIAS||[];
@@ -69,7 +69,7 @@ function renderHoy(){
   renderSemana();
   renderPlan();
   renderHitos(d);
-  renderLive(); renderPledge(); renderSolo();
+  renderLive(); renderPledge(); renderSolo(); renderVolver(d);
   checkCelebra(d);
   renderQuiz();
   renderReduccion();
@@ -109,6 +109,32 @@ const SOLO=[
   "Pedir ayuda no es debilidad. Es usar todas las herramientas."
 ];
 function renderSolo(){ const d=Math.floor(Date.now()/86400000); $("soloLine").textContent=SOLO[d%SOLO.length]; }
+
+/* ---------- Volver a empezar ---------- */
+/* Cuidados para las 48 horas después de un consumo. Sin dosis ni formas de uso: solo cuidarse. */
+const VOLVER=[
+  {id:"dormir",t:"Dormir esta noche, aunque sea temprano",por:"El sueño es lo que más rápido devuelve la calma y baja la paranoia."},
+  {id:"comer",t:"Comer algo y tomar agua",por:"Después de consumir el cuerpo queda deshidratado y con el azúcar baja."},
+  {id:"noseguir",t:"No seguir ni mezclar con alcohol",por:"Las primeras horas son cuando la cabeza más empuja a terminar lo que queda."},
+  {id:"contacto",t:"Borrar o bloquear el contacto",por:"Alejar la señal es lo que más ayuda los días siguientes."},
+  {id:"hablar",t:"Hablar con alguien o llamar al 1412",por:"Es gratis y anónimo. Contarlo le quita fuerza a la culpa."},
+  {id:"anotar",t:"Anotar en Registro qué pasó antes",por:"No para culparte: para reconocer la señal la próxima vez."}
+];
+function renderVolver(d){
+  /* Se muestra si hay un consumo registrado en el Día 0 actual y pasaron 2 días o menos */
+  const hubo=S.day0&&S.events.some(e=>e.type==="relapse"&&e.ts.slice(0,10)===S.day0);
+  $("volver").hidden=!(hubo&&d<=2);
+  if($("volver").hidden) return;
+  /* La lista se reinicia con cada Día 0 nuevo */
+  if(S.volverDia!==S.day0){ S.volverDia=S.day0; S.volverOk=[]; save(); }
+  const acum=C.limpiosAcumulados(S.events,S.day0,30);
+  $("volverMes").textContent=acum.enVentana;
+  $("volverTotal").textContent=acum.total;
+  $("volverCount").textContent=S.volverOk.length+" de "+VOLVER.length;
+  $("volverList").innerHTML=VOLVER.map(x=>{ const on=S.volverOk.includes(x.id); return `<div class="salir ${on?"on":""}"><input type="checkbox" id="volver-${x.id}" ${on?"checked":""}><label for="volver-${x.id}"><span class="small"><b>${esc(x.t)}</b></span><span class="small muted">${esc(x.por)}</span></label></div>`; }).join("");
+  $("volverList").querySelectorAll("input").forEach(i=>i.onchange=()=>{ const id=i.id.replace("volver-",""); S.volverOk=i.checked?S.volverOk.concat(id):S.volverOk.filter(x=>x!==id); save(); renderVolver(d); });
+}
+$("volverCalma").onclick=()=>$("openCalma").click();
 
 /* ---------- Hitos ---------- */
 function renderHitos(d){

@@ -89,6 +89,20 @@
     </div>
   </div>
 
+  <!-- Volver a empezar: aparece solo los 2 primeros días después de registrar un consumo -->
+  <div class="card volver" id="volver" hidden>
+    <p class="eyebrow">Volver a empezar</p>
+    <h2>Esto no te deja en cero</h2>
+    <div class="tiles">
+      <div class="tile"><div class="v num" id="volverMes">0</div><div class="l">días limpios en los últimos 30</div></div>
+      <div class="tile"><div class="v num" id="volverTotal">0</div><div class="l">días limpios desde que usas la app</div></div>
+    </div>
+    <p class="small">La voz que dice "ya da igual, sigue" es la adicción hablando con tu voz. Un consumo no borra los días anteriores: tu cerebro los vivió igual.</p>
+    <p class="eyebrow">Las próximas 48 horas <span class="pill" id="volverCount"></span></p>
+    <div class="stack" id="volverList"></div>
+    <button class="ghost" id="volverCalma">Me siento paranoico o raro: abrir Modo calma</button>
+  </div>
+
   <!-- Compromiso del día: un toque -->
   <button class="pledge" id="pledgeBtn"><span id="pledgeTxt">Hoy me comprometo a no consumir</span></button>
 

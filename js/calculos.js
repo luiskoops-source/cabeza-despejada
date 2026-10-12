@@ -122,10 +122,31 @@ function calendario(eventos, dia0, dias, hoy){
   return { dias:out, limpios, consumos:out.filter(x=>x.consumo).length, ganas:out.reduce((a,x)=>a+x.ganas,0) };
 }
 
+/* Días limpios acumulados: un consumo no borra los días anteriores.
+   "inicio" es el día más antiguo que la app conoce (el primer registro o el Día 0, el que sea anterior).
+   Cuenta los días sin consumo desde el inicio hasta hoy, en total y en los últimos "ventana" días. */
+function limpiosAcumulados(eventos, dia0, ventana, hoy){
+  const hoyK=hoy||fechaTexto(new Date());
+  const fechas=eventos.map(e=>e.ts.slice(0,10)); if(dia0) fechas.push(dia0);
+  if(!fechas.length) return { total:0, enVentana:0, ventana, desde:null };
+  const inicio=fechas.sort()[0];
+  const consumos=new Set(eventos.filter(e=>e.type==="relapse").map(e=>e.ts.slice(0,10)));
+  const fin=new Date(hoyK+"T12:00:00");
+  const corte=new Date(fin); corte.setDate(fin.getDate()-(ventana-1));
+  let total=0, enVentana=0;
+  for(let d=new Date(inicio+"T12:00:00"); d<=fin; d.setDate(d.getDate()+1)){
+    const k=fechaTexto(d);
+    if(consumos.has(k)) continue;
+    total++;
+    if(d>=corte) enVentana++;
+  }
+  return { total, enVentana, ventana, desde:inicio };
+}
+
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, HITOS, pesos };
+const Calculos={ fechaTexto, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, HITOS, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);
