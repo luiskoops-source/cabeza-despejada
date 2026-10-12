@@ -59,7 +59,7 @@ Luego abre la dirección en el celular y usa "Agregar a pantalla de inicio". Des
 - Gratis para siempre: sin suscripción, sin anuncios, sin compras dentro de la app. Donaciones voluntarias, nunca obligatorias.
 - Anónima: sin cuenta, sin datos, sin servidores que guarden nada de la persona.
 - Reducción de daños: informar y acompañar, nunca fomentar ni facilitar el consumo.
-- Código abierto: cualquiera puede leerlo, revisarlo y proponer mejoras.
+- Código visible: cualquiera puede leerlo y proponer mejoras (ver CONTRIBUTING.md). Todos los derechos reservados: no se permite copiarla ni publicar versiones propias (ver LICENSE).
 
 ## Qué tiene la app (octubre 2026)
 
