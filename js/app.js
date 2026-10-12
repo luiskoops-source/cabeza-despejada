@@ -113,7 +113,7 @@ function renderSolo(){ const d=Math.floor(Date.now()/86400000); $("soloLine").te
 /* ---------- Hitos ---------- */
 function renderHitos(d){
   const h=C.hitos(d);
-  $("hitoRow").innerHTML=C.HITOS.map(x=>`<span class="hito ${d>=x?"on":""}" title="${x} días">${x}</span>`).join("");
+  $("hitoRow").innerHTML=C.HITOS.map(x=>`<span class="hito ${d>=x?"on":""}" title="${x} ${x===1?"día":"días"}">${x}</span>`).join("");
   /* Singular o plural según el número: "1 día", "4 días"; y el hito de 1 día se nombra "el primer hito" */
   const ultimo=h.ultimo?`Último hito: ${h.ultimo} ${h.ultimo===1?"día":"días"}. `:"";
   const faltan=h.faltan===1?"Falta 1 día":`Faltan ${h.faltan} días`;
@@ -126,7 +126,8 @@ const FRASES={1:"Un día entero. El primero siempre es el más difícil.",3:"Tre
 function checkCelebra(d){
   const h=C.hitos(d);
   if(h.ultimo&&h.ultimo>(S.celebrado||0)&&S.modo==="dejar"){
-    $("celebraTitle").textContent=h.ultimo+" días";
+    /* Singular para el primer hito: "1 día", no "1 días" */
+    $("celebraTitle").textContent=h.ultimo+(h.ultimo===1?" día":" días");
     $("celebraText").textContent=FRASES[h.ultimo]||"Un hito más.";
     $("celebra").hidden=false;
   } else $("celebra").hidden=true;
@@ -274,7 +275,7 @@ function renderCal(){
   const r=C.calendario(S.events,S.day0,30);
   const hoy=todayStr();
   $("cal").innerHTML=r.dias.map(d=>`<div class="${d.consumo?"no":d.antes?"antes":d.ganas?"ganas":"ok"} ${d.k===hoy?"hoy":""}" title="${d.k}${d.ganas?" · "+d.ganas+" ganas":""}${d.sueno!=null?" · durmió "+d.sueno+" h":""}">${d.dia}</div>`).join("");
-  $("calText").textContent=`${r.limpios} días limpios de los últimos 30 · ${r.ganas} ganas anotadas · ${r.consumos} ${r.consumos===1?"consumo":"consumos"}.`;
+  $("calText").textContent=`${r.limpios} ${r.limpios===1?"día limpio":"días limpios"} de los últimos 30 · ${r.ganas} ganas anotadas · ${r.consumos} ${r.consumos===1?"consumo":"consumos"}.`;
 }
 
 /* ---------- Antes de salir ---------- */
