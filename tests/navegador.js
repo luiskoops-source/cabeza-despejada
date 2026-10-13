@@ -18,6 +18,8 @@ const path = require("path");
   await pagina.click("#welcomeGo");
   await pagina.waitForTimeout(200);
   if (await pagina.isVisible("#welcome")) errores.push("La bienvenida sigue visible tras marcar el Día 0");
+  /* 1b. Lo que viene: visible en los primeros días */
+  if (!(await pagina.isVisible("#loQueViene"))) errores.push("La tarjeta Lo que viene no aparece");
   /* 2. Botones principales */
   await pagina.click("#pledgeBtn");
   /* 2a. Reiniciar desde Hoy: dos toques dejan el Día 0 en hoy y el contador parte en 00 h */

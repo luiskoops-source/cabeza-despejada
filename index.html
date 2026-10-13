@@ -109,6 +109,15 @@
 
   <button class="warm" id="openCrave">Tengo ganas de consumir</button>
 
+  <!-- Lo que viene: aparece los primeros 90 días -->
+  <div class="card" id="loQueViene" hidden>
+    <p class="eyebrow">Lo que viene</p>
+    <p id="animoHoy"></p>
+    <div class="stack" id="etapasList"></div>
+    <p class="small muted" id="etapaSust"></p>
+    <div class="row"><button class="ghost" id="verComunidades">Ver foros y comunidades</button></div>
+  </div>
+
   <!-- No estás solo -->
   <div class="card solo">
     <p class="eyebrow">No estás solo en esto</p>
@@ -760,6 +769,7 @@
 <script src="datos/preguntas.js"></script>
 <!-- DATOS: actualidad y comunidades -->
 <script src="datos/actualidad.js"></script>
+<script src="datos/primeros-dias.js"></script>
 <!-- DATOS: identificador "¿qué me ofrecieron?" -->
 <script src="datos/ofrecieron.js"></script>
 <!-- DATOS: primeros auxilios -->

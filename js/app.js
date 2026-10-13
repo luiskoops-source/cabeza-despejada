@@ -73,6 +73,7 @@ function renderHoy(){
   renderSemana();
   renderPlan();
   renderHitos(d);
+  renderLoQueViene(d);
   renderLive(); renderPledge(); renderSolo(); renderVolver(d);
   checkCelebra(d);
   renderQuiz();
@@ -151,6 +152,26 @@ function renderVolver(d){
   $("volverList").querySelectorAll("input").forEach(i=>i.onchange=()=>{ const id=i.id.replace("volver-",""); S.volverOk=i.checked?S.volverOk.concat(id):S.volverOk.filter(x=>x!==id); save(); renderVolver(d); });
 }
 $("volverCalma").onclick=()=>$("openCalma").click();
+
+/* ---------- Lo que viene ---------- */
+/* Muestra la etapa en que va la persona, la siguiente, una frase de ánimo y el acceso a los foros */
+function renderLoQueViene(d){
+  const E=window.ETAPAS||[], A=window.ANIMO_DIA||[];
+  const ver=!!S.day0&&d<=90&&E.length>0;
+  $("loQueViene").hidden=!ver;
+  if(!ver) return;
+  /* Etapa actual: la que contiene el día de hoy */
+  const i=Math.max(0,E.findIndex(e=>d>=e.desde&&d<=e.hasta));
+  /* Ánimo: frase del día si existe; si no, lo que ayuda en la etapa */
+  $("animoHoy").textContent=A[d]||("Hoy: "+E[i].ayuda);
+  /* Se ven la etapa actual (abierta) y la siguiente (para saber qué viene) */
+  $("etapasList").innerHTML=E.slice(i,i+2).map((e,k)=>`<details class="etapa ${k===0?"on":""}" ${k===0?"open":""}><summary><span class="pill ${k===0?"warm":""}">${k===0?"Ahora":"Después"}</span> ${esc(e.titulo)}</summary><p class="small">${esc(e.que)}</p><p class="small"><b>Qué ayuda:</b> ${esc(e.ayuda)}</p></details>`).join("");
+  /* Plazos propios de la sustancia elegida (vienen de datos/sustancias.js) */
+  const su=sustActual();
+  $("etapaSust").textContent=su&&su.abstinencia?su.nombre+": "+su.abstinencia+" Varía según la persona.":"";
+}
+/* El botón lleva a Saber y baja hasta las comunidades */
+$("verComunidades").onclick=()=>{ irA("saber"); setTimeout(()=>{ const el=$("comunidadesList"); if(el) el.scrollIntoView({behavior:"smooth",block:"start"}); },150); };
 
 /* ---------- Hitos ---------- */
 function renderHitos(d){

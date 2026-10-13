@@ -181,3 +181,9 @@ details summary{cursor:pointer;font-weight:600}
 .voz summary::-webkit-details-marker{display:none}
 .voz[open] summary{color:var(--accent)}
 .voz p{margin-top:6px}
+
+/* Lo que viene: etapas de los primeros meses */
+.etapa{border:1px solid var(--line);border-radius:12px;padding:8px 12px;background:var(--surface2)}
+.etapa.on{border-color:var(--accent)}
+.etapa summary{cursor:pointer;font-weight:600}
+.etapa p{margin:6px 0 0}
