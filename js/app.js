@@ -460,13 +460,17 @@ function renderPlan(){
   const h=C.horaPico(S.events);
   S.planHour=h;
   $("planHour").textContent=h==null?"tu hora difícil (aparece con 3 o más registros)":"las "+h+":00";
-  $("planText").value=S.plan||"";
+  /* Si la persona está escribiendo, no le pisamos el texto */
+  if(document.activeElement!==$("planText")) $("planText").value=S.plan||"";
   const ahora=new Date().getHours();
   const esLaHora=h!=null&&S.plan&&Math.abs(ahora-h)<=1;
   $("planNow").hidden=!esLaHora;
   if(esLaHora) $("planNowText").textContent=S.plan;
 }
-$("savePlan").onclick=()=>{ S.plan=$("planText").value.trim(); save(); renderPlan(); toast("Plan guardado"); };
+$("savePlan").onclick=()=>{ clearTimeout(planT); S.plan=$("planText").value.trim(); save(); $("planText").blur(); renderPlan(); toast("Plan guardado"); };
+/* El plan también se guarda solo mientras escribes (medio segundo después de la última letra) */
+let planT;
+$("planText").addEventListener("input",()=>{ clearTimeout(planT); planT=setTimeout(()=>{ S.plan=$("planText").value.trim(); save(); },500); });
 $("welcomeGo").onclick=()=>{ const v=$("welcomeDay0").value; if(!v){ toast("Elige una fecha"); return; } S.day0=v; S.day0Hora=horaDia0(v); S.sustancia=$("welcomeSust").value; S.modo=$("welcomeModo").value; save(); aplicarTema(); fillConfig(); renderHoy(); renderRegistro(); renderSust(); toast("Empezamos a contar desde ahí."); };
 
 /* ---------- Check-in diario (sueño y ánimo) ---------- */
@@ -714,6 +718,11 @@ $("nocheRegistro").onclick=()=>{ irA("registro"); setTimeout(()=>{ $("cInt").scr
 
 /* ---------- Boot ---------- */
 fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderSenales(); renderSalir(); renderRapido(); renderOfChips(); lockIfNeeded();
+/* Si la app está abierta en dos lugares (la app instalada y una pestaña), cada copia
+   vuelve a leer lo guardado al volver a la pantalla, para que una copia vieja no borre lo nuevo. */
+function recargarDatos(){ S=load(); fillConfig(); renderHoy(); renderRegistro(); }
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden) recargarDatos(); });
+window.addEventListener("storage",e=>{ if(e.key===KEY) recargarDatos(); });
 /* Cada minuto revisa si llegó la hora difícil, para mostrar el plan */
 setInterval(renderPlan,60000);
 /* Estado del modo sin conexión */
