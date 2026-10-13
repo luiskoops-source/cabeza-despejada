@@ -1,3 +1,12 @@
+/* Tipografías locales (licencia SIL Open Font License, ver fuentes/LICENCIAS-OFL.txt) */
+@font-face{font-family:"Bricolage Grotesque";font-style:normal;font-weight:500;font-display:swap;src:url("../fuentes/bricolage-grotesque-latin-500.woff2") format("woff2")}
+@font-face{font-family:"Bricolage Grotesque";font-style:normal;font-weight:700;font-display:swap;src:url("../fuentes/bricolage-grotesque-latin-700.woff2") format("woff2")}
+@font-face{font-family:"Bricolage Grotesque";font-style:normal;font-weight:800;font-display:swap;src:url("../fuentes/bricolage-grotesque-latin-800.woff2") format("woff2")}
+@font-face{font-family:"Instrument Sans";font-style:normal;font-weight:400;font-display:swap;src:url("../fuentes/instrument-sans-latin-400.woff2") format("woff2")}
+@font-face{font-family:"Instrument Sans";font-style:normal;font-weight:500;font-display:swap;src:url("../fuentes/instrument-sans-latin-500.woff2") format("woff2")}
+@font-face{font-family:"Instrument Sans";font-style:normal;font-weight:600;font-display:swap;src:url("../fuentes/instrument-sans-latin-600.woff2") format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:500;font-display:swap;src:url("../fuentes/jetbrains-mono-latin-500.woff2") format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:700;font-display:swap;src:url("../fuentes/jetbrains-mono-latin-700.woff2") format("woff2")}
 /* Layout: one column phone-first, sticky tab bar at the bottom; each tab is a screen. Calm surfaces, one warm accent reserved for the craving mode. */
 :root{
   --bg:#fff4ec; --surface:#ffffff; --surface2:#fde9e0; --fg:#2a1335; --muted:#7a5c7f; --line:#f3d3c6;
