@@ -64,6 +64,11 @@ prueba("cuenta días limpios, olas y sueño de los últimos 7 días",()=>{
   assert.strictEqual(r.diasLimpios,6); assert.strictEqual(r.olas,2); assert.strictEqual(r.suenoProm,7); assert.strictEqual(Math.round(r.dinero),60000);
 });
 
+prueba("los días antes del Día 0 no cuentan como limpios",()=>{
+  const r=C.resumenSemana([],70000,"2026-10-13","2026-10-12");
+  assert.strictEqual(r.diasLimpios,2); assert.strictEqual(Math.round(r.dinero),20000);
+});
+
 console.log("pesos");
 prueba("formatea con punto de miles",()=>assert.strictEqual(C.pesos(1234567),"$1.234.567"));
 

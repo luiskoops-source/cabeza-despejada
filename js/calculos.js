@@ -69,11 +69,12 @@ function horaPico(eventos){
 }
 
 /* Resumen de los últimos 7 días: días sin consumo, olas superadas, sueño promedio y dinero no gastado. */
-function resumenSemana(eventos, gastoSemana, hoy){
+/* dia0 (opcional): los días antes del Día 0 no se cuentan como limpios ni suman dinero */
+function resumenSemana(eventos, gastoSemana, hoy, dia0){
   const fin=hoy?new Date(hoy+"T12:00:00"):new Date(); fin.setHours(12,0,0,0);
   const dias=[]; for(let i=6;i>=0;i--){ const d=new Date(fin); d.setDate(d.getDate()-i); dias.push(fechaTexto(d)); }
   const consumos=new Set(eventos.filter(e=>e.type==="relapse").map(e=>e.ts.slice(0,10)));
-  const diasLimpios=dias.filter(k=>!consumos.has(k)).length;
+  const diasLimpios=dias.filter(k=>!consumos.has(k)&&(!dia0||k>=dia0)).length;
   const enSemana=e=>dias.includes(e.ts.slice(0,10));
   const olas=eventos.filter(e=>e.type==="win"&&enSemana(e)).length;
   const suenos=eventos.filter(e=>e.type==="checkin"&&enSemana(e)&&typeof e.sueno==="number").map(e=>e.sueno);

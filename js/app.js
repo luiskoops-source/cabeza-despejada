@@ -190,7 +190,7 @@ function renderLoQueViene(d){
   $("etapasList").innerHTML=E.slice(i,i+2).map((e,k)=>`<details class="etapa ${k===0?"on":""}" ${k===0?"open":""}><summary><span class="pill ${k===0?"warm":""}">${k===0?"Ahora":"Después"}</span> ${esc(e.titulo)}</summary><p class="small">${esc(e.que)}</p><p class="small"><b>Qué ayuda:</b> ${esc(e.ayuda)}</p></details>`).join("");
   /* Plazos propios de la sustancia elegida (vienen de datos/sustancias.js) */
   const su=sustActual();
-  $("etapaSust").textContent=su&&su.abstinencia?su.nombre+": "+su.abstinencia+" Varía según la persona.":"";
+  $("etapaSust").textContent=su&&su.abstinencia?su.nombre+". "+su.abstinencia+" Varía según la persona.":"";
 }
 /* El botón lleva a Saber y baja hasta las comunidades */
 $("verComunidades").onclick=()=>{ irA("saber"); setTimeout(()=>{ const el=$("comunidadesList"); if(el) el.scrollIntoView({behavior:"smooth",block:"start"}); },150); };
@@ -207,7 +207,7 @@ function renderHitos(d){
 }
 
 /* ---------- Celebración de hito ---------- */
-const FRASES={1:"Un día entero. El primero siempre es el más difícil.",3:"Tres días. Lo peor del cuerpo ya va pasando.",7:"Una semana. Ya tienes un patrón nuevo.",14:"Dos semanas. El sueño empieza a volver a la normalidad.",30:"Un mes. Mucha gente dice que aquí empieza a volver el color.",60:"Dos meses. Tu cerebro ya fabricó receptores nuevos.",90:"Tres meses. El plazo que la medicina marca como el más difícil ya pasó.",180:"Medio año. Esto ya no es un intento: es tu vida.",365:"Un año. Léelo de nuevo: un año.",730:"Dos años. Gracias por seguir aquí."};
+const FRASES={1:"Un día entero. El primero siempre es el más difícil.",3:"Tres días. Lo peor del cuerpo ya va pasando.",7:"Una semana. Ya tienes un patrón nuevo.",14:"Dos semanas. El sueño empieza a volver a la normalidad.",30:"Un mes. Mucha gente dice que aquí empieza a volver el color.",60:"Dos meses. Tu cerebro sigue reparándose, aunque no siempre se note.",90:"Tres meses. El plazo que la medicina marca como el más difícil ya pasó.",180:"Medio año. Esto ya no es un intento: es tu vida.",365:"Un año. Léelo de nuevo: un año.",730:"Dos años. Gracias por seguir aquí."};
 function checkCelebra(d){
   const h=C.hitos(d);
   if(h.ultimo&&h.ultimo>(S.celebrado||0)&&S.modo==="dejar"){
@@ -404,7 +404,7 @@ $("buscar").oninput=()=>{
 };
 
 /* ---------- Diagnóstico para reportar problemas (sin datos personales) ---------- */
-const VERSION_APP="2026.10.10";
+const VERSION_APP="2026.10.13";
 $("copiarDiag").onclick=()=>copyText(`Cabeza Despejada ${VERSION_APP} · ${navigator.userAgent} · pantalla ${window.innerWidth}x${window.innerHeight} · modo ${document.documentElement.getAttribute("data-theme")||"auto"} · instalada: ${window.matchMedia("(display-mode: standalone)").matches?"sí":"no"}`);
 
 /* ---------- Compartir ---------- */
@@ -455,7 +455,7 @@ function renderSust(){
 
 /* ---------- Resumen de la semana ---------- */
 function renderSemana(){
-  const r=C.resumenSemana(S.events,S.spendWeek);
+  const r=C.resumenSemana(S.events,S.spendWeek,undefined,S.day0);
   $("wkClean").textContent=r.diasLimpios+"/7";
   $("wkWaves").textContent=r.olas;
   $("wkSleep").textContent=r.suenoProm==null?"—":r.suenoProm+" h";
@@ -677,6 +677,13 @@ $("exportBtn").onclick=()=>{
 /* ---------- Copy ---------- */
 function copyText(t){ try{ navigator.clipboard.writeText(t).then(()=>toast("Copiado")).catch(()=>fallback()); }catch(e){ fallback(); } function fallback(){ const ta=document.createElement("textarea"); ta.value=t; document.body.appendChild(ta); ta.select(); try{ document.execCommand("copy"); toast("Copiado"); }catch(e){ toast("Selecciona y copia el número"); } ta.remove(); } }
 document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=()=>copyText(b.dataset.copy));
+/* Junto a cada número de ayuda, un botón Llamar que abre el marcador del teléfono */
+document.querySelectorAll("[data-copy]").forEach(b=>{
+  if(!/^\d+$/.test(b.dataset.copy)) return;
+  const a=document.createElement("a"); a.href="tel:"+b.dataset.copy; a.className="llamar"; a.textContent="Llamar";
+  const grupo=document.createElement("div"); grupo.className="botones-contacto";
+  b.replaceWith(grupo); grupo.append(a,b);
+});
 
 /* ---------- Craving mode ---------- */
 let tInt=null, bInt=null, left=0, TOTAL=15*60;

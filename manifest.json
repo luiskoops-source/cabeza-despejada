@@ -1,15 +1,20 @@
 {
+  "id": "./",
   "name": "Cabeza Despejada",
   "short_name": "Despejada",
-  "description": "Apoyo personal para mantenerme sin consumir",
+  "description": "App gratis y anónima para dejar o reducir el consumo de sustancias, a tu ritmo.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#1b0b3b",
   "theme_color": "#5a1fd6",
   "lang": "es",
+  "categories": ["health", "lifestyle"],
   "icons": [
-    { "src": "iconos/icono-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "iconos/icono-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+    { "src": "iconos/icono-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "iconos/icono-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "iconos/icono-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "iconos/icono-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }
