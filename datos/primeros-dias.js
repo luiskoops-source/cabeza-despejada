@@ -4,8 +4,8 @@
    Campos de cada etapa: desde y hasta (días desde el Día 0), titulo, que (lo que se siente), ayuda (lo que sirve). */
 window.ETAPAS=[
 {desde:0,hasta:3,titulo:"Los primeros días: el bajón",
- que:"Cansancio, mucho sueño o nada de sueño, hambre, ánimo bajo e irritabilidad. Es el cerebro reponiendo lo que gastó, no es tu vida.",
- ayuda:"Dormir, comer algo, tomar agua y no quedarte solo. No tomes decisiones grandes estos días."},
+ que:"Cansancio, mucho sueño o nada de sueño, un hambre enorme (sobre todo de dulces), ánimo bajo e irritabilidad. Es el cerebro reponiendo lo que gastó, no es tu vida.",
+ ayuda:"Dormir, comer comida de verdad y no solo dulces, tomar agua y no quedarte solo. No tomes decisiones grandes estos días."},
 {desde:4,hasta:13,titulo:"Primera y segunda semana: las olas de ganas",
  que:"El cuerpo empieza a sentirse mejor, pero las ganas llegan en olas, sobre todo en tus horas, lugares y personas de siempre. Cada ola sube y baja sola.",
  ayuda:"Usar el Modo ganas, tener un plan para tu hora difícil y borrar o bloquear el contacto."},
@@ -20,7 +20,7 @@ window.ETAPAS=[
 /* Una frase por día para los primeros 14 días. Después se usa la de la etapa. */
 window.ANIMO_DIA=[
 "Día 0. Hoy no tienes que dejar nada para siempre. Solo hoy.",
-"Día 1. El cansancio y la tristeza de hoy son el bajón. Pasan.",
+"Día 1. El cansancio, la tristeza y el hambre voraz de hoy son el bajón. Come tranquilo: el cuerpo está cobrando lo que no comió. Pasa.",
 "Día 2. Si hoy duermes mucho o comes mucho, está bien. El cuerpo se está reponiendo.",
 "Día 3. Si hoy pesa, es normal: estos días suelen ser de los más duros. Pasan.",
 "Día 4. Ya pasaste los primeros días. Eso no es poco.",
