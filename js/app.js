@@ -650,6 +650,9 @@ function restaurar(raw){
   }catch(e){ toast("Eso no es un respaldo válido"); }
 }
 $("backupRestore").onclick=()=>restaurar($("backupText").value.trim());
+/* Dentro de otra página (por ejemplo la versión fijada en Claude) el navegador no deja descargar archivos:
+   ahí se oculta el botón y queda solo "Copiar mis datos", que sí funciona. */
+if(window.self!==window.top) $("backupFile").hidden=true;
 /* Guardar como archivo: arma un archivo con los datos y el navegador lo descarga. No pasa por ningún servidor. */
 $("backupFile").onclick=()=>{
   try{
