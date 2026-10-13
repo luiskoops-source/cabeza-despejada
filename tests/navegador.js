@@ -44,6 +44,9 @@ const path = require("path");
   await pagina.click('[data-tab="noche"]'); await pagina.click("#nocheCalma"); await pagina.waitForTimeout(200);
   if (!(await pagina.isVisible("#calma"))) errores.push("El Modo calma no abre desde Noche");
   await pagina.click("#closeCalma");
+  /* 5c. Escuchar: hay botones de parlante si el navegador tiene voz */
+  const conVoz = await pagina.evaluate(() => "speechSynthesis" in window);
+  if (conVoz) { const nb = await pagina.evaluate(() => document.querySelectorAll(".leer").length); if (nb < 5) errores.push("Faltan botones de Escuchar: " + nb); }
   /* 6. Sin scroll horizontal en celular */
   const ancho = await pagina.evaluate(() => document.documentElement.scrollWidth);
   if (ancho > 400) errores.push("La página se desborda a lo ancho: " + ancho + "px");

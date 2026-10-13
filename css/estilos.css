@@ -187,3 +187,9 @@ details summary{cursor:pointer;font-weight:600}
 .etapa.on{border-color:var(--accent)}
 .etapa summary{cursor:pointer;font-weight:600}
 .etapa p{margin:6px 0 0}
+
+/* Escuchar: botón de parlante en la esquina de cada tarjeta */
+.con-leer{position:relative}
+.leer{position:absolute;top:8px;right:8px;width:34px;height:34px;padding:0;border-radius:999px;font-size:1rem;line-height:1;background:var(--surface2);border:1px solid var(--line);z-index:1}
+.con-leer>.eyebrow:first-of-type,.con-leer>h2:first-of-type{padding-right:40px}
+.leyendo-texto button,.leyendo-texto input,.leyendo-texto select,.leyendo-texto textarea{display:none!important}
