@@ -39,6 +39,13 @@ const horaDia0=fecha=>fecha===todayStr()?new Date().toISOString():null;
    El dato queda solo en el teléfono (localStorage); el código no guarda fechas de nadie. */
 (function dia0DesdeLink(){
   let url; try{ url=new URL(location.href); }catch(e){ return; }
+  /* Razón desde el link: ?razon=texto agrega esa razón a "Mis razones" (si no estaba ya) */
+  const razon=(url.searchParams.get("razon")||"").trim().slice(0,200);
+  if(razon){
+    if(!S.reasons.includes(razon)){ S.reasons.push(razon); save(); setTimeout(()=>toast("Razón agregada"),300); }
+    url.searchParams.delete("razon");
+    try{ history.replaceState(null,"",url.pathname+url.search+url.hash); }catch(e){}
+  }
   const v=url.searchParams.get("dia0");
   if(!v) return;
   /* Solo se acepta una fecha real con formato AAAA-MM-DD que no sea futura */
