@@ -34,6 +34,21 @@ const todayStrDe=iso=>C.fechaTexto(new Date(iso));
 /* Guarda el momento exacto solo si el Día 0 elegido es hoy; para fechas pasadas se cuenta desde la medianoche */
 const horaDia0=fecha=>fecha===todayStr()?new Date().toISOString():null;
 
+/* ---------- Día 0 desde el link ---------- */
+/* Si la app se abre con ?dia0=AAAA-MM-DD, fija ese Día 0 en este teléfono.
+   El dato queda solo en el teléfono (localStorage); el código no guarda fechas de nadie. */
+(function dia0DesdeLink(){
+  let url; try{ url=new URL(location.href); }catch(e){ return; }
+  const v=url.searchParams.get("dia0");
+  if(!v) return;
+  /* Solo se acepta una fecha real con formato AAAA-MM-DD que no sea futura */
+  const valida=/^\d{4}-\d{2}-\d{2}$/.test(v)&&C.fechaTexto(new Date(v+"T12:00:00"))===v&&v<=todayStr();
+  if(valida){ S.day0=v; S.day0Hora=horaDia0(v); save(); setTimeout(()=>toast("Día 0 ajustado"),300); }
+  /* Se borra el parámetro del link para que al recargar no se vuelva a aplicar */
+  url.searchParams.delete("dia0");
+  try{ history.replaceState(null,"",url.pathname+url.search+url.hash); }catch(e){}
+})();
+
 /* ---------- Facts base ---------- */
 /* FACTS viene de datos/hechos.js */
 
