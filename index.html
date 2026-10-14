@@ -175,7 +175,7 @@
 <div class="card">
     <p class="eyebrow">Plan para mi hora difícil</p>
     <p class="small muted">Según tu registro, tus ganas llegan más a <b id="planHour"></b>. Escribe qué vas a hacer a esa hora y la app te lo recordará cuando llegue.</p>
-    <textarea id="planText" placeholder="Ej: a esa hora me ducho, pongo una serie y dejo el celular en la cocina"></textarea>
+    <textarea id="planText" aria-label="Mi plan para la hora difícil" placeholder="Ej: a esa hora me ducho, pongo una serie y dejo el celular en la cocina"></textarea>
     <div class="row"><button class="primary" id="savePlan">Guardar plan</button></div>
   </div>
   </details>
@@ -185,7 +185,7 @@
     <p class="eyebrow">Mis razones</p>
     <ul class="reasons" id="reasons"></ul>
     <div class="row">
-      <input id="newReason" placeholder="Agregar una razón para no consumir">
+      <input id="newReason" aria-label="Nueva razón para no consumir" placeholder="Agregar una razón para no consumir">
       <button id="addReason">Agregar</button>
     </div>
   </div>
@@ -260,7 +260,7 @@
 <div class="card">
     <h2>¿Qué me ofrecieron?</h2>
     <p class="small muted">Toca cómo se ve, o escribe cómo lo llamaron. Te dice qué suele ser, qué puede traer en realidad y cuál es la señal de emergencia.</p>
-    <input id="ofBuscar" placeholder="Ej: tusi, pepa, clona, cristal...">
+    <input id="ofBuscar" aria-label="Cómo se ve o cómo lo llamaron" placeholder="Ej: tusi, pepa, clona, cristal...">
     <div class="row" id="ofChips"></div>
     <div id="ofOut" hidden></div>
   </div>
@@ -352,7 +352,7 @@
     </div>
     <p class="small muted">Pide un efecto negativo que todavía no esté en tu lista, explicado para entenderlo de verdad. Puedes pedir un tema específico o dejarlo en blanco.</p>
     <div class="row">
-      <input id="aiTopic" placeholder="Ej: qué pasa con el corazón, con la memoria, con el sueño...">
+      <input id="aiTopic" aria-label="Tema que quieres que te expliquen" placeholder="Ej: qué pasa con el corazón, con la memoria, con el sueño...">
       <button id="aiAsk" class="primary">Explícame</button>
       <button id="aiStop" class="ghost" hidden>Parar</button>
     </div>
@@ -730,7 +730,7 @@
     <div class="card" id="craveAiCard">
       <p class="eyebrow">Habla con alguien ahora</p>
       <p class="small muted">Cuéntale a Claude qué está pasando. Te responde corto y sin sermones.</p>
-      <textarea id="craveMsg" placeholder="Ej: tengo 20 lucas en la billetera y el vecino está despierto"></textarea>
+      <textarea id="craveMsg" aria-label="Qué está pasando" placeholder="Ej: tengo 20 lucas en la billetera y el vecino está despierto"></textarea>
       <div class="row"><button class="primary" id="craveAsk">Enviar</button><button class="ghost" id="craveStop" hidden>Parar</button></div>
       <p class="ai" id="craveReply"></p>
     </div>
