@@ -65,8 +65,9 @@ prueba("cuenta días limpios, olas y sueño de los últimos 7 días",()=>{
 });
 
 prueba("los días antes del Día 0 no cuentan como limpios",()=>{
+  /* Día 0 = 12 (día del último consumo): solo el 13 cuenta como limpio */
   const r=C.resumenSemana([],70000,"2026-10-13","2026-10-12");
-  assert.strictEqual(r.diasLimpios,2); assert.strictEqual(Math.round(r.dinero),20000);
+  assert.strictEqual(r.diasLimpios,1); assert.strictEqual(Math.round(r.dinero),10000);
 });
 
 console.log("pesos");
@@ -106,7 +107,11 @@ prueba("un consumo no borra los días anteriores",()=>{
 });
 prueba("la ventana de 30 días no cuenta lo más antiguo",()=>{
   const r=C.limpiosAcumulados([{type:"crave",ts:"2026-08-01T12:00:00.000Z"}],"2026-08-01",30,"2026-10-12");
-  assert.strictEqual(r.enVentana,30); assert.strictEqual(r.total,73);
+  assert.strictEqual(r.enVentana,30); assert.strictEqual(r.total,72); /* 2 de agosto al 12 de octubre: el Día 0 no cuenta */
+});
+prueba("el Día 0 no cuenta como limpio en el calendario",()=>{
+  const r=C.calendario([],"2026-10-12",30,"2026-10-13");
+  assert.strictEqual(r.limpios,1);
 });
 prueba("sin datos devuelve ceros",()=>assert.deepStrictEqual(C.limpiosAcumulados([],null,30,"2026-10-12"),{total:0,enVentana:0,ventana:30,desde:null}));
 console.log(process.exitCode?"\nHay pruebas fallando.":"\nOK: "+n+" pruebas pasaron.");

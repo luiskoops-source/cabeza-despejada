@@ -359,7 +359,7 @@ function renderSenales(){
 function renderCal(){
   const r=C.calendario(S.events,S.day0,30);
   const hoy=todayStr();
-  $("cal").innerHTML=r.dias.map(d=>`<div class="${d.consumo?"no":d.antes?"antes":d.ganas?"ganas":"ok"} ${d.k===hoy?"hoy":""}" title="${d.k}${d.ganas?" · "+d.ganas+" ganas":""}${d.sueno!=null?" · durmió "+d.sueno+" h":""}">${d.dia}</div>`).join("");
+  $("cal").innerHTML=r.dias.map(d=>`<div class="${d.consumo?"no":d.antes?"antes":d.k===S.day0?"cero":d.ganas?"ganas":"ok"} ${d.k===hoy?"hoy":""}" title="${d.k}${d.k===S.day0?" · Día 0":""}${d.ganas?" · "+d.ganas+" ganas":""}${d.sueno!=null?" · durmió "+d.sueno+" h":""}">${d.dia}</div>`).join("");
   $("calText").textContent=`${r.limpios} ${r.limpios===1?"día limpio":"días limpios"} de los últimos 30 · ${r.ganas} ganas anotadas · ${r.consumos} ${r.consumos===1?"consumo":"consumos"}.`;
 }
 
@@ -404,7 +404,7 @@ $("buscar").oninput=()=>{
 };
 
 /* ---------- Diagnóstico para reportar problemas (sin datos personales) ---------- */
-const VERSION_APP="2026.10.13b";
+const VERSION_APP="2026.10.13c";
 $("copiarDiag").onclick=()=>copyText(`Cabeza Despejada ${VERSION_APP} · ${navigator.userAgent} · pantalla ${window.innerWidth}x${window.innerHeight} · modo ${document.documentElement.getAttribute("data-theme")||"auto"} · instalada: ${window.matchMedia("(display-mode: standalone)").matches?"sí":"no"}`);
 
 /* ---------- Compartir ---------- */

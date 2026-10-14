@@ -212,3 +212,6 @@ a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;pad
 /* Si el texto y los botones no caben en una línea, los botones bajan en vez de apretar el texto */
 .contact{flex-wrap:wrap}
 .contact>div:first-child{flex:1 1 170px;min-width:0}
+/* Calendario: el Día 0 (día del último consumo) va con borde punteado, sin pintar como limpio */
+.cal div.cero{background:transparent;border:2px dashed var(--accent);color:var(--fg)}
+.dot.cero{background:transparent;border:2px dashed var(--accent)}

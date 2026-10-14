@@ -74,7 +74,7 @@ function resumenSemana(eventos, gastoSemana, hoy, dia0){
   const fin=hoy?new Date(hoy+"T12:00:00"):new Date(); fin.setHours(12,0,0,0);
   const dias=[]; for(let i=6;i>=0;i--){ const d=new Date(fin); d.setDate(d.getDate()-i); dias.push(fechaTexto(d)); }
   const consumos=new Set(eventos.filter(e=>e.type==="relapse").map(e=>e.ts.slice(0,10)));
-  const diasLimpios=dias.filter(k=>!consumos.has(k)&&(!dia0||k>=dia0)).length;
+  const diasLimpios=dias.filter(k=>!consumos.has(k)&&(!dia0||k>dia0)).length;
   const enSemana=e=>dias.includes(e.ts.slice(0,10));
   const olas=eventos.filter(e=>e.type==="win"&&enSemana(e)).length;
   const suenos=eventos.filter(e=>e.type==="checkin"&&enSemana(e)&&typeof e.sueno==="number").map(e=>e.sueno);
@@ -119,7 +119,8 @@ function calendario(eventos, dia0, dias, hoy){
     if(e.type==="relapse") x.consumo=true;
     if(e.type==="crave") x.ganas++;
     if(e.type==="checkin"&&typeof e.sueno==="number") x.sueno=e.sueno; });
-  const limpios=out.filter(x=>!x.consumo&&!x.antes).length;
+  /* El Día 0 es el día del último consumo: no cuenta como limpio (igual que el contador de Hoy) */
+  const limpios=out.filter(x=>!x.consumo&&!x.antes&&x.k!==dia0).length;
   return { dias:out, limpios, consumos:out.filter(x=>x.consumo).length, ganas:out.reduce((a,x)=>a+x.ganas,0) };
 }
 
@@ -137,7 +138,7 @@ function limpiosAcumulados(eventos, dia0, ventana, hoy){
   let total=0, enVentana=0;
   for(let d=new Date(inicio+"T12:00:00"); d<=fin; d.setDate(d.getDate()+1)){
     const k=fechaTexto(d);
-    if(consumos.has(k)) continue;
+    if(consumos.has(k)||k===dia0) continue;
     total++;
     if(d>=corte) enVentana++;
   }
