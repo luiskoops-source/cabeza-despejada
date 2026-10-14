@@ -212,8 +212,9 @@ function checkCelebra(d){
   const h=C.hitos(d);
   if(h.ultimo&&h.ultimo>(S.celebrado||0)&&S.modo==="dejar"){
     /* Singular para el primer hito: "1 día", no "1 días" */
-    $("celebraTitle").textContent=h.ultimo+(h.ultimo===1?" día":" días");
-    $("celebraText").textContent=FRASES[h.ultimo]||"Un hito más.";
+    $("celebraTitle").textContent="Llegaste a "+h.ultimo+(h.ultimo===1?" día":" días");
+    /* Si el hito fue otro día y el contador ya va más adelante, se dice para que los dos números no parezcan contradecirse */
+    $("celebraText").textContent=(FRASES[h.ultimo]||"Un hito más.")+(d>h.ultimo?" Hoy vas en "+d+".":"");
     $("celebra").hidden=false;
   } else $("celebra").hidden=true;
 }
