@@ -210,11 +210,11 @@ function renderHitos(d){
 const FRASES={1:"Un día entero. El primero siempre es el más difícil.",3:"Tres días. Lo peor del cuerpo ya va pasando.",7:"Una semana. Ya tienes un patrón nuevo.",14:"Dos semanas. El sueño empieza a volver a la normalidad.",30:"Un mes. Mucha gente dice que aquí empieza a volver el color.",60:"Dos meses. Tu cerebro sigue reparándose, aunque no siempre se note.",90:"Tres meses. El plazo que la medicina marca como el más difícil ya pasó.",180:"Medio año. Esto ya no es un intento: es tu vida.",365:"Un año. Léelo de nuevo: un año.",730:"Dos años. Gracias por seguir aquí."};
 function checkCelebra(d){
   const h=C.hitos(d);
-  if(h.ultimo&&h.ultimo>(S.celebrado||0)&&S.modo==="dejar"){
+  /* Solo el día en que se cumple el hito (d===h.ultimo): así el número de la tarjeta es el mismo que el del contador. Al día siguiente se esconde sola. */
+  if(h.ultimo&&d===h.ultimo&&h.ultimo>(S.celebrado||0)&&S.modo==="dejar"){
     /* Singular para el primer hito: "1 día", no "1 días" */
     $("celebraTitle").textContent="Llegaste a "+h.ultimo+(h.ultimo===1?" día":" días");
-    /* Si el hito fue otro día y el contador ya va más adelante, se dice para que los dos números no parezcan contradecirse */
-    $("celebraText").textContent=(FRASES[h.ultimo]||"Un hito más.")+(d>h.ultimo?" Hoy vas en "+d+".":"");
+    $("celebraText").textContent=FRASES[h.ultimo]||"Un hito más.";
     $("celebra").hidden=false;
   } else $("celebra").hidden=true;
 }
