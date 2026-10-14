@@ -45,3 +45,11 @@ window.PREGUNTAS.push(
 {q:"La posición lateral de seguridad evita que alguien inconsciente se ahogue con su vómito.",v:true,e:"Verdadero. De lado, pierna de arriba doblada, mano bajo la mejilla, boca hacia el suelo. Y llamar al 131.",s:"general"},
 {q:"Si un amigo se puso paranoico tras varios días sin dormir con estimulantes, lo que más necesita es dormir.",v:true,e:"Verdadero. La psicosis por falta de sueño pasa al dormir. Si hay riesgo para él o para otros, 131.",s:"general"}
 );
+
+/* Preguntas agregadas en octubre de 2026. Salen de la guía de sustancias y de los hechos con fuente de la app. */
+window.PREGUNTAS.push(
+{q:"Los cannabinoides sintéticos (spice, K2) son una versión más suave de la marihuana.",v:false,e:"Falso. No son marihuana y son mucho más peligrosos: convulsiones, agitación extrema y pulso muy alto. Si se sospecha uno, 131.",s:"marihuana"},
+{q:"Para dejar la cocaína hace falta una desintoxicación en el hospital.",v:false,e:"Falso. La abstinencia de cocaína no es peligrosa para el cuerpo, aunque sí es dura. Lo que más ayuda es el apoyo psicológico, no una desintoxicación médica.",s:"cocaina"},
+{q:"Beber poco alcohol elimina el riesgo de cáncer que tiene el alcohol.",v:false,e:"Falso. No existe una cantidad segura: el riesgo de cáncer de boca, esófago, hígado y mama sube desde el primer trago. Mientras menos, menor el riesgo.",s:"alcohol"},
+{q:"El levamisol con que suele cortarse la cocaína puede dejar al cuerpo sin defensas.",v:true,e:"Verdadero. Puede destruir glóbulos blancos y causar heridas en la piel que no sanan. No hay forma de saber cuánto lleva mirándola.",s:"cocaina"}
+);

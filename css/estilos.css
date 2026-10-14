@@ -57,6 +57,9 @@ button:disabled{opacity:.55;cursor:default}
 input,textarea,select{font:inherit;color:var(--fg);background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:100%;min-width:0}
 textarea{resize:vertical;min-height:70px}
 label.f{display:flex;flex-direction:column;gap:4px;font-size:.86rem;color:var(--muted);flex:1;min-width:140px}
+/* Los menús desplegables (sustancia, modo, gatillante) tienen opciones largas: con 140px se cortaban ("Dejarlo del todc").
+   Con 200px de mínimo, en un celular el menú pasa a ocupar la fila completa y el texto se lee entero. */
+label.f:has(select){min-width:200px}
 a{color:var(--accent);font-weight:600}
 ul,ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
 .pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:var(--surface2);color:var(--muted)}
