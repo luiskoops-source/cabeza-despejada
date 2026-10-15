@@ -155,10 +155,42 @@ function avanzarHistoria(estado, hoy, total){
   return e;
 }
 
+/* Arma el texto de un archivo de calendario (.ics) con un recordatorio que se repite todos los días.
+   hora (0 a 23) y minuto (0 a 59): cuándo suena. desde: "AAAA-MM-DD", el primer día. sello: momento en que se crea.
+   La hora va sin zona horaria: suena a esa hora en el lugar donde esté el teléfono.
+   El título es discreto a propósito: el calendario puede verlo otra persona o sincronizarse con una cuenta.
+   Devuelve null si la hora no es válida. */
+function recordatorioICS(hora, minuto, desde, sello){
+  if(!(Number.isInteger(hora)&&hora>=0&&hora<=23&&Number.isInteger(minuto)&&minuto>=0&&minuto<=59)) return null;
+  const dos=n=>String(n).padStart(2,"0");
+  const inicio=desde.replace(/-/g,"")+"T"+dos(hora)+dos(minuto)+"00";
+  const marca=new Date(sello).toISOString().replace(/[-:]/g,"").slice(0,15)+"Z";
+  return [
+    "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Cabeza Despejada//ES","CALSCALE:GREGORIAN",
+    "BEGIN:VEVENT",
+    "UID:recordatorio-"+marca+"@cabeza-despejada",
+    "DTSTAMP:"+marca,
+    "DTSTART:"+inicio,
+    "DURATION:PT15M",
+    "RRULE:FREQ=DAILY",
+    "SUMMARY:Un momento para ti",
+    "DESCRIPTION:Abre la app y mira tu plan.",
+    "BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:Un momento para ti","TRIGGER:PT0M","END:VALARM",
+    "END:VEVENT","END:VCALENDAR",""
+  ].join("\r\n");
+}
+
+/* Hora sugerida para el recordatorio: media hora antes de la hora difícil, para alcanzar a prepararse.
+   Sin hora difícil todavía (menos de 3 registros), propone las 20:00. Devuelve texto "HH:MM". */
+function horaRecordatorio(horaDificil){
+  if(horaDificil==null) return "20:00";
+  return String((horaDificil+23)%24).padStart(2,"0")+":30";
+}
+
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, HITOS, pesos };
+const Calculos={ fechaTexto, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, recordatorioICS, horaRecordatorio, HITOS, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);

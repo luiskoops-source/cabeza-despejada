@@ -617,7 +617,21 @@ function renderPlan(){
   const esLaHora=h!=null&&S.plan&&Math.abs(ahora-h)<=1;
   $("planNow").hidden=!esLaHora;
   if(esLaHora) $("planNowText").textContent=S.plan;
+  /* Propone la hora del recordatorio solo si la persona no eligió una */
+  if(!$("recHora").value) $("recHora").value=C.horaRecordatorio(h);
 }
+/* Recordatorio diario: arma el archivo de calendario y lo descarga. Al abrirlo, el teléfono ofrece agregarlo a su calendario. */
+$("recordatorio").onclick=()=>{
+  const [hh,mm]=($("recHora").value||"").split(":").map(Number);
+  const texto=C.recordatorioICS(hh,mm,todayStr(),Date.now());
+  if(!texto){ mensaje("recMsg","Elige una hora.","no"); return; }
+  try{
+    const url=URL.createObjectURL(new Blob([texto],{type:"text/calendar"}));
+    const a=document.createElement("a"); a.href=url; a.download="recordatorio.ics"; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),4000);
+    mensaje("recMsg","Listo. Abre el archivo descargado y toca Guardar o Agregar en tu calendario. Si cambias de hora, borra el anterior en el calendario.","ok");
+  }catch(e){ mensaje("recMsg","No se pudo crear el archivo en esta vista. Prueba desde la app instalada.","no"); }
+};
 $("savePlan").onclick=()=>{ clearTimeout(planT); S.plan=$("planText").value.trim(); save(); $("planText").blur(); renderPlan(); toast("Plan guardado"); };
 /* El plan también se guarda solo mientras escribes (medio segundo después de la última letra) */
 let planT;

@@ -208,6 +208,11 @@
     <p class="small muted">Según tu registro, tus ganas llegan más a <b id="planHour"></b>. Escribe qué vas a hacer a esa hora y la app te lo recordará cuando llegue.</p>
     <textarea id="planText" aria-label="Mi plan para la hora difícil" placeholder="Ej: a esa hora me ducho, pongo una serie y dejo el celular en la cocina"></textarea>
     <div class="row"><button class="primary" id="savePlan">Guardar plan</button></div>
+    <!-- Recordatorio diario: descarga un archivo de calendario; el calendario del teléfono hace sonar la alarma aunque la app esté cerrada -->
+    <p class="eyebrow" style="margin-top:14px">Recordatorio diario</p>
+    <p class="small muted">Tu calendario te avisará todos los días a esta hora, aunque la app esté cerrada. El aviso dice solo "Un momento para ti", sin nada sobre consumo, porque si tu calendario se sincroniza con tu cuenta, el evento queda guardado ahí.</p>
+    <div class="row"><input type="time" id="recHora" aria-label="Hora del recordatorio"><button id="recordatorio" type="button">Agregar a mi calendario</button></div>
+    <p class="small" id="recMsg" role="status"></p>
   </div>
   </details>
   <details class="fold">

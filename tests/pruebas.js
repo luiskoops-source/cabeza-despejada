@@ -121,6 +121,18 @@ prueba("al día siguiente abre el que sigue",()=>assert.strictEqual(C.avanzarHis
 prueba("días sin abrir no se acumulan",()=>assert.strictEqual(C.avanzarHistoria({disponibles:3,fecha:"2026-10-10"},"2026-10-20",15).disponibles,4));
 prueba("no pasa del último capítulo",()=>assert.strictEqual(C.avanzarHistoria({disponibles:15,fecha:"2026-10-10"},"2026-10-20",15).disponibles,15));
 prueba("si llegan capítulos nuevos, sigue desde donde quedó",()=>assert.strictEqual(C.avanzarHistoria({disponibles:15,fecha:"2026-10-10"},"2026-10-20",20).disponibles,16));
+
+console.log("recordatorio de calendario");
+const ics=C.recordatorioICS(22,30,"2026-10-15",Date.UTC(2026,9,15,12,0,0));
+prueba("empieza el día y la hora pedidos",()=>assert.ok(ics.includes("DTSTART:20261015T223000\r\n")));
+prueba("se repite todos los días",()=>assert.ok(ics.includes("RRULE:FREQ=DAILY")));
+prueba("trae una alarma que suena a la hora",()=>assert.ok(ics.includes("BEGIN:VALARM")&&ics.includes("TRIGGER:PT0M")));
+prueba("las horas de un dígito llevan cero adelante",()=>assert.ok(C.recordatorioICS(7,5,"2026-10-15",0).includes("T070500")));
+prueba("el título no dice nada del consumo",()=>assert.ok(!/consum|droga|ganas|coca|recaí/i.test(ics)));
+prueba("hora inválida devuelve null",()=>{ assert.strictEqual(C.recordatorioICS(24,0,"2026-10-15",0),null); assert.strictEqual(C.recordatorioICS(NaN,0,"2026-10-15",0),null); });
+prueba("sugiere media hora antes de la hora difícil",()=>assert.strictEqual(C.horaRecordatorio(23),"22:30"));
+prueba("si la hora difícil es medianoche, sugiere 23:30",()=>assert.strictEqual(C.horaRecordatorio(0),"23:30"));
+prueba("sin hora difícil sugiere 20:00",()=>assert.strictEqual(C.horaRecordatorio(null),"20:00"));
 console.log(process.exitCode?"\nHay pruebas fallando.":"\nOK: "+n+" pruebas pasaron.");
 
 /* ---------- Respaldo (js/respaldo.js) ---------- */
