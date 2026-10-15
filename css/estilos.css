@@ -7,20 +7,20 @@
 @font-face{font-family:"Instrument Sans";font-style:normal;font-weight:600;font-display:swap;src:url("../fuentes/instrument-sans-latin-600.woff2") format("woff2")}
 @font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:500;font-display:swap;src:url("../fuentes/jetbrains-mono-latin-500.woff2") format("woff2")}
 @font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:700;font-display:swap;src:url("../fuentes/jetbrains-mono-latin-700.woff2") format("woff2")}
-/* Layout: one column phone-first, sticky tab bar at the bottom; each tab is a screen. Calm surfaces, one warm accent reserved for the craving mode. */
+/* Paleta "sticker": fondo crema, tinta casi negra, verde cactus como acento y café salchicha para el botón de ganas. En honor a Floy. */
 :root{
-  --bg:#fff4ec; --surface:#ffffff; --surface2:#fde9e0; --fg:#2a1335; --muted:#7a5c7f; --line:#f3d3c6;
-  --accent:#c0269a; --accent-ink:#ffffff; --warm:#ff8a3d; --warm-soft:#ffe3cf; --hero1:#ff5f6d; --hero2:#7b2ff7; --hero-ink:#ffffff; --good:#1f9d6b; --bad:#d6336c; --bad-soft:#ffe0ea;
+  --bg:#f4eee1; --surface:#fffaf0; --surface2:#ece3d0; --fg:#262626; --muted:#6b6355; --line:#ddd2bb;
+  --accent:#4f7a1f; --accent-ink:#ffffff; --warm:#a35a22; --warm-soft:#f5e3cc; --warm-ink:#ffffff; --hero1:#3f6a1a; --hero2:#3f6a1a; --hero-ink:#fffaf0; --good:#2f7d4f; --bad:#b83a2e; --bad-soft:#f8dcd6;
   --display:"Bricolage Grotesque","Instrument Sans",system-ui,sans-serif;
   --body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --bg:#1a1030; --surface:#241741; --surface2:#2f1f52; --fg:#fbeefc; --muted:#c3a6cf; --line:#3f2b66;
-  --accent:#ff7ad9; --accent-ink:#2a0a2e; --warm:#ffb02e; --warm-soft:#3a2347; --hero1:#ff4d6d; --hero2:#5a1fd6; --hero-ink:#ffffff; --good:#5fe3a6; --bad:#ff7aa2; --bad-soft:#4a1f33; color-scheme:dark }}
+  --bg:#1d1a15; --surface:#27231c; --surface2:#332d24; --fg:#f4eee1; --muted:#b9ad97; --line:#433b2f;
+  --accent:#9dc54a; --accent-ink:#1a2a06; --warm:#e0a26a; --warm-soft:#3d2f22; --warm-ink:#2a1a0c; --hero1:#2f4a14; --hero2:#2f4a14; --hero-ink:#f4eee1; --good:#7fd19b; --bad:#f08a7a; --bad-soft:#4a241e; color-scheme:dark }}
 :root[data-theme="dark"]{
-  --bg:#1a1030; --surface:#241741; --surface2:#2f1f52; --fg:#fbeefc; --muted:#c3a6cf; --line:#3f2b66;
-  --accent:#ff7ad9; --accent-ink:#2a0a2e; --warm:#ffb02e; --warm-soft:#3a2347; --hero1:#ff4d6d; --hero2:#5a1fd6; --hero-ink:#ffffff; --good:#5fe3a6; --bad:#ff7aa2; --bad-soft:#4a1f33; color-scheme:dark }
+  --bg:#1d1a15; --surface:#27231c; --surface2:#332d24; --fg:#f4eee1; --muted:#b9ad97; --line:#433b2f;
+  --accent:#9dc54a; --accent-ink:#1a2a06; --warm:#e0a26a; --warm-soft:#3d2f22; --warm-ink:#2a1a0c; --hero1:#2f4a14; --hero2:#2f4a14; --hero-ink:#f4eee1; --good:#7fd19b; --bad:#f08a7a; --bad-soft:#4a241e; color-scheme:dark }
 
 *{box-sizing:border-box}
 /* Cualquier elemento con el atributo hidden desaparece, aunque otra regla le ponga display:flex */
@@ -50,7 +50,7 @@ p{margin:0}
 button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:10px;padding:8px 12px;font-weight:600;font-size:.95rem}
 button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 button.primary{background:var(--accent);color:var(--accent-ink);border-color:transparent}
-button.warm{background:linear-gradient(135deg,#ffb02e,#ff6a3d);color:#2a1335;box-shadow:0 8px 20px -12px #ff6a3d;border-color:transparent;font-family:var(--display);font-size:1rem;padding:12px 16px;border-radius:12px;width:100%}
+button.warm{background:var(--warm);color:var(--warm-ink);border-color:transparent;font-family:var(--display);font-size:1rem;padding:12px 16px;border-radius:12px;width:100%}
 button.ghost{background:transparent}
 button.danger{color:var(--bad);border-color:var(--bad)}
 button:disabled{opacity:.55;cursor:default}
@@ -122,7 +122,7 @@ details summary{cursor:pointer;font-weight:600}
 
 /* Logo */
 .logo{display:flex;align-items:center;gap:8px;margin-bottom:4px}
-.logo svg{flex:none;border-radius:9px}
+.logo svg{flex:none;border-radius:11px;border:1px solid var(--line)}
 /* Celebración de hito */
 .celebra{border-color:var(--accent);background:linear-gradient(135deg,var(--surface),var(--surface2))}
 .celebra h2{font-size:1.5rem}
@@ -137,7 +137,7 @@ details summary{cursor:pointer;font-weight:600}
 .ofItem .em{background:var(--bad-soft);border-radius:8px;padding:8px 10px}
 
 /* HERO del inicio */
-.hero{background:linear-gradient(140deg,#ffb347 0%,var(--hero1) 38%,var(--hero2) 100%);color:var(--hero-ink);border-radius:20px;padding:18px 16px;display:flex;flex-direction:column;gap:8px;box-shadow:0 10px 30px -18px var(--hero1)}
+.hero{background:var(--hero1);color:var(--hero-ink);border-radius:20px;padding:18px 16px;display:flex;flex-direction:column;gap:8px}
 .hero-eyebrow{font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;opacity:.85;font-weight:600}
 .hero-num{display:flex;align-items:baseline;gap:10px}
 .hero-num>span:first-child{font-family:var(--display);font-size:4rem;font-weight:800;line-height:1;letter-spacing:-.04em}
@@ -145,13 +145,13 @@ details summary{cursor:pointer;font-weight:600}
 .hero-live{font-size:1rem;opacity:.9;letter-spacing:.04em}
 .hero-sub{font-size:.88rem;opacity:.85}
 .hero-hitos .hito{border-color:rgba(255,255,255,.35);color:rgba(255,255,255,.8);width:32px;height:32px;font-size:.64rem}
-.hero-hitos .hito.on{background:#ffd166;border-color:#ffd166;color:#3a2200;box-shadow:0 0 0 3px rgba(255,209,102,.35)}
+.hero-hitos .hito.on{background:#9dc54a;border-color:#9dc54a;color:#1a2a06;box-shadow:0 0 0 3px rgba(157,197,74,.35)}
 .hero-tile{background:rgba(255,255,255,.14);color:var(--hero-ink)}.hero-tile .l{color:rgba(255,255,255,.8)}
 .hero-stats{gap:14px;margin-top:6px;font-size:.82rem;opacity:.95}.hero-stats b{font-size:1rem;margin-right:4px}
 /* Compromiso del día */
 .pledge{width:100%;padding:10px 14px;border-radius:12px;font-family:var(--display);font-size:.95rem;border:2px solid var(--accent);background:var(--surface);color:var(--accent)}
 .reiniciar{width:100%;font-size:.85rem;padding:6px 10px;border:none;color:var(--muted);text-decoration:underline}
-.pledge.done{background:linear-gradient(135deg,var(--accent),#7b2ff7);color:#fff;border-color:transparent}
+.pledge.done{background:var(--accent);color:var(--accent-ink);border-color:transparent}
 /* No estás solo */
 .solo{border-color:var(--warm);background:linear-gradient(180deg,var(--surface),var(--warm-soft))}
 .solo #soloLine{font-family:var(--display);font-size:1.15rem;font-weight:700;line-height:1.3}
@@ -174,7 +174,7 @@ details summary{cursor:pointer;font-weight:600}
 /* Calendario mensual */
 .cal{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px}
 .cal div{aspect-ratio:1;border-radius:8px;background:var(--surface2);display:grid;place-items:center;font-family:var(--mono);font-size:.68rem;color:var(--muted);position:relative}
-.cal div.ok{background:var(--good);color:#fff}.cal div.ganas{background:var(--warm);color:#2a1335}.cal div.no{background:var(--bad);color:#fff}.cal div.antes{opacity:.45}
+.cal div.ok{background:var(--good);color:#fff}.cal div.ganas{background:var(--warm);color:var(--warm-ink)}.cal div.no{background:var(--bad);color:#fff}.cal div.antes{opacity:.45}
 .cal div.hoy{outline:2px solid var(--accent);outline-offset:1px}
 .dot{display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--surface2);vertical-align:middle;margin-right:4px}
 .dot.ok{background:var(--good)}.dot.ganas{background:var(--warm)}.dot.no{background:var(--bad)}.dot.antes{background:var(--line)}
