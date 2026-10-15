@@ -255,6 +255,14 @@ details summary{cursor:pointer;font-weight:600}
 
 /* Botones Llamar y Copiar junto a cada número de ayuda */
 .botones-contacto{display:flex;gap:6px;flex:none}
+/* Enlaces que se ven como botones (Cuenta tu historia) */
+a.boton{display:inline-block;border:1.5px solid var(--line);background:var(--surface);color:var(--fg);border-radius:11px;padding:8px 12px;font-weight:600;font-size:.95rem;text-decoration:none;box-shadow:var(--sombra)}
+a.boton.primary{background:var(--accent);color:var(--accent-ink);border-color:transparent;box-shadow:0 3px 0 var(--accent-sombra)}
+/* Cada historia se abre al tocarla; la etiqueta dice si es real o ficción */
+.historia{background:var(--surface2);border-radius:11px;padding:10px 12px}
+.historia summary{cursor:pointer;display:flex;flex-direction:column;gap:4px}
+.historia summary .pill{align-self:flex-start}
+.historia p{margin:10px 0 0}
 a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;padding:8px 12px;font-weight:600;font-size:.95rem;text-decoration:none}
 /* Si el texto y los botones no caben en una línea, los botones bajan en vez de apretar el texto */
 .contact{flex-wrap:wrap}

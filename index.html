@@ -354,6 +354,20 @@
     <div id="buscarOut" class="stack" hidden></div>
   </div>
 
+  <!-- Cuenta tu historia: la gente cuenta o celebra algo en un formulario anónimo; se revisa y se publica aquí.
+       Sin foro ni chat, a propósito. Historias y link del formulario en datos/cuentan.js -->
+  <div class="card" id="cuentanCard">
+    <h2>Cuenta tu historia</h2>
+    <p class="small">Aquí no hay foro ni chat: lo simple es lo mejor. Si quieres contar algo, celebrar algo o sacarte algo de encima, escríbelo en un formulario anónimo. Lo leemos con cuidado y, si nos das permiso, lo publicamos aquí sin nada que te identifique.</p>
+    <div class="row" id="cuentanBotones">
+      <a class="boton primary" id="cuentanContar" target="_blank" rel="noopener">Quiero contar algo</a>
+      <a class="boton" id="cuentanCelebrar" target="_blank" rel="noopener">Quiero celebrar algo</a>
+    </div>
+    <p class="small muted" id="cuentanProximo" hidden>Muy pronto vas a poder enviar tu historia desde aquí.</p>
+    <p class="small muted">El formulario no pide nombre ni correo. Es de Google: lo que escribas queda guardado ahí. No escribas nombres ni datos de nadie.</p>
+    <div class="stack" id="cuentanLista"></div>
+  </div>
+
   <!-- Rápido: tarjetas de 15 segundos, una por toque, con tope diario. Sin autoplay ni scroll infinito, a propósito. -->
   <div class="card" id="rapidoCard">
     <div class="row" style="justify-content:space-between">
@@ -885,6 +899,8 @@
 <script src="datos/voz.js"></script>
 <!-- DATOS: lista antes de salir -->
 <script src="datos/antes-de-salir.js"></script>
+<!-- DATOS: historias de la gente (Cuenta tu historia) -->
+<script src="datos/cuentan.js"></script>
 <!-- DATOS: qué hay de nuevo en cada versión -->
 <script src="datos/novedades.js"></script>
 <!-- CÁLCULOS: funciones puras, probadas en tests/pruebas.js -->

@@ -68,6 +68,15 @@ Luego abre la dirección en el celular y usa "Agregar a pantalla de inicio". Des
 3. Correr las pruebas y subir a `main`. GitHub Pages publica sola y la app instalada muestra "Hay una versión nueva" con el botón Actualizar.
 4. La versión de claude.ai no se actualiza sola: se arma con `node scripts/construir.js` y se publica `dist/cabeza-despejada.html` en el mismo artefacto.
 
+## Cuenta tu historia
+
+Sin foro ni chat, a propósito: lo simple es lo mejor. En Saber, la gente puede contar o celebrar algo en un formulario anónimo; el dueño lo lee, y si la persona autorizó, lo publica en la app sin nada que la identifique.
+
+- Historias y link del formulario: `datos/cuentan.js`. Mientras `formulario` esté vacío, los botones dicen "Muy pronto".
+- Cada historia lleva su etiqueta: `real` (enviada de forma anónima) o `ficcion` (escrita para la app, inspirada en situaciones comunes). Nunca presentar una ficción como real.
+- Antes de publicar una real: que tenga permiso, y quitar nombres, lugares y detalles que identifiquen. Nunca cómo se consume, dosis ni cómo conseguir.
+- El formulario (Google Forms): sin pedir correo ni inicio de sesión, con tres preguntas: la historia, la sustancia (opcional) y si autoriza publicarla de forma anónima.
+
 ## El dibujo
 
 El salchicha que abraza al cactus aunque le pinche. El cactus son los momentos malos: recaídas, ganas, heridas, púas. El salchicha es el tiempo y la paciencia, que los abraza igual. Aparece en la portada, en el Modo ganas (respira dentro del círculo), en los hitos y después de una recaída. En honor a Floy.

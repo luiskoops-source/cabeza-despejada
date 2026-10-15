@@ -892,6 +892,16 @@ $("nocheAuxilios").onclick=()=>{ irA("ayuda"); setTimeout(()=>{ const el=$("paLi
 $("nocheCheckin").onclick=()=>{ irA("hoy"); setTimeout(()=>{ const d=$("checkinForm").closest("details"); if(d) d.open=true; $("checkinForm").closest("details").scrollIntoView({behavior:"smooth",block:"start"}); },50); };
 $("nocheRegistro").onclick=()=>{ irA("registro"); setTimeout(()=>{ $("cInt").scrollIntoView({behavior:"smooth",block:"center"}); },50); };
 
+/* ---------- Cuenta tu historia ---------- */
+/* Historias de la gente, revisadas antes de publicarse (datos/cuentan.js). El formulario anónimo se abre afuera de la app. */
+function renderCuentan(){
+  const d=window.CUENTAN||{formulario:"",historias:[]};
+  const hay=/^https:\/\//.test(d.formulario||"");
+  $("cuentanBotones").hidden=!hay; $("cuentanProximo").hidden=hay;
+  if(hay){ $("cuentanContar").href=d.formulario; $("cuentanCelebrar").href=d.formulario; }
+  $("cuentanLista").innerHTML=(d.historias||[]).map(h=>`<details class="historia"><summary><b>${esc(h.titulo)}</b><span class="pill${h.tema==="celebrar"?" good":""}">${h.tipo==="real"?"Historia real, enviada de forma anónima":"Ficción inspirada en situaciones comunes"}</span></summary><p class="small">${esc(h.texto).replace(/\n\n/g,"</p><p class=\"small\">")}</p></details>`).join("");
+}
+
 /* ---------- Atajos del ícono ---------- */
 /* Al dejar el dedo apretado sobre el ícono aparecen "Tengo ganas" y "Modo calma" (ver "shortcuts" en manifest.json).
    Abren la app con ?ir=ganas o ?ir=calma en la dirección. Si hay PIN, la pantalla se abre después de desbloquear. */
@@ -900,7 +910,7 @@ try{ const ir=new URLSearchParams(location.search).get("ir"); if(ir==="ganas"||i
 function abrirAtajo(){ if(!atajoPendiente) return; const a=atajoPendiente; atajoPendiente=null; $(a==="ganas"?"openCrave":"openCalma").click(); }
 
 /* ---------- Boot ---------- */
-fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderSenales(); renderSalir(); renderRapido(); renderOfChips(); renderNovedades(); lockIfNeeded(); if(!S.pin) abrirAtajo();
+fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderSenales(); renderSalir(); renderRapido(); renderOfChips(); renderNovedades(); renderCuentan(); lockIfNeeded(); if(!S.pin) abrirAtajo();
 /* Si la app está abierta en dos lugares (la app instalada y una pestaña), cada copia
    vuelve a leer lo guardado al volver a la pantalla, para que una copia vieja no borre lo nuevo. */
 function recargarDatos(){ S=load(); fillConfig(); renderHoy(); renderRegistro(); }
