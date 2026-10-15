@@ -351,23 +351,12 @@
     <div id="buscarOut" class="stack" hidden></div>
   </div>
 
-  <!-- Dudas: lo que la gente no encontró. Responde el dueño de la app, sin apuro (lógica en js/dudas.js, servidor en servidor/dudas.sql) -->
-  <div class="card" id="dudasCard">
-    <h2>¿No encontraste lo que buscabas?</h2>
-    <p class="small">Escribe tu duda. La responde una persona, no una máquina, y puede tardar unos días. Cuando esté lista, aparece aquí mismo.</p>
-    <div class="aviso-urgencia small"><b>No es para urgencias.</b> Si tú o alguien está en peligro: <b>131</b>. Para hablar ahora con alguien: <b>1412</b>, gratis y anónimo.</div>
-    <p class="small muted" id="dudasProximo" hidden>Muy pronto: esta parte necesita que la app esté conectada a su servidor.</p>
-    <div id="dudasForm">
-      <textarea id="dudaTexto" maxlength="500" aria-label="Tu duda" placeholder="Ej: ¿Es normal no poder dormir la primera semana?"></textarea>
-      <p class="small muted">Sin nombre, teléfono ni datos de otras personas. Solo viaja el texto de la duda.</p>
-      <div class="row"><button class="primary" id="dudaEnviar" type="button">Enviar duda</button></div>
-      <p class="small" id="dudaMsg" role="status"></p>
+  <!-- Si no encontró algo: lleva al chat de Ayuda, donde responde una persona -->
+  <div class="card">
+    <div class="row" style="justify-content:space-between;align-items:center">
+      <p class="small" style="margin:0;flex:1"><b>¿No encontraste lo que buscabas?</b> Escríbenos y te responde una persona.</p>
+      <button id="irChat" type="button">Escribir</button>
     </div>
-    <div id="misDudas" class="stack" hidden></div>
-    <details id="dudasPublicasBox" hidden>
-      <summary class="small">Dudas que ya respondimos</summary>
-      <div id="dudasPublicas" class="stack" style="margin-top:8px"></div>
-    </details>
   </div>
 
   <!-- Rápido: tarjetas de 15 segundos, una por toque, con tope diario. Sin autoplay ni scroll infinito, a propósito. -->
@@ -609,6 +598,25 @@
     <div class="contact"><div><div class="eyebrow">Chat 1412, también fin de semana, 8 a 20 h</div><a href="https://www.senda.gob.cl" target="_blank" rel="noopener">senda.gob.cl</a></div></div>
     <div class="contact"><div><div class="eyebrow">Emergencia médica (dolor al pecho, no puedes respirar)</div><b>131</b></div><button data-copy="131">Copiar</button></div>
     <div class="contact"><div><div class="eyebrow">Salud Responde, Minsal, 24 horas</div><b>600 360 7777</b></div><button data-copy="6003607777">Copiar</button></div>
+  </div>
+
+  <!-- Chat: escribe la persona y responde el dueño de la app, una persona, no una IA ni al instante
+       (lógica en js/chat.js, servidor en servidor/chat.sql, el dueño responde desde panel.html) -->
+  <div class="card" id="chatCard">
+    <h2>Escríbenos</h2>
+    <p class="small">Te responde una persona, no una máquina. No es inmediato: puede tardar horas o días. La respuesta aparece aquí mismo.</p>
+    <div class="aviso-urgencia small"><b>No es para urgencias.</b> Si tú o alguien está en peligro: <b>131</b>. Para hablar ahora con alguien: <b>1412</b>, gratis y anónimo.</div>
+    <p class="small muted" id="chatProximo" hidden>Muy pronto: el chat necesita que la app esté conectada a su servidor.</p>
+    <!-- Para cuidar el chat de bromas: se abre después de una semana usando la app -->
+    <p class="small" id="chatEspera" hidden>El chat se abre cuando llevas una semana usando la app. Te falta <b id="chatFaltan"></b>. Mientras tanto, si necesitas hablar con alguien: <b>1412</b>, gratis y anónimo.</p>
+    <div id="chatZona">
+      <div id="chatMensajes" class="chat-mensajes" aria-live="polite"></div>
+      <textarea id="chatTexto" maxlength="1000" aria-label="Tu mensaje" placeholder="Escribe aquí lo que quieras preguntar o contar"></textarea>
+      <p class="small muted">Sin nombre, teléfono ni datos de otras personas.</p>
+      <div class="row"><button class="primary" id="chatEnviar" type="button">Enviar</button><button id="chatRevisar" type="button">Ver si respondieron</button></div>
+      <p class="small" id="chatMsg" role="status"></p>
+      <button class="ghost small" id="chatBorrar" type="button" hidden>Borrar esta conversación de mi teléfono</button>
+    </div>
   </div>
   <div class="card">
     <h2>Si alguien está mal: qué hacer, paso a paso</h2>
@@ -906,7 +914,7 @@
 <!-- CÁLCULOS: funciones puras, probadas en tests/pruebas.js -->
 <script src="js/calculos.js"></script>
 <script src="js/respaldo.js"></script>
-<script src="js/dudas.js"></script>
+<script src="js/chat.js"></script>
 <!-- LÓGICA: todo lo que "hace" la app -->
 <script src="js/app.js"></script>
 <!-- ESCUCHAR: la voz del teléfono lee las tarjetas (no depende del resto) -->

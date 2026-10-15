@@ -13,7 +13,7 @@ const defaults={
   ],
   plan:"", planHour:null,
   /* Configuración: sustancia principal, modo ("dejar" o "reducir"), meta semanal en modo reducir, PIN opcional */
-  sustancia:"cocaina", modo:"dejar", metaSemana:2, pin:"", tema:"auto", tourVisto:false, novedadVista:null, inicio:null, misDudas:[], dudasDia:null, ganasMin:15,
+  sustancia:"cocaina", modo:"dejar", metaSemana:2, pin:"", tema:"auto", tourVisto:false, novedadVista:null, inicio:null, chat:{conv:null,mensajes:[],dia:null}, primerUso:null, ganasMin:15,
   celebrado:0, pledgeDate:null, salirDate:null, salirOk:[], rapidoDate:null, rapidoCount:0, rapidoSeen:[], quizDate:null, quizIdx:null, quizDone:false, quizStreak:0, quizBest:0, volverDia:null, volverOk:[],
   historia:{disponibles:0,fecha:null}, events:[], seenFacts:[], customFacts:[], dailyIdx:null, dailyDate:null, dailyAI:null, craveWins:0
 };
@@ -888,51 +888,69 @@ $("nocheAuxilios").onclick=()=>{ irA("ayuda"); setTimeout(()=>{ const el=$("paLi
 $("nocheCheckin").onclick=()=>{ irA("hoy"); setTimeout(()=>{ const d=$("checkinForm").closest("details"); if(d) d.open=true; $("checkinForm").closest("details").scrollIntoView({behavior:"smooth",block:"start"}); },50); };
 $("nocheRegistro").onclick=()=>{ irA("registro"); setTimeout(()=>{ $("cInt").scrollIntoView({behavior:"smooth",block:"center"}); },50); };
 
-/* ---------- Dudas ---------- */
-/* La persona pregunta lo que no encontró y responde el dueño de la app (js/dudas.js, servidor/dudas.sql).
-   Las dudas propias quedan solo en este teléfono: el texto y el número secreto para buscar la respuesta. */
-const D=window.Dudas;
-const fechaCorta=iso=>new Date(iso).toLocaleDateString("es-CL",{day:"numeric",month:"short"});
-function pintarDudas(){
-  const lista=!!(D&&D.disponible());
-  $("dudasProximo").hidden=lista; $("dudasForm").hidden=!lista;
-  const mias=S.misDudas||[];
-  $("misDudas").hidden=!mias.length;
-  $("misDudas").innerHTML=mias.map(d=>`<div class="duda"><p class="eyebrow">Tu duda · ${esc(fechaCorta(d.fecha))}</p><p class="small"><b>${esc(d.pregunta)}</b></p>${d.respuesta?`<p class="small resp">${esc(d.respuesta)}</p>`:`<p class="small muted">Esperando respuesta.</p>`}</div>`).join("");
+/* ---------- Chat ---------- */
+/* La persona escribe y responde el dueño de la app desde panel.html (js/chat.js, servidor/chat.sql).
+   En este teléfono quedan solo el número secreto de la conversación y sus mensajes. */
+const CH=window.Chat;
+const horaCorta=iso=>{ const d=new Date(iso); return d.toLocaleDateString("es-CL",{day:"numeric",month:"short"})+", "+d.toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"}); };
+function chatEstado(){ if(!S.chat) S.chat={conv:null,mensajes:[],dia:null}; return S.chat; }
+function pintarChat(){
+  const listo=!!(CH&&CH.disponible()), faltan=CH?CH.diasParaChat(S.primerUso,todayStr()):7;
+  $("chatProximo").hidden=listo; $("chatZona").hidden=!listo||faltan>0;
+  $("chatEspera").hidden=!listo||faltan===0;
+  if(faltan>0) $("chatFaltan").textContent=faltan===1?"1 día":faltan+" días";
+  const ms=chatEstado().mensajes;
+  $("chatMensajes").innerHTML=ms.length?ms.map(m=>`<div class="burbuja ${m.de==="app"?"app":"persona"}">${m.de==="app"?"<b>Cabeza Despejada</b>\n":""}${esc(m.texto)}<time>${esc(horaCorta(m.creado))}</time></div>`).join(""):`<p class="small muted">Todavía no hay mensajes. Escribe cuando quieras.</p>`;
+  $("chatBorrar").hidden=!ms.length;
 }
 /* Si lo que se escribe suena a urgencia, el aviso del 131 se pone rojo (no impide enviar) */
-$("dudaTexto").addEventListener("input",()=>document.querySelector("#dudasCard .aviso-urgencia").classList.toggle("fuerte",!!D&&D.pareceUrgencia($("dudaTexto").value)));
-$("dudaEnviar").onclick=async()=>{
-  const hoy=todayStr(), n=S.dudasDia&&S.dudasDia.fecha===hoy?S.dudasDia.n:0;
-  const v=D.validarDuda($("dudaTexto").value,n);
-  if(!v.ok){ mensaje("dudaMsg",v.error,"no"); return; }
-  $("dudaEnviar").disabled=true;
+const avisoChat=()=>document.querySelector("#chatCard .aviso-urgencia");
+$("chatTexto").addEventListener("input",()=>avisoChat().classList.toggle("fuerte",!!CH&&CH.pareceUrgencia($("chatTexto").value)));
+$("chatEnviar").onclick=async()=>{
+  const c=chatEstado(), hoy=todayStr(), n=c.dia&&c.dia.fecha===hoy?c.dia.n:0;
+  const v=CH.validarMensaje($("chatTexto").value,n);
+  if(!v.ok){ mensaje("chatMsg",v.error,"no"); return; }
+  $("chatEnviar").disabled=true;
   try{
-    const id=await D.enviar(v.texto);
-    S.misDudas=[{id,pregunta:v.texto,fecha:new Date().toISOString(),respuesta:null}].concat(S.misDudas||[]).slice(0,10);
-    S.dudasDia={fecha:hoy,n:n+1}; save();
-    $("dudaTexto").value=""; pintarDudas();
-    mensaje("dudaMsg","Enviada. Cuando tenga respuesta, aparece aquí abajo.","ok");
-  }catch(e){ mensaje("dudaMsg",e.message,"no"); }
-  $("dudaEnviar").disabled=false;
+    c.conv=await CH.enviar(c.conv,v.texto); c.dia={fecha:hoy,n:n+1}; save();
+    $("chatTexto").value=""; avisoChat().classList.remove("fuerte");
+    await traerChat();
+    mensaje("chatMsg","Enviado. La respuesta aparece aquí; puede tardar.","ok");
+  }catch(e){ mensaje("chatMsg",e.message,"no"); }
+  $("chatEnviar").disabled=false;
 };
-/* Al entrar a Saber (como máximo una vez por minuto): busca respuestas nuevas y las dudas públicas */
-let dudasRevisadas=0;
-async function revisarDudas(){
-  if(!D||!D.disponible()||Date.now()-dudasRevisadas<60000) return;
-  dudasRevisadas=Date.now();
-  let llego=false;
-  for(const d of (S.misDudas||[]).filter(x=>!x.respuesta)){
-    try{ const r=await D.ver(d.id); if(r){ d.respuesta=r.respuesta; d.respondida=r.respondida; llego=true; } }catch(e){ return; } /* Sin conexión: se intenta la próxima vez */
-  }
-  if(llego){ save(); pintarDudas(); toast("Llegó la respuesta a tu duda"); }
-  try{
-    const pub=await D.publicas();
-    $("dudasPublicasBox").hidden=!pub.length;
-    $("dudasPublicas").innerHTML=pub.map(p=>`<div class="duda"><p class="small"><b>${esc(p.pregunta)}</b></p><p class="small resp">${esc(p.respuesta)}</p></div>`).join("");
-  }catch(e){}
+/* Trae lo nuevo de la conversación. Devuelve cuántas respuestas nuevas llegaron */
+async function traerChat(){
+  const c=chatEstado(); if(!c.conv) return 0;
+  const desde=c.mensajes.length?c.mensajes[c.mensajes.length-1].id:0;
+  const nuevos=await CH.leer(c.conv,desde);
+  if(!nuevos.length) return 0;
+  c.mensajes=CH.juntar(c.mensajes,nuevos).slice(-100); save(); pintarChat();
+  return nuevos.filter(m=>m.de==="app").length;
 }
-document.querySelector('.tabs [data-tab="saber"]').addEventListener("click",revisarDudas);
+/* Revisa si respondieron: al abrir la app, al volver a ella y al entrar a Ayuda (como máximo una vez por minuto) */
+let chatRevisado=0;
+async function revisarChat(aMano){
+  if(!CH||!CH.disponible()||!chatEstado().conv) return;
+  if(!aMano&&Date.now()-chatRevisado<60000) return;
+  chatRevisado=Date.now();
+  try{
+    const nuevas=await traerChat();
+    if(nuevas) toast("Te respondieron en el chat de Ayuda");
+    else if(aMano) mensaje("chatMsg","Todavía no hay respuesta nueva.","");
+  }catch(e){ if(aMano) mensaje("chatMsg",e.message,"no"); } /* Sin conexión: se intenta la próxima vez */
+}
+$("chatRevisar").onclick=()=>revisarChat(true);
+/* Borra la conversación solo de este teléfono (por si otra persona lo usa). Pide un segundo toque. */
+$("chatBorrar").onclick=()=>{
+  const el=$("chatBorrar");
+  if(el.dataset.c!=="1"){ el.dataset.c="1"; el.textContent="Toca de nuevo para borrarla"; setTimeout(()=>{ el.dataset.c=""; el.textContent="Borrar esta conversación de mi teléfono"; },4000); return; }
+  el.dataset.c=""; el.textContent="Borrar esta conversación de mi teléfono";
+  S.chat={conv:null,mensajes:[],dia:chatEstado().dia}; save(); pintarChat(); mensaje("chatMsg","Conversación borrada de este teléfono.","ok");
+};
+document.querySelector('.tabs [data-tab="ayuda"]').addEventListener("click",()=>revisarChat());
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden) revisarChat(); });
+$("irChat").onclick=()=>{ irA("ayuda"); setTimeout(()=>$("chatCard").scrollIntoView({behavior:"smooth",block:"start"}),50); };
 
 /* ---------- Atajos del ícono ---------- */
 /* Al dejar el dedo apretado sobre el ícono aparecen "Tengo ganas" y "Modo calma" (ver "shortcuts" en manifest.json).
@@ -942,7 +960,9 @@ try{ const ir=new URLSearchParams(location.search).get("ir"); if(ir==="ganas"||i
 function abrirAtajo(){ if(!atajoPendiente) return; const a=atajoPendiente; atajoPendiente=null; $(a==="ganas"?"openCrave":"openCalma").click(); }
 
 /* ---------- Boot ---------- */
-fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderSenales(); renderSalir(); renderRapido(); renderOfChips(); renderNovedades(); pintarDudas(); revisarDudas(); lockIfNeeded(); if(!S.pin) abrirAtajo();
+fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderSenales(); renderSalir(); renderRapido(); renderOfChips(); /* Primer día de uso en este teléfono (para la regla de una semana del chat). Quien ya usaba la app parte desde su registro más antiguo. */
+if(!S.primerUso){ S.primerUso=[todayStr()].concat(S.events.map(e=>todayStrDe(e.ts))).sort()[0]; save(); }
+renderNovedades(); pintarChat(); revisarChat(); lockIfNeeded(); if(!S.pin) abrirAtajo();
 /* Si la app está abierta en dos lugares (la app instalada y una pestaña), cada copia
    vuelve a leer lo guardado al volver a la pantalla, para que una copia vieja no borre lo nuevo. */
 function recargarDatos(){ S=load(); fillConfig(); renderHoy(); renderRegistro(); }

@@ -145,16 +145,19 @@ prueba("Google Calendar: título discreto y hora inválida da null",()=>{ assert
 prueba("sugiere media hora antes de la hora difícil",()=>assert.strictEqual(C.horaRecordatorio(23),"22:30"));
 prueba("si la hora difícil es medianoche, sugiere 23:30",()=>assert.strictEqual(C.horaRecordatorio(0),"23:30"));
 prueba("sin hora difícil sugiere 20:00",()=>assert.strictEqual(C.horaRecordatorio(null),"20:00"));
-console.log("dudas");
-const Du=require("../js/dudas.js");
-prueba("una duda normal pasa y se limpia",()=>{ const v=Du.validarDuda("  ¿Es normal   no dormir la primera semana?  ",0); assert.ok(v.ok); assert.strictEqual(v.texto,"¿Es normal no dormir la primera semana?"); });
-prueba("muy corta no pasa",()=>assert.ok(!Du.validarDuda("hola",0).ok));
-prueba("más de 500 letras no pasa",()=>assert.ok(!Du.validarDuda("a".repeat(501),0).ok));
-prueba("con teléfono no pasa",()=>assert.ok(!Du.validarDuda("mi número es +56 9 1234 5678, llámenme",0).ok));
-prueba("con correo no pasa",()=>assert.ok(!Du.validarDuda("escríbanme a alguien@correo.cl por favor",0).ok));
-prueba("los números cortos de ayuda no se toman por teléfono",()=>assert.ok(Du.validarDuda("¿El 1412 atiende de noche o solo de día?",0).ok));
-prueba("tope de 3 dudas por día",()=>assert.ok(!Du.validarDuda("¿Cuánto dura el bajón después de dejar?",3).ok));
-prueba("reconoce palabras de urgencia",()=>{ assert.ok(Du.pareceUrgencia("creo que es una sobredosis")); assert.ok(Du.pareceUrgencia("me quiero morir")); assert.ok(!Du.pareceUrgencia("¿cuánto dura el insomnio?")); });
+console.log("chat");
+const Ch=require("../js/chat.js");
+prueba("un mensaje normal pasa y se limpia",()=>{ const v=Ch.validarMensaje("  hola,   ¿es normal no dormir?  ",0); assert.ok(v.ok); assert.strictEqual(v.texto,"hola, ¿es normal no dormir?"); });
+prueba("los saltos de línea se respetan",()=>assert.strictEqual(Ch.validarMensaje("hola\n\n\n\nchao",0).texto,"hola\n\nchao"));
+prueba("vacío no pasa",()=>assert.ok(!Ch.validarMensaje("   ",0).ok));
+prueba("más de 1000 letras no pasa",()=>assert.ok(!Ch.validarMensaje("a".repeat(1001),0).ok));
+prueba("con teléfono no pasa",()=>assert.ok(!Ch.validarMensaje("mi número es +56 9 1234 5678",0).ok));
+prueba("con correo no pasa",()=>assert.ok(!Ch.validarMensaje("escríbanme a alguien@correo.cl",0).ok));
+prueba("los números cortos de ayuda no se toman por teléfono",()=>assert.ok(Ch.validarMensaje("¿El 1412 atiende de noche?",0).ok));
+prueba("tope de mensajes por día",()=>assert.ok(!Ch.validarMensaje("hola de nuevo",Ch.POR_DIA).ok));
+prueba("reconoce palabras de urgencia",()=>{ assert.ok(Ch.pareceUrgencia("creo que es una sobredosis")); assert.ok(Ch.pareceUrgencia("me quiero morir")); assert.ok(!Ch.pareceUrgencia("¿cuánto dura el insomnio?")); });
+prueba("el chat se abre a los 7 días de uso",()=>{ assert.strictEqual(Ch.diasParaChat("2026-10-08","2026-10-15"),0); assert.strictEqual(Ch.diasParaChat("2026-10-10","2026-10-15"),2); assert.strictEqual(Ch.diasParaChat("2026-10-15","2026-10-15"),7); assert.strictEqual(Ch.diasParaChat(null,"2026-10-15"),7); });
+prueba("junta mensajes sin repetir y en orden",()=>assert.deepStrictEqual(Ch.juntar([{id:1},{id:3}],[{id:3},{id:2}]).map(m=>m.id),[1,2,3]));
 console.log(process.exitCode?"\nHay pruebas fallando.":"\nOK: "+n+" pruebas pasaron.");
 
 /* ---------- Respaldo (js/respaldo.js) ---------- */

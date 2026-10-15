@@ -141,11 +141,14 @@ ul,ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
 @media (prefers-reduced-motion:no-preference){ .portada svg{animation:portada-abrazo .6s ease-out} @keyframes portada-abrazo{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}} }
 @media (prefers-reduced-motion:reduce){ .portada{animation-timing-function:step-end} }
 /* Tarjeta "Volver a empezar": el perrito a la izquierda del título */
-/* Dudas: el aviso de urgencias, bien visible, y cada duda propia como una ficha */
+/* Chat: el aviso de urgencias, bien visible, y los mensajes como burbujas (los míos a la derecha) */
 .aviso-urgencia{border:1.5px solid var(--bad);border-radius:11px;padding:8px 10px;margin:8px 0}
 .aviso-urgencia.fuerte{background:var(--bad);color:#fff;border-color:transparent}
-.duda{background:var(--surface2);border-radius:11px;padding:10px 12px}
-.duda .resp{margin-top:6px;white-space:pre-wrap}
+.chat-mensajes{display:flex;flex-direction:column;gap:6px;margin:10px 0}
+.burbuja{max-width:85%;padding:8px 11px;border-radius:14px;white-space:pre-wrap;font-size:.92rem;overflow-wrap:anywhere}
+.burbuja.persona{align-self:flex-end;background:var(--accent);color:var(--accent-ink);border-bottom-right-radius:4px}
+.burbuja.app{align-self:flex-start;background:var(--surface2);border-bottom-left-radius:4px}
+.burbuja time{display:block;font-size:.7rem;opacity:.75;margin-top:3px}
 .volver-abrazo{display:flex;align-items:center;gap:12px;margin-bottom:6px}
 .volver-abrazo svg{flex:none}
 /* Modo ganas: el perrito arriba de la palabra Inhala/Exhala, dentro del círculo */

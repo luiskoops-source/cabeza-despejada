@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!-- Que los buscadores no la muestren: es solo para el dueño -->
+<meta name="robots" content="noindex,nofollow">
+<title>Panel del chat · Cabeza Despejada</title>
+<link rel="stylesheet" href="css/estilos.css">
+<style>
+  body{padding:16px;max-width:640px;margin:0 auto}
+  .conv{display:block;width:100%;text-align:left;margin-bottom:8px}
+  .conv .small{display:block;font-weight:400;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  /* En el panel se ven al revés que en la app: tus respuestas a la derecha */
+  #panelHilo .burbuja.persona{align-self:flex-start;background:var(--surface2);color:var(--fg);border-radius:14px 14px 14px 4px}
+  #panelHilo .burbuja.app{align-self:flex-end;background:var(--accent);color:var(--accent-ink);border-radius:14px 14px 4px 14px}
+</style>
+</head>
+<body>
+<!-- Panel del chat: aquí el dueño de la app lee y responde. Las conversaciones vienen de servidor/chat.sql
+     y solo se ven con la clave del panel (se crea en Supabase, ver el final de las instrucciones de chat.sql). -->
+<h1>Panel del chat</h1>
+<p class="small muted">Solo para quien responde. Las personas escriben sin nombre; aquí no hay forma de saber quién es nadie.</p>
+
+<div class="card" id="panelSinServidor" hidden>
+  <p>Falta conectar la app a Supabase (dirección y clave pública en <code>js/respaldo.js</code>).</p>
+</div>
+
+<!-- 1. Entrar -->
+<div class="card" id="panelEntrar" hidden>
+  <h2>Entrar</h2>
+  <input type="password" id="panelClave" aria-label="Clave del panel" placeholder="Clave del panel" autocomplete="current-password">
+  <label class="small" style="display:flex;gap:6px;align-items:center;margin-top:8px"><input type="checkbox" id="panelRecordar" style="width:auto"> Recordar en este teléfono</label>
+  <div class="row" style="margin-top:8px"><button class="primary" id="panelEntrarBtn" type="button">Entrar</button></div>
+  <p class="small" id="panelEntrarMsg" role="status"></p>
+</div>
+
+<!-- 2. Lista de conversaciones -->
+<div id="panelLista" hidden>
+  <div class="row" style="justify-content:space-between;align-items:center">
+    <p class="eyebrow" id="panelResumen"></p>
+    <div class="row"><button id="panelRefrescar" type="button">Actualizar</button><button class="ghost" id="panelSalir" type="button">Salir</button></div>
+  </div>
+  <div class="card small" style="margin-top:8px">
+    <b>Para cuidar a quien escribe y a ti:</b> si alguien está en riesgo, recuérdale el 131 y el 1412. No tienes que resolverlo todo ni responder al instante. Nunca indiques dosis ni cómo conseguir nada.
+  </div>
+  <div id="panelConvs" style="margin-top:8px"></div>
+</div>
+
+<!-- 3. Una conversación -->
+<div id="panelConv" hidden>
+  <button class="ghost" id="panelVolver" type="button">← Volver a la lista</button>
+  <div id="panelHilo" class="chat-mensajes"></div>
+  <textarea id="panelTexto" maxlength="1000" aria-label="Tu respuesta" placeholder="Escribe tu respuesta"></textarea>
+  <div class="row" style="margin-top:8px">
+    <button class="primary" id="panelResponder" type="button">Responder</button>
+    <button id="panelUrgencia" type="button">Agregar texto de urgencia</button>
+  </div>
+  <p class="small" id="panelMsg" role="status"></p>
+</div>
+
+<script src="js/respaldo.js"></script>
+<script src="js/chat.js"></script>
+<script>
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+const CH=window.Chat;
+const GUARDADA="cd.panel"; /* La clave, solo si se marcó "Recordar en este teléfono" */
+let clave="", abierta=null, timer=null;
+
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const hora=iso=>{ const d=new Date(iso); return d.toLocaleDateString("es-CL",{day:"numeric",month:"short"})+", "+d.toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"}); };
+function msg(id,t,tipo){ $(id).textContent=t; $(id).className="small"+(tipo?" "+tipo:""); }
+function ver(pantalla){ ["panelEntrar","panelLista","panelConv"].forEach(p=>$(p).hidden=p!==pantalla); }
+
+/* Entrar con la clave (comprobada en el servidor; con muchos intentos fallidos se bloquea 15 minutos) */
+async function entrar(c){
+  try{
+    if(!(await CH.entrar(c))){ msg("panelEntrarMsg","Clave incorrecta, o demasiados intentos: espera 15 minutos.","no"); return; }
+    clave=c;
+    if($("panelRecordar").checked) try{ localStorage.setItem(GUARDADA,c); }catch(e){}
+    $("panelClave").value="";
+    await lista();
+    clearInterval(timer); timer=setInterval(()=>{ if(!$("panelLista").hidden) lista(); },30000); /* La lista se actualiza sola cada 30 segundos */
+  }catch(e){ msg("panelEntrarMsg",e.message,"no"); }
+}
+
+/* Lista: primero las que tienen mensajes nuevos */
+async function lista(){
+  const convs=await CH.conversaciones(clave);
+  const nuevas=convs.filter(c=>c.sin_leer).length;
+  document.title=(nuevas?"("+nuevas+") ":"")+"Panel del chat";
+  $("panelResumen").textContent=convs.length?(nuevas?nuevas+" con mensajes nuevos · ":"")+convs.length+" conversaciones":"Todavía no hay conversaciones";
+  $("panelConvs").innerHTML=convs.map(c=>`<button class="conv" data-id="${esc(c.id)}">${c.sin_leer?'<span class="pill warm">Nuevo</span> ':''}${esc(hora(c.ultima))}<span class="small">${c.ultimo_de==="app"?"Tú: ":""}${esc(c.ultimo_texto)}</span></button>`).join("");
+  $("panelConvs").querySelectorAll(".conv").forEach(b=>b.onclick=()=>abrir(b.dataset.id));
+  ver("panelLista");
+}
+
+/* Una conversación: al abrirla queda como leída */
+async function abrir(id){
+  abierta=id;
+  const ms=await CH.leerPanel(clave,id);
+  $("panelHilo").innerHTML=ms.map(m=>`<div class="burbuja ${m.de==="app"?"app":"persona"}">${esc(m.texto)}<time>${esc(hora(m.creado))}</time></div>`).join("");
+  msg("panelMsg","");
+  ver("panelConv");
+  $("panelHilo").lastElementChild&&$("panelHilo").lastElementChild.scrollIntoView({block:"end"});
+}
+
+$("panelEntrarBtn").onclick=()=>entrar($("panelClave").value);
+$("panelClave").onkeydown=e=>{ if(e.key==="Enter") $("panelEntrarBtn").click(); };
+$("panelRefrescar").onclick=()=>lista().catch(e=>alert(e.message));
+$("panelVolver").onclick=()=>lista().catch(e=>alert(e.message));
+$("panelSalir").onclick=()=>{ try{ localStorage.removeItem(GUARDADA); }catch(e){} clave=""; clearInterval(timer); document.title="Panel del chat"; ver("panelEntrar"); };
+$("panelUrgencia").onclick=()=>{
+  const t=$("panelTexto");
+  t.value=(t.value?t.value.trim()+"\n\n":"")+"Si tú o alguien está en peligro ahora, llama al 131. Para hablar con alguien en este momento: 1412 (SENDA), gratis, anónimo y las 24 horas.";
+  t.focus();
+};
+$("panelResponder").onclick=async()=>{
+  const v=CH.limpiar($("panelTexto").value);
+  if(!v){ msg("panelMsg","Escribe la respuesta.","no"); return; }
+  $("panelResponder").disabled=true;
+  try{
+    if(await CH.responder(clave,abierta,v)){ $("panelTexto").value=""; await abrir(abierta); msg("panelMsg","Enviada. La persona la verá al abrir la app.","ok"); }
+    else msg("panelMsg","No se pudo: vuelve a entrar con la clave.","no");
+  }catch(e){ msg("panelMsg",e.message,"no"); }
+  $("panelResponder").disabled=false;
+};
+
+/* Al abrir: sin servidor, avisa; con clave recordada, entra solo */
+if(!CH.disponible()){ $("panelSinServidor").hidden=false; return; }
+let recordada=""; try{ recordada=localStorage.getItem(GUARDADA)||""; }catch(e){}
+ver("panelEntrar");
+if(recordada){ $("panelRecordar").checked=true; entrar(recordada); }
+})();
+</script>
+</body>
+</html>
