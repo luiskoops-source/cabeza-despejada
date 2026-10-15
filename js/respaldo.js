@@ -7,7 +7,7 @@
 "use strict";
 
 /* Servidor de la nube cifrada (Supabase, código abierto). Mientras esté vacío, la nube aparece como "próximamente".
-   La claveAnon de Supabase es pública por diseño: solo deja llamar a las dos funciones de servidor/supabase.sql. */
+   La claveAnon de Supabase es pública por diseño: solo deja llamar a las funciones de servidor/supabase.sql y servidor/dudas.sql. */
 const NUBE={ url:"", claveAnon:"" };
 const nubeLista=()=>Boolean(NUBE.url&&NUBE.claveAnon);
 
@@ -132,7 +132,7 @@ async function bajarNube(codigo){
   return leerRespaldo(JSON.stringify(await descifrar(texto,llave)));
 }
 
-const Respaldo={ crearRespaldo, leerRespaldo, nombreArchivo, nuevoCodigo, normalizarCodigo, codigoValido, derivar, cifrar, descifrar, subirNube, bajarNube, nubeLista, NUBE };
+const Respaldo={ crearRespaldo, leerRespaldo, nombreArchivo, nuevoCodigo, normalizarCodigo, codigoValido, derivar, cifrar, descifrar, subirNube, bajarNube, nubeLista, llamar, NUBE }; /* llamar también lo usa js/dudas.js */
 if(typeof module!=="undefined"&&module.exports) module.exports=Respaldo;
 else raiz.Respaldo=Respaldo;
 })(typeof window!=="undefined"?window:globalThis);

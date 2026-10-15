@@ -145,6 +145,16 @@ prueba("Google Calendar: título discreto y hora inválida da null",()=>{ assert
 prueba("sugiere media hora antes de la hora difícil",()=>assert.strictEqual(C.horaRecordatorio(23),"22:30"));
 prueba("si la hora difícil es medianoche, sugiere 23:30",()=>assert.strictEqual(C.horaRecordatorio(0),"23:30"));
 prueba("sin hora difícil sugiere 20:00",()=>assert.strictEqual(C.horaRecordatorio(null),"20:00"));
+console.log("dudas");
+const Du=require("../js/dudas.js");
+prueba("una duda normal pasa y se limpia",()=>{ const v=Du.validarDuda("  ¿Es normal   no dormir la primera semana?  ",0); assert.ok(v.ok); assert.strictEqual(v.texto,"¿Es normal no dormir la primera semana?"); });
+prueba("muy corta no pasa",()=>assert.ok(!Du.validarDuda("hola",0).ok));
+prueba("más de 500 letras no pasa",()=>assert.ok(!Du.validarDuda("a".repeat(501),0).ok));
+prueba("con teléfono no pasa",()=>assert.ok(!Du.validarDuda("mi número es +56 9 1234 5678, llámenme",0).ok));
+prueba("con correo no pasa",()=>assert.ok(!Du.validarDuda("escríbanme a alguien@correo.cl por favor",0).ok));
+prueba("los números cortos de ayuda no se toman por teléfono",()=>assert.ok(Du.validarDuda("¿El 1412 atiende de noche o solo de día?",0).ok));
+prueba("tope de 3 dudas por día",()=>assert.ok(!Du.validarDuda("¿Cuánto dura el bajón después de dejar?",3).ok));
+prueba("reconoce palabras de urgencia",()=>{ assert.ok(Du.pareceUrgencia("creo que es una sobredosis")); assert.ok(Du.pareceUrgencia("me quiero morir")); assert.ok(!Du.pareceUrgencia("¿cuánto dura el insomnio?")); });
 console.log(process.exitCode?"\nHay pruebas fallando.":"\nOK: "+n+" pruebas pasaron.");
 
 /* ---------- Respaldo (js/respaldo.js) ---------- */

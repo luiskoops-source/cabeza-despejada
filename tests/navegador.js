@@ -55,6 +55,10 @@ const path = require("path");
   /* 6. Sin scroll horizontal en celular */
   const ancho = await pagina.evaluate(() => document.documentElement.scrollWidth);
   if (ancho > 400) errores.push("La página se desborda a lo ancho: " + ancho + "px");
+  /* 6a. Dudas: sin servidor configurado dice "muy pronto" y no muestra el formulario */
+  if (!(await pagina.isVisible("#dudasCard"))) { await pagina.click('[data-tab="saber"]'); }
+  if (await pagina.isVisible("#dudasForm")) errores.push("El formulario de dudas aparece sin servidor configurado");
+  await pagina.click('[data-tab="hoy"]');
   /* 6b. Teléfonos de ayuda: cada uno tiene su botón Llamar (131 emergencias, 1412 SENDA, Salud Responde) */
   const tels = await pagina.evaluate(() => [...document.querySelectorAll("a.llamar")].map(a => a.getAttribute("href")));
   for (const t of ["tel:131", "tel:1412", "tel:6003607777"]) if (!tels.includes(t)) errores.push("Falta el botón Llamar para " + t);

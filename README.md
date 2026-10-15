@@ -15,6 +15,7 @@ cabeza-despejada/
 ├── js/app.js         La lógica: contador, dinero, registro, gráfico, modo ganas, avisos
 ├── js/calculos.js    Cálculos puros (días, dinero, hora difícil, recordatorio de calendario), probados en tests/
 ├── js/respaldo.js    Copia de seguridad en archivo y respaldo cifrado en la nube
+├── js/dudas.js       Dudas anónimas que responde el dueño (servidor en servidor/dudas.sql)
 ├── js/escuchar.js    La voz del teléfono lee las tarjetas (primer pedazo separado de app.js)
 ├── datos/            El contenido, separado de la lógica para editarlo fácil: hechos, sustancias, historia de Mati,
 │                     preguntas, primeros auxilios, novedades (la tarjeta "Qué hay de nuevo")...
@@ -67,6 +68,17 @@ Luego abre la dirección en el celular y usa "Agregar a pantalla de inicio". Des
 2. Agregar una entrada arriba en `datos/novedades.js` si el cambio se nota.
 3. Correr las pruebas y subir a `main`. GitHub Pages publica sola y la app instalada muestra "Hay una versión nueva" con el botón Actualizar.
 4. La versión de claude.ai no se actualiza sola: se arma con `node scripts/construir.js` y se publica `dist/cabeza-despejada.html` en el mismo artefacto.
+
+## Dudas (responde una persona)
+
+En Saber, la tarjeta "¿No encontraste lo que buscabas?" deja enviar una duda anónima. No es un chat ni una IA: responde el dueño de la app, sin apuro.
+
+- Servidor: `servidor/dudas.sql` (Supabase, el mismo proyecto del respaldo). Se pega una vez en SQL Editor → Run.
+- Responder: Supabase → Table Editor → `dudas`. Escribir en `respuesta` (la fecha se pone sola). Marcar `publicar` si sirve a todos, revisando antes que la pregunta no tenga datos de nadie.
+- Ayuda con IA: copiar las dudas pendientes a Claude y pedir un borrador. La respuesta final la revisa y escribe el dueño.
+- La persona ve su respuesta en la misma tarjeta; el teléfono guarda un número secreto por duda, nada más.
+- Frenos: 3 dudas por día por teléfono, máximo 500 letras, sin teléfonos ni correos; en el servidor, 20 por minuto y 300 pendientes en total.
+- Mientras `js/respaldo.js` no tenga la dirección de Supabase, la tarjeta dice "muy pronto".
 
 ## El dibujo
 
