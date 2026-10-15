@@ -647,6 +647,14 @@ $("recordatorio").onclick=()=>{
     mensaje("recMsg","Listo. Abre el archivo descargado y toca Guardar o Agregar en tu calendario. Si cambias de hora, borra el anterior en el calendario.","ok");
   }catch(e){ mensaje("recMsg","No se pudo crear el archivo en esta vista. Prueba desde la app instalada.","no"); }
 };
+/* Segundo camino: abre Google Calendar con el evento ya lleno. La persona revisa y toca Guardar allá. */
+$("recGoogle").onclick=()=>{
+  const [hh,mm]=($("recHora").value||"").split(":").map(Number);
+  const url=C.enlaceGoogleCalendar(hh,mm,todayStr());
+  if(!url){ mensaje("recMsg","Elige una hora.","no"); return; }
+  window.open(url,"_blank","noopener");
+  mensaje("recMsg","Revisa el evento en Google Calendar y toca Guardar. Se repite todos los días.","ok");
+};
 $("savePlan").onclick=()=>{ clearTimeout(planT); S.plan=$("planText").value.trim(); save(); $("planText").blur(); renderPlan(); toast("Plan guardado"); };
 /* El plan también se guarda solo mientras escribes (medio segundo después de la última letra) */
 let planT;

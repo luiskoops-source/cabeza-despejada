@@ -130,6 +130,12 @@ prueba("trae una alarma que suena a la hora",()=>assert.ok(ics.includes("BEGIN:V
 prueba("las horas de un dígito llevan cero adelante",()=>assert.ok(C.recordatorioICS(7,5,"2026-10-15",0).includes("T070500")));
 prueba("el título no dice nada del consumo",()=>assert.ok(!/consum|droga|ganas|coca|recaí/i.test(ics)));
 prueba("hora inválida devuelve null",()=>{ assert.strictEqual(C.recordatorioICS(24,0,"2026-10-15",0),null); assert.strictEqual(C.recordatorioICS(NaN,0,"2026-10-15",0),null); });
+prueba("siempre el mismo identificador, para no duplicar",()=>assert.ok(ics.includes("UID:recordatorio-diario@cabeza-despejada")&&C.recordatorioICS(8,0,"2026-11-01",0).includes("UID:recordatorio-diario@cabeza-despejada")));
+const g=C.enlaceGoogleCalendar(22,30,"2026-10-15");
+prueba("Google Calendar: hora de inicio y fin 15 minutos después",()=>assert.ok(g.includes("dates=20261015T223000/20261015T224500")));
+prueba("Google Calendar: se repite todos los días",()=>assert.ok(g.includes("recur="+encodeURIComponent("RRULE:FREQ=DAILY"))));
+prueba("Google Calendar: si empieza 23:50 termina al día siguiente",()=>assert.ok(C.enlaceGoogleCalendar(23,50,"2026-10-15").includes("/20261016T000500")));
+prueba("Google Calendar: título discreto y hora inválida da null",()=>{ assert.ok(g.includes("text=Un%20momento%20para%20ti")); assert.strictEqual(C.enlaceGoogleCalendar(25,0,"2026-10-15"),null); });
 prueba("sugiere media hora antes de la hora difícil",()=>assert.strictEqual(C.horaRecordatorio(23),"22:30"));
 prueba("si la hora difícil es medianoche, sugiere 23:30",()=>assert.strictEqual(C.horaRecordatorio(0),"23:30"));
 prueba("sin hora difícil sugiere 20:00",()=>assert.strictEqual(C.horaRecordatorio(null),"20:00"));

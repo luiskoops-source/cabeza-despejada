@@ -168,7 +168,7 @@ function recordatorioICS(hora, minuto, desde, sello){
   return [
     "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Cabeza Despejada//ES","CALSCALE:GREGORIAN",
     "BEGIN:VEVENT",
-    "UID:recordatorio-"+marca+"@cabeza-despejada",
+    "UID:recordatorio-diario@cabeza-despejada", /* Siempre el mismo: si se agrega otra vez, muchos calendarios lo reemplazan en vez de duplicarlo */
     "DTSTAMP:"+marca,
     "DTSTART:"+inicio,
     "DURATION:PT15M",
@@ -178,6 +178,21 @@ function recordatorioICS(hora, minuto, desde, sello){
     "BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:Un momento para ti","TRIGGER:PT0M","END:VALARM",
     "END:VEVENT","END:VCALENDAR",""
   ].join("\r\n");
+}
+
+/* Enlace que abre Google Calendar con el recordatorio ya lleno (Google Calendar en Android no abre archivos .ics).
+   Mismo título discreto, 15 minutos de duración y repetición diaria. Devuelve null si la hora no es válida. */
+function enlaceGoogleCalendar(hora, minuto, desde){
+  if(!(Number.isInteger(hora)&&hora>=0&&hora<=23&&Number.isInteger(minuto)&&minuto>=0&&minuto<=59)) return null;
+  const dos=n=>String(n).padStart(2,"0");
+  const formato=d=>""+d.getFullYear()+dos(d.getMonth()+1)+dos(d.getDate())+"T"+dos(d.getHours())+dos(d.getMinutes())+"00";
+  const inicio=new Date(desde+"T"+dos(hora)+":"+dos(minuto)+":00");
+  const fin=new Date(inicio.getTime()+15*60000); /* Si empieza 23:50, termina al día siguiente */
+  return "https://calendar.google.com/calendar/render?action=TEMPLATE"+
+    "&text="+encodeURIComponent("Un momento para ti")+
+    "&details="+encodeURIComponent("Abre la app y mira tu plan.")+
+    "&dates="+formato(inicio)+"/"+formato(fin)+
+    "&recur="+encodeURIComponent("RRULE:FREQ=DAILY");
 }
 
 /* Hora sugerida para el recordatorio: media hora antes de la hora difícil, para alcanzar a prepararse.
@@ -190,7 +205,7 @@ function horaRecordatorio(horaDificil){
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, recordatorioICS, horaRecordatorio, HITOS, pesos };
+const Calculos={ fechaTexto, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, recordatorioICS, enlaceGoogleCalendar, horaRecordatorio, HITOS, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);
