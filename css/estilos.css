@@ -263,6 +263,10 @@ a.boton.primary{background:var(--accent);color:var(--accent-ink);border-color:tr
 .historia summary{cursor:pointer;display:flex;flex-direction:column;gap:4px}
 .historia summary .pill{align-self:flex-start}
 .historia p{margin:10px 0 0}
+/* Si acompañas a alguien: cada parte se abre al tocarla */
+.acompanar{background:var(--surface2);border-radius:11px;padding:10px 12px}
+.acompanar summary{cursor:pointer}
+.acompanar ul{margin:8px 0 0;padding-left:18px}
 a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;padding:8px 12px;font-weight:600;font-size:.95rem;text-decoration:none}
 /* Si el texto y los botones no caben en una línea, los botones bajan en vez de apretar el texto */
 .contact{flex-wrap:wrap}

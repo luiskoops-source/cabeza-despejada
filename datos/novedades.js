@@ -2,6 +2,10 @@
    La primera de la lista es la más reciente y es la única que se muestra, una sola vez.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-16-acompanar", titulo:"Para quien acompaña", cambios:[
+    "En Ayuda hay una sección nueva, \"Si acompañas a alguien\": qué ayuda, qué suele empeorar las cosas, cuándo preocuparse y cómo cuidarse. Pensada para familia, pareja y amigos.",
+    "En Saber está \"Cuenta tu historia\": historias de otras personas y un formulario anónimo para contar o celebrar algo."
+  ]},
   {id:"2026-10-16-historias", titulo:"Cuenta tu historia", cambios:[
     "En Saber hay una sección nueva con historias de otras personas que pasaron por lo mismo.",
     "Ya puedes contar o celebrar algo de forma anónima con los botones de esa sección. Sin foro ni chat: lo simple es lo mejor.",
