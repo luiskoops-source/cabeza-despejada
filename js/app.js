@@ -277,7 +277,13 @@ function renderReduccion(){
 }
 
 /* ---------- Tema claro / oscuro ---------- */
-function aplicarTema(){ const r=document.documentElement; if(S.tema==="claro") r.setAttribute("data-theme","light"); else if(S.tema==="oscuro") r.setAttribute("data-theme","dark"); else r.removeAttribute("data-theme"); }
+function aplicarTema(){
+  const r=document.documentElement;
+  if(S.tema==="claro") r.setAttribute("data-theme","light"); else if(S.tema==="oscuro") r.setAttribute("data-theme","dark"); else r.removeAttribute("data-theme");
+  /* La barra del sistema (arriba, en el celular) toma el color del fondo del tema que quedó activo */
+  const oscuro=S.tema==="oscuro"||(S.tema!=="claro"&&window.matchMedia("(prefers-color-scheme: dark)").matches);
+  document.querySelectorAll('meta[name="theme-color"]').forEach(m=>{ m.content=oscuro?"#15120e":"#f3ecdc"; });
+}
 $("cfgTema").onchange=()=>{ S.tema=$("cfgTema").value; save(); aplicarTema(); };
 
 /* ---------- Primeros pasos (una sola vez) ---------- */
@@ -542,7 +548,7 @@ $("buscar").oninput=()=>{
 };
 
 /* ---------- Diagnóstico para reportar problemas (sin datos personales) ---------- */
-const VERSION_APP="2026.10.14";
+const VERSION_APP="2026.10.15";
 $("copiarDiag").onclick=()=>copyText(`Cabeza Despejada ${VERSION_APP} · ${navigator.userAgent} · pantalla ${window.innerWidth}x${window.innerHeight} · modo ${document.documentElement.getAttribute("data-theme")||"auto"} · instalada: ${window.matchMedia("(display-mode: standalone)").matches?"sí":"no"}`);
 
 /* ---------- Compartir ---------- */
@@ -743,6 +749,8 @@ function renderFacts(){
 
 /* ---------- Registro ---------- */
 function addEvent(type,extra){ S.events.unshift(Object.assign({type,ts:new Date().toISOString()},extra||{})); save(); }
+/* El deslizador de fuerza muestra su número al lado mientras se mueve */
+$("cInt").oninput=()=>{ $("cIntVal").textContent=$("cInt").value; };
 $("addCrave").onclick=()=>{ addEvent("crave",{i:Number($("cInt").value)||5,trig:$("cTrig").value,did:$("cDid").value.trim()}); $("cDid").value=""; renderRegistro(); toast("Anotado. Eso cuenta."); };
 $("addRelapse").onclick=()=>{ const el=$("addRelapse"); if(el.dataset.confirm!=="1"){ el.dataset.confirm="1"; el.textContent="Toca de nuevo para confirmar"; setTimeout(()=>{ el.dataset.confirm=""; el.textContent="Registrar consumo"; },4000); return; } el.dataset.confirm=""; el.textContent="Registrar consumo"; registerRelapse($("cDid").value.trim()); $("cDid").value=""; };
 function registerRelapse(note){ addEvent("relapse",{did:note||"",trig:$("cTrig").value}); S.day0=todayStr(); S.day0Hora=new Date().toISOString(); save(); renderHoy(); renderRegistro(); toast("Día 0 reiniciado. Lo que aprendiste se queda."); }
