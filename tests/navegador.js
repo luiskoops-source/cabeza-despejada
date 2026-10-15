@@ -55,6 +55,14 @@ const path = require("path");
   /* 6. Sin scroll horizontal en celular */
   const ancho = await pagina.evaluate(() => document.documentElement.scrollWidth);
   if (ancho > 400) errores.push("La página se desborda a lo ancho: " + ancho + "px");
+  /* 7. Atajo "Tengo ganas" del ícono: abre el Modo ganas, pero con PIN nunca se salta el bloqueo */
+  await pagina.goto(url + "?ir=ganas"); await pagina.waitForTimeout(300);
+  if (!(await pagina.isVisible("#crave"))) errores.push("El atajo Tengo ganas no abre el Modo ganas");
+  await pagina.evaluate(() => { const s = JSON.parse(localStorage.getItem("cd.v1")); s.pin = "1234"; localStorage.setItem("cd.v1", JSON.stringify(s)); });
+  await pagina.goto(url + "?ir=ganas"); await pagina.waitForTimeout(300);
+  if (await pagina.isVisible("#crave")) errores.push("El atajo abrió el Modo ganas sin pedir el PIN");
+  await pagina.fill("#lockPin", "1234"); await pagina.click("#lockGo"); await pagina.waitForTimeout(200);
+  if (!(await pagina.isVisible("#crave"))) errores.push("Tras el PIN, el atajo no abre el Modo ganas");
   await navegador.close();
   if (errores.length) { console.error("FALLÓ:\n  " + errores.join("\n  ")); process.exit(1); }
   console.log("OK: la app abre y lo esencial funciona.");

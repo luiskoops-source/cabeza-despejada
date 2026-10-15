@@ -11,6 +11,10 @@
   "theme_color": "#f3ecdc",
   "lang": "es",
   "categories": ["health", "lifestyle"],
+  "shortcuts": [
+    { "name": "Tengo ganas", "short_name": "Tengo ganas", "description": "Abre directo el Modo ganas", "url": "./index.html?ir=ganas", "icons": [{ "src": "iconos/icono-192.png", "sizes": "192x192" }] },
+    { "name": "Modo calma", "short_name": "Calma", "description": "Abre directo el Modo calma", "url": "./index.html?ir=calma", "icons": [{ "src": "iconos/icono-192.png", "sizes": "192x192" }] }
+  ],
   "icons": [
     { "src": "iconos/icono-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "iconos/icono-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },

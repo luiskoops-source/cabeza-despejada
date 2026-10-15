@@ -824,6 +824,16 @@
       <p class="eyebrow">Si no puedes solo</p>
       <div class="contact"><div><div class="eyebrow">SENDA 1412, gratis, anónimo</div><b>1412</b></div><button data-copy="1412">Copiar</button></div>
     </div>
+    <!-- Al superar una ola: el perrito celebra y cuenta las olas superadas -->
+    <div class="card celebra" id="craveCelebra" hidden>
+      <div class="volver-abrazo">
+        <svg viewBox="0 0 512 512" width="72" height="72" aria-hidden="true"><use href="#dibujoSalchicha"/></svg>
+        <h2>Ola superada</h2>
+      </div>
+      <p id="craveCelebraTexto"></p>
+      <p class="small muted" id="craveCelebraAyudo"></p>
+      <button class="primary" id="craveCelebraOk">Volver a Hoy</button>
+    </div>
     <div class="card" id="craveWinBox" hidden>
       <p class="eyebrow">Qué te ayudó más esta vez</p>
       <div class="row">
@@ -831,7 +841,7 @@
       </div>
       <p class="small muted">Queda en tu registro. Con el tiempo vas a saber qué te funciona.</p>
     </div>
-    <div class="row">
+    <div class="row" id="craveBotones">
       <button class="primary" id="craveWon">Pasó, no consumí</button>
       <button class="danger" id="craveLost">Consumí</button>
     </div>

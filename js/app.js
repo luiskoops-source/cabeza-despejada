@@ -317,7 +317,7 @@ $("saveConfig").onclick=()=>{
 
 /* ---------- PIN y privacidad ---------- */
 function lockIfNeeded(){ if(S.pin){ $("lock").hidden=false; document.body.style.overflow="hidden"; $("lockPin").focus(); } }
-$("lockGo").onclick=()=>{ if($("lockPin").value===S.pin){ $("lock").hidden=true; document.body.style.overflow=""; $("lockPin").value=""; $("lockMsg").textContent=""; } else { $("lockMsg").textContent="PIN incorrecto"; $("lockPin").value=""; } };
+$("lockGo").onclick=()=>{ if($("lockPin").value===S.pin){ $("lock").hidden=true; document.body.style.overflow=""; $("lockPin").value=""; $("lockMsg").textContent=""; abrirAtajo(); } else { $("lockMsg").textContent="PIN incorrecto"; $("lockPin").value=""; } };
 $("lockPin").onkeydown=e=>{ if(e.key==="Enter") $("lockGo").click(); };
 $("savePin").onclick=()=>{ const v=$("pinNew").value.trim(); if(v&&!/^\d{4,6}$/.test(v)){ toast("El PIN debe tener 4 a 6 números"); return; } S.pin=v; save(); $("pinNew").value=""; toast(v?"PIN activado":"PIN desactivado"); };
 $("wipeAll").onclick=()=>{ const el=$("wipeAll"); if(el.dataset.c!=="1"){ el.dataset.c="1"; el.textContent="Toca de nuevo para borrar todo"; setTimeout(()=>{ el.dataset.c=""; el.textContent="Borrar todos mis datos"; },4000); return; } try{ localStorage.removeItem(KEY); }catch(e){} location.reload(); };
@@ -852,14 +852,20 @@ function renderVoz(){
   $("vozList").innerHTML=V.map((x,i)=>`<details class="voz"><summary>"${esc(x.f)}"</summary><p class="small">${esc(x.r)}</p></details>`).join("");
 }
 renderVoz();
-function closeCrave(){ $("crave").hidden=true; document.body.style.overflow=""; clearInterval(tInt); clearInterval(bInt); $("craveTitle").textContent="Esto dura menos de lo que parece"; }
+function closeCrave(){ $("crave").hidden=true; document.body.style.overflow=""; $("craveCelebra").hidden=true; $("craveWinBox").hidden=true; $("craveBotones").hidden=false; $("craveWon").hidden=false; $("craveLost").hidden=false; clearInterval(tInt); clearInterval(bInt); $("craveTitle").textContent="Esto dura menos de lo que parece"; }
 $("closeCrave").onclick=closeCrave;
 $("craveWon").onclick=()=>{ $("craveWinBox").hidden=false; $("craveWon").hidden=true; $("craveLost").hidden=true; };
 document.querySelectorAll("[data-ayudo]").forEach(b=>b.onclick=()=>{
   S.craveWins=(S.craveWins||0)+1; addEvent("win",{i:null,trig:"",did:"Modo ganas: "+Math.round((TOTAL-left)/60)+" min · me ayudó: "+b.dataset.ayudo});
-  $("craveWinBox").hidden=true; $("craveWon").hidden=false; $("craveLost").hidden=false;
-  closeCrave(); renderHoy(); renderRegistro(); toast("Una ola más superada. Anotado lo que te ayudó.");
+  save(); renderHoy(); renderRegistro();
+  /* En vez de cerrar de inmediato, el perrito celebra: la ola fue una púa del cactus y la abrazaste sin soltar */
+  const n=S.craveWins;
+  $("craveCelebraTexto").textContent=n===1?"Tu primera ola superada. Fue una púa del cactus, y la abrazaste sin soltar.":"Llevas "+n+" olas superadas. Cada una es una púa que abrazaste sin soltar.";
+  $("craveCelebraAyudo").textContent="Esta vez te ayudó: "+b.dataset.ayudo+". Quedó en tu registro.";
+  $("craveWinBox").hidden=true; $("craveBotones").hidden=true; $("craveCelebra").hidden=false;
+  $("craveCelebra").scrollIntoView({block:"center",behavior:"smooth"});
 });
+$("craveCelebraOk").onclick=closeCrave;
 $("craveLost").onclick=()=>{ registerRelapse("Desde modo ganas"); closeCrave(); };
 
 /* ---------- Modo calma ---------- */
@@ -879,8 +885,15 @@ $("nocheAuxilios").onclick=()=>{ irA("ayuda"); setTimeout(()=>{ const el=$("paLi
 $("nocheCheckin").onclick=()=>{ irA("hoy"); setTimeout(()=>{ const d=$("checkinForm").closest("details"); if(d) d.open=true; $("checkinForm").closest("details").scrollIntoView({behavior:"smooth",block:"start"}); },50); };
 $("nocheRegistro").onclick=()=>{ irA("registro"); setTimeout(()=>{ $("cInt").scrollIntoView({behavior:"smooth",block:"center"}); },50); };
 
+/* ---------- Atajos del ícono ---------- */
+/* Al dejar el dedo apretado sobre el ícono aparecen "Tengo ganas" y "Modo calma" (ver "shortcuts" en manifest.json).
+   Abren la app con ?ir=ganas o ?ir=calma en la dirección. Si hay PIN, la pantalla se abre después de desbloquear. */
+let atajoPendiente=null;
+try{ const ir=new URLSearchParams(location.search).get("ir"); if(ir==="ganas"||ir==="calma"){ atajoPendiente=ir; history.replaceState(null,"",location.pathname); } }catch(e){}
+function abrirAtajo(){ if(!atajoPendiente) return; const a=atajoPendiente; atajoPendiente=null; $(a==="ganas"?"openCrave":"openCalma").click(); }
+
 /* ---------- Boot ---------- */
-fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderSenales(); renderSalir(); renderRapido(); renderOfChips(); renderNovedades(); lockIfNeeded();
+fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderSenales(); renderSalir(); renderRapido(); renderOfChips(); renderNovedades(); lockIfNeeded(); if(!S.pin) abrirAtajo();
 /* Si la app está abierta en dos lugares (la app instalada y una pestaña), cada copia
    vuelve a leer lo guardado al volver a la pantalla, para que una copia vieja no borre lo nuevo. */
 function recargarDatos(){ S=load(); fillConfig(); renderHoy(); renderRegistro(); }
