@@ -60,6 +60,13 @@
     </ul>
   </div>
 
+  <!-- Qué hay de nuevo: aparece una vez después de cada actualización (el texto está en datos/novedades.js) -->
+  <div class="card" id="novedades" hidden>
+    <div class="row" style="justify-content:space-between"><p class="eyebrow">Qué hay de nuevo</p><button class="ghost small" id="novedadesOk">Entendido</button></div>
+    <h3 id="novedadesTitulo"></h3>
+    <ul class="small" id="novedadesLista"></ul>
+  </div>
+
   <div class="card celebra" id="celebra" hidden>
     <div class="row" style="justify-content:space-between">
       <p class="eyebrow">Hito alcanzado</p>
@@ -863,6 +870,8 @@
 <script src="datos/voz.js"></script>
 <!-- DATOS: lista antes de salir -->
 <script src="datos/antes-de-salir.js"></script>
+<!-- DATOS: qué hay de nuevo en cada versión -->
+<script src="datos/novedades.js"></script>
 <!-- CÁLCULOS: funciones puras, probadas en tests/pruebas.js -->
 <script src="js/calculos.js"></script>
 <script src="js/respaldo.js"></script>

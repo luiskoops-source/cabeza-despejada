@@ -13,7 +13,7 @@ const defaults={
   ],
   plan:"", planHour:null,
   /* Configuración: sustancia principal, modo ("dejar" o "reducir"), meta semanal en modo reducir, PIN opcional */
-  sustancia:"cocaina", modo:"dejar", metaSemana:2, pin:"", tema:"auto", tourVisto:false, ganasMin:15,
+  sustancia:"cocaina", modo:"dejar", metaSemana:2, pin:"", tema:"auto", tourVisto:false, novedadVista:null, ganasMin:15,
   celebrado:0, pledgeDate:null, salirDate:null, salirOk:[], rapidoDate:null, rapidoCount:0, rapidoSeen:[], quizDate:null, quizIdx:null, quizDone:false, quizStreak:0, quizBest:0, volverDia:null, volverOk:[],
   historia:{disponibles:0,fecha:null}, events:[], seenFacts:[], customFacts:[], dailyIdx:null, dailyDate:null, dailyAI:null, craveWins:0
 };
@@ -289,6 +289,19 @@ $("cfgTema").onchange=()=>{ S.tema=$("cfgTema").value; save(); aplicarTema(); };
 /* ---------- Primeros pasos (una sola vez) ---------- */
 function renderTour(){ $("tour").hidden=!S.day0||!!S.tourVisto; }
 $("tourOk").onclick=()=>{ S.tourVisto=true; save(); renderTour(); };
+/* Qué hay de nuevo: muestra la novedad más reciente una sola vez, hasta tocar Entendido.
+   A quien recién empieza (todavía sin Día 0) no se le muestra: para esa persona todo es nuevo. */
+const NOVEDADES=window.NOVEDADES||[];
+function renderNovedades(){
+  const n=NOVEDADES[0];
+  if(n&&!S.day0&&S.novedadVista!==n.id){ S.novedadVista=n.id; save(); }
+  const ver=!!n&&!!S.day0&&S.novedadVista!==n.id;
+  $("novedades").hidden=!ver;
+  if(!ver) return;
+  $("novedadesTitulo").textContent=n.titulo;
+  $("novedadesLista").innerHTML=n.cambios.map(c=>"<li>"+esc(c)+"</li>").join("");
+}
+$("novedadesOk").onclick=()=>{ S.novedadVista=NOVEDADES[0].id; save(); renderNovedades(); };
 
 /* ---------- Configuración ---------- */
 function fillConfig(){
@@ -859,7 +872,7 @@ $("nocheCheckin").onclick=()=>{ irA("hoy"); setTimeout(()=>{ const d=$("checkinF
 $("nocheRegistro").onclick=()=>{ irA("registro"); setTimeout(()=>{ $("cInt").scrollIntoView({behavior:"smooth",block:"center"}); },50); };
 
 /* ---------- Boot ---------- */
-fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderSenales(); renderSalir(); renderRapido(); renderOfChips(); lockIfNeeded();
+fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderSenales(); renderSalir(); renderRapido(); renderOfChips(); renderNovedades(); lockIfNeeded();
 /* Si la app está abierta en dos lugares (la app instalada y una pestaña), cada copia
    vuelve a leer lo guardado al volver a la pantalla, para que una copia vieja no borre lo nuevo. */
 function recargarDatos(){ S=load(); fillConfig(); renderHoy(); renderRegistro(); }
