@@ -13,7 +13,7 @@ const defaults={
   ],
   plan:"", planHour:null,
   /* Configuración: sustancia principal, modo ("dejar" o "reducir"), meta semanal en modo reducir, PIN opcional */
-  sustancia:"cocaina", modo:"dejar", metaSemana:2, pin:"", tema:"auto", tourVisto:false, novedadVista:null, inicio:null, misDudas:[], dudasDia:null, ganasMin:15,
+  sustancia:"cocaina", modo:"dejar", metaSemana:2, pin:"", tema:"auto", tourVisto:false, novedadVista:null, inicio:null, ganasMin:15,
   celebrado:0, pledgeDate:null, salirDate:null, salirOk:[], rapidoDate:null, rapidoCount:0, rapidoSeen:[], quizDate:null, quizIdx:null, quizDone:false, quizStreak:0, quizBest:0, volverDia:null, volverOk:[],
   historia:{disponibles:0,fecha:null}, events:[], seenFacts:[], customFacts:[], dailyIdx:null, dailyDate:null, dailyAI:null, craveWins:0
 };
@@ -659,7 +659,11 @@ $("savePlan").onclick=()=>{ clearTimeout(planT); S.plan=$("planText").value.trim
 /* El plan también se guarda solo mientras escribes (medio segundo después de la última letra) */
 let planT;
 $("planText").addEventListener("input",()=>{ clearTimeout(planT); planT=setTimeout(()=>{ S.plan=$("planText").value.trim(); save(); },500); });
-$("welcomeGo").onclick=()=>{ const v=$("welcomeDay0").value; if(!v){ toast("Elige una fecha"); return; } S.day0=v; S.day0Hora=horaDia0(v); S.sustancia=$("welcomeSust").value; S.modo=$("welcomeModo").value; save(); aplicarTema(); fillConfig(); renderHoy(); renderRegistro(); renderSust(); toast("Empezamos a contar desde ahí."); };
+$("welcomeGo").onclick=()=>{
+  /* Solo para mayores de 18: sin juzgar, y dejando una vía de ayuda a quien es menor */
+  if(!$("welcomeEdad").checked){ mensaje("welcomeEdadMsg","Esta app es para personas de 18 años o más. Si eres menor y necesitas hablar con alguien, llama gratis y anónimo al 1412 o conversa con un adulto de confianza.","no"); return; }
+  S.mayorEdad=true;
+  const v=$("welcomeDay0").value; if(!v){ toast("Elige una fecha"); return; } S.day0=v; S.day0Hora=horaDia0(v); S.sustancia=$("welcomeSust").value; S.modo=$("welcomeModo").value; save(); aplicarTema(); fillConfig(); renderHoy(); renderRegistro(); renderSust(); toast("Empezamos a contar desde ahí."); };
 
 /* ---------- Check-in diario (sueño y ánimo) ---------- */
 function todayCheckin(){ const t=todayStr(); return S.events.find(e=>e.type==="checkin"&&e.ts.slice(0,10)===t); }
@@ -888,52 +892,6 @@ $("nocheAuxilios").onclick=()=>{ irA("ayuda"); setTimeout(()=>{ const el=$("paLi
 $("nocheCheckin").onclick=()=>{ irA("hoy"); setTimeout(()=>{ const d=$("checkinForm").closest("details"); if(d) d.open=true; $("checkinForm").closest("details").scrollIntoView({behavior:"smooth",block:"start"}); },50); };
 $("nocheRegistro").onclick=()=>{ irA("registro"); setTimeout(()=>{ $("cInt").scrollIntoView({behavior:"smooth",block:"center"}); },50); };
 
-/* ---------- Dudas ---------- */
-/* La persona pregunta lo que no encontró y responde el dueño de la app (js/dudas.js, servidor/dudas.sql).
-   Las dudas propias quedan solo en este teléfono: el texto y el número secreto para buscar la respuesta. */
-const D=window.Dudas;
-const fechaCorta=iso=>new Date(iso).toLocaleDateString("es-CL",{day:"numeric",month:"short"});
-function pintarDudas(){
-  const lista=!!(D&&D.disponible());
-  $("dudasProximo").hidden=lista; $("dudasForm").hidden=!lista;
-  const mias=S.misDudas||[];
-  $("misDudas").hidden=!mias.length;
-  $("misDudas").innerHTML=mias.map(d=>`<div class="duda"><p class="eyebrow">Tu duda · ${esc(fechaCorta(d.fecha))}</p><p class="small"><b>${esc(d.pregunta)}</b></p>${d.respuesta?`<p class="small resp">${esc(d.respuesta)}</p>`:`<p class="small muted">Esperando respuesta.</p>`}</div>`).join("");
-}
-/* Si lo que se escribe suena a urgencia, el aviso del 131 se pone rojo (no impide enviar) */
-$("dudaTexto").addEventListener("input",()=>document.querySelector("#dudasCard .aviso-urgencia").classList.toggle("fuerte",!!D&&D.pareceUrgencia($("dudaTexto").value)));
-$("dudaEnviar").onclick=async()=>{
-  const hoy=todayStr(), n=S.dudasDia&&S.dudasDia.fecha===hoy?S.dudasDia.n:0;
-  const v=D.validarDuda($("dudaTexto").value,n);
-  if(!v.ok){ mensaje("dudaMsg",v.error,"no"); return; }
-  $("dudaEnviar").disabled=true;
-  try{
-    const id=await D.enviar(v.texto);
-    S.misDudas=[{id,pregunta:v.texto,fecha:new Date().toISOString(),respuesta:null}].concat(S.misDudas||[]).slice(0,10);
-    S.dudasDia={fecha:hoy,n:n+1}; save();
-    $("dudaTexto").value=""; pintarDudas();
-    mensaje("dudaMsg","Enviada. Cuando tenga respuesta, aparece aquí abajo.","ok");
-  }catch(e){ mensaje("dudaMsg",e.message,"no"); }
-  $("dudaEnviar").disabled=false;
-};
-/* Al entrar a Saber (como máximo una vez por minuto): busca respuestas nuevas y las dudas públicas */
-let dudasRevisadas=0;
-async function revisarDudas(){
-  if(!D||!D.disponible()||Date.now()-dudasRevisadas<60000) return;
-  dudasRevisadas=Date.now();
-  let llego=false;
-  for(const d of (S.misDudas||[]).filter(x=>!x.respuesta)){
-    try{ const r=await D.ver(d.id); if(r){ d.respuesta=r.respuesta; d.respondida=r.respondida; llego=true; } }catch(e){ return; } /* Sin conexión: se intenta la próxima vez */
-  }
-  if(llego){ save(); pintarDudas(); toast("Llegó la respuesta a tu duda"); }
-  try{
-    const pub=await D.publicas();
-    $("dudasPublicasBox").hidden=!pub.length;
-    $("dudasPublicas").innerHTML=pub.map(p=>`<div class="duda"><p class="small"><b>${esc(p.pregunta)}</b></p><p class="small resp">${esc(p.respuesta)}</p></div>`).join("");
-  }catch(e){}
-}
-document.querySelector('.tabs [data-tab="saber"]').addEventListener("click",revisarDudas);
-
 /* ---------- Atajos del ícono ---------- */
 /* Al dejar el dedo apretado sobre el ícono aparecen "Tengo ganas" y "Modo calma" (ver "shortcuts" en manifest.json).
    Abren la app con ?ir=ganas o ?ir=calma en la dirección. Si hay PIN, la pantalla se abre después de desbloquear. */
@@ -942,7 +900,7 @@ try{ const ir=new URLSearchParams(location.search).get("ir"); if(ir==="ganas"||i
 function abrirAtajo(){ if(!atajoPendiente) return; const a=atajoPendiente; atajoPendiente=null; $(a==="ganas"?"openCrave":"openCalma").click(); }
 
 /* ---------- Boot ---------- */
-fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderSenales(); renderSalir(); renderRapido(); renderOfChips(); renderNovedades(); pintarDudas(); revisarDudas(); lockIfNeeded(); if(!S.pin) abrirAtajo();
+fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderSenales(); renderSalir(); renderRapido(); renderOfChips(); renderNovedades(); lockIfNeeded(); if(!S.pin) abrirAtajo();
 /* Si la app está abierta en dos lugares (la app instalada y una pestaña), cada copia
    vuelve a leer lo guardado al volver a la pantalla, para que una copia vieja no borre lo nuevo. */
 function recargarDatos(){ S=load(); fillConfig(); renderHoy(); renderRegistro(); }

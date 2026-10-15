@@ -61,6 +61,7 @@ https://luiskoops-source.github.io/cabeza-despejada/privacidad.html
 - Referencias a drogas: sí, con fines educativos y de prevención (reducción de daños). No muestra consumo ni facilita conseguir sustancias.
 - Violencia, contenido sexual, apuestas, compras: no.
 - Interacción entre usuarios: no.
+- Público objetivo (sección "Público objetivo y contenido"): solo mayores de 18 años. La app lo pide al empezar con la casilla "Tengo 18 años o más".
 
 ## Declaración de apps de salud
 

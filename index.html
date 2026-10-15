@@ -42,10 +42,13 @@
         <select id="welcomeModo"><option value="dejar">Dejarlo del todo</option><option value="reducir">Reducir de a poco</option></select>
       </label>
     </div>
+    <!-- Por restricciones legales la app es para mayores de 18 años -->
+    <label class="small" style="display:flex;gap:8px;align-items:flex-start;margin:6px 0"><input type="checkbox" id="welcomeEdad" style="width:auto;margin-top:3px"> Tengo 18 años o más.</label>
     <div class="row">
       <label class="f">Mi último consumo<input type="date" id="welcomeDay0"></label>
       <button class="primary" id="welcomeGo">Empezar</button>
     </div>
+    <p class="small" id="welcomeEdadMsg" role="status"></p>
     <p class="small muted">Si lo que usas es alcohol o benzodiacepinas todos los días, lee primero su ficha en Saber: dejarlos de golpe puede ser peligroso.</p>
   </div>
 
@@ -349,25 +352,6 @@
   <div class="card">
     <input id="buscar" placeholder="Buscar: tusi, infarto, 1412..." aria-label="Buscar en toda la app">
     <div id="buscarOut" class="stack" hidden></div>
-  </div>
-
-  <!-- Dudas: lo que la gente no encontró. Responde el dueño de la app, sin apuro (lógica en js/dudas.js, servidor en servidor/dudas.sql) -->
-  <div class="card" id="dudasCard">
-    <h2>¿No encontraste lo que buscabas?</h2>
-    <p class="small">Escribe tu duda. La responde una persona, no una máquina, y puede tardar unos días. Cuando esté lista, aparece aquí mismo.</p>
-    <div class="aviso-urgencia small"><b>No es para urgencias.</b> Si tú o alguien está en peligro: <b>131</b>. Para hablar ahora con alguien: <b>1412</b>, gratis y anónimo.</div>
-    <p class="small muted" id="dudasProximo" hidden>Muy pronto: esta parte necesita que la app esté conectada a su servidor.</p>
-    <div id="dudasForm">
-      <textarea id="dudaTexto" maxlength="500" aria-label="Tu duda" placeholder="Ej: ¿Es normal no poder dormir la primera semana?"></textarea>
-      <p class="small muted">Sin nombre, teléfono ni datos de otras personas. Solo viaja el texto de la duda.</p>
-      <div class="row"><button class="primary" id="dudaEnviar" type="button">Enviar duda</button></div>
-      <p class="small" id="dudaMsg" role="status"></p>
-    </div>
-    <div id="misDudas" class="stack" hidden></div>
-    <details id="dudasPublicasBox" hidden>
-      <summary class="small">Dudas que ya respondimos</summary>
-      <div id="dudasPublicas" class="stack" style="margin-top:8px"></div>
-    </details>
   </div>
 
   <!-- Rápido: tarjetas de 15 segundos, una por toque, con tope diario. Sin autoplay ni scroll infinito, a propósito. -->
@@ -906,7 +890,6 @@
 <!-- CÁLCULOS: funciones puras, probadas en tests/pruebas.js -->
 <script src="js/calculos.js"></script>
 <script src="js/respaldo.js"></script>
-<script src="js/dudas.js"></script>
 <!-- LÓGICA: todo lo que "hace" la app -->
 <script src="js/app.js"></script>
 <!-- ESCUCHAR: la voz del teléfono lee las tarjetas (no depende del resto) -->
