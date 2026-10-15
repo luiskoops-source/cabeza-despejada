@@ -753,7 +753,7 @@ function addEvent(type,extra){ S.events.unshift(Object.assign({type,ts:new Date(
 $("cInt").oninput=()=>{ $("cIntVal").textContent=$("cInt").value; };
 $("addCrave").onclick=()=>{ addEvent("crave",{i:Number($("cInt").value)||5,trig:$("cTrig").value,did:$("cDid").value.trim()}); $("cDid").value=""; renderRegistro(); toast("Anotado. Eso cuenta."); };
 $("addRelapse").onclick=()=>{ const el=$("addRelapse"); if(el.dataset.confirm!=="1"){ el.dataset.confirm="1"; el.textContent="Toca de nuevo para confirmar"; setTimeout(()=>{ el.dataset.confirm=""; el.textContent="Registrar consumo"; },4000); return; } el.dataset.confirm=""; el.textContent="Registrar consumo"; registerRelapse($("cDid").value.trim()); $("cDid").value=""; };
-function registerRelapse(note){ addEvent("relapse",{did:note||"",trig:$("cTrig").value}); S.day0=todayStr(); S.day0Hora=new Date().toISOString(); save(); renderHoy(); renderRegistro(); toast("Día 0 reiniciado. Lo que aprendiste se queda."); }
+function registerRelapse(note){ addEvent("relapse",{did:note||"",trig:$("cTrig").value}); S.day0=todayStr(); S.day0Hora=new Date().toISOString(); save(); renderHoy(); renderRegistro(); toast("Día 0 reiniciado. Una púa no borra lo que avanzaste."); }
 function renderRegistro(){
   const days=[]; const now=new Date(); now.setHours(12,0,0,0);
   for(let i=13;i>=0;i--){ const d=new Date(now); d.setDate(d.getDate()-i); days.push({k:dstr(d),c:0,r:false,label:d.toLocaleDateString("es-CL",{day:"numeric",month:"short"})}); }
