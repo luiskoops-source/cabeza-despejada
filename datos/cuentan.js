@@ -5,7 +5,7 @@
    Antes de publicar una historia real: que la persona haya autorizado publicarla, y quitar nombres, lugares
    y cualquier detalle que pueda identificar a alguien. Nunca publicar cómo se consume, dosis ni cómo conseguir. */
 window.CUENTAN={
-  formulario:"",
+  formulario:"https://docs.google.com/forms/d/e/1FAIpQLScSY-wQj3gHOv8-USbPiFZeni3N6L0KbxkJRQgoDFZuwolJSA/viewform",
   historias:[
     {tipo:"ficcion", tema:"celebrar", titulo:"Treinta días y una cama nueva",
      texto:"Cuando llegué a los treinta días no se lo conté a nadie. No porque me diera vergüenza, sino porque no sabía cómo decirlo sin que sonara a poco.\n\nLo que hice fue sacar la cuenta de lo que no había gastado y comprarme un colchón. Llevaba años durmiendo mal y ni siquiera me había dado cuenta de que una parte era el colchón y otra parte era yo.\n\nLa primera noche dormí ocho horas seguidas. Me desperté con hambre, que es algo que no me pasaba hace mucho.\n\nNo todo está bien. Todavía hay tardes difíciles. Pero ahora, cuando me acuesto, siento que la cama es un premio y no un lugar donde dar vueltas. Si estás en el día dos o en el día diez: los días chicos también se juntan."},

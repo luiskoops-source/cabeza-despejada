@@ -4,7 +4,7 @@
 window.NOVEDADES=[
   {id:"2026-10-16-historias", titulo:"Cuenta tu historia", cambios:[
     "En Saber hay una sección nueva con historias de otras personas que pasaron por lo mismo.",
-    "Pronto vas a poder contar o celebrar algo de forma anónima. Sin foro ni chat: lo simple es lo mejor.",
+    "Ya puedes contar o celebrar algo de forma anónima con los botones de esa sección. Sin foro ni chat: lo simple es lo mejor.",
     "La app ahora es para personas de 18 años o más."
   ]},
   {id:"2026-10-15-atajos", titulo:"Atajos y olas superadas", cambios:[
