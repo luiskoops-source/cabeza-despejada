@@ -625,6 +625,8 @@ $("recordatorio").onclick=()=>{
   const [hh,mm]=($("recHora").value||"").split(":").map(Number);
   const texto=C.recordatorioICS(hh,mm,todayStr(),Date.now());
   if(!texto){ mensaje("recMsg","Elige una hora.","no"); return; }
+  /* Dentro de otra página (la versión en claude.ai) no se pueden descargar archivos */
+  if(window.self!==window.top){ mensaje("recMsg","Esta vista no permite descargar archivos. Agrega el recordatorio desde la app instalada en tu teléfono.","no"); return; }
   try{
     const url=URL.createObjectURL(new Blob([texto],{type:"text/calendar"}));
     const a=document.createElement("a"); a.href=url; a.download="recordatorio.ics"; document.body.appendChild(a); a.click(); a.remove();
