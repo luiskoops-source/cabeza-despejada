@@ -315,7 +315,7 @@
 
   <!-- Buscador general: busca en toda la base de la app -->
   <div class="card">
-    <input id="buscar" placeholder="Buscar en toda la app: tusi, infarto, abstinencia, 1412..." aria-label="Buscar">
+    <input id="buscar" placeholder="Buscar: tusi, infarto, 1412..." aria-label="Buscar en toda la app">
     <div id="buscarOut" class="stack" hidden></div>
   </div>
 
@@ -508,7 +508,7 @@
     <p class="small muted" id="ultimaCopia"></p>
     <details>
       <summary class="small">¿No te deja elegir el archivo? Pega el texto de la copia</summary>
-      <textarea id="textoCopia" placeholder="Pega aquí el texto de tu copia" style="margin-top:8px"></textarea>
+      <textarea id="textoCopia" aria-label="Texto de la copia a recuperar" placeholder="Pega aquí el texto de tu copia" style="margin-top:8px"></textarea>
       <div class="row" style="margin-top:8px"><button id="restaurarTexto">Restaurar desde el texto</button></div>
     </details>
     <p class="small" id="copiaMsg" role="status"></p>
@@ -811,7 +811,8 @@
   <button role="tab" data-tab="registro" aria-selected="false"><span class="i">≡</span>Registro</button>
   <button role="tab" data-tab="ayuda" aria-selected="false"><span class="i">+</span>Ayuda</button>
 </nav>
-<div class="toast" id="toast"></div>
+<!-- aria-live hace que el lector de pantalla lea el aviso cuando aparece, sin robar el foco -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <!-- DATOS: la biblioteca de hechos, separada para editarla sin tocar la lógica -->
 <script src="datos/hechos.js"></script>
 <!-- DATOS: guía de sustancias (reducción de daños) -->

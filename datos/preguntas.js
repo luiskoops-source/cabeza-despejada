@@ -58,3 +58,12 @@ window.PREGUNTAS.push(
 {q:"Si un amigo está paranoico por consumo, lo mejor es explicarle que lo que ve no es real.",v:false,e:"Falso. Discutir las ideas aumenta la angustia. Lo que ayuda es acompañar, bajar la luz y el ruido, no tomar nada más y dormir. Si hay riesgo para alguien, 131.",s:"general"},
 {q:"La abstinencia de opioides como el tramadol o la heroína suele ser mortal.",v:false,e:"Falso. Es muy dura (dolor, vómitos, insomnio, angustia), pero no suele ser mortal, y hay tratamiento médico que la hace manejable. Las abstinencias que sí pueden matar son las del alcohol y las benzodiacepinas.",s:"opioides"}
 );
+
+/* Preguntas agregadas el 15 de octubre de 2026. Cada una sale de un mito o una advertencia de la guía de sustancias. */
+window.PREGUNTAS.push(
+{q:"Si fumaste durante muchos años, dejar el tabaco ya no sirve de nada.",v:false,e:"Falso. A cualquier edad el cuerpo se recupera: el riesgo de infarto baja desde el primer año sin fumar, y el de cáncer de pulmón sigue bajando con los años.",s:"tabaco"},
+{q:"Tener mucha 'resistencia' al alcohol es señal de que el cuerpo está protegido.",v:false,e:"Falso. Es tolerancia: el cuerpo ya se adaptó a la sustancia. Es un factor de riesgo de dependencia, no una ventaja.",s:"alcohol"},
+{q:"Orinar muy seguido o con urgencia puede ser la primera señal del daño de la ketamina en la vejiga.",v:true,e:"Verdadero. Esa señal aparece antes que el dolor. Consultar y dejarla a tiempo permite recuperar la vejiga; si se sigue, el daño puede ser irreversible.",s:"ketamina"},
+{q:"Mezclar opioides (tramadol, codeína) con pregabalina o gabapentina aumenta el riesgo de dejar de respirar.",v:true,e:"Verdadero. Las dos cosas bajan la respiración y juntas se potencian. Si alguien así no despierta o respira muy lento, 131.",s:"opioides"},
+{q:"Alrededor de 1 de cada 10 personas que usan marihuana desarrolla dependencia.",v:true,e:"Verdadero. Y la proporción es mayor en quienes empezaron antes de los 18 o fuman todos los días. La abstinencia es real: irritabilidad, insomnio, sueños vívidos.",s:"marihuana"}
+);
