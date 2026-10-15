@@ -117,6 +117,16 @@
     <div class="row"><button class="ghost" id="verComunidades">Ver foros y comunidades</button></div>
   </div>
 
+  <!-- La historia de Mati: un capítulo nuevo cada día que se abre la app -->
+  <div class="card" id="historiaCard" hidden>
+    <div class="row" style="justify-content:space-between"><p class="eyebrow">Un capítulo por día</p><span class="pill" id="historiaPill"></span></div>
+    <h3 id="historiaTitulo"></h3>
+    <div id="historiaTexto"></div>
+    <p class="fact new" id="historiaPregunta"></p>
+    <p class="small muted" id="historiaNota"></p>
+    <details class="etapa" id="historiaAnteriores"><summary>Capítulos anteriores</summary><div class="stack" id="historiaLista"></div></details>
+  </div>
+
   <!-- No estás solo -->
   <div class="card solo">
     <p class="eyebrow">No estás solo en esto</p>
@@ -769,6 +779,7 @@
 <!-- DATOS: actualidad y comunidades -->
 <script src="datos/actualidad.js"></script>
 <script src="datos/primeros-dias.js"></script>
+<script src="datos/historia.js"></script>
 <!-- DATOS: identificador "¿qué me ofrecieron?" -->
 <script src="datos/ofrecieron.js"></script>
 <!-- DATOS: primeros auxilios -->

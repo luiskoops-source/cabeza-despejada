@@ -218,3 +218,7 @@ a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;pad
 /* Calendario: el Día 0 (día del último consumo) va con borde punteado, sin pintar como limpio */
 .cal div.cero{background:transparent;border:2px dashed var(--accent);color:var(--fg)}
 .dot.cero{background:transparent;border:2px dashed var(--accent)}
+/* La historia de Mati: la pregunta del final destaca un poco para invitar a volver mañana */
+#historiaTexto p{margin:8px 0}
+#historiaPregunta{font-weight:600;font-style:italic}
+#historiaLista .etapa p{font-size:.95em}

@@ -15,7 +15,7 @@ const defaults={
   /* Configuración: sustancia principal, modo ("dejar" o "reducir"), meta semanal en modo reducir, PIN opcional */
   sustancia:"cocaina", modo:"dejar", metaSemana:2, pin:"", tema:"auto", tourVisto:false, ganasMin:15,
   celebrado:0, pledgeDate:null, salirDate:null, salirOk:[], rapidoDate:null, rapidoCount:0, rapidoSeen:[], quizDate:null, quizIdx:null, quizDone:false, quizStreak:0, quizBest:0, volverDia:null, volverOk:[],
-  events:[], seenFacts:[], customFacts:[], dailyIdx:null, dailyDate:null, dailyAI:null, craveWins:0
+  historia:{disponibles:0,fecha:null}, events:[], seenFacts:[], customFacts:[], dailyIdx:null, dailyDate:null, dailyAI:null, craveWins:0
 };
 const SUST=window.SUSTANCIAS||[];
 function sustActual(){ return SUST.find(s=>s.id===S.sustancia)||SUST[0]; }
@@ -96,6 +96,7 @@ function renderHoy(){
   renderPlan();
   renderHitos(d);
   renderLoQueViene(d);
+  renderHistoria();
   renderLive(); renderPledge(); renderSolo(); renderVolver(d);
   checkCelebra(d);
   renderQuiz();
@@ -194,6 +195,31 @@ function renderLoQueViene(d){
 }
 /* El botón lleva a Saber y baja hasta las comunidades */
 $("verComunidades").onclick=()=>{ irA("saber"); setTimeout(()=>{ const el=$("comunidadesList"); if(el) el.scrollIntoView({behavior:"smooth",block:"start"}); },150); };
+
+/* ---------- La historia de Mati ---------- */
+/* Muestra el capítulo de hoy y deja releer los anteriores. Los textos viven en datos/historia.js */
+function renderHistoria(){
+  const H=window.HISTORIA||[];
+  const ver=!!S.day0&&H.length>0;
+  $("historiaCard").hidden=!ver;
+  if(!ver) return;
+  /* Si hoy es un día nuevo, se abre un capítulo más (la regla está en js/calculos.js) */
+  const antes=JSON.stringify(S.historia);
+  S.historia=C.avanzarHistoria(S.historia,todayStr(),H.length);
+  if(JSON.stringify(S.historia)!==antes) save();
+  const n=S.historia.disponibles, cap=H[n-1];
+  /* Párrafos: el texto viene separado por líneas en blanco */
+  const parrafos=t=>t.split("\n\n").map(p=>`<p>${esc(p)}</p>`).join("");
+  $("historiaPill").textContent="Capítulo "+n+" de "+H.length;
+  $("historiaTitulo").textContent=cap.titulo;
+  $("historiaTexto").innerHTML=parrafos(cap.texto);
+  $("historiaPregunta").textContent=cap.pregunta||"";
+  $("historiaPregunta").hidden=!cap.pregunta;
+  $("historiaNota").textContent=n<H.length?"Mañana se abre el capítulo "+(n+1)+".":"Por ahora la historia llega hasta aquí. Pronto vienen más capítulos.";
+  /* Los capítulos ya leídos, del más reciente al primero, plegados */
+  $("historiaAnteriores").hidden=n<2;
+  $("historiaLista").innerHTML=H.slice(0,n-1).map((c,i)=>`<details class="etapa"><summary>${i+1}. ${esc(c.titulo)}</summary>${parrafos(c.texto)}</details>`).reverse().join("");
+}
 
 /* ---------- Hitos ---------- */
 function renderHitos(d){

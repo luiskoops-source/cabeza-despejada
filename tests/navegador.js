@@ -20,6 +20,9 @@ const path = require("path");
   if (await pagina.isVisible("#welcome")) errores.push("La bienvenida sigue visible tras marcar el Día 0");
   /* 1b. Lo que viene: visible en los primeros días */
   if (!(await pagina.isVisible("#loQueViene"))) errores.push("La tarjeta Lo que viene no aparece");
+  /* 1c. La historia: el primer día se abre el capítulo 1 */
+  if (!(await pagina.isVisible("#historiaCard"))) errores.push("La tarjeta de la historia no aparece");
+  else if (!/Capítulo 1 de/.test(await pagina.textContent("#historiaPill"))) errores.push("La historia no parte en el capítulo 1");
   /* 2. Botones principales */
   await pagina.click("#pledgeBtn");
   /* 2a. Reiniciar desde Hoy: dos toques dejan el Día 0 en hoy y el contador parte en 00 h */

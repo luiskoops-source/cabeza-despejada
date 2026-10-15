@@ -114,4 +114,11 @@ prueba("el Día 0 no cuenta como limpio en el calendario",()=>{
   assert.strictEqual(r.limpios,1);
 });
 prueba("sin datos devuelve ceros",()=>assert.deepStrictEqual(C.limpiosAcumulados([],null,30,"2026-10-12"),{total:0,enVentana:0,ventana:30,desde:null}));
+console.log("avanzarHistoria");
+prueba("la primera vez abre el capítulo 1",()=>assert.deepStrictEqual(C.avanzarHistoria(null,"2026-10-14",15),{disponibles:1,fecha:"2026-10-14"}));
+prueba("el mismo día no abre otro",()=>assert.strictEqual(C.avanzarHistoria({disponibles:1,fecha:"2026-10-14"},"2026-10-14",15).disponibles,1));
+prueba("al día siguiente abre el que sigue",()=>assert.strictEqual(C.avanzarHistoria({disponibles:1,fecha:"2026-10-14"},"2026-10-15",15).disponibles,2));
+prueba("días sin abrir no se acumulan",()=>assert.strictEqual(C.avanzarHistoria({disponibles:3,fecha:"2026-10-10"},"2026-10-20",15).disponibles,4));
+prueba("no pasa del último capítulo",()=>assert.strictEqual(C.avanzarHistoria({disponibles:15,fecha:"2026-10-10"},"2026-10-20",15).disponibles,15));
+prueba("si llegan capítulos nuevos, sigue desde donde quedó",()=>assert.strictEqual(C.avanzarHistoria({disponibles:15,fecha:"2026-10-10"},"2026-10-20",20).disponibles,16));
 console.log(process.exitCode?"\nHay pruebas fallando.":"\nOK: "+n+" pruebas pasaron.");

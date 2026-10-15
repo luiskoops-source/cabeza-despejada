@@ -145,10 +145,20 @@ function limpiosAcumulados(eventos, dia0, ventana, hoy){
   return { total, enVentana, ventana, desde:inicio };
 }
 
+/* La historia por capítulos: abre un capítulo nuevo por cada día distinto en que se abre la app.
+   "estado" guarda cuántos capítulos hay disponibles y la fecha del último que se abrió.
+   No se acumulan días perdidos: así la historia engancha sin dar para maratón.
+   Si se agregan capítulos nuevos más adelante, siguen abriéndose desde donde quedó. */
+function avanzarHistoria(estado, hoy, total){
+  const e={ disponibles:Number(estado&&estado.disponibles)||0, fecha:(estado&&estado.fecha)||null };
+  if(e.fecha!==hoy&&e.disponibles<total){ e.disponibles++; e.fecha=hoy; }
+  return e;
+}
+
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, HITOS, pesos };
+const Calculos={ fechaTexto, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, HITOS, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);

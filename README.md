@@ -64,7 +64,7 @@ Luego abre la dirección en el celular y usa "Agregar a pantalla de inicio". Des
 ## Qué tiene la app (octubre 2026)
 
 - **Noche**: atajos de emergencia (Modo calma, ganas, primeros auxilios, 131 y 1412), "Antes de salir", "¿Qué me ofrecieron?", "En la fiesta", y "La mañana siguiente".
-- **Hoy**: contador en vivo, hitos, compromiso diario, botón de ganas (reloj de 15 min, respiración, pasos), "No estás solo", check-in de sueño y ánimo, dinero no gastado, plan para la hora difícil, razones, semana, configuración (sustancia, modo dejar/reducir, meta).
+- **Hoy**: contador en vivo, hitos, compromiso diario, botón de ganas (reloj de 15 min, respiración, pasos), la historia de Mati (un capítulo nuevo cada día que abres la app), "No estás solo", check-in de sueño y ánimo, dinero no gastado, plan para la hora difícil, razones, semana, configuración (sustancia, modo dejar/reducir, meta).
 - **Saber**: buscador general, tarjetas de 15 segundos con tope diario, dato del día, pregunta del día, biblioteca (54 datos), guía de 11 sustancias con mitos, actualidad 2026, estudios, comunidades.
 - **Registro**: ganas con gatillante, consumos, gráfico de 14 días, calendario de 30 días, patrones (gatillante, hora pico, sueño vs ganas), respaldo.
 - **Ayuda**: 1412, 131, Salud Responde, primeros auxilios paso a paso (6 situaciones), paranoia, privacidad y PIN, compartir, acerca de y política de privacidad.
