@@ -129,6 +129,16 @@ ul,ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
 /* Aviso de versión nueva: flota sobre la barra de pestañas, con el botón a la derecha */
 .aviso-version{position:fixed;left:16px;right:16px;bottom:calc(84px + env(safe-area-inset-bottom,0px));max-width:480px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--surface);color:var(--fg);border:1.5px solid var(--line);border-radius:14px;padding:10px 12px;font-size:.9rem;font-weight:600;box-shadow:var(--sombra);z-index:31}
 .aviso-version[hidden]{display:none}
+/* Portada al abrir: el perrito centrado sobre el color de fondo. Se ve 1,4 segundos y se desvanece sola.
+   pointer-events:none hace que nunca bloquee un toque: si alguien entra apurado, la app responde igual. */
+.portada{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;pointer-events:none;animation:portada-sale 1.8s ease-in forwards}
+.portada svg{border-radius:38px;border:1.5px solid var(--line);box-shadow:var(--sombra);margin-bottom:10px}
+.portada-nombre{font-family:var(--display);font-weight:800;font-size:1.5rem;color:var(--fg);margin:0}
+.portada-frase{color:var(--muted);font-size:1rem;margin:0}
+@keyframes portada-sale{0%,78%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden}}
+/* El perrito entra con un pequeño "abrazo" (crece suave). Si la persona pidió menos movimiento, la portada solo desaparece, sin animar. */
+@media (prefers-reduced-motion:no-preference){ .portada svg{animation:portada-abrazo .6s ease-out} @keyframes portada-abrazo{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}} }
+@media (prefers-reduced-motion:reduce){ .portada{animation-timing-function:step-end} }
 details summary{cursor:pointer;font-weight:600}
 @media (prefers-reduced-motion: reduce){ .breath{transition:none} .bar i{transition:none} }
 
