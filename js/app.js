@@ -859,7 +859,14 @@ function renderOffline(){
 }
 try{ renderOffline(); if("serviceWorker" in navigator) navigator.serviceWorker.addEventListener("controllerchange",renderOffline); }catch(e){}
 /* Registra el service worker (modo sin internet). Solo funciona servido por http(s), no abierto como archivo ni dentro de claude.ai; si no se puede, no pasa nada. */
-try{ if("serviceWorker" in navigator&&location.protocol.startsWith("http")) navigator.serviceWorker.register("sw.js").catch(()=>{}); }catch(e){}
+/* Cada vez que vuelves a la app (sin cerrarla), le pide al navegador que revise si se publicó una versión nueva de sw.js */
+function revisarAlVolver(reg){ document.addEventListener("visibilitychange",()=>{ if(!document.hidden) reg.update().catch(()=>{}); }); }
+try{ if("serviceWorker" in navigator&&location.protocol.startsWith("http")) navigator.serviceWorker.register("sw.js").then(revisarAlVolver).catch(()=>{}); }catch(e){}
+/* Aviso de versión nueva. Si al abrir ya había una versión guardada y después cambia, es que llegó una nueva.
+   La primera vez que se instala no había versión, así que no se avisa nada. */
+try{ if("serviceWorker" in navigator){ const habiaVersion=!!navigator.serviceWorker.controller; navigator.serviceWorker.addEventListener("controllerchange",()=>{ if(habiaVersion) $("avisoVersion").hidden=false; }); } }catch(e){}
+/* El botón recarga la página, que ahora abre con los archivos nuevos */
+$("actualizarApp").onclick=()=>location.reload();
 (async()=>{
   try{ sample=window.claude&&window.claude.use?await window.claude.use("sample"):null; }catch(e){ sample=null; }
   /* Sin Claude (por ejemplo en la versión pública instalada) se ocultan sus botones en vez de mostrarlos apagados */

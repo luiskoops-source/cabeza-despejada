@@ -813,6 +813,11 @@
 </nav>
 <!-- aria-live hace que el lector de pantalla lea el aviso cuando aparece, sin robar el foco -->
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<!-- Aviso de versión nueva: aparece una sola vez cuando se publicó una versión y ya está descargada -->
+<div class="aviso-version" id="avisoVersion" role="status" aria-live="polite" hidden>
+  <span>Hay una versión nueva de la app.</span>
+  <button class="primary" id="actualizarApp" type="button">Actualizar</button>
+</div>
 <!-- DATOS: la biblioteca de hechos, separada para editarla sin tocar la lógica -->
 <script src="datos/hechos.js"></script>
 <!-- DATOS: guía de sustancias (reducción de daños) -->
