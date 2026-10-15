@@ -17,7 +17,7 @@ Cabeza Despejada es una app anónima de apoyo para dejar o reducir el consumo de
 
 ## Contenido
 - Nada en la app puede dar instrucciones de consumo, dosis, formas de uso ni cómo conseguir droga. La guía de `datos/sustancias.js` es de reducción de daños: qué es, qué daña, mezclas peligrosas como advertencia, señales de emergencia y cómo dejarla con seguridad. Nunca cantidades.
-- Anonimato: la app no pide nombre, correo ni cuenta, y no envía datos a ningún servidor. Cualquier función nueva debe respetar eso.
+- Anonimato: la app no pide nombre, correo ni cuenta, y no envía datos a ningún servidor. Cualquier función nueva debe respetar eso. Única excepción, decidida por el dueño: el respaldo automático en la nube (`js/respaldo.js`, servidor en `servidor/supabase.sql`), que es opcional y cifra todo en el teléfono con un código secreto que solo tiene la persona; el servidor nunca debe recibir nada legible.
 - Los hechos de `datos/hechos.js` deben ser verdaderos y basados en evidencia médica. Si no estás seguro de una cifra, descríbelo sin cifra.
 - `datos/primeros-auxilios.js`: pasos de primeros auxilios basados en protocolos de reducción de daños y primeros auxilios generales; siempre con el 131 como primer paso en situaciones graves. Nunca indicar medicamentos salvo naloxona para opioides y aspirina masticada en dolor de pecho (práctica estándar), ambos con la indicación de avisar al 131.
 - `datos/actualidad.js`: solo entradas verificadas en la fuente enlazada, con fecha y fuente. Si una cifra no está en la fuente, no se pone. Las columnas de opinión se marcan como "Análisis".

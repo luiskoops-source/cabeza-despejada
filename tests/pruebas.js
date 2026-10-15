@@ -122,3 +122,38 @@ prueba("días sin abrir no se acumulan",()=>assert.strictEqual(C.avanzarHistoria
 prueba("no pasa del último capítulo",()=>assert.strictEqual(C.avanzarHistoria({disponibles:15,fecha:"2026-10-10"},"2026-10-20",15).disponibles,15));
 prueba("si llegan capítulos nuevos, sigue desde donde quedó",()=>assert.strictEqual(C.avanzarHistoria({disponibles:15,fecha:"2026-10-10"},"2026-10-20",20).disponibles,16));
 console.log(process.exitCode?"\nHay pruebas fallando.":"\nOK: "+n+" pruebas pasaron.");
+
+/* ---------- Respaldo (js/respaldo.js) ---------- */
+const R=require("../js/respaldo.js");
+console.log("respaldo en archivo");
+const estado={ day0:"2026-10-01", pin:"1234", dailyAI:"x", events:[{type:"crave",ts:"2026-10-14T01:14:00.000Z",note:"salí a fumar"}], reasons:["una"] };
+prueba("la copia no lleva el PIN",()=>assert.strictEqual(R.crearRespaldo(estado).datos.pin,undefined));
+prueba("ida y vuelta conserva el historial",()=>assert.deepStrictEqual(R.leerRespaldo(JSON.stringify(R.crearRespaldo(estado))).datos.events,estado.events));
+prueba("rechaza un archivo cualquiera",()=>assert.throws(()=>R.leerRespaldo('{"hola":1}'),/no es una copia/));
+prueba("rechaza texto que no es JSON",()=>assert.throws(()=>R.leerRespaldo("hola"),/no es una copia/));
+prueba("rechaza un historial dañado",()=>assert.throws(()=>R.leerRespaldo(JSON.stringify({app:"cabeza-despejada",version:1,datos:{events:"x"}})),/dañada/));
+prueba("rechaza copias de una versión futura",()=>assert.throws(()=>R.leerRespaldo(JSON.stringify({app:"cabeza-despejada",version:99,datos:{}})),/más nueva/));
+prueba("acepta las copias antiguas (sin envoltorio)",()=>assert.strictEqual(R.leerRespaldo(JSON.stringify({day0:"2026-09-01",events:[]})).datos.day0,"2026-09-01"));
+prueba("nombre del archivo con fecha",()=>assert.strictEqual(R.nombreArchivo(new Date(2026,9,14)),"cabeza-despejada-2026-10-14.json"));
+
+console.log("código secreto");
+const cod=R.nuevoCodigo();
+prueba("tiene 6 grupos de 4",()=>assert.match(cod,/^[0-9A-Z]{4}(-[0-9A-Z]{4}){5}$/));
+prueba("dos códigos nunca salen iguales",()=>assert.notStrictEqual(cod,R.nuevoCodigo()));
+prueba("acepta minúsculas, espacios y O en vez de 0",()=>assert.ok(R.codigoValido(cod.toLowerCase().replace(/-/g," ").replace(/0/g,"o"))));
+prueba("rechaza un código incompleto",()=>assert.ok(!R.codigoValido(cod.slice(0,10))));
+
+/* El cifrado es asíncrono: estas pruebas esperan su resultado antes de dar el total */
+(async()=>{
+  console.log("cifrado");
+  async function pruebaA(nombre,fn){ try{ await fn(); n++; console.log("  ✓ "+nombre); }catch(e){ console.log("  ✗ "+nombre+"\n    "+e.message); process.exitCode=1; } }
+  const a=await R.derivar(cod), b=await R.derivar(cod.toLowerCase());
+  await pruebaA("el mismo código da el mismo casillero",async()=>assert.strictEqual(a.id,b.id));
+  await pruebaA("el casillero no revela el código",async()=>assert.ok(!a.id.includes(R.normalizarCodigo(cod).toLowerCase())));
+  const cifrado=await R.cifrar(R.crearRespaldo(estado),a.llave);
+  await pruebaA("lo cifrado no deja leer el historial",async()=>assert.ok(!cifrado.includes("fumar")&&!cifrado.includes("2026-10-01")));
+  await pruebaA("con el código correcto se recupera todo",async()=>assert.deepStrictEqual((await R.descifrar(cifrado,b.llave)).datos.events,estado.events));
+  const otro=await R.derivar(R.nuevoCodigo());
+  await pruebaA("con otro código no se abre",async()=>assert.rejects(R.descifrar(cifrado,otro.llave),/no abre/));
+  console.log(process.exitCode?"\nHay pruebas que fallaron.":`\nOK: ${n} pruebas pasaron (incluidas las de respaldo).`);
+})();

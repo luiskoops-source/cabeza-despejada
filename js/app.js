@@ -21,7 +21,7 @@ const SUST=window.SUSTANCIAS||[];
 function sustActual(){ return SUST.find(s=>s.id===S.sustancia)||SUST[0]; }
 let S=load();
 function load(){ try{ const r=localStorage.getItem(KEY); if(r){ return Object.assign({},defaults,JSON.parse(r)); } }catch(e){} return Object.assign({},defaults); }
-function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
+function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} try{ nubeProgramar(); }catch(e){} } /* Respaldo en la nube (ver más abajo). Los guardados del arranque, antes de que exista, se saltan. */
 function toast(t){ const el=$("toast"); el.textContent=t; el.classList.add("show"); clearTimeout(toast.t); toast.t=setTimeout(()=>el.classList.remove("show"),2200); }
 /* Los cálculos viven en js/calculos.js; aquí solo les ponemos nombres cortos. */
 const C=window.Calculos;
@@ -302,6 +302,117 @@ $("lockGo").onclick=()=>{ if($("lockPin").value===S.pin){ $("lock").hidden=true;
 $("lockPin").onkeydown=e=>{ if(e.key==="Enter") $("lockGo").click(); };
 $("savePin").onclick=()=>{ const v=$("pinNew").value.trim(); if(v&&!/^\d{4,6}$/.test(v)){ toast("El PIN debe tener 4 a 6 números"); return; } S.pin=v; save(); $("pinNew").value=""; toast(v?"PIN activado":"PIN desactivado"); };
 $("wipeAll").onclick=()=>{ const el=$("wipeAll"); if(el.dataset.c!=="1"){ el.dataset.c="1"; el.textContent="Toca de nuevo para borrar todo"; setTimeout(()=>{ el.dataset.c=""; el.textContent="Borrar todos mis datos"; },4000); return; } try{ localStorage.removeItem(KEY); }catch(e){} location.reload(); };
+
+/* ---------- Respaldo: copia en archivo y nube cifrada ---------- */
+/* La lógica (armar, revisar, cifrar, enviar) vive en js/respaldo.js; aquí solo se conecta con los botones. */
+const R=window.Respaldo;
+const KEY_COPIA="cd.ultimaCopia"; /* fecha de la última copia guardada, solo para mostrarla */
+const KEY_NUBE="cd.nube";         /* código secreto y fecha del último respaldo en la nube: nunca viajan dentro del respaldo */
+function leerLocal(k){ try{ return JSON.parse(localStorage.getItem(k)||"null"); }catch(e){ return null; } }
+function guardarLocal(k,v){ try{ if(v===null) localStorage.removeItem(k); else localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+function mensaje(id,texto,tipo){ const el=$(id); el.textContent=texto; el.className="small"+(tipo?" "+tipo:""); }
+const fechaHora=iso=>new Date(iso).toLocaleString("es-CL",{day:"numeric",month:"long",hour:"2-digit",minute:"2-digit"});
+function pintarUltimaCopia(){ const f=leerLocal(KEY_COPIA); $("ultimaCopia").textContent=f?"Última copia guardada: "+fechaHora(f):"Todavía no guardas ninguna copia."; }
+
+/* Guardar copia: en el celular abre "Compartir" para mandarla directo a Drive, Proton u otra; si no se puede, la descarga; y si tampoco, la copia como texto */
+$("guardarCopia").onclick=async()=>{
+  const texto=JSON.stringify(R.crearRespaldo(S),null,1);
+  const nombre=R.nombreArchivo();
+  const listo=()=>{ guardarLocal(KEY_COPIA,new Date().toISOString()); pintarUltimaCopia(); };
+  /* Dentro de otra página (la versión fijada en Claude) no se puede descargar ni compartir: se copia como texto */
+  if(window.self!==window.top){ copyText(texto); listo(); mensaje("copiaMsg","Copiamos tu copia como texto. Pégala en una nota o en tu correo. Para guardarla como archivo, usa la app instalada.","ok"); return; }
+  try{
+    const archivo=new File([texto],nombre,{type:"application/json"});
+    if(navigator.canShare&&navigator.canShare({files:[archivo]})){
+      await navigator.share({files:[archivo],title:"Copia de Cabeza Despejada"});
+      listo(); mensaje("copiaMsg","Copia lista. Guárdala en tu nube.","ok"); return;
+    }
+  }catch(e){ if(e&&e.name==="AbortError") return; } /* La persona cerró el menú de compartir: no pasa nada */
+  try{
+    const url=URL.createObjectURL(new Blob([texto],{type:"application/json"}));
+    const a=document.createElement("a"); a.href=url; a.download=nombre; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),4000);
+    listo(); mensaje("copiaMsg","Copia descargada ("+nombre+"). Súbela a tu nube.","ok");
+  }catch(e){
+    copyText(texto); listo(); mensaje("copiaMsg","No se pudo crear el archivo, así que la copiamos como texto. Pégala en una nota o en tu correo.","ok");
+  }
+};
+
+/* Restaurar: reemplaza todo lo de este teléfono por lo de la copia. Se pide tocar dos veces, como en Borrar. */
+let pendiente=null;
+function restaurarCopia(texto){
+  let r; try{ r=R.leerRespaldo(texto); }catch(e){ mensaje("copiaMsg",e.message,"no"); return; }
+  pendiente=r;
+  const cuando=r.creado?" del "+fechaHora(r.creado):"";
+  const n=(r.datos.events||[]).length;
+  mensaje("copiaMsg",`Copia${cuando} con ${n} registro${n===1?"":"s"}. Esto reemplaza lo que hay en este teléfono.`,"");
+  const b=document.createElement("button"); b.className="primary"; b.textContent="Sí, restaurar"; b.style.marginLeft="8px";
+  b.onclick=aplicarRestauracion;
+  $("copiaMsg").appendChild(b);
+}
+function aplicarRestauracion(){
+  if(!pendiente) return;
+  S=Object.assign({},defaults,pendiente.datos,{pin:S.pin}); /* El PIN de este teléfono se mantiene */
+  save(); location.reload();
+}
+$("archivoCopia").onchange=e=>{
+  const f=e.target.files&&e.target.files[0]; if(!f) return;
+  if(f.size>5e6){ mensaje("copiaMsg","Ese archivo es demasiado grande para ser una copia.","no"); return; }
+  const lector=new FileReader();
+  lector.onload=()=>restaurarCopia(String(lector.result));
+  lector.onerror=()=>mensaje("copiaMsg","No se pudo abrir el archivo.","no");
+  lector.readAsText(f); e.target.value="";
+};
+$("restaurarTexto").onclick=()=>restaurarCopia($("textoCopia").value);
+pintarUltimaCopia();
+
+/* Nube cifrada. Mientras la app no tenga servidor (Respaldo.nubeLista() falso), se muestra "próximamente". */
+let nubeReloj=null, nubeSubiendo=false;
+function pintarNube(){
+  const lista=R.nubeLista(), n=leerLocal(KEY_NUBE);
+  $("nubeProxima").hidden=lista;
+  $("nubeApagada").hidden=!lista||Boolean(n);
+  $("nubePrendida").hidden=!lista||!n;
+  if(n) $("nubeEstado").textContent=n.ultimo?"Último respaldo: "+fechaHora(n.ultimo):"Todavía sin respaldar.";
+}
+async function nubeSubir(aviso){
+  const n=leerLocal(KEY_NUBE); if(!n||nubeSubiendo||!R.nubeLista()) return;
+  nubeSubiendo=true;
+  try{ n.ultimo=await R.subirNube(n.codigo,S); guardarLocal(KEY_NUBE,n); pintarNube(); if(aviso) mensaje("nubeMsg","Respaldado.","ok"); }
+  catch(e){ if(aviso) mensaje("nubeMsg",e.message,"no"); }
+  finally{ nubeSubiendo=false; }
+}
+/* Cada vez que la app guarda algo, se espera 8 segundos sin cambios y se sube una sola vez */
+function nubeProgramar(){ if(!R.nubeLista()||!leerLocal(KEY_NUBE)) return; clearTimeout(nubeReloj); nubeReloj=setTimeout(()=>nubeSubir(false),8000); }
+window.addEventListener("online",()=>nubeSubir(false));
+$("nubeActivar").onclick=async()=>{
+  const codigo=R.nuevoCodigo();
+  guardarLocal(KEY_NUBE,{codigo,ultimo:null});
+  $("nubeCodigo").textContent=codigo; $("nubeCodigoCaja").hidden=false;
+  pintarNube(); await nubeSubir(true);
+};
+$("nubeTengo").onclick=()=>{ $("nubeRecuperar").hidden=false; $("nubeCodigoIn").focus(); };
+$("nubeRecuperarGo").onclick=async()=>{
+  const codigo=$("nubeCodigoIn").value;
+  if(!R.codigoValido(codigo)){ mensaje("nubeMsg","El código no está completo. Son 24 letras y números.","no"); return; }
+  mensaje("nubeMsg","Buscando tu historial...","");
+  try{
+    const r=await R.bajarNube(codigo);
+    if(!r){ mensaje("nubeMsg","Ese código no tiene nada guardado todavía. Revisa que esté bien escrito.","no"); return; }
+    guardarLocal(KEY_NUBE,{codigo:R.normalizarCodigo(codigo).match(/.{4}/g).join("-"),ultimo:new Date().toISOString()});
+    pendiente=r; aplicarRestauracion();
+  }catch(e){ mensaje("nubeMsg",e.message,"no"); }
+};
+$("nubeAhora").onclick=()=>{ mensaje("nubeMsg","Respaldando...",""); nubeSubir(true); };
+$("nubeVerCodigo").onclick=()=>{ const n=leerLocal(KEY_NUBE); if(!n) return; $("nubeCodigo").textContent=n.codigo; $("nubeCodigoCaja").hidden=false; };
+$("nubeOcultarCodigo").onclick=()=>{ $("nubeCodigoCaja").hidden=true; };
+$("nubeCopiarCodigo").onclick=()=>{ const n=leerLocal(KEY_NUBE); if(n) copyText(n.codigo); };
+$("nubeApagar").onclick=()=>{
+  const el=$("nubeApagar");
+  if(el.dataset.c!=="1"){ el.dataset.c="1"; el.textContent="Toca de nuevo para desactivar"; setTimeout(()=>{ el.dataset.c=""; el.textContent="Desactivar"; },4000); return; }
+  guardarLocal(KEY_NUBE,null); $("nubeCodigoCaja").hidden=true; mensaje("nubeMsg","Desactivado. Lo que ya estaba en la nube sigue cifrado y solo se abre con tu código.",""); pintarNube();
+};
+pintarNube();
 
 /* ---------- En 15 segundos (con tope diario) ---------- */
 const RAPIDO_MAX=7;
@@ -662,43 +773,6 @@ function renderPatterns(){
   $("patterns").innerHTML=`<ul><li>Tu gatillante más frecuente: <b>${esc(topTrig[0])}</b> (${topTrig[1]} veces).</li><li>La hora en que más te llegan las ganas: <b>alrededor de las ${peak}:00</b>. Ten un plan para esa hora.</li><li>Intensidad promedio de las ganas: <b>${avgInt}/10</b>.</li><li>Olas superadas sin consumir: <b>${wins}</b>. Consumos registrados: <b>${rel}</b>.</li>${suenoTxt}</ul>`;
 }
 
-/* ---------- Respaldo: copiar y pegar todos los datos entre aparatos ---------- */
-$("backupCopy").onclick=()=>{ copyText(JSON.stringify(S)); };
-/* Restaurar: recibe el texto de un respaldo, revisa que sea válido y reemplaza los datos */
-function restaurar(raw){
-  if(!raw) return;
-  try{
-    const data=JSON.parse(raw);
-    if(!data||typeof data!=="object"||!Array.isArray(data.events)) throw new Error("formato");
-    S=Object.assign({},defaults,data); save();
-    $("backupText").value="";
-    renderHoy(); renderFacts(); renderRegistro(); showDaily();
-    toast("Datos restaurados");
-  }catch(e){ toast("Eso no es un respaldo válido"); }
-}
-$("backupRestore").onclick=()=>restaurar($("backupText").value.trim());
-/* Dentro de otra página (por ejemplo la versión fijada en Claude) el navegador no deja descargar archivos:
-   ahí se oculta el botón y queda solo "Copiar mis datos", que sí funciona. */
-if(window.self!==window.top) $("backupFile").hidden=true;
-/* Guardar como archivo: arma un archivo con los datos y el navegador lo descarga. No pasa por ningún servidor. */
-$("backupFile").onclick=()=>{
-  try{
-    const archivo=new Blob([JSON.stringify(S)],{type:"application/json"});
-    const a=document.createElement("a");
-    a.href=URL.createObjectURL(archivo);
-    a.download="cabeza-despejada-respaldo-"+todayStr()+".json";
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(()=>URL.revokeObjectURL(a.href),1000);
-    toast("Respaldo guardado en Descargas");
-  }catch(e){ toast("Aquí no se puede descargar. Usa Copiar mis datos."); }
-};
-/* Cargar archivo: lee el archivo elegido y lo restaura */
-$("backupLoad").onchange=()=>{
-  const f=$("backupLoad").files[0]; if(!f) return;
-  const lector=new FileReader();
-  lector.onload=()=>{ restaurar(String(lector.result)); $("backupLoad").value=""; };
-  lector.readAsText(f);
-};
 $("exportBtn").onclick=()=>{
   const txt=S.events.map(e=>`${e.ts.slice(0,16).replace("T"," ")}\t${e.type}\t${e.i||""}\t${e.trig||""}\t${e.did||""}`).join("\n");
   copyText(txt||"(sin registros)");

@@ -493,15 +493,53 @@
     <div id="patterns" class="small"></div>
   </div>
 
-  <!-- Respaldo: la app guarda en este navegador; esto permite llevar los datos a otro aparato -->
-  <div class="card">
-    <h2>Respaldo</h2>
-    <p class="small muted">Tus datos viven solo en este aparato. Si cambias o pierdes el teléfono, sin respaldo se pierden. Guarda un archivo de vez en cuando y llévalo al teléfono nuevo.</p>
-    <div class="row"><button class="primary" id="backupFile">Guardar respaldo en un archivo</button><button id="backupCopy">Copiar mis datos</button></div>
-    <label class="f">Cargar un archivo de respaldo<input type="file" id="backupLoad" accept=".json,application/json"></label>
-    <label class="f">Pegar un respaldo<textarea id="backupText" placeholder="Pega aquí el texto copiado en el otro aparato"></textarea></label>
-    <div class="row"><button class="primary" id="backupRestore">Restaurar</button><span class="small muted">Reemplaza lo que hay en este aparato.</span></div>
+  <!-- Respaldo: copia en archivo y nube cifrada (lógica en js/respaldo.js) -->
+  <div class="card" id="respaldoCard">
+    <h2>Tu respaldo</h2>
+    <p class="small muted">Tu historial vive en este teléfono. Si borras la app o cambias de teléfono, se pierde. Guarda una copia de vez en cuando en tu nube (Drive, Proton, Nextcloud o la que uses).</p>
+    <div class="row">
+      <button class="primary" id="guardarCopia">Guardar copia</button>
+      <label class="boton-archivo"><input type="file" id="archivoCopia" accept=".json,application/json,text/plain">Restaurar copia</label>
+    </div>
+    <p class="small muted" id="ultimaCopia"></p>
+    <details>
+      <summary class="small">¿No te deja elegir el archivo? Pega el texto de la copia</summary>
+      <textarea id="textoCopia" placeholder="Pega aquí el texto de tu copia" style="margin-top:8px"></textarea>
+      <div class="row" style="margin-top:8px"><button id="restaurarTexto">Restaurar desde el texto</button></div>
+    </details>
+    <p class="small" id="copiaMsg" role="status"></p>
+
+    <h3 style="margin-top:8px">Respaldo automático cifrado</h3>
+    <div id="nubeProxima">
+      <p class="small muted">Próximamente: tu historial se respaldará solo en la nube, cifrado en tu teléfono con un código secreto que solo tú tienes. Nadie más podrá leerlo, ni siquiera quien hizo la app.</p>
+    </div>
+    <div id="nubeApagada" hidden>
+      <p class="small muted">Tu historial se respalda solo, cifrado en tu teléfono con un código secreto que solo tú tienes. Sin correo ni contraseña. Nadie más puede leerlo, ni siquiera quien hizo la app.</p>
+      <div class="row">
+        <button class="primary" id="nubeActivar">Activar</button>
+        <button id="nubeTengo">Ya tengo un código</button>
+      </div>
+      <div id="nubeRecuperar" hidden class="stack">
+        <label class="f">Tu código de recuperación<input id="nubeCodigoIn" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXX"></label>
+        <div class="row"><button class="primary" id="nubeRecuperarGo">Recuperar mi historial</button></div>
+      </div>
+    </div>
+    <div id="nubePrendida" hidden class="stack">
+      <p class="small"><span class="pill good">Activo</span> <span id="nubeEstado"></span></p>
+      <div id="nubeCodigoCaja" hidden class="codigo-nube">
+        <p class="small"><b>Este es tu código.</b> Guárdalo en un lugar seguro (anótalo en papel o en tus notas). Sin él no se puede recuperar el historial, y nosotros no lo tenemos.</p>
+        <p class="num codigo" id="nubeCodigo"></p>
+        <div class="row"><button id="nubeCopiarCodigo">Copiar código</button><button id="nubeOcultarCodigo" class="ghost">Ya lo guardé</button></div>
+      </div>
+      <div class="row">
+        <button id="nubeAhora">Respaldar ahora</button>
+        <button id="nubeVerCodigo" class="ghost">Ver mi código</button>
+        <button id="nubeApagar" class="ghost">Desactivar</button>
+      </div>
+    </div>
+    <p class="small" id="nubeMsg" role="status"></p>
   </div>
+
 </section>
 
 <!-- AYUDA -->
@@ -590,7 +628,7 @@
     <h2>Tu privacidad</h2>
     <ul class="small">
       <li>No hay cuenta, nombre ni correo. Nadie sabe que usas esta app.</li>
-      <li>Todo lo que anotas queda en este aparato. No se envía a ningún servidor.</li>
+      <li>Todo lo que anotas queda en este aparato. Solo sale si tú guardas una copia o activas el respaldo cifrado, y en ese caso nadie más que tú puede leerlo.</li>
       <li id="aiPriv">Si usas los botones de Claude, lo que escribes ahí se envía a Claude para responderte, nada más.</li>
     </ul>
     <div class="row">
@@ -792,6 +830,7 @@
 <script src="datos/antes-de-salir.js"></script>
 <!-- CÁLCULOS: funciones puras, probadas en tests/pruebas.js -->
 <script src="js/calculos.js"></script>
+<script src="js/respaldo.js"></script>
 <!-- LÓGICA: todo lo que "hace" la app -->
 <script src="js/app.js"></script>
 </body>
