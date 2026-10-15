@@ -10,11 +10,17 @@ Doble clic en `index.html`. Funciona sin servidor ni instalación.
 
 ```
 cabeza-despejada/
-├── index.html        Estructura: las 4 pantallas (Hoy, Saber, Registro, Ayuda) y el Modo ganas
+├── index.html        Estructura: las 5 pestañas (Hoy, Noche, Saber, Registro, Ayuda), la portada, el Modo ganas y el Modo calma
 ├── css/estilos.css   Todo lo visual: colores, tipografías, tamaños, modo oscuro
-├── js/app.js         La lógica: contador, dinero, registro, gráfico, modo ganas, chat
-├── datos/hechos.js   La biblioteca de hechos (fácil de editar sin tocar la lógica)
-├── datos/sustancias.js  Guía de 11 sustancias (reducción de daños)
+├── js/app.js         La lógica: contador, dinero, registro, gráfico, modo ganas, avisos
+├── js/calculos.js    Cálculos puros (días, dinero, hora difícil, recordatorio de calendario), probados en tests/
+├── js/respaldo.js    Copia de seguridad en archivo y respaldo cifrado en la nube
+├── datos/            El contenido, separado de la lógica para editarlo fácil: hechos, sustancias, historia de Mati,
+│                     preguntas, primeros auxilios, novedades (la tarjeta "Qué hay de nuevo")...
+├── sw.js             Service worker: guarda la app para usarla sin internet y avisa cuando hay versión nueva
+├── iconos/           El perrito salchicha que abraza al cactus, en todos los tamaños
+├── tests/            pruebas.js (cálculos) y navegador.js (abre la app y toca lo esencial)
+├── scripts/construir.js  Arma la versión de un solo archivo para claude.ai
 ├── CLAUDE.md         Instrucciones para Claude Code (cómo trabajar en este proyecto)
 └── README.md         Este archivo
 ```
@@ -33,7 +39,7 @@ Los botones "Cuéntame algo nuevo", "Explícame" y el chat del Modo ganas usan `
 1b. Anonimato, PIN, configuración de sustancia y modo reducción, hitos, guía de sustancias (hecho).
 2. Pruebas automáticas para los cálculos (hecho: tests/pruebas.js).
 3. PWA instalable (hecho: manifest.json, sw.js, iconos/).
-4. Notificaciones a la hora difícil.
+4. Avisos a la hora difícil (hecho en parte: recordatorio diario en el calendario del teléfono, sin servidor). Con el paquete de Google Play: avisos locales de Android con Capacitor, también sin servidor.
 5. Base de datos y cuenta, para que celular y PC muestren lo mismo.
 6. Servicio que agregue un dato o estudio nuevo cada día.
 
@@ -54,6 +60,17 @@ npx serve .        # o cualquier servidor estático
 
 Luego abre la dirección en el celular y usa "Agregar a pantalla de inicio". Desde ahí abre a pantalla completa y funciona sin internet (gracias a `sw.js`).
 
+## Cómo publicar una versión nueva
+
+1. Subir el número de `CACHE` en `sw.js` (por ejemplo v56 → v57). Si no cambia, los teléfonos no se enteran de que hay versión nueva.
+2. Agregar una entrada arriba en `datos/novedades.js` si el cambio se nota.
+3. Correr las pruebas y subir a `main`. GitHub Pages publica sola y la app instalada muestra "Hay una versión nueva" con el botón Actualizar.
+4. La versión de claude.ai no se actualiza sola: se arma con `node scripts/construir.js` y se publica `dist/cabeza-despejada.html` en el mismo artefacto.
+
+## El dibujo
+
+El salchicha que abraza al cactus aunque le pinche. El cactus son los momentos malos: recaídas, ganas, heridas, púas. El salchicha es el tiempo y la paciencia, que los abraza igual. Aparece en la portada, en el Modo ganas (respira dentro del círculo), en los hitos y después de una recaída. En honor a Floy.
+
 ## Principios
 
 - Gratis para siempre: sin suscripción, sin anuncios, sin compras dentro de la app. Donaciones voluntarias, nunca obligatorias.
@@ -63,8 +80,9 @@ Luego abre la dirección en el celular y usa "Agregar a pantalla de inicio". Des
 
 ## Qué tiene la app (octubre 2026)
 
+- **Al abrir**: portada con el perrito ("El cactus pincha. La paciencia abraza.") y aviso con botón Actualizar cuando hay versión nueva.
 - **Noche**: atajos de emergencia (Modo calma, ganas, primeros auxilios, 131 y 1412), "Antes de salir", "¿Qué me ofrecieron?", "En la fiesta", y "La mañana siguiente".
-- **Hoy**: contador en vivo, hitos, compromiso diario, botón de ganas (reloj de 15 min, respiración, pasos), la historia de Mati (un capítulo nuevo cada día que abres la app), "No estás solo", check-in de sueño y ánimo, dinero no gastado, plan para la hora difícil, razones, semana, configuración (sustancia, modo dejar/reducir, meta).
+- **Hoy**: contador en vivo, hitos, compromiso diario, botón de ganas (reloj de 15 min, respiración, pasos), la historia de Mati (un capítulo nuevo cada día que abres la app), "No estás solo", check-in de sueño y ánimo, dinero no gastado, plan para la hora difícil con recordatorio diario en el calendario, "Qué hay de nuevo" después de cada actualización, razones, semana, configuración (sustancia, modo dejar/reducir, meta).
 - **Saber**: buscador general, tarjetas de 15 segundos con tope diario, dato del día, pregunta del día, biblioteca (54 datos), guía de 11 sustancias con mitos, actualidad 2026, estudios, comunidades.
 - **Registro**: ganas con gatillante, consumos, gráfico de 14 días, calendario de 30 días, patrones (gatillante, hora pico, sueño vs ganas), respaldo.
 - **Ayuda**: 1412, 131, Salud Responde, primeros auxilios paso a paso (6 situaciones), paranoia, privacidad y PIN, compartir, acerca de y política de privacidad.
