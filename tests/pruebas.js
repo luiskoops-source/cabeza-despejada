@@ -113,6 +113,12 @@ prueba("el Día 0 no cuenta como limpio en el calendario",()=>{
   const r=C.calendario([],"2026-10-12",30,"2026-10-13");
   assert.strictEqual(r.limpios,1);
 });
+prueba("sin registros previos, el inicio guardado mantiene los días limpios",()=>{
+  /* Día 0 el 2 de octubre, recaída el 12 sin haber anotado nada antes: del 3 al 11 son 9 días limpios */
+  const r=C.limpiosAcumulados([{type:"relapse",ts:"2026-10-12T12:00:00.000Z"}],"2026-10-12",30,"2026-10-12","2026-10-02");
+  assert.strictEqual(r.total,9); assert.strictEqual(r.desde,"2026-10-02");
+});
+prueba("sin inicio guardado funciona como antes",()=>assert.strictEqual(C.limpiosAcumulados([{type:"relapse",ts:"2026-10-12T12:00:00.000Z"}],"2026-10-12",30,"2026-10-12").total,0));
 prueba("sin datos devuelve ceros",()=>assert.deepStrictEqual(C.limpiosAcumulados([],null,30,"2026-10-12"),{total:0,enVentana:0,ventana:30,desde:null}));
 console.log("avanzarHistoria");
 prueba("la primera vez abre el capítulo 1",()=>assert.deepStrictEqual(C.avanzarHistoria(null,"2026-10-14",15),{disponibles:1,fecha:"2026-10-14"}));

@@ -55,6 +55,20 @@ const path = require("path");
   /* 6. Sin scroll horizontal en celular */
   const ancho = await pagina.evaluate(() => document.documentElement.scrollWidth);
   if (ancho > 400) errores.push("La página se desborda a lo ancho: " + ancho + "px");
+  /* 6b. Teléfonos de ayuda: cada uno tiene su botón Llamar (131 emergencias, 1412 SENDA, Salud Responde) */
+  const tels = await pagina.evaluate(() => [...document.querySelectorAll("a.llamar")].map(a => a.getAttribute("href")));
+  for (const t of ["tel:131", "tel:1412", "tel:6003607777"]) if (!tels.includes(t)) errores.push("Falta el botón Llamar para " + t);
+  /* 6c. Una recaída no borra lo avanzado: el Día 0 vuelve a hoy, pero los días limpios anteriores siguen contando */
+  await pagina.evaluate(() => { const d = new Date(); d.setDate(d.getDate() - 10); const s = JSON.parse(localStorage.getItem("cd.v1")); s.day0 = d.toISOString().slice(0, 10); s.events = []; localStorage.setItem("cd.v1", JSON.stringify(s)); });
+  await pagina.reload(); await pagina.waitForTimeout(300);
+  await pagina.click("#reiniciarHoy"); await pagina.click("#reiniciarHoy"); await pagina.waitForTimeout(300);
+  if (!(await pagina.isVisible("#volver"))) errores.push("Tras una recaída no aparece Volver a empezar");
+  const total = Number(await pagina.textContent("#volverTotal"));
+  if (!(total >= 9)) errores.push("La recaída borró los días limpios anteriores: " + total);
+  /* 6d. Superar una ola suma una al contador y el perrito celebra */
+  await pagina.click("#openCrave"); await pagina.click("#craveWon"); await pagina.click('[data-ayudo="esperar"]'); await pagina.waitForTimeout(200);
+  if (!(await pagina.isVisible("#craveCelebra"))) errores.push("Al superar una ola no aparece la celebración");
+  await pagina.click("#craveCelebraOk");
   /* 7. Atajo "Tengo ganas" del ícono: abre el Modo ganas, pero con PIN nunca se salta el bloqueo */
   await pagina.goto(url + "?ir=ganas"); await pagina.waitForTimeout(300);
   if (!(await pagina.isVisible("#crave"))) errores.push("El atajo Tengo ganas no abre el Modo ganas");

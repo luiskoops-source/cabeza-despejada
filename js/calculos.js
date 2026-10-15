@@ -126,10 +126,12 @@ function calendario(eventos, dia0, dias, hoy){
 
 /* Días limpios acumulados: un consumo no borra los días anteriores.
    "inicio" es el día más antiguo que la app conoce (el primer registro o el Día 0, el que sea anterior).
-   Cuenta los días sin consumo desde el inicio hasta hoy, en total y en los últimos "ventana" días. */
-function limpiosAcumulados(eventos, dia0, ventana, hoy){
+   Cuenta los días sin consumo desde el inicio hasta hoy, en total y en los últimos "ventana" días.
+   inicioConocido (opcional): el Día 0 más antiguo que tuvo la persona, guardado antes de reiniciar por una recaída.
+   Sin él, quien nunca anotó nada en Registro perdería sus días limpios al reiniciar. Ese día fue de consumo: no cuenta. */
+function limpiosAcumulados(eventos, dia0, ventana, hoy, inicioConocido){
   const hoyK=hoy||fechaTexto(new Date());
-  const fechas=eventos.map(e=>e.ts.slice(0,10)); if(dia0) fechas.push(dia0);
+  const fechas=eventos.map(e=>e.ts.slice(0,10)); if(dia0) fechas.push(dia0); if(inicioConocido) fechas.push(inicioConocido);
   if(!fechas.length) return { total:0, enVentana:0, ventana, desde:null };
   const inicio=fechas.sort()[0];
   const consumos=new Set(eventos.filter(e=>e.type==="relapse").map(e=>e.ts.slice(0,10)));
@@ -138,7 +140,7 @@ function limpiosAcumulados(eventos, dia0, ventana, hoy){
   let total=0, enVentana=0;
   for(let d=new Date(inicio+"T12:00:00"); d<=fin; d.setDate(d.getDate()+1)){
     const k=fechaTexto(d);
-    if(consumos.has(k)||k===dia0) continue;
+    if(consumos.has(k)||k===dia0||k===inicioConocido) continue;
     total++;
     if(d>=corte) enVentana++;
   }
