@@ -225,10 +225,18 @@ function horaRecordatorio(horaDificil){
   return String((horaDificil+23)%24).padStart(2,"0")+":30";
 }
 
+/* El cactus de la portada crece con todos los días que llevas usando la app (desde el primer Día 0, no desde el último):
+   una recaída nunca lo achica. El primer día mide 0,62 de su tamaño final, como un cactus de llavero; crece rápido
+   al principio y más lento después (curva logarítmica), y llega a su tamaño completo a los 90 días. */
+function tamanoCactus(dias){
+  const d=Math.max(0,Number(dias)||0);
+  return Math.round((0.62+0.38*Math.min(1,Math.log(1+d)/Math.log(91)))*1000)/1000;
+}
+
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diaDe, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, recordatorioICS, enlaceGoogleCalendar, horaRecordatorio, fase478, HITOS, pesos };
+const Calculos={ fechaTexto, diaDe, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, recordatorioICS, enlaceGoogleCalendar, horaRecordatorio, fase478, tamanoCactus, HITOS, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);

@@ -109,6 +109,10 @@ const path = require("path");
   if (!(await pagina.isVisible("#volver"))) errores.push("Tras una recaída no aparece Volver a empezar");
   const total = Number(await pagina.textContent("#volverTotal"));
   if (!(total >= 9)) errores.push("La recaída borró los días limpios anteriores: " + total);
+  /* 6c-. El cactus de la portada tampoco se achica con la recaída: crece desde el primer Día 0, no desde el último */
+  await pagina.reload(); await pagina.waitForTimeout(300);
+  const tamano = await pagina.evaluate(() => { const m = (document.getElementById("cactusCrece").getAttribute("transform") || "").match(/scale\(([\d.]+)\)/); return m ? Number(m[1]) : 0; });
+  if (!(tamano > 0.62)) errores.push("Tras una recaída el cactus volvió a ser chiquito: " + tamano);
   /* 6d. Superar una ola suma una al contador y el perrito celebra */
   await pagina.click("#openCrave"); await pagina.click("#craveWon"); await pagina.click('[data-ayudo="esperar"]'); await pagina.waitForTimeout(200);
   if (!(await pagina.isVisible("#craveCelebra"))) errores.push("Al superar una ola no aparece la celebración");

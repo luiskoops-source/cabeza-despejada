@@ -6,6 +6,13 @@ const C=require("../js/calculos.js");
 let n=0;
 function prueba(nombre,fn){ try{ fn(); n++; console.log("  ✓ "+nombre); }catch(e){ console.log("  ✗ "+nombre+"\n    "+e.message); process.exitCode=1; } }
 
+console.log("tamanoCactus");
+prueba("el primer día es chiquito (0,62)",()=>assert.strictEqual(C.tamanoCactus(0),0.62));
+prueba("a los 90 días llega a su tamaño completo",()=>assert.strictEqual(C.tamanoCactus(90),1));
+prueba("después de 90 días no sigue creciendo",()=>assert.strictEqual(C.tamanoCactus(400),1));
+prueba("siempre crece: cada día mide más que el anterior hasta los 90",()=>{ for(let d=1;d<=90;d++) assert.ok(C.tamanoCactus(d)>C.tamanoCactus(d-1),"día "+d); });
+prueba("texto o vacío no rompe",()=>{ assert.strictEqual(C.tamanoCactus("abc"),0.62); assert.strictEqual(C.tamanoCactus(undefined),0.62); });
+
 console.log("diasDesde");
 prueba("sin Día 0 devuelve 0",()=>assert.strictEqual(C.diasDesde(null,"2026-10-09"),0));
 prueba("mismo día devuelve 0",()=>assert.strictEqual(C.diasDesde("2026-10-09","2026-10-09"),0));
