@@ -286,6 +286,23 @@ a.boton.primary{background:var(--accent);color:var(--accent-ink);border-color:tr
 .fase-exhala .perro-respira .soplo{animation:soplo 2.4s ease-out infinite}
 .fase-exhala .perro-respira .soplo:nth-child(2){animation-delay:.8s}
 .fase-exhala .perro-respira .soplo:nth-child(3){animation-delay:1.6s}
+/* Paseo del salchicha (js/paseo.js): cruza la pantalla sobre la barra de abajo, se detiene y lame la pantalla */
+.paseo{position:fixed;left:0;bottom:calc(78px + env(safe-area-inset-bottom,0px));z-index:25;width:150px;transform:translateX(-170px);transition:transform 3.2s linear;cursor:pointer;filter:drop-shadow(0 3px 2px rgba(0,0,0,.25))}
+.paseo.entra{transform:translateX(calc(50vw - 75px))}
+.paseo.sale{transform:translateX(calc(100vw + 20px));transition-duration:3s;transition-timing-function:ease-in}
+.paseo .pata{transform-box:fill-box;transform-origin:50% 0;animation:patita .32s ease-in-out infinite alternate}
+.paseo .pata-b{animation-delay:-.16s}
+.paseo.quieto .pata{animation:none}
+.paseo .cola{transform-box:fill-box;transform-origin:100% 100%;animation:colita .25s ease-in-out infinite alternate}
+.paseo .lengua{transform-box:fill-box;transform-origin:50% 0;transform:scaleY(0)}
+.paseo.lame .lengua{animation:lengua .45s ease-in-out 3}
+.paseo-corazon{position:absolute;left:118px;top:-6px;color:#E8807A;font-size:1.3rem;opacity:0;pointer-events:none}
+.paseo.lame .paseo-corazon{animation:corazon 1.6s ease-out .3s}
+@keyframes patita{from{transform:rotate(-14deg)}to{transform:rotate(14deg)}}
+@keyframes colita{from{transform:rotate(-8deg)}to{transform:rotate(10deg)}}
+@keyframes lengua{0%,100%{transform:scaleY(0)}50%{transform:scaleY(1)}}
+@keyframes corazon{0%{opacity:0;transform:translateY(6px) scale(.6)}30%{opacity:1}100%{opacity:0;transform:translateY(-28px) scale(1.2)}}
+@media (prefers-reduced-motion:reduce){ .paseo{display:none} }
 @keyframes soplo{0%{opacity:.9;transform:translate(0,0) scale(.6)}100%{opacity:0;transform:translate(18px,-10px) scale(1.8)}}
 @media (prefers-reduced-motion:reduce){ .respira-circulo{transition:none!important;transform:none!important} .perro-respira *{animation:none!important;transition:none!important} }
 a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;padding:8px 12px;font-weight:600;font-size:.95rem;text-decoration:none}

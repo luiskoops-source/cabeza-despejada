@@ -64,6 +64,8 @@
     $("respiraFase").textContent="Bien hecho";
     $("respiraVuelta").textContent="Terminaste "+pref.vueltas+" vueltas. Nota cómo está tu cuerpo ahora. Puedes repetir cuando quieras.";
     vibrar(); decir("Bien hecho");
+    /* Al terminar, el salchicha pasa a felicitarte con una lamida (js/paseo.js) */
+    setTimeout(()=>{ if(window.paseoSalchicha) window.paseoSalchicha(); },900);
   }
 
   function abrir(){

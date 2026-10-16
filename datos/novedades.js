@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente y es la única que se muestra, una sola vez.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-16-paseo", titulo:"Un amigo de visita", cambios:[
+    "En la respiración 4-7-8 ahora te acompaña un salchicha negro que respira contigo: infla el pecho, lo sostiene y bota el aire por la nariz.",
+    "Y de vez en cuando, por sorpresa, cruza la pantalla y te pasa la lengua. Si lo tocas, te vuelve a lamer.",
+    "Nunca aparece en el Modo calma ni en el Modo ganas."
+  ]},
   {id:"2026-10-16-respira", titulo:"Respiración 4-7-8", cambios:[
     "Nuevo botón en Hoy: Respirar 4-7-8. Inhala 4, sostén 7, bota el aire en 8, con el perrito marcando el ritmo. Sirve para la ansiedad, las ganas, la tos nerviosa y para dormir.",
     "Puede vibrar o guiarte con voz, para hacerla con los ojos cerrados. Adentro están los beneficios, los estudios y los cuidados.",
