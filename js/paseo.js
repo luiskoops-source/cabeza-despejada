@@ -14,8 +14,9 @@
   const hoy=()=>{ const d=new Date(); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); };
   function leer(clave){ try{ const v=JSON.parse(localStorage.getItem(clave||GUARDADO)||"{}"); return v.fecha===hoy()?v:{fecha:hoy(),n:0}; }catch(e){ return {fecha:hoy(),n:0}; } }
   function contar(clave){ const v=leer(clave); v.n++; try{ localStorage.setItem(clave||GUARDADO,JSON.stringify(v)); }catch(e){} }
-  /* No interrumpir momentos difíciles: Modo calma, Modo ganas o el bloqueo con PIN */
-  function momentoTranquilo(){ return ["calma","crave","lock","respira","welcome"].every(id=>{ const el=document.getElementById(id); return !el||el.hidden; }); }
+  /* No interrumpir momentos difíciles (Modo calma, Modo ganas, el bloqueo con PIN), ni a quien está escribiendo algo */
+  const escribiendo=()=>{ const a=document.activeElement; return !!a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName); };
+  function momentoTranquilo(){ return !escribiendo()&&["calma","crave","lock","respira","welcome"].every(id=>{ const el=document.getElementById(id); return !el||el.hidden; }); }
 
   /* El dibujo: el mismo salchicha negro con café de la respiración, caminando hacia la derecha */
   const DIBUJO='<svg class="paseo-perro" viewBox="0 0 220 130" width="150" height="89" aria-hidden="true">'+
@@ -86,7 +87,7 @@
     /* Baja balanceándose (5,5 s), aterriza, se le desinfla el paracaídas, te lame y se va caminando */
     paracaidas:(el,luego)=>{ luego(5500,()=>{ el.classList.add("aterriza","quieto"); saltito(el); }); luego(6200,()=>lamer(el)); luego(8600,()=>{ el.classList.remove("quieto"); el.classList.add("sale"); }); return 11800; },
     /* Aparece sobre su colchoneta, sostiene la postura respirando y se desvanece */
-    yoga:(el,luego)=>{ luego(7600,()=>el.classList.add("sale")); return 8600; }
+    yoga:(el,luego)=>{ luego(6000,()=>el.classList.add("sale")); return 7000; }
   };
   function paseo(forzar,tipo){
     if(enCamino||menosMovimiento()||document.hidden||apagado()) return false;

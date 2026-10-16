@@ -33,8 +33,17 @@
 <!-- HOY -->
 <section class="screen active" id="s-hoy" role="tabpanel">
   <div class="row" style="justify-content:space-between;align-items:center">
-    <div class="logo"><svg viewBox="0 0 512 512" width="44" height="44" aria-hidden="true"><rect width="512" height="512" rx="112" fill="#F4EEE1"/><use href="#dibujoSalchicha"/></svg><h1 class="eyebrow">Cabeza Despejada</h1></div>
+    <!-- El logo es un botón: al tocarlo, el salchicha aprieta el abrazo y se abre "¿Por qué abraza al cactus?" (js/app.js) -->
+    <div class="logo"><button class="logo-boton" id="porQue" type="button" aria-expanded="false" aria-controls="porQueCard" aria-label="¿Por qué el salchicha abraza al cactus?"><svg viewBox="0 0 512 512" width="44" height="44" aria-hidden="true"><rect width="512" height="512" rx="112" fill="#F4EEE1"/><use href="#dibujoSalchicha"/></svg></button><h1 class="eyebrow">Cabeza Despejada</h1></div>
     <span class="small muted" id="today"></span>
+  </div>
+  <!-- Solo la ve quien toca el logo: lo que significa el abrazo, sin explicárselo a nadie a la fuerza -->
+  <div class="card por-que" id="porQueCard" hidden>
+    <p class="eyebrow">¿Por qué abraza al cactus?</p>
+    <p>El cactus son los momentos que pinchan: las ganas, las recaídas, lo que duele. El salchicha es el tiempo y la paciencia.</p>
+    <p>Lo abraza aunque pinche. Abrazar el dolor no es que te guste: es dejar de pelear con él, para que pueda pasar.</p>
+    <p class="small muted">Con el tiempo, al cactus le sale una flor.</p>
+    <div class="row"><button class="ghost small" id="porQueOk" type="button">Cerrar</button></div>
   </div>
 
 <div class="card" id="welcome" hidden>

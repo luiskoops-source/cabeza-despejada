@@ -74,6 +74,11 @@ const path = require("path");
   /* 6-c. Al tocar al salchicha no aparece el recuadro del teléfono */
   const resaltado = await pagina.evaluate(() => { const d = document.createElement("div"); d.className = "paseo"; document.body.appendChild(d); const c = getComputedStyle(d).webkitTapHighlightColor; d.remove(); return c; });
   if (resaltado !== "rgba(0, 0, 0, 0)") errores.push("El salchicha vuelve a mostrar el recuadro al tocarlo: " + resaltado);
+  /* 6-c1. Al tocar el logo se abre "¿Por qué abraza al cactus?", y al tocarlo otra vez se cierra */
+  await pagina.click('[data-tab="hoy"]'); await pagina.click("#porQue");
+  if (!(await pagina.isVisible("#porQueCard"))) errores.push("Tocar el logo no abre ¿Por qué abraza al cactus?");
+  await pagina.click("#porQue");
+  if (await pagina.isVisible("#porQueCard")) errores.push("Tocar el logo otra vez no cierra la explicación");
   /* 6-c2. Las sorpresas del salchicha: corre y se va solo; en yoga aparece el globo "Perro boca abajo"; cada toque suelta un corazón */
   await pagina.click('[data-tab="hoy"]');
   if (!(await pagina.evaluate(() => window.paseoSalchicha("corre")))) errores.push("El salchicha no sale corriendo");

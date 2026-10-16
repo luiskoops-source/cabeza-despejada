@@ -285,6 +285,13 @@ function aplicarTema(){
   document.querySelectorAll('meta[name="theme-color"]').forEach(m=>{ m.content=oscuro?"#15120e":"#f3ecdc"; });
 }
 $("cfgTema").onchange=()=>{ S.tema=$("cfgTema").value; save(); aplicarTema(); };
+/* ¿Por qué abraza al cactus? Al tocar el logo se abre o se cierra la explicación, y el salchicha aprieta el abrazo */
+$("porQue").onclick=()=>{
+  const b=$("porQue"), c=$("porQueCard"), abrir=c.hidden;
+  c.hidden=!abrir; b.setAttribute("aria-expanded",String(abrir));
+  b.classList.remove("abraza"); void b.offsetWidth; if(abrir) b.classList.add("abraza"); /* reinicia el apretón */
+};
+$("porQueOk").onclick=()=>$("porQue").click();
 /* Pantallas completas (Modo calma, Respiración, Modo ganas, PIN): mientras una está abierta, la barra del sistema
    toma su color de fondo, así el azul de la calma llega hasta arriba sin un corte crema. Al cerrarla, vuelve el del tema. */
 const pantallasCompletas=["calma","respira","crave","lock"].map($).filter(Boolean);
