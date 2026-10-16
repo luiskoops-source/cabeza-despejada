@@ -2,6 +2,12 @@
    La primera de la lista es la más reciente y es la única que se muestra, una sola vez.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-16-azul", titulo:"Más calma", cambios:[
+    "El Modo calma y la Respiración 4-7-8 ahora son azules: un color más tranquilo, que no apura como el naranjo o el rojo. En el Modo calma el círculo tiene un halo que crece cuando inhalas.",
+    "La pestaña Noche tiene su cielo, con luna y estrellas.",
+    "Al tocar al salchicha que pasea ya no aparece un recuadro: da un saltito y te vuelve a lamer.",
+    "Las pestañas y pantallas aparecen con un fundido suave, sin golpe."
+  ]},
   {id:"2026-10-16-cactus", titulo:"El cactus también quiere", cambios:[
     "Al abrir la app, el cactus sonríe cuando el salchicha lo abraza, y le devuelve el cariño con un corazón. A veces, además, te dice algo.",
     "Con tus hitos, al cactus le sale una flor: brota a los 7 días, se abre a los 30 y florece completa a los 90.",
