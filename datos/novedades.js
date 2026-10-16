@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente y es la única que se muestra, una sola vez.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-16-mascota", titulo:"El salchicha, mascota de la app", cambios:[
+    "Ahora no solo camina: a veces cruza corriendo con las orejas al viento, otras baja en paracaídas, y a veces aparece haciendo yoga.",
+    "Si lo tocas muchas veces, te da muchos corazones.",
+    "Nunca aparece en el Modo calma, el Modo ganas ni con el PIN, y se apaga en Configuración."
+  ]},
   {id:"2026-10-16-azul", titulo:"Más calma", cambios:[
     "El Modo calma y la Respiración 4-7-8 ahora son azules: un color más tranquilo, que no apura como el naranjo o el rojo. En el Modo calma el círculo tiene un halo que crece cuando inhalas.",
     "La pestaña Noche tiene su cielo, con luna y estrellas.",

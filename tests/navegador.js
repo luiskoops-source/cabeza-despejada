@@ -74,6 +74,16 @@ const path = require("path");
   /* 6-c. Al tocar al salchicha no aparece el recuadro del teléfono */
   const resaltado = await pagina.evaluate(() => { const d = document.createElement("div"); d.className = "paseo"; document.body.appendChild(d); const c = getComputedStyle(d).webkitTapHighlightColor; d.remove(); return c; });
   if (resaltado !== "rgba(0, 0, 0, 0)") errores.push("El salchicha vuelve a mostrar el recuadro al tocarlo: " + resaltado);
+  /* 6-c2. Las sorpresas del salchicha: corre y se va solo; en yoga aparece el globo "Perro boca abajo"; cada toque suelta un corazón */
+  await pagina.click('[data-tab="hoy"]');
+  if (!(await pagina.evaluate(() => window.paseoSalchicha("corre")))) errores.push("El salchicha no sale corriendo");
+  await pagina.waitForTimeout(3200);
+  if (await pagina.evaluate(() => !!document.querySelector(".paseo"))) errores.push("El salchicha que corre no se va solo");
+  await pagina.evaluate(() => window.paseoSalchicha("yoga")); await pagina.waitForTimeout(300);
+  if (!/Perro boca abajo/.test(await pagina.evaluate(() => (document.querySelector(".paseo.yoga .yoga-globo") || {}).textContent || ""))) errores.push("Falta el salchicha haciendo yoga");
+  for (let i = 0; i < 3; i++) await pagina.click(".paseo.yoga", { force: true });
+  if ((await pagina.evaluate(() => document.querySelectorAll(".paseo-corazon").length)) < 3) errores.push("Tocar varias veces al salchicha no suelta varios corazones");
+  await pagina.waitForFunction(() => !document.querySelector(".paseo"), null, { timeout: 12000 });
   /* 6-d. El Modo calma y la respiración son azules, y la barra del sistema toma ese color mientras están abiertos */
   await pagina.click('[data-tab="noche"]'); await pagina.click("#nocheCalma"); await pagina.waitForTimeout(200);
   const calma = await pagina.evaluate(() => ({ bg: getComputedStyle(document.getElementById("calma")).getPropertyValue("--bg").trim(), barra: document.querySelector('meta[name="theme-color"]').content }));
