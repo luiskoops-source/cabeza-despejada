@@ -16,7 +16,9 @@
   function contar(clave){ const v=leer(clave); v.n++; try{ localStorage.setItem(clave||GUARDADO,JSON.stringify(v)); }catch(e){} }
   /* No interrumpir momentos difíciles (Modo calma, Modo ganas, el bloqueo con PIN), ni a quien está escribiendo algo */
   const escribiendo=()=>{ const a=document.activeElement; return !!a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName); };
-  function momentoTranquilo(){ return !escribiendo()&&["calma","crave","lock","respira","welcome"].every(id=>{ const el=document.getElementById(id); return !el||el.hidden; }); }
+  /* De madrugada no hay sorpresas: es hora de dormir, no de paracaídas (usa Calculos.esMadrugada si está cargado) */
+  const deMadrugada=()=>!!(window.Calculos&&window.Calculos.esMadrugada(new Date().getHours()));
+  function momentoTranquilo(){ return !escribiendo()&&!deMadrugada()&&["calma","crave","lock","respira","welcome"].every(id=>{ const el=document.getElementById(id); return !el||el.hidden; }); }
 
   /* El dibujo: el mismo salchicha negro con café de la respiración, caminando hacia la derecha */
   const DIBUJO='<svg class="paseo-perro" viewBox="0 0 220 130" width="150" height="89" aria-hidden="true">'+

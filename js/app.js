@@ -65,6 +65,7 @@ document.querySelectorAll('.tabs [role="tab"]').forEach(b=>b.addEventListener("c
   document.querySelectorAll('.tabs [role="tab"]').forEach(x=>x.setAttribute("aria-selected",x===b?"true":"false"));
   document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("active",s.id==="s-"+b.dataset.tab));
   window.scrollTo({top:0});
+  if(b.dataset.tab==="noche") $("nocheDormir").hidden=!C.esMadrugada(new Date().getHours()); /* de madrugada, invita a dormir */
 }));
 
 /* ---------- Hoy ---------- */
@@ -884,7 +885,9 @@ function openCrave(){
   craveTurns=[]; $("craveReply").textContent="";
   try{ navigator.wakeLock&&navigator.wakeLock.request("screen").catch(()=>{}); }catch(e){}
 }
-function tick(){ const m=String(Math.floor(left/60)).padStart(2,"0"), s=String(left%60).padStart(2,"0"); $("timer").textContent=m+":"+s; $("barFill").style.width=((TOTAL-left)/TOTAL*100)+"%"; }
+function tick(){ const m=String(Math.floor(left/60)).padStart(2,"0"), s=String(left%60).padStart(2,"0"); $("timer").textContent=m+":"+s; $("barFill").style.width=((TOTAL-left)/TOTAL*100)+"%";
+  /* La ola se ve bajar: --calma va de 0 a 1 con el reloj, y el CSS pasa el círculo del naranjo al azul de la calma (#crave .breath) */
+  $("crave").style.setProperty("--calma",((TOTAL-left)/TOTAL).toFixed(3)); }
 /* Lo que dice la voz: cada frase es un botón; al tocarlo se muestra su respuesta debajo */
 function renderVoz(){
   const V=window.VOZ||[];
@@ -945,6 +948,10 @@ function abrirAtajo(){ if(!atajoPendiente) return; const a=atajoPendiente; atajo
 fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderSenales(); renderSalir(); renderRapido(); renderOfChips(); renderNovedades(); renderCuentan(); lockIfNeeded();
 /* Portada: al cactus le sale una flor con los hitos (7 días: brote, 30: abierta, 90: florecido) */
 try{ const dias=S.day0?daysSince(S.day0):0, fl=dias>=90?3:dias>=30?2:dias>=7?1:0; if(fl) document.querySelector(".portada").dataset.flor=fl; }catch(e){}
+/* Portada: el cactus crece con todos los días que llevas en esto (desde S.inicio, el primer Día 0). Una recaída no lo achica.
+   Se agranda desde su base (231, 342 en el dibujo), así queda parado en el suelo y el salchicha lo sigue abrazando. */
+try{ const t=C.tamanoCactus(daysSince(S.inicio||S.day0)), crece=`translate(231 342) scale(${t}) translate(-231 -342)`;
+  $("cactusCrece").setAttribute("transform",crece); $("corazonCrece").setAttribute("transform",crece); /* su corazón baja o sube con él */ }catch(e){}
 /* Portada: a veces (una de cada tres veces que se abre la app) el cactus dice algo, y la portada dura un poco más para leerlo */
 try{ if(Math.random()<0.34){ const F=["Gracias por no soltarme.","Sigo aquí contigo.","Aunque pinche, me quedo.","Un día más, juntos.","Tu paciencia también me cura.","Me gusta cuando vuelves."]; $("portadaGlobo").textContent=F[Math.floor(Math.random()*F.length)]; $("portadaGlobo").hidden=false; document.querySelector(".portada").classList.add("habla"); } }catch(e){}
 /* El atajo se abre cuando terminó de cargar toda la página: la respiración vive en js/respira.js, que carga después de este archivo */

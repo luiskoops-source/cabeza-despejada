@@ -540,3 +540,17 @@ a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;pad
 @keyframes abrazo-logo{0%{transform:scale(.92)}45%{transform:scale(1.1)}70%{transform:scale(.97)}100%{transform:scale(1)}}
 .por-que{border-color:var(--warm);background:linear-gradient(180deg,var(--surface),var(--warm-soft))}
 @media (prefers-reduced-motion:no-preference){ .por-que:not([hidden]){animation:aparece .3s ease-out} }
+/* Modo ganas: la ola se ve bajar. Con el reloj, el círculo y la barra pasan del naranjo de las ganas al azul del Modo calma.
+   --calma la pone js/app.js (tick): 0 al empezar, 1 al terminar. Sin palabras: la persona ve que la ola se está calmando.
+   Se mezcla en oklch: el camino del naranjo al azul pasa por rosados y lilas, como un atardecer que se vuelve noche.
+   Si el teléfono no sabe mezclar colores (color-mix), se queda en naranjo como siempre. */
+:root{--ola-azul:#5d8bb3;--ola-azul-suave:#d6e5f2;--ola-azul-texto:#2f5878}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--ola-azul:#8db6da;--ola-azul-suave:#1b2d40;--ola-azul-texto:#a9c8e4} }
+:root[data-theme="dark"]{--ola-azul:#8db6da;--ola-azul-suave:#1b2d40;--ola-azul-texto:#a9c8e4}
+@supports (color:color-mix(in oklch,red 50%,blue)){
+  #crave .breath{border-color:color-mix(in oklch increasing hue,var(--ola-azul) calc(var(--calma,0)*100%),var(--warm));background:color-mix(in oklch increasing hue,var(--ola-azul-suave) calc(var(--calma,0)*100%),var(--warm-soft));color:color-mix(in oklch increasing hue,var(--ola-azul-texto) calc(var(--calma,0)*100%),var(--warm))}
+  #crave .bar i{background:color-mix(in oklch increasing hue,var(--ola-azul) calc(var(--calma,0)*100%),var(--warm))}
+}
+/* De madrugada, en el cielo de Noche: una línea que invita a dormir, con una lunita al lado */
+.cielo-dormir{margin-top:4px;padding:8px 10px;border-radius:12px;background:rgba(244,233,200,.12);color:#f1ece0;font-size:.9rem;max-width:36ch}
+.cielo-dormir::before{content:"☾ ";color:#f4e9c8}

@@ -37,6 +37,10 @@ const path = require("path");
   if (!/^00 h 00 min/.test(vivo)) errores.push("Tras reiniciar, el contador no parte desde cero: " + vivo);
   await pagina.click("#openCrave"); await pagina.waitForTimeout(200);
   if (!(await pagina.isVisible("#crave"))) errores.push("El Modo ganas no abre");
+  /* El reloj del Modo ganas le pasa su avance al círculo (--calma), para que vaya del naranjo al azul */
+  await pagina.waitForTimeout(1100);
+  const calmaOla = Number(await pagina.evaluate(() => document.getElementById("crave").style.getPropertyValue("--calma")));
+  if (!(calmaOla > 0 && calmaOla < 0.05)) errores.push("El círculo del Modo ganas no sigue al reloj: " + calmaOla);
   await pagina.click("#closeCrave");
   /* 3. Las cuatro pestañas */
   for (const t of ["noche", "saber", "registro", "ayuda", "hoy"]) { await pagina.click(`[data-tab="${t}"]`); await pagina.waitForTimeout(100); }
@@ -109,10 +113,24 @@ const path = require("path");
   if (!(await pagina.isVisible("#volver"))) errores.push("Tras una recaída no aparece Volver a empezar");
   const total = Number(await pagina.textContent("#volverTotal"));
   if (!(total >= 9)) errores.push("La recaída borró los días limpios anteriores: " + total);
+  /* 6c-. El cactus de la portada tampoco se achica con la recaída: crece desde el primer Día 0, no desde el último */
+  await pagina.reload(); await pagina.waitForTimeout(300);
+  const tamano = await pagina.evaluate(() => { const m = (document.getElementById("cactusCrece").getAttribute("transform") || "").match(/scale\(([\d.]+)\)/); return m ? Number(m[1]) : 0; });
+  if (!(tamano > 0.62)) errores.push("Tras una recaída el cactus volvió a ser chiquito: " + tamano);
   /* 6d. Superar una ola suma una al contador y el perrito celebra */
   await pagina.click("#openCrave"); await pagina.click("#craveWon"); await pagina.click('[data-ayudo="esperar"]'); await pagina.waitForTimeout(200);
   if (!(await pagina.isVisible("#craveCelebra"))) errores.push("Al superar una ola no aparece la celebración");
   await pagina.click("#craveCelebraOk");
+  /* 6e. De madrugada, Noche invita a dormir (el reloj del navegador se pone a las 2:30) */
+  const madrugada = await navegador.newPage({ viewport: { width: 400, height: 860 }, locale: "es-CL" });
+  madrugada.on("pageerror", e => errores.push("Error de página (madrugada): " + e.message));
+  await madrugada.clock.setFixedTime(new Date(2026, 9, 17, 2, 30));
+  await madrugada.goto(url); await madrugada.waitForTimeout(300);
+  await madrugada.click('[data-tab="noche"]');
+  if (!(await madrugada.isVisible("#nocheDormir"))) errores.push("De madrugada, Noche no invita a dormir");
+  await madrugada.close();
+  await pagina.click('[data-tab="noche"]');
+  if (await pagina.isVisible("#nocheDormir") && !(new Date().getHours() < 6)) errores.push("La invitación a dormir aparece de día");
   /* 7. Atajo "Tengo ganas" del ícono: abre el Modo ganas, pero con PIN nunca se salta el bloqueo */
   await pagina.goto(url + "?ir=ganas"); await pagina.waitForTimeout(300);
   if (!(await pagina.isVisible("#crave"))) errores.push("El atajo Tengo ganas no abre el Modo ganas");
