@@ -39,6 +39,8 @@
 
   function empezar(){
     detener();
+    /* Seguro: si los archivos de la app quedaron de versiones distintas, avisar en vez de quedarse pegado */
+    if(!C||typeof C.fase478!=="function"){ $("respiraVuelta").textContent="Falta actualizar la app: ciérrala del todo y vuelve a abrirla."; return; }
     inicio=performance.now(); faseAnterior="";
     $("respiraEmpezar").textContent="Detener";
     /* Que la pantalla no se apague a mitad del ejercicio (si el teléfono lo permite) */
