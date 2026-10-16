@@ -73,6 +73,13 @@
     {t:"Si alguien que quieres está pasando por esto, en Ayuda hay ideas para acompañar.", boton:"Ver", hacer:()=>ir("ayuda","acompanarCard")},
     {t:"Salir a caminar diez minutos cambia más de lo que parece. Yo te acompaño."}
   ];
+  /* Su propio cactus chiquito, con carita: después de dar vueltas, se acurruca junto a él y sale un corazón */
+  const MINI_CACTUS='<svg class="mini-cactus" viewBox="0 0 40 70" width="30" height="52" aria-hidden="true">'+
+    '<rect x="10" y="12" width="20" height="54" rx="10" fill="#F4EEE1" stroke="#262626" stroke-width="2.5"/>'+
+    '<path d="M13 13 l1 -8 l5 5 l3 -7 l3 7 l5 -5 l-1 8 z" fill="#9DC54A" stroke="#262626" stroke-width="2" stroke-linejoin="round"/>'+
+    '<path d="M14 30 q2.5 -3 5 0 M21 30 q2.5 -3 5 0" fill="none" stroke="#262626" stroke-width="2" stroke-linecap="round"/>'+
+    '<ellipse cx="13.5" cy="35" rx="2.5" ry="1.6" fill="#E8907A" opacity=".8"/><ellipse cx="26.5" cy="35" rx="2.5" ry="1.6" fill="#E8907A" opacity=".8"/>'+
+    '<path d="M17 36 q3 3 6 0" fill="none" stroke="#262626" stroke-width="2" stroke-linecap="round"/></svg>';
   let visitando=false;
   function visita(){
     if(visitando||enCamino||menosMovimiento()||document.hidden||apagado()) return false;
@@ -83,7 +90,7 @@
     el.className="compa"; el.setAttribute("role","status");
     el.innerHTML='<div class="compa-globo"><p></p><div class="compa-botones">'+(c.boton?'<button class="primary small" data-a="hacer"></button>':'')+
       '<button class="small" data-a="gracias">Gracias</button><button class="ghost small" data-a="nunca">No volver a mostrar</button></div></div>'+
-      '<div class="compa-perro">'+DIBUJO+'</div>';
+      '<div class="compa-perro"><span class="compa-svg">'+DIBUJO+'</span>'+MINI_CACTUS+'<span class="compa-corazon" aria-hidden="true">♥</span></div>';
     el.querySelector("p").textContent=c.t;
     if(c.boton) el.querySelector('[data-a="hacer"]').textContent=c.boton;
     let fuera=null;
@@ -94,6 +101,7 @@
     document.body.appendChild(el);
     void el.offsetWidth; el.classList.add("entra");
     el.querySelector(".compa-perro").classList.add("gira");
+    setTimeout(()=>el.querySelector(".compa-perro").classList.add("acurruca"),2700); /* después de las vueltas, junto a su cactus */
     fuera=setTimeout(irse,16000); /* Se va solo después de un rato */
     return true;
   }

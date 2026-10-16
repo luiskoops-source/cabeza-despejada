@@ -160,6 +160,37 @@ ul,ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
 @keyframes pp-abraza{0%,50%{transform:rotate(28deg)}68%{transform:rotate(-4deg)}80%,100%{transform:rotate(0)}}
 @keyframes pp-puas{0%,62%{opacity:0}75%,100%{opacity:1}}
 /* El cactus siente el abrazo: sonríe, se inclina un poquito hacia el salchicha y responde con su propio corazón */
+/* La flor del cactus según los hitos (la portada lleva data-flor="1", "2" o "3") */
+.portada-animada .pp-flor,.portada-animada .pp-flor2{transform-box:fill-box;transform-origin:50% 100%;transform:scale(0)}
+.portada[data-flor="1"] .pp-flor{transform:scale(.45)}
+.portada[data-flor="2"] .pp-flor{transform:scale(.75)}
+.portada[data-flor="3"] .pp-flor{transform:scale(1)}
+.portada[data-flor="3"] .pp-flor2{transform:scale(.6)}
+@media (prefers-reduced-motion:no-preference){ .portada[data-flor] .pp-flor,.portada[data-flor="3"] .pp-flor2{animation:pp-flor 2.4s ease-out both} }
+@keyframes pp-flor{0%,72%{transform:scale(0) rotate(-30deg)}}
+/* El cactus habla: un globo sobre el dibujo */
+.portada-dibujo{position:relative}
+.portada.habla{animation-duration:3.8s}
+.portada-globo{position:absolute;top:-44px;right:-74px;max-width:170px;margin:0;background:var(--surface);color:var(--fg);border:1.5px solid var(--line);border-radius:14px;padding:6px 10px;font-size:.88rem;font-weight:600;box-shadow:var(--sombra);text-align:left}
+.portada-globo::after{content:"";position:absolute;left:22px;bottom:-7px;width:12px;height:12px;background:var(--surface);border-right:1.5px solid var(--line);border-bottom:1.5px solid var(--line);transform:rotate(45deg)}
+@media (prefers-reduced-motion:no-preference){ .portada-globo{animation:globo-cactus 3.8s ease-out both} }
+@keyframes globo-cactus{0%,34%{opacity:0;transform:translateY(8px) scale(.85)}42%,100%{opacity:1;transform:none}}
+/* Volver a empezar: la curita sobre el dibujo */
+.con-curita{position:relative;display:inline-block;flex:none;width:76px;height:76px}
+.con-curita .curita{position:absolute;inset:0}
+/* Hitos: saltitos juntos y corazones que caen */
+.celebra{position:relative;overflow:hidden}
+.celebra .baila{display:inline-block;flex:none}
+.lluvia{position:absolute;inset:0;pointer-events:none}
+.lluvia span{position:absolute;top:-20px;color:#E8907A;font-size:1.1rem;opacity:0}
+.lluvia span:nth-child(1){left:8%}.lluvia span:nth-child(2){left:24%}.lluvia span:nth-child(3){left:41%}.lluvia span:nth-child(4){left:58%}.lluvia span:nth-child(5){left:74%}.lluvia span:nth-child(6){left:90%}
+@media (prefers-reduced-motion:no-preference){
+  .celebra .baila{animation:baila .45s ease-in-out 6 alternate}
+  .lluvia span{animation:cae 2.6s ease-in both}
+  .lluvia span:nth-child(2){animation-delay:.3s}.lluvia span:nth-child(3){animation-delay:.7s}.lluvia span:nth-child(4){animation-delay:.15s}.lluvia span:nth-child(5){animation-delay:.5s}.lluvia span:nth-child(6){animation-delay:.9s}
+}
+@keyframes baila{from{transform:translateY(0) rotate(-5deg)}to{transform:translateY(-9px) rotate(5deg)}}
+@keyframes cae{0%{opacity:0;transform:translateY(0)}12%{opacity:.9}100%{opacity:0;transform:translateY(170px) rotate(40deg)}}
 @keyframes pp-cactus{0%,45%{transform:rotate(0)}62%{transform:rotate(-4deg)}80%,100%{transform:rotate(-2deg)}}
 @keyframes pp-cara{0%,48%{opacity:0;transform:scale(.6)}62%{opacity:1;transform:scale(1.1)}72%,100%{opacity:1;transform:scale(1)}}
 @keyframes pp-corazon2{0%,62%{opacity:0;transform:scale(0) translateY(8px)}76%{opacity:1;transform:scale(1.35)}86%,100%{opacity:1;transform:scale(1)}}
@@ -346,3 +377,43 @@ a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;pad
 .codigo-nube{background:var(--surface2);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px}
 .codigo-nube .codigo{font-size:1.05rem;font-weight:700;letter-spacing:.04em;overflow-wrap:anywhere}
 #copiaMsg.no,#nubeMsg.no{color:var(--bad)} #copiaMsg.ok,#nubeMsg.ok{color:var(--good)}
+/* Paseo del salchicha (js/paseo.js): cruza la pantalla sobre la barra de abajo, se detiene y lame la pantalla */
+.paseo{position:fixed;left:0;bottom:calc(78px + env(safe-area-inset-bottom,0px));z-index:25;width:150px;transform:translateX(-170px);transition:transform 3.2s linear;cursor:pointer;filter:drop-shadow(0 3px 2px rgba(0,0,0,.25))}
+.paseo.entra{transform:translateX(calc(50vw - 75px))}
+.paseo.sale{transform:translateX(calc(100vw + 20px));transition-duration:3s;transition-timing-function:ease-in}
+.paseo .pata{transform-box:fill-box;transform-origin:50% 0;animation:patita .32s ease-in-out infinite alternate}
+.paseo .pata-b{animation-delay:-.16s}
+.paseo.quieto .pata{animation:none}
+.paseo .cola{transform-box:fill-box;transform-origin:100% 100%;animation:colita .25s ease-in-out infinite alternate}
+.paseo .lengua{transform-box:fill-box;transform-origin:50% 0;transform:scaleY(0)}
+.paseo.lame .lengua{animation:lengua .45s ease-in-out 3}
+.paseo-corazon{position:absolute;left:118px;top:-6px;color:#E8807A;font-size:1.3rem;opacity:0;pointer-events:none}
+.paseo.lame .paseo-corazon{animation:corazon 1.6s ease-out .3s}
+@keyframes patita{from{transform:rotate(-14deg)}to{transform:rotate(14deg)}}
+@keyframes colita{from{transform:rotate(-8deg)}to{transform:rotate(10deg)}}
+@keyframes lengua{0%,100%{transform:scaleY(0)}50%{transform:scaleY(1)}}
+@keyframes corazon{0%{opacity:0;transform:translateY(6px) scale(.6)}30%{opacity:1}100%{opacity:0;transform:translateY(-28px) scale(1.2)}}
+@media (prefers-reduced-motion:reduce){ .paseo{display:none} }
+/* Visita del compañero (js/paseo.js): asoma por la esquina de abajo, da vueltas y deja un consejo en un globo */
+.compa{pointer-events:none;position:fixed;right:12px;bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:25;display:flex;flex-direction:column;align-items:flex-end;gap:6px;max-width:min(300px,calc(100vw - 24px));transform:translateY(140%);opacity:0;transition:transform .6s cubic-bezier(.2,1.4,.4,1),opacity .4s}
+.compa.entra{transform:translateY(0);opacity:1}
+.compa.sale{transform:translateY(140%);opacity:0;transition-duration:.6s}
+.compa-globo{pointer-events:auto;position:relative;background:var(--surface);color:var(--fg);border:1.5px solid var(--line);border-radius:16px;padding:10px 12px;box-shadow:var(--sombra);font-size:.92rem;opacity:0;animation:globo .4s ease-out 1.5s forwards}
+.compa-globo::after{content:"";position:absolute;right:34px;bottom:-8px;width:14px;height:14px;background:var(--surface);border-right:1.5px solid var(--line);border-bottom:1.5px solid var(--line);transform:rotate(45deg)}
+.compa-globo p{margin:0 0 8px}
+.compa-botones{display:flex;flex-wrap:wrap;gap:6px}
+.compa-botones button{padding:6px 10px;font-size:.82rem}
+.compa-perro{pointer-events:auto;display:flex;align-items:flex-end;position:relative;cursor:pointer;filter:drop-shadow(0 3px 2px rgba(0,0,0,.25))}
+.compa-svg{display:inline-block}
+.compa-svg svg{width:110px;height:auto}
+.mini-cactus{margin-left:-6px;margin-bottom:4px;transition:transform .5s}
+.compa-perro.acurruca .mini-cactus{transform:rotate(-6deg) translateX(-6px)}
+.compa-corazon{position:absolute;right:14px;top:-8px;color:#E8907A;font-size:1.2rem;opacity:0;pointer-events:none}
+.compa-perro.acurruca .compa-corazon{animation:corazon 1.8s ease-out}
+.compa-perro .lengua{transform:scaleY(0)}
+.compa-perro .pata{animation:none}
+.compa-perro.gira .compa-svg{animation:gira 1.3s ease-in-out 2}
+.compa-perro .cola{transform-box:fill-box;transform-origin:100% 100%;animation:colita .25s ease-in-out infinite alternate}
+@keyframes gira{0%{transform:rotate(0) translateY(0)}25%{transform:rotate(-20deg) translateY(-8px)}50%{transform:scaleX(-1) translateY(-14px)}75%{transform:scaleX(-1) rotate(20deg) translateY(-8px)}100%{transform:rotate(0) translateY(0)}}
+@keyframes globo{from{opacity:0;transform:translateY(8px) scale(.95)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){ .compa{display:none} }

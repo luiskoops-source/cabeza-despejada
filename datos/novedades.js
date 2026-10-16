@@ -2,6 +2,13 @@
    La primera de la lista es la más reciente y es la única que se muestra, una sola vez.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-16-cactus", titulo:"El cactus también quiere", cambios:[
+    "Al abrir la app, el cactus sonríe cuando el salchicha lo abraza, y le devuelve el cariño con un corazón. A veces, además, te dice algo.",
+    "Con tus hitos, al cactus le sale una flor: brota a los 7 días, se abre a los 30 y florece completa a los 90.",
+    "En cada hito, los dos dan saltitos juntos y caen corazones.",
+    "Si hay una recaída, el salchicha tiene una curita en la patita, pero sigue abrazando.",
+    "El salchicha negro que te visita ahora también tiene su cactus chiquito."
+  ]},
   {id:"2026-10-16-compa", titulo:"El salchicha te acompaña", cambios:[
     "Al abrir la app, el salchicha llega caminando y abraza al cactus.",
     "Mientras usas la app, a veces asoma por la esquina, da unas vueltas y te deja un consejo, como el clip de los computadores de antes. Si lo tocas, vuelve a girar.",

@@ -66,6 +66,11 @@ const path = require("path");
   if ((await pagina.textContent("#respiraFase")) !== "Inhala") errores.push("La respiración no empieza inhalando");
   await pagina.click("#respiraCerrar");
   if (await pagina.isVisible("#respira")) errores.push("La respiración no se cierra");
+  /* 6-b. El salchicha que pasea y el que visita tienen sus estilos (flotan sobre la pantalla) */
+  const estilosSalchicha = await pagina.evaluate(() => {
+    const r = []; for (const c of ["paseo", "compa"]) { const d = document.createElement("div"); d.className = c; document.body.appendChild(d); r.push(getComputedStyle(d).position); d.remove(); } return r;
+  });
+  if (estilosSalchicha.some(p => p !== "fixed")) errores.push("Faltan los estilos del paseo o del compañero: " + estilosSalchicha);
   /* 6a. Para quien acompaña: la tarjeta está en Ayuda con sus cuatro partes */
   const partes = await pagina.evaluate(() => document.querySelectorAll("#acompanarCard details").length);
   if (partes !== 4) errores.push("La tarjeta Si acompañas a alguien no tiene sus 4 partes: " + partes);

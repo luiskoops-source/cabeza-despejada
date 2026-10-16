@@ -925,6 +925,10 @@ function abrirAtajo(){ if(!atajoPendiente) return; const a=atajoPendiente; atajo
 
 /* ---------- Boot ---------- */
 fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderSenales(); renderSalir(); renderRapido(); renderOfChips(); renderNovedades(); renderCuentan(); lockIfNeeded();
+/* Portada: al cactus le sale una flor con los hitos (7 días: brote, 30: abierta, 90: florecido) */
+try{ const dias=S.day0?daysSince(S.day0):0, fl=dias>=90?3:dias>=30?2:dias>=7?1:0; if(fl) document.querySelector(".portada").dataset.flor=fl; }catch(e){}
+/* Portada: a veces (una de cada tres veces que se abre la app) el cactus dice algo, y la portada dura un poco más para leerlo */
+try{ if(Math.random()<0.34){ const F=["Gracias por no soltarme.","Sigo aquí contigo.","Aunque pinche, me quedo.","Un día más, juntos.","Tu paciencia también me cura.","Me gusta cuando vuelves."]; $("portadaGlobo").textContent=F[Math.floor(Math.random()*F.length)]; $("portadaGlobo").hidden=false; document.querySelector(".portada").classList.add("habla"); } }catch(e){}
 /* El atajo se abre cuando terminó de cargar toda la página: la respiración vive en js/respira.js, que carga después de este archivo */
 if(!S.pin){ if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",abrirAtajo); else abrirAtajo(); }
 /* Si la app está abierta en dos lugares (la app instalada y una pestaña), cada copia
