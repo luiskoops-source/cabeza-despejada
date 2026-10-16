@@ -13,6 +13,7 @@
   "categories": ["health", "lifestyle"],
   "shortcuts": [
     { "name": "Tengo ganas", "short_name": "Tengo ganas", "description": "Abre directo el Modo ganas", "url": "./index.html?ir=ganas", "icons": [{ "src": "iconos/icono-192.png", "sizes": "192x192" }] },
+    { "name": "Respirar 4-7-8", "short_name": "Respirar", "description": "Abre directo la respiración 4-7-8", "url": "./index.html?ir=respira", "icons": [{ "src": "iconos/icono-192.png", "sizes": "192x192" }] },
     { "name": "Modo calma", "short_name": "Calma", "description": "Abre directo el Modo calma", "url": "./index.html?ir=calma", "icons": [{ "src": "iconos/icono-192.png", "sizes": "192x192" }] }
   ],
   "icons": [

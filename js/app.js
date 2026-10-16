@@ -307,7 +307,8 @@ $("novedadesOk").onclick=()=>{ S.novedadVista=NOVEDADES[0].id; save(); renderNov
 function fillConfig(){
   const sel=$("cfgSust"); sel.innerHTML=SUST.map(s=>`<option value="${s.id}">${esc(s.nombre)}</option>`).join(""); sel.value=S.sustancia;
   $("cfgModo").value=S.modo; $("cfgMeta").value=S.metaSemana; $("cfgTema").value=S.tema||"auto"; $("cfgGanas").value=S.ganasMin||15; $("cfgMetaWrap").hidden=S.modo!=="reducir";
-  const ws=$("welcomeSust"); ws.innerHTML=sel.innerHTML; ws.value=S.sustancia;
+  /* En la bienvenida no viene ninguna elegida: la app es para cualquier sustancia, no solo una */
+  const ws=$("welcomeSust"); ws.innerHTML='<option value="">Elige una…</option>'+sel.innerHTML; ws.value=S.day0?S.sustancia:"";
 }
 $("cfgModo").onchange=()=>{ $("cfgMetaWrap").hidden=$("cfgModo").value!=="reducir"; };
 $("saveConfig").onclick=()=>{
@@ -662,6 +663,7 @@ $("planText").addEventListener("input",()=>{ clearTimeout(planT); planT=setTimeo
 $("welcomeGo").onclick=()=>{
   /* Solo para mayores de 18: sin juzgar, y dejando una vía de ayuda a quien es menor */
   if(!$("welcomeEdad").checked){ mensaje("welcomeEdadMsg","Esta app es para personas de 18 años o más. Si eres menor y necesitas hablar con alguien, llama gratis y anónimo al 1412 o conversa con un adulto de confianza.","no"); return; }
+  if(!$("welcomeSust").value){ mensaje("welcomeEdadMsg","Elige qué quieres dejar o reducir. Puedes cambiarlo después.","no"); return; }
   S.mayorEdad=true;
   const v=$("welcomeDay0").value; if(!v){ toast("Elige una fecha"); return; } S.day0=v; S.day0Hora=horaDia0(v); S.sustancia=$("welcomeSust").value; S.modo=$("welcomeModo").value; save(); aplicarTema(); fillConfig(); renderHoy(); renderRegistro(); renderSust(); toast("Empezamos a contar desde ahí."); };
 
@@ -903,14 +905,16 @@ function renderCuentan(){
 }
 
 /* ---------- Atajos del ícono ---------- */
-/* Al dejar el dedo apretado sobre el ícono aparecen "Tengo ganas" y "Modo calma" (ver "shortcuts" en manifest.json).
+/* Al dejar el dedo apretado sobre el ícono aparecen "Tengo ganas", "Respirar 4-7-8" y "Modo calma" (ver "shortcuts" en manifest.json).
    Abren la app con ?ir=ganas o ?ir=calma en la dirección. Si hay PIN, la pantalla se abre después de desbloquear. */
 let atajoPendiente=null;
-try{ const ir=new URLSearchParams(location.search).get("ir"); if(ir==="ganas"||ir==="calma"){ atajoPendiente=ir; history.replaceState(null,"",location.pathname); } }catch(e){}
-function abrirAtajo(){ if(!atajoPendiente) return; const a=atajoPendiente; atajoPendiente=null; $(a==="ganas"?"openCrave":"openCalma").click(); }
+try{ const ir=new URLSearchParams(location.search).get("ir"); if(ir==="ganas"||ir==="calma"||ir==="respira"){ atajoPendiente=ir; history.replaceState(null,"",location.pathname); } }catch(e){}
+function abrirAtajo(){ if(!atajoPendiente) return; const a=atajoPendiente; atajoPendiente=null; $(a==="ganas"?"openCrave":a==="respira"?"openRespira":"openCalma").click(); }
 
 /* ---------- Boot ---------- */
-fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderSenales(); renderSalir(); renderRapido(); renderOfChips(); renderNovedades(); renderCuentan(); lockIfNeeded(); if(!S.pin) abrirAtajo();
+fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderSenales(); renderSalir(); renderRapido(); renderOfChips(); renderNovedades(); renderCuentan(); lockIfNeeded();
+/* El atajo se abre cuando terminó de cargar toda la página: la respiración vive en js/respira.js, que carga después de este archivo */
+if(!S.pin){ if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",abrirAtajo); else abrirAtajo(); }
 /* Si la app está abierta en dos lugares (la app instalada y una pestaña), cada copia
    vuelve a leer lo guardado al volver a la pantalla, para que una copia vieja no borre lo nuevo. */
 function recargarDatos(){ S=load(); fillConfig(); renderHoy(); renderRegistro(); }

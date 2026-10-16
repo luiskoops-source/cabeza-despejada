@@ -15,6 +15,7 @@ cabeza-despejada/
 ├── js/app.js         La lógica: contador, dinero, registro, gráfico, modo ganas, avisos
 ├── js/calculos.js    Cálculos puros (días, dinero, hora difícil, recordatorio de calendario), probados en tests/
 ├── js/respaldo.js    Copia de seguridad en archivo y respaldo cifrado en la nube
+├── js/respira.js     Respiración 4-7-8 (ansiedad, ganas, tos nerviosa, dormir): pantalla, vibración y voz
 ├── js/escuchar.js    La voz del teléfono lee las tarjetas (primer pedazo separado de app.js)
 ├── datos/            El contenido, separado de la lógica para editarlo fácil: hechos, sustancias, historia de Mati,
 │                     preguntas, primeros auxilios, novedades (la tarjeta "Qué hay de nuevo")...

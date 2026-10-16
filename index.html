@@ -138,6 +138,7 @@
   <button class="ghost reiniciar" id="reiniciarHoy">Consumí. Reiniciar mi Día 0</button>
 
   <button class="warm" id="openCrave">Tengo ganas de consumir</button>
+  <button class="respira-boton" id="openRespira" type="button" data-respira>Respirar 4-7-8 <span class="small">· ansiedad, ganas, tos nerviosa, dormir</span></button>
 
   <!-- Lo que viene: aparece los primeros 90 días -->
   <div class="card" id="loQueViene" hidden>
@@ -288,6 +289,7 @@
     <div class="row">
       <button class="primary" id="nocheCalma">Me siento paranoico</button>
       <button id="nocheGanas">Tengo ganas</button>
+      <button type="button" data-respira>Respirar 4-7-8</button>
       <button id="nocheAuxilios">Alguien está mal</button>
     </div>
     <div class="row">
@@ -469,11 +471,11 @@
     <h2>Estudios y fuentes serias</h2>
     <p class="small muted">Para cuando quieras leer la evidencia completa. Todas abren fuera de la app.</p>
     <div class="stack">
-      <div class="study"><span class="pill">Instituto NIDA, EE.UU.</span><h3>Informe de investigación sobre cocaína</h3><p class="small">El resumen más completo y actualizado: cómo actúa en el cerebro, efectos a corto y largo plazo, tratamiento. En inglés, pero el navegador lo traduce.</p><a href="https://nida.nih.gov/publications/research-reports/cocaine" target="_blank" rel="noopener">nida.nih.gov → cocaine</a></div>
+      <div class="study"><span class="pill">Instituto NIDA, EE.UU.</span><h3>Las drogas, el cerebro y la conducta</h3><p class="small">La explicación más clara de qué es la adicción y por qué cuesta tanto dejarla, sirva para la sustancia que sea. En español.</p><a href="https://nida.nih.gov/es/publicaciones/las-drogas-el-cerebro-y-la-conducta-la-ciencia-de-la-adiccion" target="_blank" rel="noopener">nida.nih.gov → la ciencia de la adicción</a></div>
       <div class="study"><span class="pill">SENDA, Chile</span><h3>Guía de tratamiento y centros</h3><p class="small">Qué programas existen en Chile, cuáles son gratuitos y cómo entrar. Incluye tratamiento ambulatorio que se puede combinar con el trabajo.</p><a href="https://www.senda.gob.cl" target="_blank" rel="noopener">senda.gob.cl</a></div>
       <div class="study"><span class="pill">Chile Atiende</span><h3>Tratamiento y rehabilitación SENDA</h3><p class="small">La ficha oficial de cómo acceder a tratamiento por el sistema público.</p><a href="https://www.ventanillaunicasocial.gob.cl/ficha/243/tratamiento-rehabilitacion-senda" target="_blank" rel="noopener">ventanillaunicasocial.gob.cl</a></div>
       <div class="study"><span class="pill">OMS</span><h3>Trastornos por consumo de sustancias</h3><p class="small">Marco general de la Organización Mundial de la Salud: la adicción como condición de salud tratable, no como falla moral.</p><a href="https://www.who.int/health-topics/drugs-psychoactive" target="_blank" rel="noopener">who.int → drogas psicoactivas</a></div>
-      <div class="study"><span class="pill">PubMed</span><h3>Buscar estudios tú mismo</h3><p class="small">La base de datos médica más grande. Prueba buscar "cocaine induced psychosis" o "cocaine cardiovascular risk".</p><a href="https://pubmed.ncbi.nlm.nih.gov/?term=cocaine+induced+psychosis" target="_blank" rel="noopener">pubmed.ncbi.nlm.nih.gov</a></div>
+      <div class="study"><span class="pill">PubMed</span><h3>Buscar estudios tú mismo</h3><p class="small">La base de datos médica más grande. Busca en inglés el nombre de lo que consumes y una palabra como "withdrawal" (abstinencia) o "recovery" (recuperación).</p><a href="https://pubmed.ncbi.nlm.nih.gov/?term=substance+use+disorder+recovery" target="_blank" rel="noopener">pubmed.ncbi.nlm.nih.gov</a></div>
     </div>
   </div>
 
@@ -856,6 +858,7 @@
     <!-- El perrito va dentro del círculo: crece y se achica con él, como si respirara contigo -->
     <div class="breath con-perrito" id="breath"><svg viewBox="0 0 512 512" width="100" height="100" aria-hidden="true"><use href="#dibujoSalchicha"/></svg><span id="breathTxt">Inhala</span></div>
     <p class="small muted" style="text-align:center">Respira siguiendo el círculo: 4 segundos adentro, 4 afuera.<br>La ola es el cactus: pincha, pero pasa. Tú abrazas y esperas, como el salchicha.</p>
+    <div class="row" style="justify-content:center"><button class="ghost small" type="button" data-respira>¿Quieres algo más profundo? Respiración 4-7-8</button></div>
     <div class="card">
       <p class="eyebrow">Qué hacer ahora, en orden</p>
       <ol class="steps" id="craveSteps">
@@ -919,6 +922,77 @@
   <button role="tab" data-tab="registro" aria-selected="false"><span class="i">≡</span>Registro</button>
   <button role="tab" data-tab="ayuda" aria-selected="false"><span class="i">+</span>Ayuda</button>
 </nav>
+<!-- RESPIRACIÓN 4-7-8: pantalla completa, como el Modo ganas. Lógica en js/respira.js, fases en js/calculos.js (fase478) -->
+<div class="crave" id="respira" hidden>
+  <div class="inner">
+    <div class="row" style="justify-content:space-between">
+      <span class="pill good">Respiración 4-7-8</span>
+      <button class="ghost" id="respiraCerrar" type="button">Salir</button>
+    </div>
+    <h1>Respira conmigo</h1>
+    <p class="muted">Inhala por la nariz en <b>4</b>, sostén el aire <b>7</b> y bótalo lento por la boca en <b>8</b>. Botar el aire más lento de lo que entra es lo que calma: le avisa al cuerpo que puede bajar la guardia.</p>
+    <!-- El perrito dentro del círculo: crece al inhalar, se queda quieto al sostener y se achica al botar el aire -->
+    <div class="respira-circulo" id="respiraCirculo" aria-hidden="true">
+      <svg viewBox="0 0 512 512" width="96" height="96"><use href="#dibujoSalchicha"/></svg>
+      <span class="respira-fase" id="respiraFase">Listo</span>
+      <span class="respira-num num" id="respiraNum"></span>
+    </div>
+    <p class="small" style="text-align:center" id="respiraVuelta" role="status" aria-live="polite">Cuatro vueltas toman poco más de un minuto.</p>
+    <div class="row" style="justify-content:center">
+      <button class="primary" id="respiraEmpezar" type="button">Empezar</button>
+      <label class="small" style="display:flex;gap:6px;align-items:center">Vueltas
+        <select id="respiraVueltas" style="width:auto"><option value="4">4</option><option value="8">8</option></select>
+      </label>
+    </div>
+    <div class="row small" style="justify-content:center;gap:16px;margin-top:6px">
+      <label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="respiraVibrar" style="width:auto"> Vibrar al cambiar</label>
+      <label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="respiraVoz" style="width:auto"> Guía con voz</label>
+    </div>
+    <p class="small muted" style="text-align:center">Con la vibración o la voz puedes hacerlo con los ojos cerrados.</p>
+
+    <div class="stack" style="margin-top:12px">
+      <details class="acompanar" open>
+        <summary><b>Para qué sirve</b></summary>
+        <ul class="small">
+          <li><b>Bajar la ansiedad o el pánico.</b> Respirar lento, con la salida del aire más larga que la entrada, activa el "freno" del cuerpo (el sistema nervioso parasimpático): baja el ritmo del corazón y la sensación de alerta.</li>
+          <li><b>Pasar una ola de ganas</b> sin pelear con ella. Te da algo que hacer con el cuerpo mientras la ola sube y baja.</li>
+          <li><b>Dormir.</b> Muchas personas la usan acostadas para soltar el día y quedarse dormidas.</li>
+          <li><b>Volver al presente</b> cuando la cabeza corre o sientes rabia. Contar ocupa la mente.</li>
+          <li><b>La tos nerviosa</b> y el carraspeo por tensión: más abajo está explicado.</li>
+        </ul>
+      </details>
+      <details class="acompanar">
+        <summary><b>Qué dicen los estudios</b></summary>
+        <p class="small">La técnica 4-7-8 la popularizó el médico estadounidense Andrew Weil. Sobre esta forma exacta hay pocos estudios; sobre la respiración lenta en general, la evidencia es bastante más amplia:</p>
+        <ul class="small">
+          <li><b>Revisión de estudios, 2018</b> (Zaccaro y otros, <i>Frontiers in Human Neuroscience</i>): respirar lento se asocia con más relajación, menos ansiedad y cambios en el corazón propios de la calma. <a href="https://doi.org/10.3389/fnhum.2018.00353" target="_blank" rel="noopener">Ver estudio</a></li>
+          <li><b>Ensayo de Stanford, 2023</b> (Balban y otros, <i>Cell Reports Medicine</i>): cinco minutos al día de respiración con la salida del aire más larga mejoraron el ánimo y bajaron la ansiedad, incluso un poco más que la meditación. <a href="https://doi.org/10.1016/j.xcrm.2022.100895" target="_blank" rel="noopener">Ver estudio</a></li>
+          <li><b>Sobre el 4-7-8 en particular</b> hay estudios pequeños, por ejemplo en adultos jóvenes que habían dormido poco, con mejoras en indicadores del corazón. Son pocos y con pocas personas. <a href="https://pubmed.ncbi.nlm.nih.gov/?term=4-7-8+breathing" target="_blank" rel="noopener">Buscarlos en PubMed</a></li>
+        </ul>
+        <p class="small muted">No reemplaza un tratamiento. Es una herramienta más, gratis y siempre a mano.</p>
+      </details>
+      <details class="acompanar">
+        <summary><b>Para la tos nerviosa</b></summary>
+        <ul class="small">
+          <li>La tos o el carraspeo que aparecen con los nervios suelen empeorar con la tensión. Respirar lento baja esa tensión.</li>
+          <li>Cuando sientas que viene la tos: cierra la boca, traga saliva y haz una vuelta de 4-7-8 respirando por la nariz. Los fonoaudiólogos enseñan algo parecido para cortar el ciclo de la tos.</li>
+          <li>Tomar agua a sorbos chicos también ayuda a calmar la garganta.</li>
+          <li><b>Consulta a un médico</b> si la tos dura más de tres semanas, o si viene con fiebre, sangre, falta de aire o dolor en el pecho. Si fumas o fumaste (tabaco, marihuana, pasta base), cuéntaselo: puede ser la causa.</li>
+        </ul>
+      </details>
+      <details class="acompanar">
+        <summary><b>Cuidados</b></summary>
+        <ul class="small">
+          <li>Al principio puede marear un poco. Si pasa, respira normal un rato y vuelve después. Con la práctica se hace más fácil.</li>
+          <li>No la hagas manejando ni en el agua.</li>
+          <li>Si tienes dolor en el pecho, falta de aire o latidos muy rápidos después de consumir, no es momento de ejercicios: llama al <b>131</b>.</li>
+          <li>Si tienes una enfermedad del corazón o de los pulmones, o estás embarazada, pregunta a tu médico antes de sostener la respiración.</li>
+        </ul>
+      </details>
+    </div>
+  </div>
+</div>
+
 <!-- aria-live hace que el lector de pantalla lea el aviso cuando aparece, sin robar el foco -->
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <!-- Aviso de versión nueva: aparece una sola vez cuando se publicó una versión y ya está descargada -->
@@ -955,6 +1029,8 @@
 <script src="js/respaldo.js"></script>
 <!-- LÓGICA: todo lo que "hace" la app -->
 <script src="js/app.js"></script>
+<!-- RESPIRA: la respiración 4-7-8 (no depende del resto) -->
+<script src="js/respira.js"></script>
 <!-- ESCUCHAR: la voz del teléfono lee las tarjetas (no depende del resto) -->
 <script src="js/escuchar.js"></script>
 </body>

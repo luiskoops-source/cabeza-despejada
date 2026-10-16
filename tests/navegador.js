@@ -59,6 +59,13 @@ const path = require("path");
   /* 6. Sin scroll horizontal en celular */
   const ancho = await pagina.evaluate(() => document.documentElement.scrollWidth);
   if (ancho > 400) errores.push("La página se desborda a lo ancho: " + ancho + "px");
+  /* 6-. Respiración 4-7-8: se abre desde Hoy, corre y se detiene al salir */
+  await pagina.click('[data-tab="hoy"]'); await pagina.click("#openRespira"); await pagina.waitForTimeout(150);
+  if (!(await pagina.isVisible("#respira"))) errores.push("La respiración 4-7-8 no abre");
+  await pagina.click("#respiraEmpezar"); await pagina.waitForTimeout(500);
+  if ((await pagina.textContent("#respiraFase")) !== "Inhala") errores.push("La respiración no empieza inhalando");
+  await pagina.click("#respiraCerrar");
+  if (await pagina.isVisible("#respira")) errores.push("La respiración no se cierra");
   /* 6a. Para quien acompaña: la tarjeta está en Ayuda con sus cuatro partes */
   const partes = await pagina.evaluate(() => document.querySelectorAll("#acompanarCard details").length);
   if (partes !== 4) errores.push("La tarjeta Si acompañas a alguien no tiene sus 4 partes: " + partes);

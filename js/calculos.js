@@ -197,6 +197,22 @@ function enlaceGoogleCalendar(hora, minuto, desde){
     "&recur="+encodeURIComponent("RRULE:FREQ=DAILY");
 }
 
+/* Respiración 4-7-8: inhalar 4 segundos, sostener 7 y botar el aire en 8. Una vuelta dura 19 segundos.
+   Recibe los segundos desde que empezó y cuántas vueltas se harán. Devuelve en qué vuelta y fase va,
+   y cuántos segundos le quedan a esa fase (para mostrar la cuenta regresiva). */
+const FASES_478=[{fase:"inhala",dura:4},{fase:"sosten",dura:7},{fase:"exhala",dura:8}];
+function fase478(segundos, vueltas){
+  const largo=19, total=largo*vueltas;
+  if(!(segundos>=0)) segundos=0;
+  if(segundos>=total) return { terminado:true, vuelta:vueltas };
+  const vuelta=Math.floor(segundos/largo)+1;
+  let t=segundos%largo;
+  for(const f of FASES_478){
+    if(t<f.dura) return { terminado:false, vuelta, fase:f.fase, dura:f.dura, quedan:Math.ceil(f.dura-t) };
+    t-=f.dura;
+  }
+}
+
 /* Hora sugerida para el recordatorio: media hora antes de la hora difícil, para alcanzar a prepararse.
    Sin hora difícil todavía (menos de 3 registros), propone las 20:00. Devuelve texto "HH:MM". */
 function horaRecordatorio(horaDificil){
@@ -207,7 +223,7 @@ function horaRecordatorio(horaDificil){
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, recordatorioICS, enlaceGoogleCalendar, horaRecordatorio, HITOS, pesos };
+const Calculos={ fechaTexto, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, recordatorioICS, enlaceGoogleCalendar, horaRecordatorio, fase478, HITOS, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);

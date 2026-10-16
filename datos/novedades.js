@@ -2,6 +2,12 @@
    La primera de la lista es la más reciente y es la única que se muestra, una sola vez.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-16-respira", titulo:"Respiración 4-7-8", cambios:[
+    "Nuevo botón en Hoy: Respirar 4-7-8. Inhala 4, sostén 7, bota el aire en 8, con el perrito marcando el ritmo. Sirve para la ansiedad, las ganas, la tos nerviosa y para dormir.",
+    "Puede vibrar o guiarte con voz, para hacerla con los ojos cerrados. Adentro están los beneficios, los estudios y los cuidados.",
+    "También está en Noche, en el Modo ganas y como atajo del ícono (deja el dedo apretado).",
+    "La app ahora habla de todas las sustancias por igual: el dato del día es de lo que tú elegiste."
+  ]},
   {id:"2026-10-16-acompanar", titulo:"Para quien acompaña", cambios:[
     "En Ayuda hay una sección nueva, \"Si acompañas a alguien\": qué ayuda, qué suele empeorar las cosas, cuándo preocuparse y cómo cuidarse. Pensada para familia, pareja y amigos.",
     "En Saber está \"Cuenta tu historia\": historias de otras personas y un formulario anónimo para contar o celebrar algo."
