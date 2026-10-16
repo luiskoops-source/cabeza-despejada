@@ -931,9 +931,32 @@
     </div>
     <h1>Respira conmigo</h1>
     <p class="muted">Inhala por la nariz en <b>4</b>, sostén el aire <b>7</b> y bótalo lento por la boca en <b>8</b>. Botar el aire más lento de lo que entra es lo que calma: le avisa al cuerpo que puede bajar la guardia.</p>
-    <!-- El perrito dentro del círculo: crece al inhalar, se queda quieto al sostener y se achica al botar el aire -->
+    <!-- El círculo crece al inhalar, se queda quieto al sostener y se achica al botar el aire; adentro, el salchicha respira contigo -->
     <div class="respira-circulo" id="respiraCirculo" aria-hidden="true">
-      <svg viewBox="0 0 512 512" width="96" height="96"><use href="#dibujoSalchicha"/></svg>
+      <!-- Salchicha negro con café que respira: el pecho se infla al inhalar, queda quieto al sostener
+           y al botar el aire le salen soplidos por la nariz (la animación está en css/estilos.css, .perro-respira) -->
+      <svg class="perro-respira" viewBox="0 0 220 130" width="150" height="89">
+        <g class="soplos" fill="#cfe3f2">
+          <circle class="soplo" cx="200" cy="58" r="5"/><circle class="soplo" cx="200" cy="58" r="4"/><circle class="soplo" cx="200" cy="58" r="3"/>
+        </g>
+        <g stroke="#F4EEE1" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+          <path d="M38 78 q-22 -6 -26 -26" fill="none" stroke="#1d1b19" stroke-width="9"/>
+          <rect x="52" y="92" width="14" height="22" rx="7" fill="#1d1b19"/><rect x="120" y="92" width="14" height="22" rx="7" fill="#1d1b19"/>
+          <ellipse cx="59" cy="115" rx="10" ry="6" fill="#B9773F"/><ellipse cx="127" cy="115" rx="10" ry="6" fill="#B9773F"/>
+          <g class="pecho">
+            <rect x="34" y="58" width="122" height="44" rx="22" fill="#1d1b19"/>
+            <ellipse cx="138" cy="92" rx="16" ry="8" fill="#B9773F" stroke="none"/>
+          </g>
+          <g class="cabeza">
+            <circle cx="160" cy="52" r="22" fill="#1d1b19"/>
+            <ellipse cx="182" cy="60" rx="17" ry="10" fill="#B9773F"/>
+            <circle cx="198" cy="57" r="4" fill="#1d1b19"/>
+            <path d="M146 36 q-16 4 -12 34 q2 10 10 6 q6 -14 8 -38 z" fill="#2c2926"/>
+            <path d="M162 47 q5 4 10 0" fill="none"/>
+            <circle cx="170" cy="40" r="2.6" fill="#B9773F" stroke="none"/>
+          </g>
+        </g>
+      </svg>
       <span class="respira-fase" id="respiraFase">Listo</span>
       <span class="respira-num num" id="respiraNum"></span>
     </div>

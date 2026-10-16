@@ -27,6 +27,8 @@
     const c=$("respiraCirculo");
     c.style.transitionDuration=(fase==="sosten"?0.3:dura)+"s";
     c.style.transform="scale("+ESCALA[fase]+")";
+    /* La clase de la fase hace que el salchicha infle el pecho, lo sostenga o bote el aire por la nariz */
+    c.classList.remove("fase-inhala","fase-sosten","fase-exhala"); c.classList.add("fase-"+fase);
   }
 
   function tic(){
@@ -55,6 +57,7 @@
     $("respiraFase").textContent="Listo"; $("respiraNum").textContent="";
     $("respiraVuelta").textContent=pref.vueltas===4?"Cuatro vueltas toman poco más de un minuto.":"Ocho vueltas toman unos dos minutos y medio.";
     const c=$("respiraCirculo"); c.style.transitionDuration="0.6s"; c.style.transform="scale(1)";
+    c.classList.remove("fase-inhala","fase-sosten","fase-exhala");
   }
   function terminar(){
     detener();

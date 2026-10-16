@@ -273,7 +273,21 @@ a.boton.primary{background:var(--accent);color:var(--accent-ink);border-color:tr
 .respira-circulo{width:190px;height:190px;border-radius:50%;margin:14px auto 8px;background:var(--accent-soft);border:3px solid var(--accent);display:flex;flex-direction:column;align-items:center;justify-content:center;transform:scale(1);transition-property:transform;transition-timing-function:ease-in-out}
 .respira-fase{font-family:var(--display);font-weight:700;color:var(--accent);font-size:1.15rem}
 .respira-num{font-size:1.4rem;font-weight:700;color:var(--fg);min-height:1.6rem}
-@media (prefers-reduced-motion:reduce){ .respira-circulo{transition:none!important;transform:none!important} }
+/* El salchicha que respira: pecho y cabeza suben al inhalar (4 s), quedan arriba al sostener, bajan al botar el aire (8 s) */
+.perro-respira{overflow:visible;margin-bottom:2px}
+.perro-respira .pecho,.perro-respira .cabeza{transform-box:view-box;transform-origin:95px 102px;transition:transform .6s ease-in-out}
+.fase-inhala .perro-respira .pecho{transform:scale(1.04,1.16);transition-duration:4s}
+.fase-inhala .perro-respira .cabeza{transform:translateY(-4px);transition-duration:4s}
+.fase-sosten .perro-respira .pecho{transform:scale(1.04,1.16)}
+.fase-sosten .perro-respira .cabeza{transform:translateY(-4px)}
+.fase-exhala .perro-respira .pecho,.fase-exhala .perro-respira .cabeza{transform:none;transition-duration:8s}
+/* Al botar el aire salen soplidos por la nariz, uno detrás de otro */
+.perro-respira .soplo{opacity:0;transform-box:fill-box;transform-origin:center}
+.fase-exhala .perro-respira .soplo{animation:soplo 2.4s ease-out infinite}
+.fase-exhala .perro-respira .soplo:nth-child(2){animation-delay:.8s}
+.fase-exhala .perro-respira .soplo:nth-child(3){animation-delay:1.6s}
+@keyframes soplo{0%{opacity:.9;transform:translate(0,0) scale(.6)}100%{opacity:0;transform:translate(18px,-10px) scale(1.8)}}
+@media (prefers-reduced-motion:reduce){ .respira-circulo{transition:none!important;transform:none!important} .perro-respira *{animation:none!important;transition:none!important} }
 a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;padding:8px 12px;font-weight:600;font-size:.95rem;text-decoration:none}
 /* Si el texto y los botones no caben en una línea, los botones bajan en vez de apretar el texto */
 .contact{flex-wrap:wrap}
