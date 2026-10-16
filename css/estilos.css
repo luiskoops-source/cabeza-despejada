@@ -37,6 +37,11 @@
 /* Cualquier elemento con el atributo hidden desaparece, aunque otra regla le ponga display:flex */
 [hidden]{display:none!important}
 html,body{height:100%}
+/* Sin el rectángulo gris o azul que Android pinta al tocar: cada botón ya se hunde solo (button:active) */
+html{-webkit-tap-highlight-color:transparent}
+summary{-webkit-user-select:none;user-select:none;transition:opacity .15s}
+summary:active{opacity:.6}
+a.boton:active,a.llamar:active,.boton-archivo:active{transform:translateY(2px);box-shadow:none}
 body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
 .wrap{max-width:720px;margin:0 auto;padding-inline:16px;padding-block:14px 96px}
 h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
@@ -393,6 +398,12 @@ a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;pad
 @keyframes colita{from{transform:rotate(-8deg)}to{transform:rotate(10deg)}}
 @keyframes lengua{0%,100%{transform:scaleY(0)}50%{transform:scaleY(1)}}
 @keyframes corazon{0%{opacity:0;transform:translateY(6px) scale(.6)}30%{opacity:1}100%{opacity:0;transform:translateY(-28px) scale(1.2)}}
+/* Sin recuadro al tocarlo: el teléfono no pinta el rectángulo de "tocaste aquí", no se selecciona nada
+   y no sale el menú de imagen al dejar el dedo. En vez del recuadro, el salchicha da un saltito (.mimo). */
+.paseo,.compa-perro{-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;outline:none}
+.paseo svg{display:block;transform-origin:50% 100%}
+.paseo.mimo svg{animation:mimo .55s ease-out}
+@keyframes mimo{0%{transform:none}25%{transform:scale(1.06,.92)}55%{transform:translateY(-7px) scale(.97,1.04)}80%{transform:translateY(0) scale(1.02,.98)}100%{transform:none}}
 @media (prefers-reduced-motion:reduce){ .paseo{display:none} }
 /* Visita del compañero (js/paseo.js): asoma por la esquina de abajo, da vueltas y deja un consejo en un globo */
 .compa{pointer-events:none;position:fixed;right:12px;bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:25;display:flex;flex-direction:column;align-items:flex-end;gap:6px;max-width:min(300px,calc(100vw - 24px));transform:translateY(140%);opacity:0;transition:transform .6s cubic-bezier(.2,1.4,.4,1),opacity .4s}
@@ -417,3 +428,64 @@ a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;pad
 @keyframes gira{0%{transform:rotate(0) translateY(0)}25%{transform:rotate(-20deg) translateY(-8px)}50%{transform:scaleX(-1) translateY(-14px)}75%{transform:scaleX(-1) rotate(20deg) translateY(-8px)}100%{transform:rotate(0) translateY(0)}}
 @keyframes globo{from{opacity:0;transform:translateY(8px) scale(.95)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){ .compa{display:none} }
+/* ---------- Sesiones en azul: Modo calma y Respiración 4-7-8 ----------
+   El azul suave es el color del cielo y del agua quieta: no apura como el naranjo o el rojo (los estudios sobre color y ánimo
+   muestran efectos chicos, así que es un detalle de cariño, no un tratamiento).
+   Se usa solo en estas dos pantallas, para que entrar a ellas se sienta como entrar a otra pieza, más tranquila.
+   Funciona igual que el resto de la app: se cambian las variables de color solo dentro de esa pantalla. */
+#calma{
+  --bg:#e5edf4; --surface:#f3f7fa; --surface2:#dae5ef; --fg:#1b2733; --muted:#4c5f71; --line:#c2d2e1;
+  --accent:#3b6a93; --accent-ink:#ffffff; --accent-soft:#d3e2ef; --accent-sombra:#2b5070;
+  --warm:#5d8bb3; --warm-soft:#d6e5f2; --warm-texto:#2f5878; --bad:#a5443f; --bad-soft:#f2dcdb;
+  --sombra:none; --halo:rgba(93,139,179,.16);
+}
+#respira{
+  --bg:#e6f0f7; --surface:#f4f9fc; --surface2:#dbe8f2; --fg:#182634; --muted:#4a6072; --line:#c3d6e5;
+  --accent:#336d9c; --accent-ink:#ffffff; --accent-soft:#d5e6f3; --accent-sombra:#245478;
+  --sombra:none; --aire:#5e8fb8; --halo:rgba(51,109,156,.13);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) #calma{
+  --bg:#0f1723; --surface:#16212f; --surface2:#1d2a3b; --fg:#e5ecf3; --muted:#a2b2c3; --line:#2b3b4f;
+  --accent:#8db6da; --accent-ink:#0d1a27; --accent-soft:#1e3246; --accent-sombra:#5c86ab;
+  --warm:#8db6da; --warm-soft:#1b2d40; --warm-texto:#a9c8e4; --bad:#ec9c93; --bad-soft:#3f2526; --halo:rgba(141,182,218,.12) }
+  :root:not([data-theme="light"]) #respira{
+  --bg:#0e1824; --surface:#152231; --surface2:#1c2b3d; --fg:#e4ecf4; --muted:#a0b2c4; --line:#2a3c51;
+  --accent:#8cbbe2; --accent-ink:#0b1a28; --accent-soft:#1c3349; --accent-sombra:#5b89b0; --aire:#cfe3f2; --halo:rgba(140,187,226,.11) }}
+:root[data-theme="dark"] #calma{
+  --bg:#0f1723; --surface:#16212f; --surface2:#1d2a3b; --fg:#e5ecf3; --muted:#a2b2c3; --line:#2b3b4f;
+  --accent:#8db6da; --accent-ink:#0d1a27; --accent-soft:#1e3246; --accent-sombra:#5c86ab;
+  --warm:#8db6da; --warm-soft:#1b2d40; --warm-texto:#a9c8e4; --bad:#ec9c93; --bad-soft:#3f2526; --halo:rgba(141,182,218,.12) }
+:root[data-theme="dark"] #respira{
+  --bg:#0e1824; --surface:#152231; --surface2:#1c2b3d; --fg:#e4ecf4; --muted:#a0b2c4; --line:#2a3c51;
+  --accent:#8cbbe2; --accent-ink:#0b1a28; --accent-soft:#1c3349; --accent-sombra:#5b89b0; --aire:#cfe3f2; --halo:rgba(140,187,226,.11) }
+/* Un degradado muy leve, como cielo de mañana: más claro arriba */
+#calma,#respira{background:linear-gradient(180deg,var(--surface) 0%,var(--bg) 45%)}
+/* El círculo de la calma: borde más fino y un halo que crece con la inhalación, más lento y blando que el del Modo ganas */
+#calma .breath{margin:30px auto;color:var(--warm-texto);border-width:2px;box-shadow:0 0 0 0 var(--halo);transition:transform 4s ease-in-out,box-shadow 4s ease-in-out}
+#calma .breath.in{box-shadow:0 0 0 22px var(--halo)}
+/* La respiración: el halo acompaña al círculo, y el aire que entra y sale del salchicha toma el azul de la pantalla */
+#respira .respira-circulo{border-width:2px;box-shadow:0 0 0 14px var(--halo)}
+#respira .aire-entra{stroke:var(--aire)}
+#respira .soplos{fill:var(--aire)}
+@media (prefers-reduced-motion:reduce){ #calma .breath{transition:none} }
+/* Noche: el encabezado es un pedazo de cielo. Azul de noche en los dos temas, luna crema y estrellas que titilan lento */
+.cielo{position:relative;overflow:hidden;background:linear-gradient(165deg,#1d2d48,#121c2e 70%);color:#f1ece0;border-radius:22px;padding:20px 18px 18px;display:flex;flex-direction:column;gap:6px;box-shadow:var(--sombra-hero)}
+.cielo .eyebrow{color:#b9c7dc}
+.cielo p.small{color:#d3dbe7;max-width:34ch}
+.cielo h1{max-width:12ch}
+.cielo-dibujo{position:absolute;right:6px;top:6px;pointer-events:none}
+.cielo .luna{fill:#f4e9c8}
+.cielo .estrella{fill:#f4eee1;opacity:.75}
+@media (prefers-reduced-motion:no-preference){
+  .cielo .estrella{animation:titila 5s ease-in-out infinite alternate}
+  .cielo .estrella:nth-child(2){animation-delay:-1.5s}.cielo .estrella:nth-child(3){animation-delay:-3s}.cielo .estrella:nth-child(4){animation-delay:-4.2s}
+}
+@keyframes titila{from{opacity:.25}to{opacity:.9}}
+/* Llegar sin golpe: cada pestaña y cada pantalla completa aparecen con un fundido corto. Nada si se pidió menos movimiento. */
+@media (prefers-reduced-motion:no-preference){
+  .screen.active{animation:aparece .28s ease-out}
+  .crave:not([hidden]){animation:aparece-suave .35s ease-out}
+  #calma:not([hidden]){animation-duration:.6s}
+}
+@keyframes aparece{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes aparece-suave{from{opacity:0}to{opacity:1}}

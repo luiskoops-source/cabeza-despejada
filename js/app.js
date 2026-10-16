@@ -285,6 +285,17 @@ function aplicarTema(){
   document.querySelectorAll('meta[name="theme-color"]').forEach(m=>{ m.content=oscuro?"#15120e":"#f3ecdc"; });
 }
 $("cfgTema").onchange=()=>{ S.tema=$("cfgTema").value; save(); aplicarTema(); };
+/* Pantallas completas (Modo calma, Respiración, Modo ganas, PIN): mientras una está abierta, la barra del sistema
+   toma su color de fondo, así el azul de la calma llega hasta arriba sin un corte crema. Al cerrarla, vuelve el del tema. */
+const pantallasCompletas=["calma","respira","crave","lock"].map($).filter(Boolean);
+function colorBarra(){
+  const abierta=pantallasCompletas.find(el=>!el.hidden);
+  if(!abierta){ aplicarTema(); return; }
+  const fondo=getComputedStyle(abierta).getPropertyValue("--bg").trim();
+  if(fondo) document.querySelectorAll('meta[name="theme-color"]').forEach(m=>{ m.content=fondo; });
+}
+const vigiaPantallas=new MutationObserver(colorBarra);
+pantallasCompletas.forEach(el=>vigiaPantallas.observe(el,{attributes:true,attributeFilter:["hidden"]}));
 
 /* ---------- Primeros pasos (una sola vez) ---------- */
 function renderTour(){ $("tour").hidden=!S.day0||!!S.tourVisto; }

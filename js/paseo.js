@@ -47,7 +47,8 @@
     enCamino=true; contar();
     const el=document.createElement("div");
     el.className="paseo"; el.innerHTML=DIBUJO;
-    el.onclick=()=>lamer(el); /* Si lo tocas, te vuelve a lamer */
+    /* Si lo tocas, da un saltito de gusto y te vuelve a lamer */
+    el.onclick=()=>{ el.classList.remove("mimo"); void el.offsetWidth; el.classList.add("mimo"); lamer(el); };
     document.body.appendChild(el);
     void el.offsetWidth; el.classList.add("entra");
     setTimeout(()=>{ el.classList.add("quieto"); lamer(el); },3200);

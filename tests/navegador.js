@@ -71,6 +71,16 @@ const path = require("path");
     const r = []; for (const c of ["paseo", "compa"]) { const d = document.createElement("div"); d.className = c; document.body.appendChild(d); r.push(getComputedStyle(d).position); d.remove(); } return r;
   });
   if (estilosSalchicha.some(p => p !== "fixed")) errores.push("Faltan los estilos del paseo o del compañero: " + estilosSalchicha);
+  /* 6-c. Al tocar al salchicha no aparece el recuadro del teléfono */
+  const resaltado = await pagina.evaluate(() => { const d = document.createElement("div"); d.className = "paseo"; document.body.appendChild(d); const c = getComputedStyle(d).webkitTapHighlightColor; d.remove(); return c; });
+  if (resaltado !== "rgba(0, 0, 0, 0)") errores.push("El salchicha vuelve a mostrar el recuadro al tocarlo: " + resaltado);
+  /* 6-d. El Modo calma y la respiración son azules, y la barra del sistema toma ese color mientras están abiertos */
+  await pagina.click('[data-tab="noche"]'); await pagina.click("#nocheCalma"); await pagina.waitForTimeout(200);
+  const calma = await pagina.evaluate(() => ({ bg: getComputedStyle(document.getElementById("calma")).getPropertyValue("--bg").trim(), barra: document.querySelector('meta[name="theme-color"]').content }));
+  if (!/^#[0-9a-f]{6}$/i.test(calma.bg) || parseInt(calma.bg.slice(5, 7), 16) <= parseInt(calma.bg.slice(1, 3), 16)) errores.push("El Modo calma ya no es azul: " + calma.bg);
+  if (calma.barra !== calma.bg) errores.push("La barra del sistema no toma el color del Modo calma: " + calma.barra);
+  await pagina.click("#closeCalma"); await pagina.waitForTimeout(100);
+  if ((await pagina.evaluate(() => document.querySelector('meta[name="theme-color"]').content)) === calma.bg) errores.push("La barra del sistema sigue azul después de cerrar el Modo calma");
   /* 6a. Para quien acompaña: la tarjeta está en Ayuda con sus cuatro partes */
   const partes = await pagina.evaluate(() => document.querySelectorAll("#acompanarCard details").length);
   if (partes !== 4) errores.push("La tarjeta Si acompañas a alguien no tiene sus 4 partes: " + partes);
