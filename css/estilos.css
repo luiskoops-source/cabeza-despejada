@@ -551,3 +551,6 @@ a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;pad
   #crave .breath{border-color:color-mix(in oklch increasing hue,var(--ola-azul) calc(var(--calma,0)*100%),var(--warm));background:color-mix(in oklch increasing hue,var(--ola-azul-suave) calc(var(--calma,0)*100%),var(--warm-soft));color:color-mix(in oklch increasing hue,var(--ola-azul-texto) calc(var(--calma,0)*100%),var(--warm))}
   #crave .bar i{background:color-mix(in oklch increasing hue,var(--ola-azul) calc(var(--calma,0)*100%),var(--warm))}
 }
+/* De madrugada, en el cielo de Noche: una línea que invita a dormir, con una lunita al lado */
+.cielo-dormir{margin-top:4px;padding:8px 10px;border-radius:12px;background:rgba(244,233,200,.12);color:#f1ece0;font-size:.9rem;max-width:36ch}
+.cielo-dormir::before{content:"☾ ";color:#f4e9c8}

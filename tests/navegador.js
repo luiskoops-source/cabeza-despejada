@@ -121,6 +121,16 @@ const path = require("path");
   await pagina.click("#openCrave"); await pagina.click("#craveWon"); await pagina.click('[data-ayudo="esperar"]'); await pagina.waitForTimeout(200);
   if (!(await pagina.isVisible("#craveCelebra"))) errores.push("Al superar una ola no aparece la celebración");
   await pagina.click("#craveCelebraOk");
+  /* 6e. De madrugada, Noche invita a dormir (el reloj del navegador se pone a las 2:30) */
+  const madrugada = await navegador.newPage({ viewport: { width: 400, height: 860 }, locale: "es-CL" });
+  madrugada.on("pageerror", e => errores.push("Error de página (madrugada): " + e.message));
+  await madrugada.clock.setFixedTime(new Date(2026, 9, 17, 2, 30));
+  await madrugada.goto(url); await madrugada.waitForTimeout(300);
+  await madrugada.click('[data-tab="noche"]');
+  if (!(await madrugada.isVisible("#nocheDormir"))) errores.push("De madrugada, Noche no invita a dormir");
+  await madrugada.close();
+  await pagina.click('[data-tab="noche"]');
+  if (await pagina.isVisible("#nocheDormir") && !(new Date().getHours() < 6)) errores.push("La invitación a dormir aparece de día");
   /* 7. Atajo "Tengo ganas" del ícono: abre el Modo ganas, pero con PIN nunca se salta el bloqueo */
   await pagina.goto(url + "?ir=ganas"); await pagina.waitForTimeout(300);
   if (!(await pagina.isVisible("#crave"))) errores.push("El atajo Tengo ganas no abre el Modo ganas");

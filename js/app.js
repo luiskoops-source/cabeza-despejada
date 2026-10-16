@@ -65,6 +65,7 @@ document.querySelectorAll('.tabs [role="tab"]').forEach(b=>b.addEventListener("c
   document.querySelectorAll('.tabs [role="tab"]').forEach(x=>x.setAttribute("aria-selected",x===b?"true":"false"));
   document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("active",s.id==="s-"+b.dataset.tab));
   window.scrollTo({top:0});
+  if(b.dataset.tab==="noche") $("nocheDormir").hidden=!C.esMadrugada(new Date().getHours()); /* de madrugada, invita a dormir */
 }));
 
 /* ---------- Hoy ---------- */

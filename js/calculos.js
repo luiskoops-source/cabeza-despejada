@@ -233,10 +233,14 @@ function tamanoCactus(dias){
   return Math.round((0.62+0.38*Math.min(1,Math.log(1+d)/Math.log(91)))*1000)/1000;
 }
 
+/* De madrugada (de las 0:00 a las 5:59): la app invita a dormir y el salchicha no aparece de sorpresa.
+   Recibe la hora (0 a 23). Cualquier otra cosa no es madrugada. */
+function esMadrugada(hora){ return Number.isInteger(hora)&&hora>=0&&hora<6; }
+
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diaDe, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, recordatorioICS, enlaceGoogleCalendar, horaRecordatorio, fase478, tamanoCactus, HITOS, pesos };
+const Calculos={ fechaTexto, diaDe, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, recordatorioICS, enlaceGoogleCalendar, horaRecordatorio, fase478, tamanoCactus, esMadrugada, HITOS, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);

@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente y es la única que se muestra, una sola vez.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-16-crece", titulo:"El cactus crece contigo", cambios:[
+    "Al abrir la app, el cactus empieza chiquito, como de llavero, y crece con todos los días que llevas en esto. Una recaída no lo achica: lo vivido no se borra.",
+    "En el Modo ganas, el círculo va pasando del naranjo al azul mientras corre el reloj, como un atardecer que se vuelve noche: la ola se ve bajar.",
+    "De madrugada, la pestaña Noche te invita a dormir, y el salchicha no aparece de sorpresa para no despertarte."
+  ]},
   {id:"2026-10-16-mascota", titulo:"El salchicha, mascota de la app", cambios:[
     "Ahora no solo camina: a veces cruza corriendo con las orejas al viento, otras baja en paracaídas, y a veces aparece haciendo yoga.",
     "Si lo tocas muchas veces, te da muchos corazones.",

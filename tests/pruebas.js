@@ -13,6 +13,13 @@ prueba("después de 90 días no sigue creciendo",()=>assert.strictEqual(C.tamano
 prueba("siempre crece: cada día mide más que el anterior hasta los 90",()=>{ for(let d=1;d<=90;d++) assert.ok(C.tamanoCactus(d)>C.tamanoCactus(d-1),"día "+d); });
 prueba("texto o vacío no rompe",()=>{ assert.strictEqual(C.tamanoCactus("abc"),0.62); assert.strictEqual(C.tamanoCactus(undefined),0.62); });
 
+console.log("esMadrugada");
+prueba("medianoche es madrugada",()=>assert.strictEqual(C.esMadrugada(0),true));
+prueba("las 5 es madrugada",()=>assert.strictEqual(C.esMadrugada(5),true));
+prueba("las 6 ya no",()=>assert.strictEqual(C.esMadrugada(6),false));
+prueba("las 23 todavía no",()=>assert.strictEqual(C.esMadrugada(23),false));
+prueba("algo que no es una hora no es madrugada",()=>{ assert.strictEqual(C.esMadrugada("3"),false); assert.strictEqual(C.esMadrugada(undefined),false); });
+
 console.log("diasDesde");
 prueba("sin Día 0 devuelve 0",()=>assert.strictEqual(C.diasDesde(null,"2026-10-09"),0));
 prueba("mismo día devuelve 0",()=>assert.strictEqual(C.diasDesde("2026-10-09","2026-10-09"),0));
