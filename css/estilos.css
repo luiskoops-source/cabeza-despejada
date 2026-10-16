@@ -296,47 +296,27 @@ a.boton.primary{background:var(--accent);color:var(--accent-ink);border-color:tr
 .fase-sosten .perro-respira .pecho{transform:scale(1.04,1.16)}
 .fase-sosten .perro-respira .cabeza{transform:translateY(-4px)}
 .fase-exhala .perro-respira .pecho,.fase-exhala .perro-respira .cabeza{transform:none;transition-duration:8s}
-/* Al botar el aire salen soplidos por la nariz, uno detrás de otro */
+/* Más vivo: mueve la cola, parpadea y levanta la oreja al inhalar; al sostener, hasta la cola se queda quieta */
+.perro-respira .cola{transform-box:fill-box;transform-origin:100% 100%;animation:colita-lenta 1.1s ease-in-out infinite alternate}
+.fase-sosten .perro-respira .cola{animation-play-state:paused}
+.perro-respira .ojo{transform-box:fill-box;transform-origin:center;animation:parpadeo 4.5s infinite}
+.perro-respira .oreja{transform-box:fill-box;transform-origin:60% 0;transition:transform .6s}
+.fase-inhala .perro-respira .oreja,.fase-sosten .perro-respira .oreja{transform:rotate(-9deg);transition-duration:4s}
+@keyframes colita-lenta{from{transform:rotate(-10deg)}to{transform:rotate(12deg)}}
+@keyframes parpadeo{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+/* Al inhalar entran líneas de aire hacia la nariz */
+.perro-respira .aire-entra{opacity:0}
+.fase-inhala .perro-respira .aire-entra{animation:aire-entra 1.3s ease-in infinite}
+@keyframes aire-entra{0%{opacity:0;transform:translateX(0)}30%{opacity:.9}100%{opacity:0;transform:translateX(-16px)}}
+/* Al botar el aire abre la boca y salen soplidos por la boca, uno detrás de otro */
+.perro-respira .boca-abierta{transform-box:fill-box;transform-origin:center;transform:scale(0);transition:transform .4s}
+.fase-exhala .perro-respira .boca-abierta{transform:scale(1)}
+.fase-exhala .perro-respira .boca{opacity:0}
 .perro-respira .soplo{opacity:0;transform-box:fill-box;transform-origin:center}
 .fase-exhala .perro-respira .soplo{animation:soplo 2.4s ease-out infinite}
 .fase-exhala .perro-respira .soplo:nth-child(2){animation-delay:.8s}
 .fase-exhala .perro-respira .soplo:nth-child(3){animation-delay:1.6s}
-/* Paseo del salchicha (js/paseo.js): cruza la pantalla sobre la barra de abajo, se detiene y lame la pantalla */
-.paseo{position:fixed;left:0;bottom:calc(78px + env(safe-area-inset-bottom,0px));z-index:25;width:150px;transform:translateX(-170px);transition:transform 3.2s linear;cursor:pointer;filter:drop-shadow(0 3px 2px rgba(0,0,0,.25))}
-.paseo.entra{transform:translateX(calc(50vw - 75px))}
-.paseo.sale{transform:translateX(calc(100vw + 20px));transition-duration:3s;transition-timing-function:ease-in}
-.paseo .pata{transform-box:fill-box;transform-origin:50% 0;animation:patita .32s ease-in-out infinite alternate}
-.paseo .pata-b{animation-delay:-.16s}
-.paseo.quieto .pata{animation:none}
-.paseo .cola{transform-box:fill-box;transform-origin:100% 100%;animation:colita .25s ease-in-out infinite alternate}
-.paseo .lengua{transform-box:fill-box;transform-origin:50% 0;transform:scaleY(0)}
-.paseo.lame .lengua{animation:lengua .45s ease-in-out 3}
-.paseo-corazon{position:absolute;left:118px;top:-6px;color:#E8807A;font-size:1.3rem;opacity:0;pointer-events:none}
-.paseo.lame .paseo-corazon{animation:corazon 1.6s ease-out .3s}
-@keyframes patita{from{transform:rotate(-14deg)}to{transform:rotate(14deg)}}
-@keyframes colita{from{transform:rotate(-8deg)}to{transform:rotate(10deg)}}
-@keyframes lengua{0%,100%{transform:scaleY(0)}50%{transform:scaleY(1)}}
-@keyframes corazon{0%{opacity:0;transform:translateY(6px) scale(.6)}30%{opacity:1}100%{opacity:0;transform:translateY(-28px) scale(1.2)}}
-@media (prefers-reduced-motion:reduce){ .paseo{display:none} }
-/* Visita del compañero (js/paseo.js): asoma por la esquina de abajo, da vueltas y deja un consejo en un globo */
-.compa{pointer-events:none;position:fixed;right:12px;bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:25;display:flex;flex-direction:column;align-items:flex-end;gap:6px;max-width:min(300px,calc(100vw - 24px));transform:translateY(140%);opacity:0;transition:transform .6s cubic-bezier(.2,1.4,.4,1),opacity .4s}
-.compa.entra{transform:translateY(0);opacity:1}
-.compa.sale{transform:translateY(140%);opacity:0;transition-duration:.6s}
-.compa-globo{pointer-events:auto;position:relative;background:var(--surface);color:var(--fg);border:1.5px solid var(--line);border-radius:16px;padding:10px 12px;box-shadow:var(--sombra);font-size:.92rem;opacity:0;animation:globo .4s ease-out 1.5s forwards}
-.compa-globo::after{content:"";position:absolute;right:34px;bottom:-8px;width:14px;height:14px;background:var(--surface);border-right:1.5px solid var(--line);border-bottom:1.5px solid var(--line);transform:rotate(45deg)}
-.compa-globo p{margin:0 0 8px}
-.compa-botones{display:flex;flex-wrap:wrap;gap:6px}
-.compa-botones button{padding:6px 10px;font-size:.82rem}
-.compa-perro{pointer-events:auto;width:110px;cursor:pointer;filter:drop-shadow(0 3px 2px rgba(0,0,0,.25))}
-.compa-perro svg{width:110px;height:auto}
-.compa-perro .lengua{transform:scaleY(0)}
-.compa-perro .pata{animation:none}
-.compa-perro.gira{animation:gira 1.3s ease-in-out 2}
-.compa-perro .cola{transform-box:fill-box;transform-origin:100% 100%;animation:colita .25s ease-in-out infinite alternate}
-@keyframes gira{0%{transform:rotate(0) translateY(0)}25%{transform:rotate(-20deg) translateY(-8px)}50%{transform:scaleX(-1) translateY(-14px)}75%{transform:scaleX(-1) rotate(20deg) translateY(-8px)}100%{transform:rotate(0) translateY(0)}}
-@keyframes globo{from{opacity:0;transform:translateY(8px) scale(.95)}to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){ .compa{display:none} }
-@keyframes soplo{0%{opacity:.9;transform:translate(0,0) scale(.6)}100%{opacity:0;transform:translate(18px,-10px) scale(1.8)}}
+@keyframes soplo{0%{opacity:.9;transform:translate(0,0) scale(.6)}100%{opacity:0;transform:translate(22px,4px) scale(1.8)}}
 @media (prefers-reduced-motion:reduce){ .respira-circulo{transition:none!important;transform:none!important} .perro-respira *{animation:none!important;transition:none!important} }
 a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;padding:8px 12px;font-weight:600;font-size:.95rem;text-decoration:none}
 /* Si el texto y los botones no caben en una línea, los botones bajan en vez de apretar el texto */
