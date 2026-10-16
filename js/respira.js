@@ -44,7 +44,7 @@
     inicio=performance.now(); faseAnterior="";
     $("respiraEmpezar").textContent="Detener";
     /* Que la pantalla no se apague a mitad del ejercicio (si el teléfono lo permite) */
-    try{ navigator.wakeLock&&navigator.wakeLock.request("screen").then(w=>pantallaEncendida=w).catch(()=>{}); }catch(e){}
+    try{ navigator.wakeLock&&navigator.wakeLock.request("screen").then(w=>{ if(reloj) pantallaEncendida=w; else w.release(); }).catch(()=>{}); }catch(e){}
     tic(); reloj=setInterval(tic,200);
   }
   function detener(){
@@ -53,6 +53,7 @@
     try{ pantallaEncendida&&pantallaEncendida.release(); }catch(e){} pantallaEncendida=null;
     $("respiraEmpezar").textContent="Empezar";
     $("respiraFase").textContent="Listo"; $("respiraNum").textContent="";
+    $("respiraVuelta").textContent=pref.vueltas===4?"Cuatro vueltas toman poco más de un minuto.":"Ocho vueltas toman unos dos minutos y medio.";
     const c=$("respiraCirculo"); c.style.transitionDuration="0.6s"; c.style.transform="scale(1)";
   }
   function terminar(){
@@ -71,7 +72,11 @@
     $("respira").hidden=false; document.body.style.overflow="hidden";
     $("respira").scrollTop=0;
   }
-  function cerrar(){ detener(); $("respira").hidden=true; document.body.style.overflow=""; }
+  function cerrar(){
+    detener(); $("respira").hidden=true;
+    /* Si quedó abierta otra pantalla completa (por ejemplo el Modo ganas), la página de atrás sigue quieta */
+    if(!document.querySelector(".crave:not([hidden])")) document.body.style.overflow="";
+  }
 
   document.querySelectorAll("[data-respira]").forEach(b=>b.addEventListener("click",abrir));
   $("respiraCerrar").onclick=cerrar;

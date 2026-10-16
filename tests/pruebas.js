@@ -145,6 +145,9 @@ prueba("Google Calendar: título discreto y hora inválida da null",()=>{ assert
 prueba("sugiere media hora antes de la hora difícil",()=>assert.strictEqual(C.horaRecordatorio(23),"22:30"));
 prueba("si la hora difícil es medianoche, sugiere 23:30",()=>assert.strictEqual(C.horaRecordatorio(0),"23:30"));
 prueba("sin hora difícil sugiere 20:00",()=>assert.strictEqual(C.horaRecordatorio(null),"20:00"));
+console.log("día local");
+prueba("algo anotado a las 22:30 queda en ese día, no en el siguiente",()=>assert.strictEqual(C.diaDe(new Date(2026,9,15,22,30).toISOString()),"2026-10-15"));
+prueba("algo anotado a las 00:10 queda en el día nuevo",()=>assert.strictEqual(C.diaDe(new Date(2026,9,16,0,10).toISOString()),"2026-10-16"));
 console.log("respiración 4-7-8");
 prueba("empieza inhalando 4 segundos",()=>assert.deepStrictEqual(C.fase478(0,4),{terminado:false,vuelta:1,fase:"inhala",dura:4,quedan:4}));
 prueba("a los 4 segundos se sostiene el aire 7",()=>{ const f=C.fase478(4,4); assert.strictEqual(f.fase,"sosten"); assert.strictEqual(f.quedan,7); });

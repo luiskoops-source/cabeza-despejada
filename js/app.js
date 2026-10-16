@@ -162,7 +162,7 @@ const VOLVER=[
 ];
 function renderVolver(d){
   /* Se muestra si hay un consumo registrado en el Día 0 actual y pasaron 2 días o menos */
-  const hubo=S.day0&&S.events.some(e=>e.type==="relapse"&&e.ts.slice(0,10)===S.day0);
+  const hubo=S.day0&&S.events.some(e=>e.type==="relapse"&&todayStrDe(e.ts)===S.day0);
   $("volver").hidden=!(hubo&&d<=2);
   if($("volver").hidden) return;
   /* La lista se reinicia con cada Día 0 nuevo */
@@ -308,7 +308,9 @@ function fillConfig(){
   const sel=$("cfgSust"); sel.innerHTML=SUST.map(s=>`<option value="${s.id}">${esc(s.nombre)}</option>`).join(""); sel.value=S.sustancia;
   $("cfgModo").value=S.modo; $("cfgMeta").value=S.metaSemana; $("cfgTema").value=S.tema||"auto"; $("cfgGanas").value=S.ganasMin||15; $("cfgMetaWrap").hidden=S.modo!=="reducir";
   /* En la bienvenida no viene ninguna elegida: la app es para cualquier sustancia, no solo una */
-  const ws=$("welcomeSust"); ws.innerHTML='<option value="">Elige una…</option>'+sel.innerHTML; ws.value=S.day0?S.sustancia:"";
+  const ws=$("welcomeSust"), elegida=ws.value; ws.innerHTML='<option value="">Elige una…</option>'+sel.innerHTML; ws.value=S.day0?S.sustancia:(elegida||"");
+  /* El Día 0 no puede ser una fecha futura */
+  $("welcomeDay0").max=$("day0").max=todayStr();
 }
 $("cfgModo").onchange=()=>{ $("cfgMetaWrap").hidden=$("cfgModo").value!=="reducir"; };
 $("saveConfig").onclick=()=>{
@@ -665,10 +667,10 @@ $("welcomeGo").onclick=()=>{
   if(!$("welcomeEdad").checked){ mensaje("welcomeEdadMsg","Esta app es para personas de 18 años o más. Si eres menor y necesitas hablar con alguien, llama gratis y anónimo al 1412 o conversa con un adulto de confianza.","no"); return; }
   if(!$("welcomeSust").value){ mensaje("welcomeEdadMsg","Elige qué quieres dejar o reducir. Puedes cambiarlo después.","no"); return; }
   S.mayorEdad=true;
-  const v=$("welcomeDay0").value; if(!v){ toast("Elige una fecha"); return; } S.day0=v; S.day0Hora=horaDia0(v); S.sustancia=$("welcomeSust").value; S.modo=$("welcomeModo").value; save(); aplicarTema(); fillConfig(); renderHoy(); renderRegistro(); renderSust(); toast("Empezamos a contar desde ahí."); };
+  const v=$("welcomeDay0").value; if(!v){ toast("Elige una fecha"); return; } if(v>todayStr()){ toast("La fecha no puede ser futura"); return; } S.day0=v; S.day0Hora=horaDia0(v); S.sustancia=$("welcomeSust").value; S.modo=$("welcomeModo").value; save(); aplicarTema(); fillConfig(); renderHoy(); renderRegistro(); renderSust(); toast("Empezamos a contar desde ahí."); };
 
 /* ---------- Check-in diario (sueño y ánimo) ---------- */
-function todayCheckin(){ const t=todayStr(); return S.events.find(e=>e.type==="checkin"&&e.ts.slice(0,10)===t); }
+function todayCheckin(){ const t=todayStr(); return S.events.find(e=>e.type==="checkin"&&todayStrDe(e.ts)===t); }
 function renderCheckin(){
   const c=todayCheckin();
   $("checkinDone").hidden=!c;
@@ -683,7 +685,7 @@ $("saveCheckin").onclick=()=>{
   toast(sueno<6?"Dormiste poco. Hoy cuídate más de lo normal.":"Anotado.");
 };
 $("editCheckin").onclick=()=>{ const i=S.events.indexOf(todayCheckin()); if(i>-1) S.events.splice(i,1); save(); renderCheckin(); };
-$("saveDay0").onclick=()=>{ S.day0=$("day0").value||null; S.day0Hora=S.day0?horaDia0(S.day0):null; save(); renderHoy(); renderRegistro(); toast("Día 0 guardado"); };
+$("saveDay0").onclick=()=>{ if($("day0").value>todayStr()){ toast("La fecha no puede ser futura"); return; } S.day0=$("day0").value||null; S.day0Hora=S.day0?horaDia0(S.day0):null; save(); renderHoy(); renderRegistro(); toast("Día 0 guardado"); };
 $("saveMoney").onclick=()=>{ S.spendWeek=Number($("spendWeek").value)||0; S.salary=Number($("salary").value)||null; save(); renderHoy(); toast("Guardado"); };
 
 function renderReasons(){
@@ -795,15 +797,16 @@ function addEvent(type,extra){ S.events.unshift(Object.assign({type,ts:new Date(
 /* El deslizador de fuerza muestra su número al lado mientras se mueve */
 $("cInt").oninput=()=>{ $("cIntVal").textContent=$("cInt").value; };
 $("addCrave").onclick=()=>{ addEvent("crave",{i:Number($("cInt").value)||5,trig:$("cTrig").value,did:$("cDid").value.trim()}); $("cDid").value=""; renderRegistro(); toast("Anotado. Eso cuenta."); };
-$("addRelapse").onclick=()=>{ const el=$("addRelapse"); if(el.dataset.confirm!=="1"){ el.dataset.confirm="1"; el.textContent="Toca de nuevo para confirmar"; setTimeout(()=>{ el.dataset.confirm=""; el.textContent="Registrar consumo"; },4000); return; } el.dataset.confirm=""; el.textContent="Registrar consumo"; registerRelapse($("cDid").value.trim()); $("cDid").value=""; };
-function registerRelapse(note){
+$("addRelapse").onclick=()=>{ const el=$("addRelapse"); if(el.dataset.confirm!=="1"){ el.dataset.confirm="1"; el.textContent="Toca de nuevo para confirmar"; setTimeout(()=>{ el.dataset.confirm=""; el.textContent="Registrar consumo"; },4000); return; } el.dataset.confirm=""; el.textContent="Registrar consumo"; registerRelapse($("cDid").value.trim(),$("cTrig").value); $("cDid").value=""; };
+/* trig: el gatillante, solo si la persona lo eligió (en Registro). Desde Hoy o el Modo ganas va vacío, para no inventar uno. */
+function registerRelapse(note,trig){
   /* Antes de mover el Día 0 a hoy, guarda el más antiguo: así los días limpios anteriores siguen contando */
   if(S.day0&&(!S.inicio||S.day0<S.inicio)) S.inicio=S.day0;
-  addEvent("relapse",{did:note||"",trig:$("cTrig").value}); S.day0=todayStr(); S.day0Hora=new Date().toISOString(); save(); renderHoy(); renderRegistro(); toast("Día 0 reiniciado. Una púa no borra lo que avanzaste."); }
+  addEvent("relapse",{did:note||"",trig:trig||""}); S.day0=todayStr(); S.day0Hora=new Date().toISOString(); save(); renderHoy(); renderRegistro(); toast("Día 0 reiniciado. Una púa no borra lo que avanzaste."); }
 function renderRegistro(){
   const days=[]; const now=new Date(); now.setHours(12,0,0,0);
   for(let i=13;i>=0;i--){ const d=new Date(now); d.setDate(d.getDate()-i); days.push({k:dstr(d),c:0,r:false,label:d.toLocaleDateString("es-CL",{day:"numeric",month:"short"})}); }
-  S.events.forEach(e=>{ const k=e.ts.slice(0,10); const d=days.find(x=>x.k===k); if(!d) return; if(e.type==="crave") d.c++; if(e.type==="relapse") d.r=true; });
+  S.events.forEach(e=>{ const k=todayStrDe(e.ts); const d=days.find(x=>x.k===k); if(!d) return; if(e.type==="crave") d.c++; if(e.type==="relapse") d.r=true; });
   const max=Math.max(1,...days.map(d=>d.c));
   $("chart").innerHTML=days.map(d=>`<div class="${d.r?"r":""}" style="height:${d.r?100:Math.max(d.c?8:2,d.c/max*100)}%" ${d.c||d.r?`data-n="${d.r?"C":d.c}"`:""} title="${d.label}"></div>`).join("");
   $("axisFrom").textContent=days[0].label; $("axisTo").textContent=days[13].label;
