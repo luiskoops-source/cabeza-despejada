@@ -392,8 +392,9 @@ a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;pad
 .paseo .cola{transform-box:fill-box;transform-origin:100% 100%;animation:colita .25s ease-in-out infinite alternate}
 .paseo .lengua{transform-box:fill-box;transform-origin:50% 0;transform:scaleY(0)}
 .paseo.lame .lengua{animation:lengua .45s ease-in-out 3}
-.paseo-corazon{position:absolute;left:118px;top:-6px;color:#E8807A;font-size:1.3rem;opacity:0;pointer-events:none}
-.paseo.lame .paseo-corazon{animation:corazon 1.6s ease-out .3s}
+/* Cada toque suelta su propio corazón (js/paseo.js los crea y los borra), cada uno con un giro distinto (--giro) */
+.paseo-corazon{position:absolute;top:-6px;color:#E8807A;font-size:1.3rem;opacity:0;pointer-events:none;animation:corazon-sube 1.6s ease-out .15s forwards}
+@keyframes corazon-sube{0%{opacity:0;transform:translateY(6px) scale(.6)}25%{opacity:1}100%{opacity:0;transform:translateY(-40px) rotate(var(--giro,0deg)) scale(1.2)}}
 @keyframes patita{from{transform:rotate(-14deg)}to{transform:rotate(14deg)}}
 @keyframes colita{from{transform:rotate(-8deg)}to{transform:rotate(10deg)}}
 @keyframes lengua{0%,100%{transform:scaleY(0)}50%{transform:scaleY(1)}}
@@ -401,10 +402,51 @@ a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;pad
 /* Sin recuadro al tocarlo: el teléfono no pinta el rectángulo de "tocaste aquí", no se selecciona nada
    y no sale el menú de imagen al dejar el dedo. En vez del recuadro, el salchicha da un saltito (.mimo). */
 .paseo,.compa-perro{-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;outline:none}
-.paseo svg{display:block;transform-origin:50% 100%}
-.paseo.mimo svg{animation:mimo .55s ease-out}
+.paseo-perro{display:block;transform-origin:50% 100%}
+.paseo.mimo .paseo-perro{animation:mimo .55s ease-out}
 @keyframes mimo{0%{transform:none}25%{transform:scale(1.06,.92)}55%{transform:translateY(-7px) scale(.97,1.04)}80%{transform:translateY(0) scale(1.02,.98)}100%{transform:none}}
 @media (prefers-reduced-motion:reduce){ .paseo{display:none} }
+
+/* ---------- Las sorpresas del salchicha (la mascota): corre, paracaídas y yoga ----------
+   .paseo-mueve envuelve al dibujo: ahí van el galope y el vaivén, sin pelear con el recorrido de .paseo */
+.paseo-mueve{position:relative}
+.paseo .oreja{transform-box:fill-box;transform-origin:70% 0;transition:transform .3s}
+/* Corre: cruza de una, galopando, con las orejas al viento, la lengua afuera y polvito que queda atrás */
+.paseo.corre{transition:transform 2.8s linear}
+.paseo.corre.entra{transform:translateX(calc(100vw + 20px))}
+.paseo.corre .pata{animation-duration:.13s}
+.paseo.corre .cola{animation-duration:.13s}
+.paseo.corre .paseo-mueve{animation:galope .26s ease-in-out infinite alternate}
+.paseo.corre .oreja{transform-origin:60% 0;animation:oreja-viento .13s ease-in-out infinite alternate}
+@keyframes oreja-viento{from{transform:rotate(32deg)}to{transform:rotate(48deg)}}
+.paseo.corre .lengua{transform:scaleY(1)}
+.polvo{position:absolute;left:10px;bottom:2px;width:14px;height:14px;border-radius:50%;background:#d8cbb0;opacity:0;animation:polvo .55s ease-out infinite}
+.polvo:nth-child(3){animation-delay:.18s;left:22px}.polvo:nth-child(4){animation-delay:.36s;left:4px}
+@keyframes galope{from{transform:translateY(0) rotate(1.5deg)}to{transform:translateY(-7px) rotate(-2deg)}}
+@keyframes polvo{0%{opacity:.8;transform:translateX(0) scale(.5)}100%{opacity:0;transform:translateX(-26px) translateY(-6px) scale(1.5)}}
+/* Paracaídas: baja desde arriba de la pantalla balanceándose, aterriza, la tela se desinfla y se va caminando */
+.paseo.paracaidas{left:calc(50vw - 75px);transform:translateY(calc(-100vh - 140px));transition:transform 5.5s cubic-bezier(.25,.55,.35,1)}
+.paseo.paracaidas.entra{transform:translateY(0)}
+.paseo.paracaidas.sale{transform:translateX(calc(50vw + 100px));transition:transform 3s ease-in}
+.paseo .tela{position:absolute;left:-2px;top:-72px;transform-origin:50% 100%;transition:transform .7s ease-in,opacity .7s}
+.paseo.paracaidas .paseo-mueve{transform-origin:65px -60px;animation:vaiven 2.4s ease-in-out infinite alternate}
+.paseo.paracaidas .pata{animation-duration:1s}
+.paseo.paracaidas.aterriza .paseo-mueve{animation:none}
+.paseo.paracaidas.aterriza .tela{transform:translateX(-40px) rotate(-70deg) scale(.4);opacity:0}
+@keyframes vaiven{from{transform:rotate(-7deg)}to{transform:rotate(7deg)}}
+/* Yoga: la colchoneta se desenrolla, el salchicha aparece en "perro boca abajo", respira lento y mueve la cola */
+.paseo.yoga{left:12px;transform:none;transition:opacity .9s;opacity:0}
+.paseo.yoga.entra{opacity:1}
+.paseo.yoga.sale{opacity:0}
+.paseo.yoga .mat{transform-box:fill-box;transform-origin:0 50%;animation:desenrolla .6s ease-out both}
+.paseo.yoga .yoga-perro{animation:aparece-yoga .6s ease-out .45s both}
+.paseo.yoga .yoga-cuerpo{transform-box:fill-box;transform-origin:0 0;animation:respira-yoga 3.2s ease-in-out 1s infinite alternate}
+.paseo.yoga .cola{transform-origin:100% 100%;animation-duration:.6s}
+.yoga-globo{position:absolute;left:50%;top:-34px;white-space:nowrap;background:var(--surface);color:var(--fg);border:1.5px solid var(--line);border-radius:12px;padding:3px 9px;font-size:.8rem;font-weight:700;box-shadow:var(--sombra);opacity:0;transform:translateX(-50%);animation:globo-yoga .5s ease-out 1.4s forwards}
+@keyframes desenrolla{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes aparece-yoga{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+@keyframes respira-yoga{from{transform:scale(1)}to{transform:scale(1.04,1.08)}}
+@keyframes globo-yoga{from{opacity:0;transform:translateX(-50%) translateY(6px)}to{opacity:1;transform:translateX(-50%)}}
 /* Visita del compañero (js/paseo.js): asoma por la esquina de abajo, da vueltas y deja un consejo en un globo */
 .compa{pointer-events:none;position:fixed;right:12px;bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:25;display:flex;flex-direction:column;align-items:flex-end;gap:6px;max-width:min(300px,calc(100vw - 24px));transform:translateY(140%);opacity:0;transition:transform .6s cubic-bezier(.2,1.4,.4,1),opacity .4s}
 .compa.entra{transform:translateY(0);opacity:1}
@@ -489,3 +531,12 @@ a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;pad
 }
 @keyframes aparece{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 @keyframes aparece-suave{from{opacity:0}to{opacity:1}}
+/* El logo de Hoy es un botón: se ve igual que antes, y al tocarlo el abrazo se aprieta un poquito */
+.logo-boton{padding:0;border:0;background:none;box-shadow:none;border-radius:11px;line-height:0}
+.logo-boton:active{transform:none}
+.logo-boton svg{transition:transform .15s}
+.logo-boton:active svg{transform:scale(.94)}
+@media (prefers-reduced-motion:no-preference){ .logo-boton.abraza svg{animation:abrazo-logo .6s ease-out} }
+@keyframes abrazo-logo{0%{transform:scale(.92)}45%{transform:scale(1.1)}70%{transform:scale(.97)}100%{transform:scale(1)}}
+.por-que{border-color:var(--warm);background:linear-gradient(180deg,var(--surface),var(--warm-soft))}
+@media (prefers-reduced-motion:no-preference){ .por-que:not([hidden]){animation:aparece .3s ease-out} }

@@ -2,6 +2,7 @@
    te pasa la lengua (lame la pantalla) y sigue su camino. También aparece al terminar la respiración 4-7-8.
    Cuidados: máximo 3 veces al día, nunca en el Modo calma, el Modo ganas ni con el PIN puesto,
    y nunca si el teléfono pide menos movimiento. Separado de app.js: no depende del resto.
+   A veces, en vez de caminar, cruza corriendo, baja en paracaídas o aparece haciendo yoga: es la mascota de la app.
    Desde otros archivos se llama con window.paseoSalchicha() (lo usa js/respira.js). */
 "use strict";
 (function(){
@@ -13,11 +14,12 @@
   const hoy=()=>{ const d=new Date(); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); };
   function leer(clave){ try{ const v=JSON.parse(localStorage.getItem(clave||GUARDADO)||"{}"); return v.fecha===hoy()?v:{fecha:hoy(),n:0}; }catch(e){ return {fecha:hoy(),n:0}; } }
   function contar(clave){ const v=leer(clave); v.n++; try{ localStorage.setItem(clave||GUARDADO,JSON.stringify(v)); }catch(e){} }
-  /* No interrumpir momentos difíciles: Modo calma, Modo ganas o el bloqueo con PIN */
-  function momentoTranquilo(){ return ["calma","crave","lock","respira","welcome"].every(id=>{ const el=document.getElementById(id); return !el||el.hidden; }); }
+  /* No interrumpir momentos difíciles (Modo calma, Modo ganas, el bloqueo con PIN), ni a quien está escribiendo algo */
+  const escribiendo=()=>{ const a=document.activeElement; return !!a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName); };
+  function momentoTranquilo(){ return !escribiendo()&&["calma","crave","lock","respira","welcome"].every(id=>{ const el=document.getElementById(id); return !el||el.hidden; }); }
 
   /* El dibujo: el mismo salchicha negro con café de la respiración, caminando hacia la derecha */
-  const DIBUJO='<svg viewBox="0 0 220 130" width="150" height="89" aria-hidden="true">'+
+  const DIBUJO='<svg class="paseo-perro" viewBox="0 0 220 130" width="150" height="89" aria-hidden="true">'+
     '<g stroke="#F4EEE1" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">'+
       '<path class="cola" d="M38 78 q-22 -6 -26 -26" fill="none" stroke="#1d1b19" stroke-width="9"/>'+
       '<g class="pata pata-a"><rect x="52" y="92" width="14" height="22" rx="7" fill="#1d1b19"/><ellipse cx="59" cy="115" rx="10" ry="6" fill="#B9773F"/></g>'+
@@ -28,35 +30,84 @@
       '<circle cx="160" cy="52" r="22" fill="#1d1b19"/>'+
       '<ellipse cx="182" cy="60" rx="17" ry="10" fill="#B9773F"/>'+
       '<circle cx="198" cy="57" r="4" fill="#1d1b19"/>'+
-      '<path d="M146 36 q-16 4 -12 34 q2 10 10 6 q6 -14 8 -38 z" fill="#2c2926"/>'+
+      '<path class="oreja" d="M146 36 q-16 4 -12 34 q2 10 10 6 q6 -14 8 -38 z" fill="#2c2926"/>'+
       '<path d="M162 47 q5 4 10 0" fill="none"/>'+
       '<circle cx="170" cy="40" r="2.6" fill="#B9773F" stroke="none"/>'+
-    '</g></svg><span class="paseo-corazon" aria-hidden="true">♥</span>';
+    '</g></svg>';
+
+  /* Paracaídas con los colores del cactus (verde) y de su flor (rosado y amarillo). Las cuerdas llegan al lomo del salchicha */
+  const TELA='<svg class="tela" viewBox="0 0 150 110" width="150" height="110" aria-hidden="true">'+
+    '<path d="M8 50 L64 108 M38 50 L65 108 M112 50 L66 108 M142 50 L67 108" stroke="#262626" stroke-width="1.5" fill="none"/>'+
+    '<path d="M6 50 Q6 4 75 4 Q144 4 144 50 Q127 42 110 50 Q92 42 75 50 Q58 42 40 50 Q23 42 6 50 Z" fill="#9DC54A" stroke="#262626" stroke-width="2.5" stroke-linejoin="round"/>'+
+    '<path d="M52 47 Q54 8 75 4 Q96 8 98 47 Q86 42 75 50 Q64 42 52 47 Z" fill="#F4A6B8" stroke="#262626" stroke-width="2.5" stroke-linejoin="round"/>'+
+    '<circle cx="75" cy="5" r="5" fill="#F6C744" stroke="#262626" stroke-width="2"/></svg>';
+
+  /* Yoga: la postura que en español se llama "perro boca abajo". Patas de adelante estiradas, pecho abajo, cola arriba y ojos cerrados de tranquilidad */
+  const YOGA='<svg class="paseo-perro" viewBox="0 0 220 130" width="150" height="89" aria-hidden="true">'+
+    '<rect class="mat" x="14" y="116" width="192" height="8" rx="4" fill="#8FB8DA"/>'+
+    '<g class="yoga-perro" stroke-linecap="round" stroke-linejoin="round" fill="none">'+
+      '<path class="cola" d="M60 42 q-16 -20 -6 -38" stroke="#F4EEE1" stroke-width="13"/><path class="cola" d="M60 42 q-16 -20 -6 -38" stroke="#1d1b19" stroke-width="9"/>'+
+      '<path d="M64 52 L50 110 M76 56 L66 110" stroke="#F4EEE1" stroke-width="18"/><path d="M64 52 L50 110 M76 56 L66 110" stroke="#1d1b19" stroke-width="13"/>'+
+      '<ellipse cx="48" cy="114" rx="10" ry="5.5" fill="#B9773F" stroke="#F4EEE1" stroke-width="2.5"/><ellipse cx="66" cy="114" rx="10" ry="5.5" fill="#B9773F" stroke="#F4EEE1" stroke-width="2.5"/>'+
+      '<path d="M124 106 L170 110 M132 100 L182 106" stroke="#F4EEE1" stroke-width="18"/><path d="M124 106 L170 110 M132 100 L182 106" stroke="#1d1b19" stroke-width="13"/>'+
+      '<ellipse cx="174" cy="112" rx="10" ry="5.5" fill="#B9773F" stroke="#F4EEE1" stroke-width="2.5"/><ellipse cx="186" cy="108" rx="10" ry="5.5" fill="#B9773F" stroke="#F4EEE1" stroke-width="2.5"/>'+
+      '<g class="yoga-cuerpo"><path d="M70 50 L128 90" stroke="#F4EEE1" stroke-width="45"/><path d="M70 50 L128 90" stroke="#1d1b19" stroke-width="40"/>'+
+      '<ellipse cx="128" cy="104" rx="13" ry="6" fill="#B9773F" transform="rotate(20 128 104)"/></g>'+
+      '<g stroke="#F4EEE1" stroke-width="2.5"><circle cx="152" cy="70" r="20" fill="#1d1b19"/>'+
+      '<ellipse cx="173" cy="78" rx="15" ry="9" fill="#B9773F"/><circle cx="187" cy="75" r="3.8" fill="#1d1b19"/>'+
+      '<path d="M140 54 q-15 4 -11 30 q2 9 9 5 q5 -13 7 -33 z" fill="#2c2926"/>'+
+      '<path d="M155 66 q4.5 3.5 9 0" stroke="#F4EEE1" stroke-width="2.2"/><circle cx="160" cy="58" r="2.4" fill="#B9773F" stroke="none"/></g>'+
+    '</g></svg>';
+  const POLVO='<span class="polvo"></span><span class="polvo"></span><span class="polvo"></span>';
 
   let enCamino=false;
+  /* Un corazón por cada toque: si lo tocas muchas veces, salen muchos corazones (máximo 12 a la vez) */
+  function corazon(el){
+    if(el.querySelectorAll(".paseo-corazon").length>=12) return;
+    const c=document.createElement("span");
+    c.className="paseo-corazon"; c.textContent="♥";
+    c.style.left=(80+Math.random()*60)+"px"; c.style.setProperty("--giro",(Math.random()*40-20)+"deg");
+    el.appendChild(c); setTimeout(()=>c.remove(),1700);
+  }
   function lamer(el){
     el.classList.remove("lame"); void el.offsetWidth; /* reinicia la animación si ya estaba lamiendo */
-    el.classList.add("lame");
+    el.classList.add("lame"); corazon(el);
     if(navigator.vibrate) navigator.vibrate([20,80,20,80,20]); /* tres lengüetazos, suaves */
   }
+  function saltito(el){ el.classList.remove("mimo"); void el.offsetWidth; el.classList.add("mimo"); }
 
-  /* Cruza la pantalla: camina hasta el medio (3,2 s), se detiene y lame (2,8 s), y sigue hasta salir (3 s) */
-  function paseo(forzar){
+  /* Las apariciones, al azar: caminar es la más común; correr, el paracaídas y el yoga son sorpresas.
+     Cada una sabe cuándo se detiene y cuándo se va (los tiempos calzan con las animaciones de css/estilos.css, .paseo) */
+  const TIPOS=["camina","camina","corre","paracaidas","yoga"];
+  const PASOS={
+    /* Camina hasta el medio (3,2 s), se detiene y lame (2,8 s), y sigue hasta salir (3 s) */
+    camina:(el,luego)=>{ luego(3200,()=>{ el.classList.add("quieto"); lamer(el); }); luego(6000,()=>{ el.classList.remove("quieto"); el.classList.add("sale"); }); return 9200; },
+    /* Cruza corriendo de una, con la lengua afuera y polvito detrás */
+    corre:()=>2900,
+    /* Baja balanceándose (5,5 s), aterriza, se le desinfla el paracaídas, te lame y se va caminando */
+    paracaidas:(el,luego)=>{ luego(5500,()=>{ el.classList.add("aterriza","quieto"); saltito(el); }); luego(6200,()=>lamer(el)); luego(8600,()=>{ el.classList.remove("quieto"); el.classList.add("sale"); }); return 11800; },
+    /* Aparece sobre su colchoneta, sostiene la postura respirando y se desvanece */
+    yoga:(el,luego)=>{ luego(6000,()=>el.classList.add("sale")); return 7000; }
+  };
+  function paseo(forzar,tipo){
     if(enCamino||menosMovimiento()||document.hidden||apagado()) return false;
     if(!forzar&&(leer().n>=POR_DIA||!momentoTranquilo())) return false;
     enCamino=true; contar();
+    if(!PASOS[tipo]) tipo=TIPOS[Math.floor(Math.random()*TIPOS.length)];
     const el=document.createElement("div");
-    el.className="paseo"; el.innerHTML=DIBUJO;
+    el.className="paseo "+tipo;
+    el.innerHTML='<div class="paseo-mueve">'+(tipo==="yoga"?YOGA:DIBUJO)+(tipo==="paracaidas"?TELA:"")+(tipo==="corre"?POLVO:"")+'</div>'+
+      (tipo==="yoga"?'<span class="yoga-globo">Perro boca abajo</span>':"");
     /* Si lo tocas, da un saltito de gusto y te vuelve a lamer */
-    el.onclick=()=>{ el.classList.remove("mimo"); void el.offsetWidth; el.classList.add("mimo"); lamer(el); };
+    el.onclick=()=>{ saltito(el); lamer(el); };
     document.body.appendChild(el);
     void el.offsetWidth; el.classList.add("entra");
-    setTimeout(()=>{ el.classList.add("quieto"); lamer(el); },3200);
-    setTimeout(()=>{ el.classList.remove("quieto"); el.classList.add("sale"); },6000);
-    setTimeout(()=>{ el.remove(); enCamino=false; },9200);
+    const luego=(ms,f)=>setTimeout(f,ms);
+    luego(PASOS[tipo](el,luego),()=>{ el.remove(); enCamino=false; });
     return true;
   }
-  window.paseoSalchicha=()=>paseo(true);
+  /* Sin tipo (como al terminar la respiración), camina y te lame, como siempre. Con tipo: "corre", "paracaidas" o "yoga" */
+  window.paseoSalchicha=tipo=>paseo(true,tipo||"camina");
 
   /* ---------- Visita: el compañero (inspirado en el clip de Windows de los 90) ----------
      Asoma por la esquina de abajo, da vueltas persiguiéndose la cola y deja un consejo en un globo.
