@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente y es la única que se muestra, una sola vez.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-16-compa", titulo:"El salchicha te acompaña", cambios:[
+    "Al abrir la app, el salchicha llega caminando y abraza al cactus.",
+    "Mientras usas la app, a veces asoma por la esquina, da unas vueltas y te deja un consejo, como el clip de los computadores de antes. Si lo tocas, vuelve a girar.",
+    "Si prefieres que no aparezca, lo apagas en Configuración o con \"No volver a mostrar\"."
+  ]},
   {id:"2026-10-16-paseo", titulo:"Un amigo de visita", cambios:[
     "En la respiración 4-7-8 ahora te acompaña un salchicha negro que respira contigo: infla el pecho, lo sostiene y bota el aire por la nariz.",
     "Y de vez en cuando, por sorpresa, cruza la pantalla y te pasa la lengua. Si lo tocas, te vuelve a lamer.",

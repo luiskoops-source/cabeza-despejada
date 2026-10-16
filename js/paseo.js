@@ -5,13 +5,16 @@
    Desde otros archivos se llama con window.paseoSalchicha() (lo usa js/respira.js). */
 "use strict";
 (function(){
-  const POR_DIA=3, GUARDADO="cd.paseo";
+  const POR_DIA=3, GUARDADO="cd.paseo", VISITAS_DIA=2, GUARDADO_VISITA="cd.visita", APAGADO="cd.salchicha";
+  /* La persona puede apagar las visitas en Configuración o con "No volver a mostrar" */
+  const apagado=()=>{ try{ return localStorage.getItem(APAGADO)==="no"; }catch(e){ return false; } };
+  function apagar(si){ try{ si?localStorage.setItem(APAGADO,"no"):localStorage.removeItem(APAGADO); }catch(e){} }
   const menosMovimiento=()=>window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const hoy=()=>{ const d=new Date(); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); };
-  function leer(){ try{ const v=JSON.parse(localStorage.getItem(GUARDADO)||"{}"); return v.fecha===hoy()?v:{fecha:hoy(),n:0}; }catch(e){ return {fecha:hoy(),n:0}; } }
-  function contar(){ const v=leer(); v.n++; try{ localStorage.setItem(GUARDADO,JSON.stringify(v)); }catch(e){} }
+  function leer(clave){ try{ const v=JSON.parse(localStorage.getItem(clave||GUARDADO)||"{}"); return v.fecha===hoy()?v:{fecha:hoy(),n:0}; }catch(e){ return {fecha:hoy(),n:0}; } }
+  function contar(clave){ const v=leer(clave); v.n++; try{ localStorage.setItem(clave||GUARDADO,JSON.stringify(v)); }catch(e){} }
   /* No interrumpir momentos difíciles: Modo calma, Modo ganas o el bloqueo con PIN */
-  function momentoTranquilo(){ return ["calma","crave","lock"].every(id=>{ const el=document.getElementById(id); return !el||el.hidden; }); }
+  function momentoTranquilo(){ return ["calma","crave","lock","respira","welcome"].every(id=>{ const el=document.getElementById(id); return !el||el.hidden; }); }
 
   /* El dibujo: el mismo salchicha negro con café de la respiración, caminando hacia la derecha */
   const DIBUJO='<svg viewBox="0 0 220 130" width="150" height="89" aria-hidden="true">'+
@@ -39,7 +42,7 @@
 
   /* Cruza la pantalla: camina hasta el medio (3,2 s), se detiene y lame (2,8 s), y sigue hasta salir (3 s) */
   function paseo(forzar){
-    if(enCamino||menosMovimiento()||document.hidden) return false;
+    if(enCamino||menosMovimiento()||document.hidden||apagado()) return false;
     if(!forzar&&(leer().n>=POR_DIA||!momentoTranquilo())) return false;
     enCamino=true; contar();
     const el=document.createElement("div");
@@ -53,6 +56,55 @@
     return true;
   }
   window.paseoSalchicha=()=>paseo(true);
+
+  /* ---------- Visita: el compañero (inspirado en el clip de Windows de los 90) ----------
+     Asoma por la esquina de abajo, da vueltas persiguiéndose la cola y deja un consejo en un globo.
+     Algunos consejos traen un botón que lleva a esa parte de la app. Se va solo si no lo tocas. */
+  const ir=(tab,id)=>{ const b=document.querySelector('.tabs [data-tab="'+tab+'"]'); if(b) b.click(); setTimeout(()=>{ const el=document.getElementById(id); if(el) el.scrollIntoView({behavior:"smooth",block:"start"}); },60); };
+  const CONSEJOS=[
+    {t:"¿Tomaste agua hoy? El cuerpo lo agradece, y con sed las ganas aprietan más."},
+    {t:"Si vienen las ganas, respiramos juntos. Son poco más de un minuto.", boton:"Respirar", hacer:()=>{ const b=document.getElementById("openRespira"); if(b) b.click(); }},
+    {t:"Las ganas suben, llegan a un máximo y bajan. Esta también va a pasar."},
+    {t:"Dormir bien es de las mejores ayudas que hay. Hoy, a la cama un poco más temprano."},
+    {t:"Un día a la vez. Hoy cuenta, aunque sea un día chico."},
+    {t:"Lo que avanzaste no se borra, pase lo que pase."},
+    {t:"Comer algo a tus horas ayuda a que las ganas no aprieten tanto."},
+    {t:"¿Quieres contar o celebrar algo? Puedes dejar tu historia, sin nombre.", boton:"Ver", hacer:()=>ir("saber","cuentanCard")},
+    {t:"Si alguien que quieres está pasando por esto, en Ayuda hay ideas para acompañar.", boton:"Ver", hacer:()=>ir("ayuda","acompanarCard")},
+    {t:"Salir a caminar diez minutos cambia más de lo que parece. Yo te acompaño."}
+  ];
+  let visitando=false;
+  function visita(){
+    if(visitando||enCamino||menosMovimiento()||document.hidden||apagado()) return false;
+    if(leer(GUARDADO_VISITA).n>=VISITAS_DIA||!momentoTranquilo()) return false;
+    visitando=true; contar(GUARDADO_VISITA);
+    const c=CONSEJOS[Math.floor(Math.random()*CONSEJOS.length)];
+    const el=document.createElement("div");
+    el.className="compa"; el.setAttribute("role","status");
+    el.innerHTML='<div class="compa-globo"><p></p><div class="compa-botones">'+(c.boton?'<button class="primary small" data-a="hacer"></button>':'')+
+      '<button class="small" data-a="gracias">Gracias</button><button class="ghost small" data-a="nunca">No volver a mostrar</button></div></div>'+
+      '<div class="compa-perro">'+DIBUJO+'</div>';
+    el.querySelector("p").textContent=c.t;
+    if(c.boton) el.querySelector('[data-a="hacer"]').textContent=c.boton;
+    let fuera=null;
+    const irse=()=>{ clearTimeout(fuera); el.classList.add("sale"); setTimeout(()=>{ el.remove(); visitando=false; },700); };
+    el.querySelectorAll("button").forEach(b=>b.onclick=()=>{ if(b.dataset.a==="hacer") c.hacer(); if(b.dataset.a==="nunca"){ apagar(true); const cfg=document.getElementById("cfgSalchicha"); if(cfg) cfg.checked=false; } irse(); });
+    /* Si tocas al perrito, vuelve a dar vueltas */
+    el.querySelector(".compa-perro").onclick=()=>{ const d=el.querySelector(".compa-perro"); d.classList.remove("gira"); void d.offsetWidth; d.classList.add("gira"); };
+    document.body.appendChild(el);
+    void el.offsetWidth; el.classList.add("entra");
+    el.querySelector(".compa-perro").classList.add("gira");
+    fuera=setTimeout(irse,16000); /* Se va solo después de un rato */
+    return true;
+  }
+  window.visitaSalchicha=visita;
+
+  /* Interruptor en Configuración */
+  const cfg=document.getElementById("cfgSalchicha");
+  if(cfg){ cfg.checked=!apagado(); cfg.onchange=()=>apagar(!cfg.checked); }
+
+  /* La visita llega una vez por cada vez que se abre la app, entre 1 minuto y medio y 4 minutos de uso */
+  setTimeout(function intentar(){ if(!visita()&&!visitando&&!apagado()&&leer(GUARDADO_VISITA).n<VISITAS_DIA) setTimeout(()=>visita(),60000); }, 90000+Math.random()*150000);
 
   /* Por sorpresa: una vez por cada vez que se abre la app, en algún momento entre 40 segundos y 2 minutos y medio */
   setTimeout(()=>paseo(false), 40000+Math.random()*110000);

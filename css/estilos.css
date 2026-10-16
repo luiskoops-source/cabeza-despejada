@@ -132,13 +132,28 @@ ul,ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
 .aviso-version[hidden]{display:none}
 /* Portada al abrir: el perrito centrado sobre el color de fondo. Se ve 1,4 segundos y se desvanece sola.
    pointer-events:none hace que nunca bloquee un toque: si alguien entra apurado, la app responde igual. */
-.portada{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;pointer-events:none;animation:portada-sale 1.8s ease-in forwards}
+.portada{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;pointer-events:none;animation:portada-sale 2.6s ease-in forwards}
 .portada svg{border-radius:38px;border:1.5px solid var(--line);box-shadow:var(--sombra);margin-bottom:10px}
 .portada-nombre{font-family:var(--display);font-weight:800;font-size:1.5rem;color:var(--fg);margin:0}
 .portada-frase{color:var(--muted);font-size:1rem;margin:0}
-@keyframes portada-sale{0%,78%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden}}
+@keyframes portada-sale{0%,82%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden}}
 /* El perrito entra con un pequeño "abrazo" (crece suave). Si la persona pidió menos movimiento, la portada solo desaparece, sin animar. */
 @media (prefers-reduced-motion:no-preference){ .portada svg{animation:portada-abrazo .6s ease-out} @keyframes portada-abrazo{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}} }
+/* El abrazo de la portada: el salchicha llega desde la izquierda con los brazos abiertos (0 a 0,8 s),
+   cierra los brazos y aprieta al cactus (0,8 a 1,3 s), aparecen las púas que pinchan y después el corazón */
+.portada-animada .pp-brazos,.portada-animada .pp-corazon,.portada-animada .pp-puas{transform-box:fill-box}
+.portada-animada .pp-brazos{transform-origin:0% 50%}
+.portada-animada .pp-corazon{transform-origin:50% 100%}
+@media (prefers-reduced-motion:no-preference){
+  .portada-animada .pp-perro{animation:pp-llega 1.4s ease-out both}
+  .portada-animada .pp-brazos{animation:pp-abraza 1.4s ease-in-out both}
+  .portada-animada .pp-puas{animation:pp-puas 1.4s linear both}
+  .portada-animada .pp-corazon{animation:pp-corazon 2s ease-out both}
+}
+@keyframes pp-llega{0%{transform:translateX(-46px)}55%{transform:translateX(0)}70%{transform:translateX(5px)}82%{transform:translateX(0)}100%{transform:translateX(0)}}
+@keyframes pp-abraza{0%,50%{transform:rotate(28deg)}68%{transform:rotate(-4deg)}80%,100%{transform:rotate(0)}}
+@keyframes pp-puas{0%,62%{opacity:0}75%,100%{opacity:1}}
+@keyframes pp-corazon{0%,55%{opacity:0;transform:scale(0) translateY(10px)}72%{opacity:1;transform:scale(1.35)}84%,100%{opacity:1;transform:scale(1)}}
 @media (prefers-reduced-motion:reduce){ .portada{animation-timing-function:step-end} }
 /* Tarjeta "Volver a empezar": el perrito a la izquierda del título */
 .volver-abrazo{display:flex;align-items:center;gap:12px;margin-bottom:6px}
@@ -303,6 +318,24 @@ a.boton.primary{background:var(--accent);color:var(--accent-ink);border-color:tr
 @keyframes lengua{0%,100%{transform:scaleY(0)}50%{transform:scaleY(1)}}
 @keyframes corazon{0%{opacity:0;transform:translateY(6px) scale(.6)}30%{opacity:1}100%{opacity:0;transform:translateY(-28px) scale(1.2)}}
 @media (prefers-reduced-motion:reduce){ .paseo{display:none} }
+/* Visita del compañero (js/paseo.js): asoma por la esquina de abajo, da vueltas y deja un consejo en un globo */
+.compa{pointer-events:none;position:fixed;right:12px;bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:25;display:flex;flex-direction:column;align-items:flex-end;gap:6px;max-width:min(300px,calc(100vw - 24px));transform:translateY(140%);opacity:0;transition:transform .6s cubic-bezier(.2,1.4,.4,1),opacity .4s}
+.compa.entra{transform:translateY(0);opacity:1}
+.compa.sale{transform:translateY(140%);opacity:0;transition-duration:.6s}
+.compa-globo{pointer-events:auto;position:relative;background:var(--surface);color:var(--fg);border:1.5px solid var(--line);border-radius:16px;padding:10px 12px;box-shadow:var(--sombra);font-size:.92rem;opacity:0;animation:globo .4s ease-out 1.5s forwards}
+.compa-globo::after{content:"";position:absolute;right:34px;bottom:-8px;width:14px;height:14px;background:var(--surface);border-right:1.5px solid var(--line);border-bottom:1.5px solid var(--line);transform:rotate(45deg)}
+.compa-globo p{margin:0 0 8px}
+.compa-botones{display:flex;flex-wrap:wrap;gap:6px}
+.compa-botones button{padding:6px 10px;font-size:.82rem}
+.compa-perro{pointer-events:auto;width:110px;cursor:pointer;filter:drop-shadow(0 3px 2px rgba(0,0,0,.25))}
+.compa-perro svg{width:110px;height:auto}
+.compa-perro .lengua{transform:scaleY(0)}
+.compa-perro .pata{animation:none}
+.compa-perro.gira{animation:gira 1.3s ease-in-out 2}
+.compa-perro .cola{transform-box:fill-box;transform-origin:100% 100%;animation:colita .25s ease-in-out infinite alternate}
+@keyframes gira{0%{transform:rotate(0) translateY(0)}25%{transform:rotate(-20deg) translateY(-8px)}50%{transform:scaleX(-1) translateY(-14px)}75%{transform:scaleX(-1) rotate(20deg) translateY(-8px)}100%{transform:rotate(0) translateY(0)}}
+@keyframes globo{from{opacity:0;transform:translateY(8px) scale(.95)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){ .compa{display:none} }
 @keyframes soplo{0%{opacity:.9;transform:translate(0,0) scale(.6)}100%{opacity:0;transform:translate(18px,-10px) scale(1.8)}}
 @media (prefers-reduced-motion:reduce){ .respira-circulo{transition:none!important;transform:none!important} .perro-respira *{animation:none!important;transition:none!important} }
 a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;padding:8px 12px;font-weight:600;font-size:.95rem;text-decoration:none}
