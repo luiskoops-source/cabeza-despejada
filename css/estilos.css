@@ -141,7 +141,10 @@ ul,ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
 @media (prefers-reduced-motion:no-preference){ .portada svg{animation:portada-abrazo .6s ease-out} @keyframes portada-abrazo{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}} }
 /* El abrazo de la portada: el salchicha llega desde la izquierda con los brazos abiertos (0 a 0,8 s),
    cierra los brazos y aprieta al cactus (0,8 a 1,3 s), aparecen las púas que pinchan y después el corazón */
-.portada-animada .pp-brazos,.portada-animada .pp-corazon,.portada-animada .pp-puas{transform-box:fill-box}
+.portada-animada .pp-brazos,.portada-animada .pp-corazon,.portada-animada .pp-puas,.portada-animada .pp-cactus,.portada-animada .pp-cara,.portada-animada .pp-corazon2{transform-box:fill-box}
+.portada-animada .pp-cactus{transform-origin:50% 100%}
+.portada-animada .pp-cara{transform-origin:50% 50%}
+.portada-animada .pp-corazon2{transform-origin:50% 100%}
 .portada-animada .pp-brazos{transform-origin:0% 50%}
 .portada-animada .pp-corazon{transform-origin:50% 100%}
 @media (prefers-reduced-motion:no-preference){
@@ -149,10 +152,17 @@ ul,ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
   .portada-animada .pp-brazos{animation:pp-abraza 1.4s ease-in-out both}
   .portada-animada .pp-puas{animation:pp-puas 1.4s linear both}
   .portada-animada .pp-corazon{animation:pp-corazon 2s ease-out both}
+  .portada-animada .pp-cactus{animation:pp-cactus 2s ease-in-out both}
+  .portada-animada .pp-cara{animation:pp-cara 2s ease-out both}
+  .portada-animada .pp-corazon2{animation:pp-corazon2 2.2s ease-out both}
 }
 @keyframes pp-llega{0%{transform:translateX(-46px)}55%{transform:translateX(0)}70%{transform:translateX(5px)}82%{transform:translateX(0)}100%{transform:translateX(0)}}
 @keyframes pp-abraza{0%,50%{transform:rotate(28deg)}68%{transform:rotate(-4deg)}80%,100%{transform:rotate(0)}}
 @keyframes pp-puas{0%,62%{opacity:0}75%,100%{opacity:1}}
+/* El cactus siente el abrazo: sonríe, se inclina un poquito hacia el salchicha y responde con su propio corazón */
+@keyframes pp-cactus{0%,45%{transform:rotate(0)}62%{transform:rotate(-4deg)}80%,100%{transform:rotate(-2deg)}}
+@keyframes pp-cara{0%,48%{opacity:0;transform:scale(.6)}62%{opacity:1;transform:scale(1.1)}72%,100%{opacity:1;transform:scale(1)}}
+@keyframes pp-corazon2{0%,62%{opacity:0;transform:scale(0) translateY(8px)}76%{opacity:1;transform:scale(1.35)}86%,100%{opacity:1;transform:scale(1)}}
 @keyframes pp-corazon{0%,55%{opacity:0;transform:scale(0) translateY(10px)}72%{opacity:1;transform:scale(1.35)}84%,100%{opacity:1;transform:scale(1)}}
 @media (prefers-reduced-motion:reduce){ .portada{animation-timing-function:step-end} }
 /* Tarjeta "Volver a empezar": el perrito a la izquierda del título */
