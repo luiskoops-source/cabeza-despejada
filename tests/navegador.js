@@ -37,6 +37,10 @@ const path = require("path");
   if (!/^00 h 00 min/.test(vivo)) errores.push("Tras reiniciar, el contador no parte desde cero: " + vivo);
   await pagina.click("#openCrave"); await pagina.waitForTimeout(200);
   if (!(await pagina.isVisible("#crave"))) errores.push("El Modo ganas no abre");
+  /* El reloj del Modo ganas le pasa su avance al círculo (--calma), para que vaya del naranjo al azul */
+  await pagina.waitForTimeout(1100);
+  const calmaOla = Number(await pagina.evaluate(() => document.getElementById("crave").style.getPropertyValue("--calma")));
+  if (!(calmaOla > 0 && calmaOla < 0.05)) errores.push("El círculo del Modo ganas no sigue al reloj: " + calmaOla);
   await pagina.click("#closeCrave");
   /* 3. Las cuatro pestañas */
   for (const t of ["noche", "saber", "registro", "ayuda", "hoy"]) { await pagina.click(`[data-tab="${t}"]`); await pagina.waitForTimeout(100); }

@@ -884,7 +884,9 @@ function openCrave(){
   craveTurns=[]; $("craveReply").textContent="";
   try{ navigator.wakeLock&&navigator.wakeLock.request("screen").catch(()=>{}); }catch(e){}
 }
-function tick(){ const m=String(Math.floor(left/60)).padStart(2,"0"), s=String(left%60).padStart(2,"0"); $("timer").textContent=m+":"+s; $("barFill").style.width=((TOTAL-left)/TOTAL*100)+"%"; }
+function tick(){ const m=String(Math.floor(left/60)).padStart(2,"0"), s=String(left%60).padStart(2,"0"); $("timer").textContent=m+":"+s; $("barFill").style.width=((TOTAL-left)/TOTAL*100)+"%";
+  /* La ola se ve bajar: --calma va de 0 a 1 con el reloj, y el CSS pasa el círculo del naranjo al azul de la calma (#crave .breath) */
+  $("crave").style.setProperty("--calma",((TOTAL-left)/TOTAL).toFixed(3)); }
 /* Lo que dice la voz: cada frase es un botón; al tocarlo se muestra su respuesta debajo */
 function renderVoz(){
   const V=window.VOZ||[];
