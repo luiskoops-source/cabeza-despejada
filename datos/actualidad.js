@@ -47,6 +47,7 @@ window.COMUNIDADES=[
 {nombre:"r/REDDITORSINRECOVERY",que:"Recuperación de cualquier sustancia, en inglés. Historias largas de gente con años limpios.",enlace:"https://www.reddit.com/r/REDDITORSINRECOVERY/"},
 {nombre:"r/Adicciones",que:"Comunidad en español, más pequeña, con gente de Chile y Latinoamérica.",enlace:"https://www.reddit.com/r/Adicciones/"},
 {nombre:"Narcóticos Anónimos",que:"Reuniones gratuitas y anónimas, presenciales y por videollamada. El buscador lleva a los grupos de cada país y a las reuniones virtuales. No hay que inscribirse.",enlace:"https://www.na.org/meetingsearch/"},
+{nombre:"Alcohólicos Anónimos",que:"Reuniones gratuitas y anónimas para dejar el alcohol, presenciales y en línea. El buscador oficial en español lleva a los grupos de cada país. No hay que inscribirse ni dar el nombre.",enlace:"https://www.aa.org/es/find-aa/world"},
 {nombre:"SMART Recovery en español",que:"Alternativa a los 12 pasos, basada en herramientas prácticas. Reuniones por Zoom en español, organizadas desde España.",enlace:"https://smartrecovery.org.es"},
 {nombre:"DanceSafe",que:"Organización de reducción de daños (EE.UU.). Fichas por sustancia y kits de prueba para saber qué contiene algo.",enlace:"https://dancesafe.org/drug-information/"},
 {nombre:"Échele Cabeza (Colombia)",que:"Programa colombiano que analiza sustancias en fiestas y publica alertas sobre lo que realmente contienen (incluido el tusi).",enlace:"https://www.echelecabeza.com"},

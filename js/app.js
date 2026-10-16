@@ -341,8 +341,17 @@ $("guardarCopia").onclick=async()=>{
   const texto=JSON.stringify(R.crearRespaldo(S),null,1);
   const nombre=R.nombreArchivo();
   const listo=()=>{ guardarLocal(KEY_COPIA,new Date().toISOString()); pintarUltimaCopia(); };
-  /* Dentro de otra página (la versión fijada en Claude) no se puede descargar ni compartir: se copia como texto */
-  if(window.self!==window.top){ copyText(texto); listo(); mensaje("copiaMsg","Copiamos tu copia como texto. Pégala en una nota o en tu correo. Para guardarla como archivo, usa la app instalada.","ok"); return; }
+  /* Dentro de otra página (la versión fijada en Claude) el navegador no deja descargar ni compartir.
+     Claude ofrece su propia forma de guardar archivos (window.claude.use("downloads")): si está, se usa; si no, se copia como texto */
+  if(window.self!==window.top){
+    let descargas=null;
+    try{ descargas=window.claude&&window.claude.use?await window.claude.use("downloads"):null; }catch(e){ descargas=null; }
+    if(descargas){
+      try{ await descargas.save({filename:nombre,data:texto}); listo(); mensaje("copiaMsg","Copia guardada ("+nombre+"). Súbela a tu nube.","ok"); return; }
+      catch(e){ if(e&&e.code==="declined") return; } /* La persona dijo que no: no pasa nada. Otro error: se sigue con el texto */
+    }
+    copyText(texto); listo(); mensaje("copiaMsg","Copiamos tu copia como texto. Pégala en una nota o en tu correo. Para guardarla como archivo, usa la app instalada.","ok"); return;
+  }
   try{
     const archivo=new File([texto],nombre,{type:"application/json"});
     if(navigator.canShare&&navigator.canShare({files:[archivo]})){
