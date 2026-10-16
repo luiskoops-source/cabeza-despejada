@@ -36,7 +36,7 @@ window.PREGUNTAS.push(
 {q:"SENDA tiene tratamiento residencial gratuito para pasta base.",v:true,e:"Verdadero. Llamando al 1412 se pide evaluación. Para esta sustancia, salir del entorno un tiempo suele ser lo que mejor funciona.",s:"pasta-base"},
 {q:"Si alguien fuma marihuana todos los días y deja, no siente nada al dejarla.",v:false,e:"Falso. Hay abstinencia real: irritabilidad, insomnio, sueños muy vívidos, poco apetito. Dura una o dos semanas y no es peligrosa.",s:"marihuana"},
 {q:"Dos pastillas de éxtasis con el mismo logo traen lo mismo.",v:false,e:"Falso. El logo se copia. Pueden traer cantidades muy distintas o sustancias distintas (metanfetamina, catinonas, PMA).",s:"mdma"},
-{q:"El Ritalín sin receta para estudiar es inofensivo.",v:false,e:"Falso. Es una anfetamina. Trae insomnio, ansiedad y dependencia, y lo que se memoriza sin dormir se olvida rápido.",s:"anfetaminas"},
+{q:"El Ritalín sin receta para estudiar es inofensivo.",v:false,e:"Falso. Es un estimulante emparentado con las anfetaminas. Trae insomnio, ansiedad y dependencia, y lo que se memoriza sin dormir se olvida rápido.",s:"anfetaminas"},
 {q:"En el 'k-hole' de la ketamina la persona no siente dolor.",v:true,e:"Verdadero. Por eso las lesiones son por caídas, quemaduras o ahogarse con vómito, no por la droga en sí.",s:"ketamina"},
 {q:"El tramadol no se puede mezclar con alcohol.",v:true,e:"Verdadero. Es un opioide: con alcohol o benzodiacepinas puede detener la respiración.",s:"opioides"},
 {q:"Vapear no tiene nicotina.",v:false,e:"Falso. La mayoría de los vapeadores entregan nicotina en cantidades altas. Para dejar de fumar, los parches y chicles son más seguros.",s:"tabaco"},
@@ -66,4 +66,13 @@ window.PREGUNTAS.push(
 {q:"Orinar muy seguido o con urgencia puede ser la primera señal del daño de la ketamina en la vejiga.",v:true,e:"Verdadero. Esa señal aparece antes que el dolor. Consultar y dejarla a tiempo permite recuperar la vejiga; si se sigue, el daño puede ser irreversible.",s:"ketamina"},
 {q:"Mezclar opioides (tramadol, codeína) con pregabalina o gabapentina aumenta el riesgo de dejar de respirar.",v:true,e:"Verdadero. Las dos cosas bajan la respiración y juntas se potencian. Si alguien así no despierta o respira muy lento, 131.",s:"opioides"},
 {q:"Alrededor de 1 de cada 10 personas que usan marihuana desarrolla dependencia.",v:true,e:"Verdadero. Y la proporción es mayor en quienes empezaron antes de los 18 o fuman todos los días. La abstinencia es real: irritabilidad, insomnio, sueños vívidos.",s:"marihuana"}
+);
+
+/* Preguntas agregadas el 16 de octubre de 2026. Salen de las secciones de emergencia y mezclas de la guía de sustancias. */
+window.PREGUNTAS.push(
+{q:"Una crisis de pánico por marihuana puede ser mortal.",v:false,e:"Falso. Es muy desagradable, pero no es mortal y pasa en 1 a 3 horas. Ayudan un lugar tranquilo, agua y compañía. Si hay convulsiones o pulso muy alto, puede ser un sintético: 131.",s:"marihuana"},
+{q:"Existe un antídoto para las benzodiacepinas que cualquiera puede usar en casa.",v:false,e:"Falso. El antídoto (flumazenil) solo se usa en hospital. Si alguien no despierta o respira lento después de tomar pastillas, se llama al 131 y se dice qué tomó.",s:"benzodiacepinas"},
+{q:"Tomar alcohol junto con MDMA ayuda a mantenerse hidratado.",v:false,e:"Falso. El alcohol deshidrata más y aumenta el calor del cuerpo, que es el riesgo principal del MDMA.",s:"mdma"},
+{q:"En quien bebe mucho a diario, los síntomas peligrosos de la abstinencia de alcohol suelen aparecer entre las 48 y 72 horas sin beber.",v:true,e:"Verdadero. Las convulsiones y el delirium tremens aparecen en esa ventana, no en la primera hora. Por eso se deja con apoyo médico y no a solas.",s:"alcohol"},
+{q:"Mezclar ketamina con alcohol aumenta el riesgo de ahogarse con el vómito.",v:true,e:"Verdadero. Los dos deprimen la respiración y la persona puede quedar sin responder. Si alguien así vomita, se la pone de lado y se llama al 131.",s:"ketamina"}
 );

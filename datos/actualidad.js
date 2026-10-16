@@ -40,7 +40,7 @@ window.ACTUALIDAD=[
 
 /* Comunidades y servicios activos. Sin fechas: se revisan cada tanto para confirmar que siguen funcionando. */
 /* Fecha de la última revisión de los enlaces. La tarea nocturna la actualiza cada vez que revisa la lista. */
-window.COMUNIDADES_REVISADO="2026-10-13";
+window.COMUNIDADES_REVISADO="2026-10-16";
 window.COMUNIDADES=[
 {nombre:"Chat 1412 de SENDA",que:"Consejería por chat, gratuita y anónima, también fines de semana de 8:00 a 20:00. Complementa al fono 1412, que atiende 24 horas.",enlace:"https://www.senda.gob.cl"},
 {nombre:"r/StopSpeeding",que:"Comunidad en inglés para dejar estimulantes (cocaína, anfetaminas, metanfetamina). Muy activa: gente contando sus días limpios, recaídas y qué les sirvió.",enlace:"https://www.reddit.com/r/StopSpeeding/"},
