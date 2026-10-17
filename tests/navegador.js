@@ -71,6 +71,20 @@ const path = require("path");
   if ((await pagina.textContent("#respiraFase")) !== "Inhala") errores.push("La respiración no empieza inhalando");
   await pagina.click("#respiraCerrar");
   if (await pagina.isVisible("#respira")) errores.push("La respiración no se cierra");
+  /* 6-a00. Después de una discusión: se abre desde Hoy, al elegir lo que se siente responde, y queda en el historial con su nombre */
+  await pagina.click("#openDiscusion"); await pagina.waitForTimeout(150);
+  if (!(await pagina.isVisible("#discusion"))) errores.push("Después de una discusión no abre");
+  if ((await pagina.evaluate(() => document.querySelectorAll("#discusionSentir [data-sentir]").length)) < 5) errores.push("Después de una discusión no muestra las emociones");
+  await pagina.click('[data-sentir="rabia"]');
+  if (!(await pagina.textContent("#discusionRespuesta")).trim()) errores.push("Después de una discusión no responde al elegir una emoción");
+  const evDisc = await pagina.evaluate(() => JSON.parse(localStorage.getItem("cd.v1")).events[0]);
+  if (!evDisc || evDisc.type !== "discusion" || !/rabia/.test(evDisc.did || "")) errores.push("Después de una discusión no queda anotada con la emoción");
+  const telsDisc = await pagina.evaluate(() => [...document.querySelectorAll("#discusion a.llamar")].map(a => a.getAttribute("href")));
+  for (const t of ["tel:133", "tel:149", "tel:1455", "tel:1412"]) if (!telsDisc.includes(t)) errores.push("Después de una discusión no tiene el botón Llamar para " + t);
+  await pagina.click("#discusionCerrar");
+  if (await pagina.isVisible("#discusion")) errores.push("Después de una discusión no se cierra");
+  if (!(await pagina.evaluate(() => document.getElementById("log").textContent.includes("después de una discusión")))) errores.push("El historial no nombra Después de una discusión");
+  if (!(await pagina.evaluate(() => [...document.querySelectorAll("#cTrig option")].some(o => o.textContent === "Tema familiar")))) errores.push("Falta el gatillante Tema familiar");
   /* 6-a0. Hora de salida: sin hora no hay tarjeta; al poner la hora de ahora (todos los días) aparece, y lo escrito se guarda */
   if (await pagina.isVisible("#salidaCard")) errores.push("La tarjeta de la hora de salida aparece sin hora configurada");
   await pagina.evaluate(() => document.querySelectorAll("#salidaDias input").forEach(i => { if (!i.checked) i.click(); }));

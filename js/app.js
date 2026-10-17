@@ -299,9 +299,9 @@ $("porQue").onclick=()=>{
   b.classList.remove("abraza"); void b.offsetWidth; if(abrir) b.classList.add("abraza"); /* reinicia el apretón */
 };
 $("porQueOk").onclick=()=>$("porQue").click();
-/* Pantallas completas (Modo calma, Respiración, Un rato contigo, Modo ganas, PIN): mientras una está abierta, la barra del sistema
+/* Pantallas completas (Modo calma, Respiración, Un rato contigo, Después de una discusión, Modo ganas, PIN): mientras una está abierta, la barra del sistema
    toma su color de fondo, así el azul de la calma llega hasta arriba sin un corte crema. Al cerrarla, vuelve el del tema. */
-const pantallasCompletas=["calma","respira","rato","crave","lock"].map($).filter(Boolean);
+const pantallasCompletas=["calma","respira","rato","discusion","crave","lock"].map($).filter(Boolean);
 function colorBarra(){
   const abierta=pantallasCompletas.find(el=>!el.hidden);
   if(!abierta){ aplicarTema(); return; }
@@ -920,7 +920,7 @@ function renderRegistro(){
   const max=Math.max(1,...days.map(d=>d.c));
   $("chart").innerHTML=days.map(d=>`<div class="${d.r?"r":""}" style="height:${d.r?100:Math.max(d.c?8:2,d.c/max*100)}%" ${d.c||d.r?`data-n="${d.r?"C":d.c}"`:""} title="${d.label}"></div>`).join("");
   $("axisFrom").textContent=days[0].label; $("axisTo").textContent=days[13].label;
-  $("log").innerHTML=S.events.length?S.events.slice(0,60).map(e=>{ const t=new Date(e.ts); return `<div class="e"><time>${t.toLocaleDateString("es-CL",{day:"2-digit",month:"2-digit"})} ${t.toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"})}</time><div><span class="pill ${e.type==="relapse"?"bad":e.type==="win"?"good":""}">${e.type==="relapse"?"consumo":e.type==="win"?"ola superada":e.type==="checkin"?"dormí "+e.sueno+" h · ánimo "+e.animo+"/5":e.type==="calma"?"modo calma":"ganas "+e.i+"/10"}</span>${e.trig?" · "+esc(e.trig):""}${e.did?"<br>"+esc(e.did):""}</div></div>`; }).join(""):`<p class="small muted">Nada todavía. Lo primero que anotes empieza a mostrar tu patrón.</p>`;
+  $("log").innerHTML=S.events.length?S.events.slice(0,60).map(e=>{ const t=new Date(e.ts); return `<div class="e"><time>${t.toLocaleDateString("es-CL",{day:"2-digit",month:"2-digit"})} ${t.toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"})}</time><div><span class="pill ${e.type==="relapse"?"bad":e.type==="win"?"good":""}">${e.type==="relapse"?"consumo":e.type==="win"?"ola superada":e.type==="checkin"?"dormí "+e.sueno+" h · ánimo "+e.animo+"/5":e.type==="calma"?"modo calma":e.type==="discusion"?"después de una discusión":"ganas "+e.i+"/10"}</span>${e.trig?" · "+esc(e.trig):""}${e.did?"<br>"+esc(e.did):""}</div></div>`; }).join(""):`<p class="small muted">Nada todavía. Lo primero que anotes empieza a mostrar tu patrón.</p>`;
   renderPatterns();
   renderCal();
 }
@@ -1001,6 +1001,31 @@ $("openCalma").onclick=()=>{
   try{ navigator.wakeLock&&navigator.wakeLock.request("screen").catch(()=>{}); }catch(e){}
 };
 $("closeCalma").onclick=()=>{ $("calma").hidden=true; document.body.style.overflow=""; clearInterval(bIntC); };
+
+/* ---------- Después de una discusión ---------- */
+/* Pantalla para el rato justo después de una pelea con la familia, la pareja o alguien cercano (#discusion en index.html).
+   Al abrirla queda anotada en el historial; si la persona elige qué siente, eso se suma a la misma anotación. */
+const SENTIR=window.DISCUSION_SENTIR||[];
+let discusionEvento=null; /* la anotación de esta vez, para sumarle la emoción elegida */
+$("discusionSentir").innerHTML=SENTIR.map(x=>`<button type="button" class="chip" data-sentir="${esc(x.id)}" aria-pressed="false">${esc(x.t)}</button>`).join("");
+$("discusionSentir").querySelectorAll("[data-sentir]").forEach(b=>b.onclick=()=>{
+  const x=SENTIR.find(y=>y.id===b.dataset.sentir); if(!x) return;
+  $("discusionSentir").querySelectorAll("[data-sentir]").forEach(o=>{ o.classList.toggle("on",o===b); o.setAttribute("aria-pressed",String(o===b)); });
+  $("discusionRespuesta").textContent=x.d;
+  if(discusionEvento){ discusionEvento.did="Sentía: "+x.t.toLowerCase(); save(); }
+});
+$("openDiscusion").onclick=()=>{
+  /* Cada vez parte limpia: sin emoción elegida */
+  $("discusionSentir").querySelectorAll("[data-sentir]").forEach(o=>{ o.classList.remove("on"); o.setAttribute("aria-pressed","false"); });
+  $("discusionRespuesta").textContent="";
+  addEvent("discusion",{}); discusionEvento=S.events[0];
+  $("discusion").hidden=false; document.body.style.overflow="hidden"; $("discusion").scrollTop=0;
+};
+$("discusionCerrar").onclick=()=>{
+  $("discusion").hidden=true; discusionEvento=null;
+  if(!document.querySelector(".crave:not([hidden])")) document.body.style.overflow="";
+  renderRegistro();
+};
 
 /* ---------- Atajos de la pestaña Noche ---------- */
 $("nocheCalma").onclick=()=>$("openCalma").click();

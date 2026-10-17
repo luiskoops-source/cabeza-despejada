@@ -490,7 +490,7 @@ a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;pad
   --warm:#5d8bb3; --warm-soft:#d6e5f2; --warm-texto:#2f5878; --bad:#a5443f; --bad-soft:#f2dcdb;
   --sombra:none; --halo:rgba(93,139,179,.16);
 }
-#respira,#rato{
+#respira,#rato,#discusion{
   --bg:#e6f0f7; --surface:#f4f9fc; --surface2:#dbe8f2; --fg:#182634; --muted:#4a6072; --line:#c3d6e5;
   --accent:#336d9c; --accent-ink:#ffffff; --accent-soft:#d5e6f3; --accent-sombra:#245478;
   --sombra:none; --aire:#5e8fb8; --halo:rgba(51,109,156,.13);
@@ -499,18 +499,18 @@ a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;pad
   --bg:#0f1723; --surface:#16212f; --surface2:#1d2a3b; --fg:#e5ecf3; --muted:#a2b2c3; --line:#2b3b4f;
   --accent:#8db6da; --accent-ink:#0d1a27; --accent-soft:#1e3246; --accent-sombra:#5c86ab;
   --warm:#8db6da; --warm-soft:#1b2d40; --warm-texto:#a9c8e4; --bad:#ec9c93; --bad-soft:#3f2526; --halo:rgba(141,182,218,.12) }
-  :root:not([data-theme="light"]) #respira,:root:not([data-theme="light"]) #rato{
+  :root:not([data-theme="light"]) #respira,:root:not([data-theme="light"]) #rato,:root:not([data-theme="light"]) #discusion{
   --bg:#0e1824; --surface:#152231; --surface2:#1c2b3d; --fg:#e4ecf4; --muted:#a0b2c4; --line:#2a3c51;
   --accent:#8cbbe2; --accent-ink:#0b1a28; --accent-soft:#1c3349; --accent-sombra:#5b89b0; --aire:#cfe3f2; --halo:rgba(140,187,226,.11) }}
 :root[data-theme="dark"] #calma{
   --bg:#0f1723; --surface:#16212f; --surface2:#1d2a3b; --fg:#e5ecf3; --muted:#a2b2c3; --line:#2b3b4f;
   --accent:#8db6da; --accent-ink:#0d1a27; --accent-soft:#1e3246; --accent-sombra:#5c86ab;
   --warm:#8db6da; --warm-soft:#1b2d40; --warm-texto:#a9c8e4; --bad:#ec9c93; --bad-soft:#3f2526; --halo:rgba(141,182,218,.12) }
-:root[data-theme="dark"] #respira,:root[data-theme="dark"] #rato{
+:root[data-theme="dark"] #respira,:root[data-theme="dark"] #rato,:root[data-theme="dark"] #discusion{
   --bg:#0e1824; --surface:#152231; --surface2:#1c2b3d; --fg:#e4ecf4; --muted:#a0b2c4; --line:#2a3c51;
   --accent:#8cbbe2; --accent-ink:#0b1a28; --accent-soft:#1c3349; --accent-sombra:#5b89b0; --aire:#cfe3f2; --halo:rgba(140,187,226,.11) }
 /* Un degradado muy leve, como cielo de mañana: más claro arriba */
-#calma,#respira,#rato{background:linear-gradient(180deg,var(--surface) 0%,var(--bg) 45%)}
+#calma,#respira,#rato,#discusion{background:linear-gradient(180deg,var(--surface) 0%,var(--bg) 45%)}
 /* El círculo de la calma: borde más fino y un halo que crece con la inhalación, más lento y blando que el del Modo ganas */
 #calma .breath{margin:30px auto;color:var(--warm-texto);border-width:2px;box-shadow:0 0 0 0 var(--halo);transition:transform 4s ease-in-out,box-shadow 4s ease-in-out}
 #calma .breath.in{box-shadow:0 0 0 22px var(--halo)}

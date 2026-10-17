@@ -175,6 +175,7 @@
   <button class="warm" id="openCrave">Tengo ganas de consumir</button>
   <button class="respira-boton" id="openRespira" type="button" data-respira>Respirar 4-7-8 <span class="small">· ansiedad, ganas, tos nerviosa, dormir</span></button>
   <button class="respira-boton" id="openRato" type="button">Un rato contigo <span class="small">· aburrimiento, soledad, tiempos muertos</span></button>
+  <button class="respira-boton" id="openDiscusion" type="button">Después de una discusión <span class="small">· familia, pareja, alguien cercano</span></button>
 
   <!-- Lo que viene: aparece los primeros 90 días -->
   <div class="card" id="loQueViene" hidden>
@@ -580,6 +581,7 @@
           <option>Todo va bien y quiero caos</option>
           <option>Falta de sueño</option>
           <option>Discusión o algo que me dijeron</option>
+          <option>Tema familiar</option>
           <option>Recibí dinero</option>
           <option>Vi a alguien que consume</option>
           <option>Otro</option>
@@ -985,6 +987,69 @@
   <button role="tab" data-tab="registro" aria-selected="false"><span class="i">≡</span>Registro</button>
   <button role="tab" data-tab="ayuda" aria-selected="false"><span class="i">+</span>Ayuda</button>
 </nav>
+<!-- DESPUÉS DE UNA DISCUSIÓN: pantalla completa para el rato justo después de una pelea con la familia, la pareja o alguien cercano,
+     uno de los momentos en que más se recae. Primero el cuerpo, después no decidir nada, ponerle nombre a lo que se siente y pedir ayuda.
+     Lógica en js/app.js (Después de una discusión), textos de cada emoción en datos/discusion.js -->
+<div class="crave" id="discusion" hidden>
+  <div class="inner">
+    <div class="row" style="justify-content:space-between">
+      <span class="pill good">Después de una discusión</span>
+      <button class="ghost" id="discusionCerrar" type="button">Salir</button>
+    </div>
+    <h1>Lo que pasó duele. No tienes que resolverlo ahora.</h1>
+    <p class="muted">Después de una discusión es normal que aparezcan las ganas. Este rato es para pasarlo sin hacerte más daño. Lo demás puede esperar a mañana.</p>
+    <div class="card">
+      <p class="eyebrow">Primero, el cuerpo</p>
+      <ol class="steps">
+        <li>Si puedes, sal del lugar donde fue la discusión: otra pieza, el patio, la calle.</li>
+        <li>Respira lento, botando el aire más despacio de lo que entra.</li>
+        <li>Toma agua. Lávate la cara con agua fría.</li>
+      </ol>
+      <button class="ghost" type="button" data-respira>Respirar 4-7-8 conmigo</button>
+    </div>
+    <div class="card">
+      <p class="eyebrow">Ahora no</p>
+      <ul class="small">
+        <li><b>No respondas mensajes ni llames para seguir la discusión.</b> Mañana se ve distinto.</li>
+        <li><b>No tomes decisiones grandes hoy:</b> irte, cortar con alguien, decir algo que no se puede retirar.</li>
+        <li><b>No consumas para apagar lo que sientes.</b> Lo apaga un rato y vuelve más fuerte, y la discusión sigue ahí.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="eyebrow">¿Qué sientes ahora?</p>
+      <div class="row" id="discusionSentir" style="gap:8px"></div>
+      <p class="small" id="discusionRespuesta" role="status" aria-live="polite"></p>
+    </div>
+    <div class="card">
+      <p class="eyebrow">Lo que sí es tuyo</p>
+      <ul class="small">
+        <li>No eres responsable de lo que hacen o dicen otros. Sí de lo que haces tú en este rato.</li>
+        <li>Se puede querer a alguien y poner distancia.</li>
+        <li>Tu familia no tiene que entender tu proceso para que tu proceso valga.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="eyebrow">Habla con alguien</p>
+      <p class="small">Alguien de confianza que no sea parte de la discusión. O llama al SENDA: es gratis y anónimo, y también orienta en temas de familia.</p>
+      <div class="contact"><div><div class="eyebrow">SENDA, orientación</div><b>1412</b></div><button data-copy="1412">Copiar</button></div>
+    </div>
+    <div class="card" style="border-color:var(--bad)">
+      <p class="eyebrow" style="color:var(--bad)">Si hubo violencia o te sientes en peligro</p>
+      <ul class="small">
+        <li>Busca un lugar seguro. Tu seguridad va antes que cualquier otra cosa.</li>
+        <li>Emergencia: Carabineros <b>133</b>. Si hay alguien herido: <b>131</b>.</li>
+        <li>Violencia en la familia: Fono Familia de Carabineros <b>149</b>.</li>
+        <li>Si eres mujer y vives violencia: orientación en el <b>1455</b>, gratis.</li>
+      </ul>
+      <div class="row">
+        <a class="llamar" href="tel:133">Llamar al 133</a>
+        <a class="llamar" href="tel:149">Llamar al 149</a>
+        <a class="llamar" href="tel:1455">Llamar al 1455</a>
+      </div>
+    </div>
+    <p class="small muted">Cuando estés más tranquilo, puedes anotar lo que pasó en Registro, con el gatillante "Tema familiar". Con el tiempo vas a ver si se repite.</p>
+  </div>
+</div>
 <!-- UN RATO CONTIGO: pantalla completa para practicar estar a solas, sin celular ni nada que hacer.
      Lógica en js/rato.js, frases en datos/rato.js, minutos en js/calculos.js (minutosRato) -->
 <div class="crave" id="rato" hidden>
@@ -1153,6 +1218,8 @@
 <script src="datos/voz.js"></script>
 <!-- DATOS: lista antes de salir -->
 <script src="datos/antes-de-salir.js"></script>
+<!-- DATOS: lo que dice Después de una discusión según la emoción -->
+<script src="datos/discusion.js"></script>
 <!-- DATOS: frases de Un rato contigo -->
 <script src="datos/rato.js"></script>
 <!-- DATOS: historias de la gente (Cuenta tu historia) -->

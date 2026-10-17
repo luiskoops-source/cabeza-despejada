@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-17-discusion", titulo:"Después de una discusión", cambios:[
+    "En Hoy hay un botón nuevo para el rato justo después de una pelea con la familia, la pareja o alguien cercano, que es uno de los momentos en que más se recae.",
+    "Te acompaña paso a paso: primero el cuerpo, no decidir nada en caliente, ponerle nombre a lo que sientes y hablar con alguien. Si hubo violencia, están los teléfonos para pedir ayuda.",
+    "En Registro hay un gatillante nuevo, \"Tema familiar\", para ver con el tiempo si ese patrón se repite."
+  ]},
   {id:"2026-10-17-logo", titulo:"El salchicha se renovó", cambios:[
     "Los brazos del salchicha ahora son curvos y más delgados: rodean al cactus en un abrazo de verdad.",
     "El cactus tiene color: verde, con su coronita rosada. También el cactus chiquito que el salchicha lleva cuando te visita.",

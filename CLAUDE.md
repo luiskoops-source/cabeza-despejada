@@ -24,7 +24,8 @@ Cabeza Despejada es una app anónima de apoyo para dejar o reducir el consumo de
 - `datos/actualidad.js`: solo entradas verificadas en la fuente enlazada, con fecha y fuente. Si una cifra no está en la fuente, no se pone. Las columnas de opinión se marcan como "Análisis".
 - Modo calma (crisis de paranoia/psicosis): nunca discutir las ideas de la persona ni decir "no es real"; acompañar, bajar estímulos, no tomar nada más, dormir, y 131 ante riesgo. Mantener ese tono en cualquier cambio.
 - `datos/historia.js`: la historia de Mati, ficción que se abre de a un capítulo por día que se abre la app (nunca se acumulan). Nunca describir cómo se consume ni glorificarlo; las recaídas se cuentan sin culpa y sin borrar lo avanzado; cada capítulo termina con una pregunta que invite a volver mañana, sin suspenso angustiante.
-- Teléfonos de ayuda en Chile que la app muestra: SENDA 1412, emergencias 131, Salud Responde 600 360 7777.
+- Teléfonos de ayuda en Chile que la app muestra: SENDA 1412, emergencias 131, Salud Responde 600 360 7777. En "Después de una discusión", ante violencia: Carabineros 133, Fono Familia 149 (violencia intrafamiliar) y 1455 (orientación por violencia contra las mujeres), verificados en ChileAtiende.
+- "Después de una discusión" (temas de familia o pareja): sin culpar a la persona ni a su familia, sin decirle qué sentir; primero el cuerpo, no decidir nada en caliente, y la seguridad antes que todo si hubo violencia.
 
 ## Comandos útiles
 - Pruebas de cálculos: `node tests/pruebas.js` (correrlas después de cada cambio en js/calculos.js)
