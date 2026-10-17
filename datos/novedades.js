@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente y es la única que se muestra, una sola vez.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-17-salida", titulo:"Tu hora de salida", cambios:[
+    "La salida del trabajo o de clases suele ser un momento difícil. Ahora puedes decirle a la app a qué hora sales: está en Hoy, dentro de \"Mi plan para la hora difícil\".",
+    "Desde una hora antes, Hoy te muestra una tarjeta con tres preguntas cortas: cómo vuelves a casa, qué vas a comer y a qué hora te acuestas. El resto de la noche queda libre a propósito.",
+    "Los viernes la tarjeta te recuerda que es viernes. Y también trae \"Un rato contigo\", la práctica de estar a solas con el aburrimiento y la soledad."
+  ]},
   {id:"2026-10-17-rato", titulo:"Un rato contigo", cambios:[
     "En Hoy hay un botón nuevo, debajo de la respiración: unos minutos sin celular, sin música y sin hacer nada, para aprender a estar con el aburrimiento y la soledad en vez de escapar de ellos.",
     "Empieza con 3 minutos y sube de a poco (5, 10, 15) a medida que lo vas terminando. Si un día cuesta, se repite igual, sin apuro.",

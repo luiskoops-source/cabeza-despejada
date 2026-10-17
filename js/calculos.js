@@ -244,10 +244,23 @@ function minutosRato(completados){
   return n<2?3:n<4?5:n<7?10:15;
 }
 
+/* "Hora de salida": la tarjeta aparece desde una hora antes de la salida (del trabajo, de clases) hasta cuatro horas después,
+   solo los días que la persona eligió. ahora: un Date. hora: "HH:MM". dias: números como los de getDay() (0 domingo … 6 sábado).
+   Devuelve { mostrar, viernes }: viernes es true solo si la tarjeta se muestra y es viernes. */
+function momentoSalida(ahora, hora, dias){
+  const no={ mostrar:false, viernes:false };
+  const m=/^(\d{1,2}):(\d{2})$/.exec(hora||"");
+  if(!m||!(ahora instanceof Date)||isNaN(ahora)||!Array.isArray(dias)) return no;
+  const hh=Number(m[1]), mm=Number(m[2]); if(hh>23||mm>59) return no;
+  const salida=hh*60+mm, minuto=ahora.getHours()*60+ahora.getMinutes();
+  const mostrar=dias.includes(ahora.getDay())&&minuto>=salida-60&&minuto<salida+240;
+  return { mostrar, viernes:mostrar&&ahora.getDay()===5 };
+}
+
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diaDe, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, recordatorioICS, enlaceGoogleCalendar, horaRecordatorio, fase478, tamanoCactus, esMadrugada, minutosRato, HITOS, pesos };
+const Calculos={ fechaTexto, diaDe, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, recordatorioICS, enlaceGoogleCalendar, horaRecordatorio, fase478, tamanoCactus, esMadrugada, minutosRato, momentoSalida, HITOS, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);

@@ -70,6 +70,16 @@ const path = require("path");
   if ((await pagina.textContent("#respiraFase")) !== "Inhala") errores.push("La respiración no empieza inhalando");
   await pagina.click("#respiraCerrar");
   if (await pagina.isVisible("#respira")) errores.push("La respiración no se cierra");
+  /* 6-a0. Hora de salida: sin hora no hay tarjeta; al poner la hora de ahora (todos los días) aparece, y lo escrito se guarda */
+  if (await pagina.isVisible("#salidaCard")) errores.push("La tarjeta de la hora de salida aparece sin hora configurada");
+  await pagina.evaluate(() => document.querySelectorAll("#salidaDias input").forEach(i => { if (!i.checked) i.click(); }));
+  const ahoraHHMM = await pagina.evaluate(() => { const d = new Date(); return String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0"); });
+  await pagina.evaluate(h => { const i = document.getElementById("salidaHora"); i.value = h; i.dispatchEvent(new Event("change")); }, ahoraHHMM);
+  if (!(await pagina.isVisible("#salidaCard"))) errores.push("La tarjeta de la hora de salida no aparece a la hora configurada");
+  await pagina.fill("#salidaVuelta", "En metro, directo");
+  if ((await pagina.evaluate(() => JSON.parse(localStorage.getItem("cd.v1")).salidaPlan.vuelta)) !== "En metro, directo") errores.push("La respuesta de la hora de salida no se guarda");
+  await pagina.evaluate(() => document.getElementById("salidaQuitar").click());
+  if (await pagina.isVisible("#salidaCard")) errores.push("La tarjeta de la hora de salida no se va al quitar la hora");
   /* 6-a. Un rato contigo: se abre desde Hoy con 3 minutos, corre, al terminar pregunta cómo estuvo, y se cierra */
   await pagina.click("#openRato"); await pagina.waitForTimeout(150);
   if (!(await pagina.isVisible("#rato"))) errores.push("Un rato contigo no abre");

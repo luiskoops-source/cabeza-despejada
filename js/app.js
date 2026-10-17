@@ -12,6 +12,8 @@ const defaults={
     "Prefiero que mi plata termine en mi casa, no en el proveedor."
   ],
   plan:"", planHour:null,
+  /* Hora de salida (trabajo o clases): la hora "HH:MM", los días (como getDay: 0 domingo … 6 sábado) y las respuestas de hoy */
+  salidaHora:null, salidaDias:[1,2,3,4,5], salidaPlan:{fecha:null,vuelta:"",comida:"",dormir:""},
   /* Configuración: sustancia principal, modo ("dejar" o "reducir"), meta semanal en modo reducir, PIN opcional */
   sustancia:"cocaina", modo:"dejar", metaSemana:2, pin:"", tema:"auto", tourVisto:false, novedadVista:null, inicio:null, ganasMin:15,
   celebrado:0, pledgeDate:null, salirDate:null, salirOk:[], rapidoDate:null, rapidoCount:0, rapidoSeen:[], quizDate:null, quizIdx:null, quizDone:false, quizStreak:0, quizBest:0, volverDia:null, volverOk:[],
@@ -95,6 +97,7 @@ function renderHoy(){
   renderCheckin();
   renderSemana();
   renderPlan();
+  renderSalida();
   renderHitos(d);
   renderLoQueViene(d);
   renderHistoria();
@@ -686,6 +689,42 @@ $("recGoogle").onclick=()=>{
   window.open(url,"_blank","noopener");
   mensaje("recMsg","Revisa el evento en Google Calendar y toca Guardar. Se repite todos los días.","ok");
 };
+/* ---------- Hora de salida ---------- */
+/* La tarjeta aparece cerca de la hora en que la persona sale del trabajo o de clases (C.momentoSalida decide cuándo).
+   Las respuestas valen solo por hoy: al día siguiente las preguntas aparecen vacías otra vez. */
+const CAMPOS_SALIDA={ vuelta:"salidaVuelta", comida:"salidaComida", dormir:"salidaDormir" };
+function renderSalida(){
+  /* Configuración (en "Mi plan para la hora difícil") */
+  if(document.activeElement!==$("salidaHora")) $("salidaHora").value=S.salidaHora||"";
+  $("salidaDias").querySelectorAll("input").forEach(i=>{ i.checked=(S.salidaDias||[]).includes(Number(i.dataset.dia)); });
+  /* La tarjeta de Hoy */
+  const m=C.momentoSalida(new Date(),S.salidaHora,S.salidaDias);
+  $("salidaCard").hidden=!m.mostrar;
+  if(!m.mostrar) return;
+  $("salidaTitulo").textContent=m.viernes?"Es viernes: tu hora de salida":"Tu hora de salida";
+  $("salidaIntro").textContent=m.viernes
+    ?"Los viernes suelen ser más intensos. Tres respuestas cortas antes de salir, y nada más."
+    :"Tres respuestas cortas para ordenar la vuelta a casa, y nada más.";
+  if(!S.salidaPlan||S.salidaPlan.fecha!==todayStr()) S.salidaPlan={fecha:todayStr(),vuelta:"",comida:"",dormir:""};
+  /* Si la persona está escribiendo en un campo, no le pisamos el texto */
+  for(const k in CAMPOS_SALIDA){ const el=$(CAMPOS_SALIDA[k]); if(document.activeElement!==el) el.value=S.salidaPlan[k]||""; }
+}
+/* Cada respuesta se guarda sola mientras se escribe */
+for(const k in CAMPOS_SALIDA){
+  $(CAMPOS_SALIDA[k]).addEventListener("input",e=>{
+    if(!S.salidaPlan||S.salidaPlan.fecha!==todayStr()) S.salidaPlan={fecha:todayStr(),vuelta:"",comida:"",dormir:""};
+    S.salidaPlan[k]=e.target.value.slice(0,120); save();
+  });
+}
+$("salidaHora").onchange=()=>{ S.salidaHora=$("salidaHora").value||null; save(); renderSalida(); if(S.salidaHora) toast("Hora de salida guardada"); };
+$("salidaQuitar").onclick=()=>{ S.salidaHora=null; save(); renderSalida(); toast("Hora de salida quitada"); };
+$("salidaDias").querySelectorAll("input").forEach(i=>i.onchange=()=>{
+  S.salidaDias=[...$("salidaDias").querySelectorAll("input:checked")].map(x=>Number(x.dataset.dia)); save(); renderSalida();
+});
+$("salidaRato").onclick=()=>$("openRato").click();
+/* Si la app queda abierta, revisa cada minuto si ya es la hora de mostrar (o esconder) la tarjeta */
+setInterval(renderSalida,60000);
+
 $("savePlan").onclick=()=>{ clearTimeout(planT); S.plan=$("planText").value.trim(); save(); $("planText").blur(); renderPlan(); toast("Plan guardado"); };
 /* El plan también se guarda solo mientras escribes (medio segundo después de la última letra) */
 let planT;

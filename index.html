@@ -103,6 +103,21 @@
     <p id="planNowText"></p>
   </div>
 
+  <!-- HORA DE SALIDA: aparece una hora antes de que la persona salga del trabajo o de clases, y hasta 4 horas después.
+       Pregunta solo lo esencial; el resto de la noche queda libre a propósito.
+       Lógica en js/app.js (renderSalida), ventana de tiempo en js/calculos.js (momentoSalida) -->
+  <div class="card" id="salidaCard" hidden>
+    <p class="eyebrow" id="salidaTitulo">Tu hora de salida</p>
+    <p class="small muted" id="salidaIntro"></p>
+    <div class="stack">
+      <label class="f ancho"><b>¿Cómo vuelves a casa?</b><input id="salidaVuelta" maxlength="120" placeholder="Ej: en metro, directo, sin pasar a ningún lado"></label>
+      <label class="f ancho"><b>¿Qué vas a comer?</b><input id="salidaComida" maxlength="120" placeholder="Ej: lo que quedó de ayer"></label>
+      <label class="f ancho"><b>¿A qué hora te acuestas?</b><input type="time" id="salidaDormir"></label>
+    </div>
+    <p class="small muted">El resto de la noche queda libre a propósito. Si llega un rato vacío, no hace falta llenarlo.</p>
+    <button class="ghost" type="button" id="salidaRato">Probar Un rato contigo</button>
+  </div>
+
   <!-- HERO: lo único que importa al abrir: cuánto llevas, en vivo -->
   <div class="hero">
     <p class="hero-eyebrow" id="greet">Hoy</p>
@@ -236,6 +251,19 @@
     <p class="small muted">Según tu registro, tus ganas llegan más a <b id="planHour"></b>. Escribe qué vas a hacer a esa hora y la app te lo recordará cuando llegue.</p>
     <textarea id="planText" aria-label="Mi plan para la hora difícil" placeholder="Ej: a esa hora me ducho, pongo una serie y dejo el celular en la cocina"></textarea>
     <div class="row"><button class="primary" id="savePlan">Guardar plan</button></div>
+    <!-- Hora de salida: con esto, Hoy muestra la tarjeta "Tu hora de salida" (ver más arriba, #salidaCard) -->
+    <p class="eyebrow" style="margin-top:14px">Mi hora de salida</p>
+    <p class="small muted">¿A qué hora sales del trabajo o de clases? Desde una hora antes, Hoy te muestra una tarjeta corta para ordenar la vuelta a casa. Los viernes te recuerda que es viernes.</p>
+    <div class="row"><input type="time" id="salidaHora" aria-label="Mi hora de salida"><button class="ghost" type="button" id="salidaQuitar">Quitar</button></div>
+    <div class="row small" id="salidaDias" style="gap:10px;margin-top:6px">
+      <label><input type="checkbox" data-dia="1" style="width:auto"> Lu</label>
+      <label><input type="checkbox" data-dia="2" style="width:auto"> Ma</label>
+      <label><input type="checkbox" data-dia="3" style="width:auto"> Mi</label>
+      <label><input type="checkbox" data-dia="4" style="width:auto"> Ju</label>
+      <label><input type="checkbox" data-dia="5" style="width:auto"> Vi</label>
+      <label><input type="checkbox" data-dia="6" style="width:auto"> Sá</label>
+      <label><input type="checkbox" data-dia="0" style="width:auto"> Do</label>
+    </div>
     <!-- Recordatorio diario: descarga un archivo de calendario; el calendario del teléfono hace sonar la alarma aunque la app esté cerrada -->
     <p class="eyebrow" style="margin-top:14px">Recordatorio diario</p>
     <p class="small muted">Tu calendario te avisará todos los días a esta hora, aunque la app esté cerrada. El aviso dice solo "Un momento para ti", sin nada sobre consumo, porque si tu calendario se sincroniza con tu cuenta, el evento queda guardado ahí.</p>

@@ -27,6 +27,16 @@ prueba("después de 4 veces sube a 10",()=>{ assert.strictEqual(C.minutosRato(3)
 prueba("después de 7 veces llega a 15 y no pasa de ahí",()=>{ assert.strictEqual(C.minutosRato(6),10); assert.strictEqual(C.minutosRato(7),15); assert.strictEqual(C.minutosRato(500),15); });
 prueba("texto, negativo o vacío empiezan en 3",()=>{ assert.strictEqual(C.minutosRato("abc"),3); assert.strictEqual(C.minutosRato(-4),3); assert.strictEqual(C.minutosRato(undefined),3); });
 
+console.log("momentoSalida");
+const viernes18=new Date(2026,9,16,18,0), LV=[1,2,3,4,5];
+prueba("a la hora de salida se muestra, y un viernes lo dice",()=>assert.deepStrictEqual(C.momentoSalida(viernes18,"18:00",LV),{mostrar:true,viernes:true}));
+prueba("una hora antes ya se muestra",()=>assert.strictEqual(C.momentoSalida(new Date(2026,9,16,17,0),"18:00",LV).mostrar,true));
+prueba("más de una hora antes todavía no",()=>assert.strictEqual(C.momentoSalida(new Date(2026,9,16,16,59),"18:00",LV).mostrar,false));
+prueba("cuatro horas después ya no",()=>{ assert.strictEqual(C.momentoSalida(new Date(2026,9,16,21,59),"18:00",LV).mostrar,true); assert.strictEqual(C.momentoSalida(new Date(2026,9,16,22,0),"18:00",LV).mostrar,false); });
+prueba("un martes se muestra pero no es viernes",()=>assert.deepStrictEqual(C.momentoSalida(new Date(2026,9,13,18,30),"18:00",LV),{mostrar:true,viernes:false}));
+prueba("un día no elegido no se muestra",()=>assert.strictEqual(C.momentoSalida(new Date(2026,9,17,18,0),"18:00",LV).mostrar,false));
+prueba("sin hora, con hora inválida o sin días no se muestra",()=>{ assert.strictEqual(C.momentoSalida(viernes18,null,LV).mostrar,false); assert.strictEqual(C.momentoSalida(viernes18,"25:00",LV).mostrar,false); assert.strictEqual(C.momentoSalida(viernes18,"18:00",undefined).mostrar,false); });
+
 console.log("diasDesde");
 prueba("sin Día 0 devuelve 0",()=>assert.strictEqual(C.diasDesde(null,"2026-10-09"),0));
 prueba("mismo día devuelve 0",()=>assert.strictEqual(C.diasDesde("2026-10-09","2026-10-09"),0));
