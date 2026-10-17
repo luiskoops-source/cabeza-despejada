@@ -14,6 +14,8 @@ const defaults={
   plan:"", planHour:null,
   /* Hora de salida (trabajo o clases): la hora "HH:MM", los días (como getDay: 0 domingo … 6 sábado) y las respuestas de hoy */
   salidaHora:null, salidaDias:[1,2,3,4,5], salidaPlan:{fecha:null,vuelta:"",comida:"",dormir:""},
+  /* Respuesta del sábado a "¿Cómo te fue el viernes?": { fecha, como } (como: "bien", "costo" o "consumi") */
+  viernesRespuesta:null,
   /* Configuración: sustancia principal, modo ("dejar" o "reducir"), meta semanal en modo reducir, PIN opcional */
   sustancia:"cocaina", modo:"dejar", metaSemana:2, pin:"", tema:"auto", tourVisto:false, novedadVista:null, inicio:null, ganasMin:15,
   celebrado:0, pledgeDate:null, salirDate:null, salirOk:[], rapidoDate:null, rapidoCount:0, rapidoSeen:[], quizDate:null, quizIdx:null, quizDone:false, quizStreak:0, quizBest:0, volverDia:null, volverOk:[],
@@ -98,6 +100,7 @@ function renderHoy(){
   renderSemana();
   renderPlan();
   renderSalida();
+  renderViernes();
   renderHitos(d);
   renderLoQueViene(d);
   renderHistoria();
@@ -693,26 +696,29 @@ $("recGoogle").onclick=()=>{
 /* La tarjeta aparece cerca de la hora en que la persona sale del trabajo o de clases (C.momentoSalida decide cuándo).
    Las respuestas valen solo por hoy: al día siguiente las preguntas aparecen vacías otra vez. */
 const CAMPOS_SALIDA={ vuelta:"salidaVuelta", comida:"salidaComida", dormir:"salidaDormir" };
+let fechaSalida=null; /* la fecha de la salida que muestra la tarjeta ahora (la pone renderSalida) */
 function renderSalida(){
   /* Configuración (en "Mi plan para la hora difícil") */
   if(document.activeElement!==$("salidaHora")) $("salidaHora").value=S.salidaHora||"";
   $("salidaDias").querySelectorAll("input").forEach(i=>{ i.checked=(S.salidaDias||[]).includes(Number(i.dataset.dia)); });
   /* La tarjeta de Hoy */
-  const m=C.momentoSalida(new Date(),S.salidaHora,S.salidaDias);
+  const ahora=new Date(), m=C.momentoSalida(ahora,S.salidaHora,S.salidaDias);
   $("salidaCard").hidden=!m.mostrar;
   if(!m.mostrar) return;
+  /* Las respuestas se guardan con la fecha del día de la salida (si la tarjeta pasó la medianoche, sigue siendo la de ayer) */
+  const dia=new Date(ahora); dia.setDate(ahora.getDate()+m.desfase); fechaSalida=C.fechaTexto(dia);
   $("salidaTitulo").textContent=m.viernes?"Es viernes: tu hora de salida":"Tu hora de salida";
   $("salidaIntro").textContent=m.viernes
     ?"Los viernes suelen ser más intensos. Tres respuestas cortas antes de salir, y nada más."
     :"Tres respuestas cortas para ordenar la vuelta a casa, y nada más.";
-  if(!S.salidaPlan||S.salidaPlan.fecha!==todayStr()) S.salidaPlan={fecha:todayStr(),vuelta:"",comida:"",dormir:""};
+  if(!S.salidaPlan||S.salidaPlan.fecha!==fechaSalida) S.salidaPlan={fecha:fechaSalida,vuelta:"",comida:"",dormir:""};
   /* Si la persona está escribiendo en un campo, no le pisamos el texto */
   for(const k in CAMPOS_SALIDA){ const el=$(CAMPOS_SALIDA[k]); if(document.activeElement!==el) el.value=S.salidaPlan[k]||""; }
 }
 /* Cada respuesta se guarda sola mientras se escribe */
 for(const k in CAMPOS_SALIDA){
   $(CAMPOS_SALIDA[k]).addEventListener("input",e=>{
-    if(!S.salidaPlan||S.salidaPlan.fecha!==todayStr()) S.salidaPlan={fecha:todayStr(),vuelta:"",comida:"",dormir:""};
+    if(!S.salidaPlan||S.salidaPlan.fecha!==fechaSalida) S.salidaPlan={fecha:fechaSalida,vuelta:"",comida:"",dormir:""};
     S.salidaPlan[k]=e.target.value.slice(0,120); save();
   });
 }
@@ -724,6 +730,27 @@ $("salidaDias").querySelectorAll("input").forEach(i=>i.onchange=()=>{
 $("salidaRato").onclick=()=>$("openRato").click();
 /* Si la app queda abierta, revisa cada minuto si ya es la hora de mostrar (o esconder) la tarjeta */
 setInterval(renderSalida,60000);
+
+/* ---------- ¿Cómo te fue el viernes? ---------- */
+/* Los sábados en la mañana (C.mananaSabado), una sola pregunta sobre el viernes. Sin puntaje y sin culpa:
+   si la respuesta es "Consumí", no se reinicia nada solo; la persona decide si reinicia su Día 0. */
+const RESPUESTA_VIERNES={
+  bien:"Qué bueno. Un viernes más a tu favor: nota qué hiciste distinto, porque eso es lo que funciona.",
+  costo:"Pasar un viernes difícil sin consumir es un logro grande. Lo que hiciste funcionó: guárdalo para el próximo.",
+  consumi:"Gracias por contarlo. Un viernes no borra los días anteriores: tu cerebro los vivió igual. Si quieres, reinicia tu Día 0 más abajo, sin apuro, y mira la tarjeta de las próximas 48 horas."
+};
+function renderViernes(){
+  const card=$("viernesCard");
+  card.hidden=!S.day0||!C.mananaSabado(new Date());
+  if(card.hidden) return;
+  const r=S.viernesRespuesta&&S.viernesRespuesta.fecha===todayStr()?S.viernesRespuesta.como:null;
+  card.querySelectorAll("[data-viernes]").forEach(b=>b.classList.toggle("on",b.dataset.viernes===r));
+  $("viernesRespuesta").textContent=r?RESPUESTA_VIERNES[r]:"";
+}
+$("viernesCard").querySelectorAll("[data-viernes]").forEach(b=>b.onclick=()=>{
+  S.viernesRespuesta={ fecha:todayStr(), como:b.dataset.viernes }; save(); renderViernes();
+});
+setInterval(renderViernes,60000);
 
 $("savePlan").onclick=()=>{ clearTimeout(planT); S.plan=$("planText").value.trim(); save(); $("planText").blur(); renderPlan(); toast("Plan guardado"); };
 /* El plan también se guarda solo mientras escribes (medio segundo después de la última letra) */

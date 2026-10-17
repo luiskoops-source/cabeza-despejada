@@ -17,6 +17,7 @@ cabeza-despejada/
 ├── js/respaldo.js    Copia de seguridad en archivo y respaldo cifrado en la nube
 ├── js/respira.js     Respiración 4-7-8 (ansiedad, ganas, tos nerviosa, dormir): pantalla, vibración y voz
 ├── js/escuchar.js    La voz del teléfono lee las tarjetas (primer pedazo separado de app.js)
+├── js/rato.js        Un rato contigo: practicar estar a solas con el aburrimiento y la soledad (frases en datos/rato.js)
 ├── datos/            El contenido, separado de la lógica para editarlo fácil: hechos, sustancias, historia de Mati,
 │                     preguntas, primeros auxilios, novedades (la tarjeta "Qué hay de nuevo")...
 ├── sw.js             Service worker: guarda la app para usarla sin internet y avisa cuando hay versión nueva

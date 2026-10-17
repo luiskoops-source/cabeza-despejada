@@ -246,21 +246,31 @@ function minutosRato(completados){
 
 /* "Hora de salida": la tarjeta aparece desde una hora antes de la salida (del trabajo, de clases) hasta cuatro horas después,
    solo los días que la persona eligió. ahora: un Date. hora: "HH:MM". dias: números como los de getDay() (0 domingo … 6 sábado).
-   Devuelve { mostrar, viernes }: viernes es true solo si la tarjeta se muestra y es viernes. */
+   Devuelve { mostrar, viernes, desfase }: viernes es true solo si la tarjeta se muestra por una salida de viernes;
+   desfase dice de qué día es esa salida (0 hoy, -1 ayer, 1 mañana), para guardar las respuestas en el día correcto.
+   La ventana puede cruzar la medianoche (salida a las 22:00 → se ve hasta las 2:00 del día siguiente). */
 function momentoSalida(ahora, hora, dias){
-  const no={ mostrar:false, viernes:false };
+  const no={ mostrar:false, viernes:false, desfase:0 };
   const m=/^(\d{1,2}):(\d{2})$/.exec(hora||"");
   if(!m||!(ahora instanceof Date)||isNaN(ahora)||!Array.isArray(dias)) return no;
   const hh=Number(m[1]), mm=Number(m[2]); if(hh>23||mm>59) return no;
-  const salida=hh*60+mm, minuto=ahora.getHours()*60+ahora.getMinutes();
-  const mostrar=dias.includes(ahora.getDay())&&minuto>=salida-60&&minuto<salida+240;
-  return { mostrar, viernes:mostrar&&ahora.getDay()===5 };
+  const salida=hh*60+mm, minuto=ahora.getHours()*60+ahora.getMinutes(), dia=ahora.getDay();
+  /* Se revisa la salida de hoy, la de ayer (si la ventana pasó la medianoche) y la de mañana (si empieza antes de la medianoche) */
+  for(const [d,min,desfase] of [[dia,minuto,0],[(dia+6)%7,minuto+1440,-1],[(dia+1)%7,minuto-1440,1]]){
+    if(dias.includes(d)&&min>=salida-60&&min<salida+240) return { mostrar:true, viernes:d===5, desfase };
+  }
+  return no;
+}
+
+/* "¿Cómo te fue el viernes?": la pregunta aparece los sábados en la mañana, de las 6:00 a las 13:59. Recibe un Date. */
+function mananaSabado(ahora){
+  return ahora instanceof Date&&!isNaN(ahora)&&ahora.getDay()===6&&ahora.getHours()>=6&&ahora.getHours()<14;
 }
 
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diaDe, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, recordatorioICS, enlaceGoogleCalendar, horaRecordatorio, fase478, tamanoCactus, esMadrugada, minutosRato, momentoSalida, HITOS, pesos };
+const Calculos={ fechaTexto, diaDe, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, recordatorioICS, enlaceGoogleCalendar, horaRecordatorio, fase478, tamanoCactus, esMadrugada, minutosRato, momentoSalida, mananaSabado, HITOS, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);

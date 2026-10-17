@@ -80,6 +80,17 @@ const path = require("path");
   if ((await pagina.evaluate(() => JSON.parse(localStorage.getItem("cd.v1")).salidaPlan.vuelta)) !== "En metro, directo") errores.push("La respuesta de la hora de salida no se guarda");
   await pagina.evaluate(() => document.getElementById("salidaQuitar").click());
   if (await pagina.isVisible("#salidaCard")) errores.push("La tarjeta de la hora de salida no se va al quitar la hora");
+  /* 6-a1. ¿Cómo te fue el viernes?: aparece un sábado en la mañana y responde sin reiniciar el Día 0 */
+  const dia0Antes = await pagina.evaluate(() => JSON.parse(localStorage.getItem("cd.v1")).day0);
+  await pagina.evaluate(() => { const R = Date; window.__DateReal = R; const fijo = new R(2026, 9, 17, 9, 0).getTime(); class F extends R { constructor(...a) { super(...(a.length ? a : [fijo])); } static now() { return fijo; } } window.Date = F; document.dispatchEvent(new Event("visibilitychange")); });
+  await pagina.waitForTimeout(150);
+  if (!(await pagina.isVisible("#viernesCard"))) errores.push("La pregunta del sábado no aparece un sábado en la mañana");
+  else {
+    await pagina.click('[data-viernes="consumi"]');
+    if (!/no borra/.test(await pagina.textContent("#viernesRespuesta"))) errores.push("La pregunta del sábado no responde sin culpa");
+    if ((await pagina.evaluate(() => JSON.parse(localStorage.getItem("cd.v1")).day0)) !== dia0Antes) errores.push("Responder Consumí reinició el Día 0 solo");
+  }
+  await pagina.evaluate(() => { window.Date = window.__DateReal; document.dispatchEvent(new Event("visibilitychange")); });
   /* 6-a. Un rato contigo: se abre desde Hoy con 3 minutos, corre, al terminar pregunta cómo estuvo, y se cierra */
   await pagina.click("#openRato"); await pagina.waitForTimeout(150);
   if (!(await pagina.isVisible("#rato"))) errores.push("Un rato contigo no abre");

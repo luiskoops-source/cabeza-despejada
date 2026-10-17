@@ -118,6 +118,17 @@
     <button class="ghost" type="button" id="salidaRato">Probar Un rato contigo</button>
   </div>
 
+  <!-- ¿CÓMO TE FUE EL VIERNES?: los sábados en la mañana, una sola pregunta, sin culpa. Lógica en js/app.js (renderViernes) -->
+  <div class="card" id="viernesCard" hidden>
+    <p class="eyebrow">¿Cómo te fue el viernes?</p>
+    <div class="row viernes-opciones">
+      <button type="button" data-viernes="bien">Bien, tranquilo</button>
+      <button type="button" data-viernes="costo">Costó, pero pasé</button>
+      <button type="button" data-viernes="consumi">Consumí</button>
+    </div>
+    <p class="small" id="viernesRespuesta" role="status" aria-live="polite"></p>
+  </div>
+
   <!-- HERO: lo único que importa al abrir: cuánto llevas, en vivo -->
   <div class="hero">
     <p class="hero-eyebrow" id="greet">Hoy</p>

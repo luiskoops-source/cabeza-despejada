@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente y es la única que se muestra, una sola vez.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-17-viernes", titulo:"¿Cómo te fue el viernes?", cambios:[
+    "Los sábados en la mañana, Hoy te pregunta cómo te fue el viernes: bien, costó pero pasaste, o consumiste. Sin puntaje y sin culpa.",
+    "Si consumiste, la app no reinicia nada sola: tú decides si reinicias tu Día 0, y los días anteriores siguen contando.",
+    "La tarjeta de tu hora de salida ahora sigue visible después de medianoche si sales tarde."
+  ]},
   {id:"2026-10-17-salida", titulo:"Tu hora de salida", cambios:[
     "La salida del trabajo o de clases suele ser un momento difícil. Ahora puedes decirle a la app a qué hora sales: está en Hoy, dentro de \"Mi plan para la hora difícil\".",
     "Desde una hora antes, Hoy te muestra una tarjeta con tres preguntas cortas: cómo vuelves a casa, qué vas a comer y a qué hora te acuestas. El resto de la noche queda libre a propósito.",
