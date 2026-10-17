@@ -12,5 +12,6 @@ window.VOZ=[
  {f:"No me sirve de nada estar limpio, igual me siento mal.",r:"El ánimo plano de las primeras semanas es parte de la recuperación del cerebro, no tu vida para siempre. Mejora con el tiempo limpio."},
  {f:"Ya perdí la racha, no vale la pena.",r:"La racha es un número. Los días limpios que viviste siguen siendo tuyos y tu cerebro los aprovechó igual."},
  {f:"Con esto voy a pensar más claro.",r:"Esa claridad es la misma dopamina que después trae la paranoia. Se siente como ver mejor, pero es el cerebro dando importancia a todo."},
- {f:"Sin esto no la voy a pasar bien en la fiesta.",r:"Las ganas suben y bajan en 15 a 30 minutos, con o sin fiesta. Puedes ir, quedarte un rato y salir cuando quieras: eso lo decides tú, no la sustancia."}
+ {f:"Sin esto no la voy a pasar bien en la fiesta.",r:"Las ganas suben y bajan en 15 a 30 minutos, con o sin fiesta. Puedes ir, quedarte un rato y salir cuando quieras: eso lo decides tú, no la sustancia."},
+ {f:"Los demás consumen y están bien.",r:"No sabes cómo están de verdad, y tú no eres ellos. Lo que te pasa a ti con la sustancia ya lo conoces: por eso estás aquí."}
 ];

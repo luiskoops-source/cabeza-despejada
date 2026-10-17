@@ -37,7 +37,7 @@ window.SUSTANCIAS=[
 {id:"marihuana",nombre:"Marihuana",tipo:"Cannabinoide",
  que:"Flores de cannabis. La de hoy es mucho más potente que la de hace 20 años. Los 'cannabinoides sintéticos' (spice, K2) no son marihuana y son mucho más peligrosos.",
  efecto:"Relajación, risa, apetito, cambios en la percepción. En otras personas: ansiedad, paranoia, taquicardia.",
- danos:["Memoria y concentración mientras se usa y en los días siguientes.","Psicosis: en personas con predisposición, el uso frecuente de variedades potentes puede desencadenar episodios y adelantar trastornos.","Motivación y ánimo con el uso diario.","Pulmones si se fuma, igual que el tabaco.","Dependencia: existe, y la abstinencia es real aunque sea leve."],
+ danos:["Memoria y concentración mientras se usa y en los días siguientes.","Psicosis: en personas con predisposición, el uso frecuente de variedades potentes puede desencadenar episodios y adelantar trastornos.","Motivación y ánimo con el uso diario.","Pulmones si se fuma: tos y bronquitis crónica, porque el humo trae muchos de los mismos irritantes que el del tabaco.","Dependencia: existe, y la abstinencia es real aunque sea leve."],
  emergencia:["Crisis de pánico intensa: no es mortal, pasa en 1 a 3 horas. Lugar tranquilo, agua, compañía.","Vómitos repetidos e incontrolables en usuarios diarios (hiperemesis cannabinoide): a urgencias.","Si se sospecha un sintético: convulsiones, agitación extrema, pulso muy alto: 131."],
  mezclas:["Con alcohol: mareo, vómitos, 'pálida'.","Con tabaco: suma la adicción a la nicotina.","Con estimulantes: ansiedad y taquicardia."],
  mitos:[{"m": "Es natural, no puede hacer daño.", "r": "La cicuta también es natural. La potencia de hoy y el uso diario tienen efectos reales en memoria, motivación y, en algunos, psicosis."}, {"m": "No engancha.", "r": "Alrededor de 1 de cada 10 personas que la usan desarrolla dependencia; más si empezaron antes de los 18."}, {"m": "Fumada es más sana que el tabaco.", "r": "El humo de marihuana tiene muchos de los mismos irritantes y cancerígenos que el del tabaco."}],
@@ -95,7 +95,7 @@ window.SUSTANCIAS=[
  abstinencia:"1 a 2 semanas de ánimo bajo y ganas."},
 
 {id:"opioides",nombre:"Opioides",tipo:"Depresor",
- que:"Tramadol, codeína, morfina, oxicodona, metadona, heroína, fentanilo. En Chile el más común es el tramadol, muchas veces de receta. El fentanilo es cientos de veces más potente y en otros países aparece mezclado en otras drogas.",
+ que:"Tramadol, codeína, morfina, oxicodona, metadona, heroína, fentanilo. En Chile el más común es el tramadol, muchas veces de receta. El fentanilo es entre 50 y 100 veces más potente que la morfina y en otros países aparece mezclado en otras drogas.",
  efecto:"Alivio del dolor, calma profunda, somnolencia. Dependencia física rápida.",
  danos:["Depresión respiratoria: la sobredosis mata porque se deja de respirar.","Dependencia física intensa con abstinencia muy dolorosa.","Estreñimiento, problemas hormonales, caídas."],
  emergencia:["Respiración muy lenta o ausente, labios azulados, no despierta, pupilas muy pequeñas: 131 inmediatamente.","Si hay naloxona disponible, usarla: revierte la sobredosis y no hace daño si no era opioide.","Mantener a la persona despierta y respirando hasta que llegue ayuda."],
@@ -110,7 +110,7 @@ window.SUSTANCIAS=[
  danos:["Cáncer de pulmón, boca, vejiga y más.","Enfermedad cardíaca y pulmonar crónica.","Vapeo: daño pulmonar y niveles de nicotina muy altos."],
  emergencia:["Rara vez. En niños o con líquidos de vapeo ingeridos: 131."],
  mezclas:["Con otros estimulantes: más presión y pulso.","Con cocaína: el efecto de cada una pide la otra."],
- mitos:[{"m": "Fumar me calma.", "r": "Calma la abstinencia de nicotina que el cigarro anterior creó. Sin fumar, a las 3 semanas esa ansiedad desaparece."}, {"m": "Vapear es inofensivo.", "r": "Tiene menos tóxicos que el humo, pero entrega mucha nicotina y daña el pulmón. Para dejar de fumar, los parches y chicles son más seguros."}, {"m": "Ya es tarde para dejarlo.", "r": "A cualquier edad, dejar el tabaco baja el riesgo de infarto en un año y de cáncer de pulmón a la mitad en diez."}],
+ mitos:[{"m": "Fumar me calma.", "r": "Calma la abstinencia de nicotina que el cigarro anterior creó. Sin fumar, esa ansiedad baja mucho en 2 a 4 semanas."}, {"m": "Vapear es inofensivo.", "r": "Tiene menos tóxicos que el humo, pero entrega mucha nicotina y daña el pulmón. Para dejar de fumar, los parches y chicles son más seguros."}, {"m": "Ya es tarde para dejarlo.", "r": "A cualquier edad, dejar el tabaco baja el riesgo de infarto en un año y de cáncer de pulmón a la mitad en diez."}],
  dejar:"Seguro de dejar en cualquier momento. Los parches y chicles de nicotina duplican las probabilidades de éxito y se compran sin receta. Muchas personas prefieren dejar primero la otra sustancia y después el tabaco; es una decisión válida.",
  abstinencia:"Lo peor: días 2 a 3. Ganas intensas: 2 a 4 semanas. Ganas ocasionales: meses."}
 ];

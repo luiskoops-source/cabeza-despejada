@@ -76,3 +76,12 @@ window.PREGUNTAS.push(
 {q:"En quien bebe mucho a diario, los síntomas peligrosos de la abstinencia de alcohol suelen aparecer entre las 48 y 72 horas sin beber.",v:true,e:"Verdadero. Las convulsiones y el delirium tremens aparecen en esa ventana, no en la primera hora. Por eso se deja con apoyo médico y no a solas.",s:"alcohol"},
 {q:"Mezclar ketamina con alcohol aumenta el riesgo de ahogarse con el vómito.",v:true,e:"Verdadero. Los dos deprimen la respiración y la persona puede quedar sin responder. Si alguien así vomita, se la pone de lado y se llama al 131.",s:"ketamina"}
 );
+
+/* Preguntas agregadas el 17 de octubre de 2026. Salen de los mitos y los daños de la guía de sustancias. */
+window.PREGUNTAS.push(
+{q:"Fumar un cigarro calma la ansiedad de verdad.",v:false,e:"Falso. Calma la abstinencia de nicotina que dejó el cigarro anterior. Sin fumar, esa ansiedad baja mucho en las primeras semanas.",s:"tabaco"},
+{q:"Mezclar pasta base con marihuana ('marciano') la hace más suave.",v:false,e:"Falso. Suma los daños de las dos sustancias y no reduce ninguno.",s:"pasta-base"},
+{q:"La ketamina de la calle es segura porque es la misma que se usa en los hospitales.",v:false,e:"Falso. En el hospital se usa con monitoreo. En la calle no se sabe qué es ni cuánta, y el riesgo es caerse, ahogarse con el vómito o mezclarla con alcohol.",s:"ketamina"},
+{q:"Si el clonazepam te lo recetó un médico, no puedes volverte dependiente.",v:false,e:"Falso. La dependencia aparece con el uso diario durante meses, con o sin receta. Si llevas mucho tiempo tomándolo, se baja de a poco con el médico, nunca de golpe.",s:"benzodiacepinas"},
+{q:"Usar MDMA muy seguido puede dejar depresión y problemas de memoria, aunque no produzca una dependencia física fuerte.",v:true,e:"Verdadero. El uso frecuente agota la serotonina. Dejar espacios largos entre usos es la primera medida de reducción de daños; dejarlo del todo es lo que recupera el ánimo.",s:"mdma"}
+);
