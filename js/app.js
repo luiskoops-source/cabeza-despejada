@@ -293,9 +293,9 @@ $("porQue").onclick=()=>{
   b.classList.remove("abraza"); void b.offsetWidth; if(abrir) b.classList.add("abraza"); /* reinicia el apretón */
 };
 $("porQueOk").onclick=()=>$("porQue").click();
-/* Pantallas completas (Modo calma, Respiración, Modo ganas, PIN): mientras una está abierta, la barra del sistema
+/* Pantallas completas (Modo calma, Respiración, Un rato contigo, Modo ganas, PIN): mientras una está abierta, la barra del sistema
    toma su color de fondo, así el azul de la calma llega hasta arriba sin un corte crema. Al cerrarla, vuelve el del tema. */
-const pantallasCompletas=["calma","respira","crave","lock"].map($).filter(Boolean);
+const pantallasCompletas=["calma","respira","rato","crave","lock"].map($).filter(Boolean);
 function colorBarra(){
   const abierta=pantallasCompletas.find(el=>!el.hidden);
   if(!abierta){ aplicarTema(); return; }

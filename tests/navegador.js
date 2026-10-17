@@ -70,6 +70,22 @@ const path = require("path");
   if ((await pagina.textContent("#respiraFase")) !== "Inhala") errores.push("La respiración no empieza inhalando");
   await pagina.click("#respiraCerrar");
   if (await pagina.isVisible("#respira")) errores.push("La respiración no se cierra");
+  /* 6-a. Un rato contigo: se abre desde Hoy con 3 minutos, corre, al terminar pregunta cómo estuvo, y se cierra */
+  await pagina.click("#openRato"); await pagina.waitForTimeout(150);
+  if (!(await pagina.isVisible("#rato"))) errores.push("Un rato contigo no abre");
+  if ((await pagina.textContent("#ratoReloj")) !== "3:00") errores.push("Un rato contigo no empieza con 3 minutos");
+  await pagina.click("#ratoEmpezar"); await pagina.waitForTimeout(1300);
+  if (!/^2:5\d$/.test(await pagina.textContent("#ratoReloj"))) errores.push("El reloj de Un rato contigo no corre: " + (await pagina.textContent("#ratoReloj")));
+  if (!(await pagina.textContent("#ratoFrase")).trim()) errores.push("Un rato contigo no muestra su frase");
+  /* Se adelanta el reloj para no esperar 3 minutos: al llegar a cero aparece la pregunta */
+  await pagina.evaluate(() => { const r = Date.now; window.__ahoraReal = r; Date.now = () => r() + 4 * 60 * 1000; });
+  await pagina.waitForTimeout(700);
+  if (!(await pagina.isVisible("#ratoComo"))) errores.push("Al terminar Un rato contigo no pregunta cómo estuvo");
+  await pagina.click('[data-rato-como="normal"]');
+  if (!(await pagina.textContent("#ratoRespuesta")).trim()) errores.push("Un rato contigo no responde a cómo estuvo");
+  await pagina.evaluate(() => { Date.now = window.__ahoraReal; });
+  await pagina.click("#ratoCerrar");
+  if (await pagina.isVisible("#rato")) errores.push("Un rato contigo no se cierra");
   /* 6-b. El salchicha que pasea y el que visita tienen sus estilos (flotan sobre la pantalla) */
   const estilosSalchicha = await pagina.evaluate(() => {
     const r = []; for (const c of ["paseo", "compa"]) { const d = document.createElement("div"); d.className = c; document.body.appendChild(d); r.push(getComputedStyle(d).position); d.remove(); } return r;

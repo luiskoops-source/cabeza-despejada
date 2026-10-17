@@ -18,7 +18,7 @@
   const escribiendo=()=>{ const a=document.activeElement; return !!a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName); };
   /* De madrugada no hay sorpresas: es hora de dormir, no de paracaídas (usa Calculos.esMadrugada si está cargado) */
   const deMadrugada=()=>!!(window.Calculos&&window.Calculos.esMadrugada(new Date().getHours()));
-  function momentoTranquilo(){ return !escribiendo()&&!deMadrugada()&&["calma","crave","lock","respira","welcome"].every(id=>{ const el=document.getElementById(id); return !el||el.hidden; }); }
+  function momentoTranquilo(){ return !escribiendo()&&!deMadrugada()&&["calma","crave","lock","respira","rato","welcome"].every(id=>{ const el=document.getElementById(id); return !el||el.hidden; }); }
 
   /* El dibujo: el mismo salchicha negro con café de la respiración, caminando hacia la derecha */
   const DIBUJO='<svg class="paseo-perro" viewBox="0 0 220 130" width="150" height="89" aria-hidden="true">'+

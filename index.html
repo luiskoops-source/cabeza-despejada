@@ -155,6 +155,7 @@
 
   <button class="warm" id="openCrave">Tengo ganas de consumir</button>
   <button class="respira-boton" id="openRespira" type="button" data-respira>Respirar 4-7-8 <span class="small">· ansiedad, ganas, tos nerviosa, dormir</span></button>
+  <button class="respira-boton" id="openRato" type="button">Un rato contigo <span class="small">· aburrimiento, soledad, tiempos muertos</span></button>
 
   <!-- Lo que viene: aparece los primeros 90 días -->
   <div class="card" id="loQueViene" hidden>
@@ -947,6 +948,50 @@
   <button role="tab" data-tab="registro" aria-selected="false"><span class="i">≡</span>Registro</button>
   <button role="tab" data-tab="ayuda" aria-selected="false"><span class="i">+</span>Ayuda</button>
 </nav>
+<!-- UN RATO CONTIGO: pantalla completa para practicar estar a solas, sin celular ni nada que hacer.
+     Lógica en js/rato.js, frases en datos/rato.js, minutos en js/calculos.js (minutosRato) -->
+<div class="crave" id="rato" hidden>
+  <div class="inner">
+    <div class="row" style="justify-content:space-between">
+      <span class="pill good">Un rato contigo</span>
+      <button class="ghost" id="ratoCerrar" type="button">Salir</button>
+    </div>
+    <h1>Un rato contigo</h1>
+    <p class="muted">Unos minutos sin celular, sin música y sin hacer nada. Si aparece el aburrimiento o la soledad, no tienes que arreglarlo: solo notarlo. Así se aprende que también pasa.</p>
+    <!-- Un círculo quieto con el reloj; mientras corre, late muy lento (css/estilos.css, .rato-circulo) -->
+    <div class="respira-circulo rato-circulo" id="ratoCirculo" aria-hidden="true">
+      <span class="respira-num num" id="ratoReloj">3:00</span>
+    </div>
+    <p style="text-align:center" id="ratoFrase" role="status" aria-live="polite"></p>
+    <div class="row" style="justify-content:center">
+      <button class="primary" id="ratoEmpezar" type="button">Empezar</button>
+      <label class="small" style="display:flex;gap:6px;align-items:center">Minutos
+        <select id="ratoMinutos" style="width:auto"><option value="3">3</option><option value="5">5</option><option value="10">10</option><option value="15">15</option></select>
+      </label>
+    </div>
+    <p class="small muted" style="text-align:center" id="ratoNivel"></p>
+    <!-- Al terminar: una sola pregunta, sin puntaje ni juicio -->
+    <div class="card" id="ratoComo" hidden>
+      <p><b>¿Cómo estuvo?</b></p>
+      <div class="row"><button type="button" data-rato-como="dificil">Difícil</button><button type="button" data-rato-como="normal">Normal</button><button type="button" data-rato-como="tranquilo">Tranquilo</button></div>
+      <p class="small muted" id="ratoRespuesta" role="status" aria-live="polite"></p>
+    </div>
+
+    <div class="stack" style="margin-top:12px">
+      <details class="acompanar" open>
+        <summary><b>Por qué practicar esto</b></summary>
+        <ul class="small">
+          <li><b>Muchas recaídas no pasan en una fiesta</b>, sino en un rato muerto: al salir del trabajo, un domingo en la tarde, una noche a solas sin nada que hacer.</li>
+          <li><b>Llenar todo el tiempo sirve al principio, pero no se sostiene.</b> Si cada rato vacío se tapa con algo, se aprende que el aburrimiento y la soledad son peligrosos y hay que huir de ellos.</li>
+          <li><b>Quedarse con lo incómodo, de a poco, enseña que se puede.</b> Es la misma idea de la ola de ganas: sube, llega a un punto y baja. Terapias como la de aceptación y compromiso, o el entrenamiento en tolerancia al malestar, trabajan así.</li>
+          <li><b>Por eso empieza corto:</b> 3 minutos. Sube solo cuando lo vas terminando. Si un día cuesta, se repite igual, sin apuro.</li>
+        </ul>
+      </details>
+    </div>
+    <p class="small muted">Si las ganas de consumir están muy fuertes ahora, esto puede esperar.</p>
+    <button class="ghost" id="ratoGanas" type="button">Abrir el Modo ganas</button>
+  </div>
+</div>
 <!-- RESPIRACIÓN 4-7-8: pantalla completa, como el Modo ganas. Lógica en js/respira.js, fases en js/calculos.js (fase478) -->
 <div class="crave" id="respira" hidden>
   <div class="inner">
@@ -1071,6 +1116,8 @@
 <script src="datos/voz.js"></script>
 <!-- DATOS: lista antes de salir -->
 <script src="datos/antes-de-salir.js"></script>
+<!-- DATOS: frases de Un rato contigo -->
+<script src="datos/rato.js"></script>
 <!-- DATOS: historias de la gente (Cuenta tu historia) -->
 <script src="datos/cuentan.js"></script>
 <!-- DATOS: qué hay de nuevo en cada versión -->
@@ -1082,6 +1129,8 @@
 <script src="js/app.js"></script>
 <!-- RESPIRA: la respiración 4-7-8 (no depende del resto) -->
 <script src="js/respira.js"></script>
+<!-- RATO: Un rato contigo, practicar estar a solas (no depende del resto) -->
+<script src="js/rato.js"></script>
 <!-- PASEO: de vez en cuando el salchicha cruza la pantalla y te pasa la lengua (no depende del resto) -->
 <script src="js/paseo.js"></script>
 <!-- ESCUCHAR: la voz del teléfono lee las tarjetas (no depende del resto) -->

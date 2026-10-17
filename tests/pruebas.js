@@ -20,6 +20,13 @@ prueba("las 6 ya no",()=>assert.strictEqual(C.esMadrugada(6),false));
 prueba("las 23 todavía no",()=>assert.strictEqual(C.esMadrugada(23),false));
 prueba("algo que no es una hora no es madrugada",()=>{ assert.strictEqual(C.esMadrugada("3"),false); assert.strictEqual(C.esMadrugada(undefined),false); });
 
+console.log("minutosRato");
+prueba("la primera vez son 3 minutos",()=>assert.strictEqual(C.minutosRato(0),3));
+prueba("después de 2 veces sube a 5",()=>{ assert.strictEqual(C.minutosRato(1),3); assert.strictEqual(C.minutosRato(2),5); });
+prueba("después de 4 veces sube a 10",()=>{ assert.strictEqual(C.minutosRato(3),5); assert.strictEqual(C.minutosRato(4),10); });
+prueba("después de 7 veces llega a 15 y no pasa de ahí",()=>{ assert.strictEqual(C.minutosRato(6),10); assert.strictEqual(C.minutosRato(7),15); assert.strictEqual(C.minutosRato(500),15); });
+prueba("texto, negativo o vacío empiezan en 3",()=>{ assert.strictEqual(C.minutosRato("abc"),3); assert.strictEqual(C.minutosRato(-4),3); assert.strictEqual(C.minutosRato(undefined),3); });
+
 console.log("diasDesde");
 prueba("sin Día 0 devuelve 0",()=>assert.strictEqual(C.diasDesde(null,"2026-10-09"),0));
 prueba("mismo día devuelve 0",()=>assert.strictEqual(C.diasDesde("2026-10-09","2026-10-09"),0));

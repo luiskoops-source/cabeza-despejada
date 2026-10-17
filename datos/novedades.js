@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente y es la única que se muestra, una sola vez.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-17-rato", titulo:"Un rato contigo", cambios:[
+    "En Hoy hay un botón nuevo, debajo de la respiración: unos minutos sin celular, sin música y sin hacer nada, para aprender a estar con el aburrimiento y la soledad en vez de escapar de ellos.",
+    "Empieza con 3 minutos y sube de a poco (5, 10, 15) a medida que lo vas terminando. Si un día cuesta, se repite igual, sin apuro.",
+    "Sirve sobre todo para los tiempos muertos: la salida del trabajo, el viernes en la tarde, el domingo. Puedes dejar el teléfono boca abajo: vibra al terminar."
+  ]},
   {id:"2026-10-16-crece", titulo:"El cactus crece contigo", cambios:[
     "Al abrir la app, el cactus empieza chiquito, como de llavero, y crece con todos los días que llevas en esto. Una recaída no lo achica: lo vivido no se borra.",
     "En el Modo ganas, el círculo va pasando del naranjo al azul mientras corre el reloj, como un atardecer que se vuelve noche: la ola se ve bajar.",

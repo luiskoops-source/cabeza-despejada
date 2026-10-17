@@ -237,10 +237,17 @@ function tamanoCactus(dias){
    Recibe la hora (0 a 23). Cualquier otra cosa no es madrugada. */
 function esMadrugada(hora){ return Number.isInteger(hora)&&hora>=0&&hora<6; }
 
+/* "Un rato contigo": cuántos minutos dura la próxima práctica, según cuántas veces se terminó bien.
+   Empieza corto a propósito y sube de a poco: 2 veces de 3 minutos, 2 de 5, 3 de 10, y después 15. Nunca pasa de 15. */
+function minutosRato(completados){
+  const n=Math.max(0,Math.floor(Number(completados)||0));
+  return n<2?3:n<4?5:n<7?10:15;
+}
+
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diaDe, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, recordatorioICS, enlaceGoogleCalendar, horaRecordatorio, fase478, tamanoCactus, esMadrugada, HITOS, pesos };
+const Calculos={ fechaTexto, diaDe, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, recordatorioICS, enlaceGoogleCalendar, horaRecordatorio, fase478, tamanoCactus, esMadrugada, minutosRato, HITOS, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);
