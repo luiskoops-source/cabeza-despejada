@@ -22,8 +22,9 @@ const path = require("path");
   await pagina.click("#welcomeGo");
   await pagina.waitForTimeout(200);
   if (await pagina.isVisible("#welcome")) errores.push("La bienvenida sigue visible tras marcar el Día 0");
-  /* 1a. Quien recién empieza no ve "Qué hay de nuevo": para esa persona todo es nuevo */
-  if (await pagina.isVisible("#novedades")) errores.push("Qué hay de nuevo aparece a alguien que recién empieza");
+  /* 1a. Las novedades no interrumpen en Hoy: viven plegadas en Ayuda > Acerca de, como historial de cambios */
+  if (await pagina.evaluate(() => !!document.getElementById("novedades"))) errores.push("La tarjeta Qué hay de nuevo volvió a Hoy");
+  if ((await pagina.evaluate(() => document.querySelectorAll("#historialCambios h3").length)) < 1) errores.push("El historial de cambios está vacío");
   /* 1b. Lo que viene: visible en los primeros días */
   if (!(await pagina.isVisible("#loQueViene"))) errores.push("La tarjeta Lo que viene no aparece");
   /* 1c. La historia: el primer día se abre el capítulo 1 */

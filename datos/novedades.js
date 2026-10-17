@@ -1,5 +1,5 @@
-/* Novedades: lo que cambió en cada versión, para la tarjeta "Qué hay de nuevo" de Hoy.
-   La primera de la lista es la más reciente y es la única que se muestra, una sola vez.
+/* Novedades: lo que cambió en cada versión. Se muestran todas, plegadas, en Ayuda > Acerca de esta app > Historial de cambios.
+   La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
   {id:"2026-10-17-logo", titulo:"El salchicha se renovó", cambios:[

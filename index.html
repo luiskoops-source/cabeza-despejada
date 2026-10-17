@@ -76,13 +76,6 @@
     </ul>
   </div>
 
-  <!-- Qué hay de nuevo: aparece una vez después de cada actualización (el texto está en datos/novedades.js) -->
-  <div class="card" id="novedades" hidden>
-    <div class="row" style="justify-content:space-between"><p class="eyebrow">Qué hay de nuevo</p><button class="ghost small" id="novedadesOk">Entendido</button></div>
-    <h3 id="novedadesTitulo"></h3>
-    <ul class="small" id="novedadesLista"></ul>
-  </div>
-
   <div class="card celebra" id="celebra" hidden>
     <div class="lluvia" aria-hidden="true"><span>♥</span><span>♥</span><span>♥</span><span>♥</span><span>♥</span><span>♥</span></div>
     <div class="row" style="justify-content:space-between">
@@ -831,6 +824,11 @@
       <p class="small">No te voy a decir qué hacer con tu vida. Te voy a dar información verdadera, sin sermones, y un lugar que no te juzga. Nadie sabe que usas esta app: no pide tu nombre, no guarda nada fuera de tu celular, y lo que anotas es solo tuyo. Si hoy consumes, quiero que llegues vivo a mañana. Si quieres dejarlo, quiero que sepas que se puede, y que no estás solo.</p>
     </div>
     <p class="small">La información de salud viene de fuentes públicas: SENDA (Chile), NIDA (EE.UU.), la ONU, la OEA y organizaciones de reducción de daños como DanceSafe y TripSit. No reemplaza a un médico ni a un tratamiento. Si tu consumo te está haciendo daño, el 1412 es gratuito y anónimo.</p>
+    <!-- Historial de cambios: todas las novedades, plegadas (el texto está en datos/novedades.js). Ya no interrumpen en Hoy. -->
+    <details>
+      <summary class="small">Historial de cambios</summary>
+      <div id="historialCambios" style="margin-top:8px"></div>
+    </details>
     <details>
       <summary class="small">Política de privacidad</summary>
       <ul class="small" style="margin-top:8px">

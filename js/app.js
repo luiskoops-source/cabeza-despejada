@@ -81,7 +81,7 @@ function renderHoy(){
   const d=daysSince(S.day0);
   $("days").textContent=d;
   $("daysLabel").textContent=d===1?"día":"días";
-  $("sinceText").textContent=S.day0?("Día 0: "+new Date(S.day0+"T12:00:00").toLocaleDateString("es-CL",{day:"numeric",month:"long"})+(S.craveWins?" · "+S.craveWins+" olas de ganas superadas":"")):"Marca la fecha de tu último consumo para empezar a contar.";
+  $("sinceText").textContent=S.day0?("Día 0: "+new Date(S.day0+"T12:00:00").toLocaleDateString("es-CL",{day:"numeric",month:"long"})+(S.craveWins?" · "+S.craveWins+(S.craveWins===1?" ola de ganas superada":" olas de ganas superadas"):"")):"Marca la fecha de tu último consumo para empezar a contar.";
   $("day0").value=S.day0||"";
   $("spendWeek").value=S.spendWeek||"";
   $("salary").value=S.salary||"";
@@ -314,26 +314,12 @@ pantallasCompletas.forEach(el=>vigiaPantallas.observe(el,{attributes:true,attrib
 /* ---------- Primeros pasos (una sola vez) ---------- */
 function renderTour(){ $("tour").hidden=!S.day0||!!S.tourVisto; }
 $("tourOk").onclick=()=>{ S.tourVisto=true; save(); renderTour(); };
-/* Qué hay de nuevo: muestra la novedad más reciente una sola vez, hasta tocar Entendido.
-   A quien recién empieza (todavía sin Día 0) no se le muestra: para esa persona todo es nuevo. */
+/* Historial de cambios: todas las novedades, de la más nueva a la más vieja, plegadas en Ayuda > Acerca de esta app.
+   Ya no aparecen como tarjeta en Hoy: a quien usa la app no le interesan, y quien quiera verlas las busca ahí. */
 const NOVEDADES=window.NOVEDADES||[];
 function renderNovedades(){
-  const n=NOVEDADES[0];
-  if(n&&!S.day0&&S.novedadVista!==n.id){ S.novedadVista=n.id; save(); }
-  /* Si hubo varias versiones desde la última vez, se muestran todas las que faltan (hasta 4), cada una con su título */
-  const lista=S.day0?C.novedadesPendientes(NOVEDADES,S.novedadVista,4):[];
-  $("novedades").hidden=!lista.length;
-  if(!lista.length) return;
-  if(lista.length===1){
-    $("novedadesTitulo").textContent=lista[0].titulo;
-    $("novedadesLista").innerHTML=lista[0].cambios.map(c=>"<li>"+esc(c)+"</li>").join("");
-  }else{
-    $("novedadesTitulo").textContent=lista.length+" novedades desde la última vez";
-    /* Cada novedad se abre y se cierra; la más reciente parte abierta, para que la tarjeta no quede tan larga */
-    $("novedadesLista").innerHTML=lista.map((x,i)=>"<li class=\"novedad\"><details"+(i===0?" open":"")+"><summary><b>"+esc(x.titulo)+"</b></summary><ul>"+x.cambios.map(c=>"<li>"+esc(c)+"</li>").join("")+"</ul></details></li>").join("");
-  }
+  $("historialCambios").innerHTML=NOVEDADES.map(n=>`<h3 style="margin-top:12px">${esc(n.titulo)}</h3><ul class="small">${n.cambios.map(c=>"<li>"+esc(c)+"</li>").join("")}</ul>`).join("");
 }
-$("novedadesOk").onclick=()=>{ S.novedadVista=NOVEDADES[0].id; save(); renderNovedades(); };
 
 /* ---------- Configuración ---------- */
 function fillConfig(){
