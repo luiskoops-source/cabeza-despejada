@@ -16,6 +16,8 @@ const defaults={
   salidaHora:null, salidaDias:[1,2,3,4,5], salidaPlan:{fecha:null,vuelta:"",comida:"",dormir:""},
   /* Respuesta del sábado a "¿Cómo te fue el viernes?": { fecha, como } (como: "bien", "costo" o "consumi") */
   viernesRespuesta:null,
+  /* Cartas que no se envían: { id, fecha, para, texto }, y lo que se está escribiendo (para no perderlo si se cierra la app) */
+  cartas:[], cartaBorrador:{para:"",texto:""},
   /* Configuración: sustancia principal, modo ("dejar" o "reducir"), meta semanal en modo reducir, PIN opcional */
   sustancia:"cocaina", modo:"dejar", metaSemana:2, pin:"", tema:"auto", tourVisto:false, novedadVista:null, inicio:null, ganasMin:15,
   celebrado:0, pledgeDate:null, salirDate:null, salirOk:[], rapidoDate:null, rapidoCount:0, rapidoSeen:[], quizDate:null, quizIdx:null, quizDone:false, quizStreak:0, quizBest:0, volverDia:null, volverOk:[],
@@ -923,6 +925,7 @@ function renderRegistro(){
   $("log").innerHTML=S.events.length?S.events.slice(0,60).map(e=>{ const t=new Date(e.ts); return `<div class="e"><time>${t.toLocaleDateString("es-CL",{day:"2-digit",month:"2-digit"})} ${t.toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"})}</time><div><span class="pill ${e.type==="relapse"?"bad":e.type==="win"?"good":""}">${e.type==="relapse"?"consumo":e.type==="win"?"ola superada":e.type==="checkin"?"dormí "+e.sueno+" h · ánimo "+e.animo+"/5":e.type==="calma"?"modo calma":e.type==="discusion"?"después de una discusión":"ganas "+e.i+"/10"}</span>${e.trig?" · "+esc(e.trig):""}${e.did?"<br>"+esc(e.did):""}</div></div>`; }).join(""):`<p class="small muted">Nada todavía. Lo primero que anotes empieza a mostrar tu patrón.</p>`;
   renderPatterns();
   renderCal();
+  renderCartas();
 }
 function renderPatterns(){
   const cr=S.events.filter(e=>e.type==="crave"||e.type==="relapse");
@@ -1025,6 +1028,56 @@ $("discusionCerrar").onclick=()=>{
   $("discusion").hidden=true; discusionEvento=null;
   if(!document.querySelector(".crave:not([hidden])")) document.body.style.overflow="";
   renderRegistro();
+};
+
+/* ---------- Frases para poner límites ---------- */
+/* Se muestran en Saber y en "Después de una discusión": toda caja con la clase limites-lista recibe la lista (datos/limites.js) */
+function renderLimites(){
+  const L=window.LIMITES||[];
+  const html=L.map(x=>`<details class="voz"><summary>${esc(x.s)}</summary>${x.f.map(f=>`<p class="limite-frase">"${esc(f)}"</p>`).join("")}<p class="small muted">${esc(x.por)}</p></details>`).join("");
+  document.querySelectorAll(".limites-lista").forEach(el=>{ el.innerHTML=html; });
+}
+renderLimites();
+
+/* ---------- Una carta que no se envía ---------- */
+/* Se escribe en Registro. Lo escrito se guarda solo mientras se escribe (borrador); "Guardar" la pasa a la lista,
+   "Soltarla" la borra sin guardarla. Todo vive en el estado de la app (cd.v1): viaja en la copia y "Borrar todo" lo borra. */
+const fechaCarta=f=>new Date(f+"T12:00:00").toLocaleDateString("es-CL",{day:"numeric",month:"long",year:"numeric"});
+function renderCartas(){
+  const b=S.cartaBorrador||{};
+  if(document.activeElement!==$("cartaPara")) $("cartaPara").value=b.para||"";
+  if(document.activeElement!==$("cartaTexto")) $("cartaTexto").value=b.texto||"";
+  const C2=S.cartas||[];
+  $("cartasGuardadas").hidden=!C2.length;
+  $("cartasCuenta").textContent=C2.length;
+  $("cartasLista").innerHTML=C2.map(c=>`<details class="voz"><summary>${esc(c.para||"Sin destinatario")} · ${esc(fechaCarta(c.fecha))}</summary><p class="small carta-texto">${esc(c.texto)}</p><button class="ghost small" type="button" data-borrar-carta="${c.id}">Borrar esta carta</button></details>`).join("");
+  $("cartasLista").querySelectorAll("[data-borrar-carta]").forEach(btn=>btn.onclick=()=>{
+    /* Se pide tocar dos veces, como en "Borrar todo" */
+    if(btn.dataset.c!=="1"){ btn.dataset.c="1"; btn.textContent="Toca de nuevo para borrarla"; setTimeout(()=>{ btn.dataset.c=""; btn.textContent="Borrar esta carta"; },4000); return; }
+    S.cartas=(S.cartas||[]).filter(c=>String(c.id)!==btn.dataset.borrarCarta); save(); renderCartas(); toast("Carta borrada");
+  });
+}
+["cartaPara","cartaTexto"].forEach(id=>$(id).addEventListener("input",()=>{
+  S.cartaBorrador={ para:$("cartaPara").value.slice(0,60), texto:$("cartaTexto").value.slice(0,5000) }; save();
+}));
+$("cartaGuardar").onclick=()=>{
+  const texto=$("cartaTexto").value.trim();
+  if(!texto){ mensaje("cartaMsg","Escribe algo primero. No tiene que estar bien escrito.","no"); return; }
+  S.cartas=[{ id:Date.now(), fecha:todayStr(), para:$("cartaPara").value.trim().slice(0,60), texto:texto.slice(0,5000) }].concat(S.cartas||[]);
+  S.cartaBorrador={para:"",texto:""}; save();
+  $("cartaPara").value=""; $("cartaTexto").value="";
+  renderCartas(); mensaje("cartaMsg","Guardada solo en tu teléfono. Nadie más la va a leer.","ok");
+};
+$("cartaSoltar").onclick=()=>{
+  const habia=$("cartaTexto").value.trim();
+  S.cartaBorrador={para:"",texto:""}; save();
+  $("cartaPara").value=""; $("cartaTexto").value="";
+  mensaje("cartaMsg",habia?"La soltaste. No quedó guardada en ninguna parte.":"No había nada escrito.","");
+};
+/* Desde "Después de una discusión": cierra esa pantalla y lleva a la carta */
+$("discusionCarta").onclick=()=>{
+  $("discusionCerrar").click(); irA("registro");
+  setTimeout(()=>{ $("cartaCard").scrollIntoView({behavior:"smooth",block:"start"}); $("cartaTexto").focus({preventScroll:true}); },80);
 };
 
 /* ---------- Atajos de la pestaña Noche ---------- */

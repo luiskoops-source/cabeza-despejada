@@ -85,6 +85,20 @@ const path = require("path");
   if (await pagina.isVisible("#discusion")) errores.push("Después de una discusión no se cierra");
   if (!(await pagina.evaluate(() => document.getElementById("log").textContent.includes("después de una discusión")))) errores.push("El historial no nombra Después de una discusión");
   if (!(await pagina.evaluate(() => [...document.querySelectorAll("#cTrig option")].some(o => o.textContent === "Tema familiar")))) errores.push("Falta el gatillante Tema familiar");
+  /* 6-a01. Frases para poner límites: están en Saber y dentro de Después de una discusión */
+  const nLim = await pagina.evaluate(() => [...document.querySelectorAll(".limites-lista")].map(el => el.querySelectorAll("details").length));
+  if (nLim.length !== 2 || nLim.some(n => n < 5)) errores.push("Faltan las frases para poner límites: " + nLim.join(","));
+  /* 6-a02. Una carta que no se envía: el borrador se guarda solo, Guardar la pasa a la lista, Soltarla borra sin guardar */
+  await pagina.click('[data-tab="registro"]');
+  await pagina.fill("#cartaPara", "a alguien"); await pagina.fill("#cartaTexto", "Lo que no te dije.");
+  if ((await pagina.evaluate(() => JSON.parse(localStorage.getItem("cd.v1")).cartaBorrador.texto)) !== "Lo que no te dije.") errores.push("La carta no guarda el borrador mientras se escribe");
+  await pagina.click("#cartaGuardar");
+  const cartas = await pagina.evaluate(() => JSON.parse(localStorage.getItem("cd.v1")).cartas);
+  if (!cartas || cartas.length !== 1 || cartas[0].texto !== "Lo que no te dije.") errores.push("Guardar no guarda la carta");
+  if (!(await pagina.isVisible("#cartasGuardadas"))) errores.push("La carta guardada no aparece en la lista");
+  await pagina.fill("#cartaTexto", "Esta la suelto."); await pagina.click("#cartaSoltar");
+  if ((await pagina.evaluate(() => JSON.parse(localStorage.getItem("cd.v1")).cartas.length)) !== 1 || (await pagina.inputValue("#cartaTexto")) !== "") errores.push("Soltarla no borra la carta sin guardarla");
+  await pagina.click('[data-tab="hoy"]');
   /* 6-a0. Hora de salida: sin hora no hay tarjeta; al poner la hora de ahora (todos los días) aparece, y lo escrito se guarda */
   if (await pagina.isVisible("#salidaCard")) errores.push("La tarjeta de la hora de salida aparece sin hora configurada");
   await pagina.evaluate(() => document.querySelectorAll("#salidaDias input").forEach(i => { if (!i.checked) i.click(); }));

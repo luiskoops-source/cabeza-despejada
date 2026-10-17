@@ -291,6 +291,10 @@ details summary{cursor:pointer;font-weight:600}
 /* Qué hay de nuevo con varias novedades: cada una se abre y se cierra, sin viñeta propia */
 #novedadesLista li.novedad{list-style:none;margin-left:-1.2em;margin-bottom:6px}
 #novedadesLista li.novedad summary{cursor:pointer;padding:4px 0}
+/* Frases para poner límites: cada frase destacada, como algo que se puede decir tal cual */
+.limite-frase{margin:6px 0;padding:8px 12px;border-radius:10px;background:var(--accent-soft);font-weight:600}
+/* Una carta que no se envía: el texto guardado respeta los saltos de línea */
+.carta-texto{white-space:pre-wrap}
 /* ¿Cómo te fue el viernes?: la respuesta elegida queda marcada */
 .viernes-opciones button.on{background:var(--accent);color:var(--accent-ink);border-color:transparent}
 /* Buscador */

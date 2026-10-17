@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-17-limites-carta", titulo:"Límites y una carta que no se envía", cambios:[
+    "En Saber hay frases cortas para poner límites con la familia: cuando te ofrecen, cuando insisten, cuando te sacan el pasado en cara o cuando alguien consume delante de ti.",
+    "En Registro puedes escribir una carta que no se envía: lo que no le dijiste a alguien. Se guarda solo en tu teléfono, o la sueltas y se borra.",
+    "Las dos también están dentro de \"Después de una discusión\"."
+  ]},
   {id:"2026-10-17-discusion", titulo:"Después de una discusión", cambios:[
     "En Hoy hay un botón nuevo para el rato justo después de una pelea con la familia, la pareja o alguien cercano, que es uno de los momentos en que más se recae.",
     "Te acompaña paso a paso: primero el cuerpo, no decidir nada en caliente, ponerle nombre a lo que sientes y hablar con alguien. Si hubo violencia, están los teléfonos para pedir ayuda.",

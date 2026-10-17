@@ -415,6 +415,13 @@
     <div id="buscarOut" class="stack" hidden></div>
   </div>
 
+  <!-- Frases para poner límites con la familia: situaciones y frases cortas (datos/limites.js, js/app.js renderLimites) -->
+  <div class="card" id="limitesCard">
+    <h2>Poner límites con la familia</h2>
+    <p class="small muted">Situaciones que empujan a consumir y frases cortas para responder. Toca la que te pasa. Poner un límite no es pelear ni dejar de querer a alguien.</p>
+    <div class="stack limites-lista"></div>
+  </div>
+
   <!-- Cuenta tu historia: la gente cuenta o celebra algo en un formulario anónimo; se revisa y se publica aquí.
        Sin foro ni chat, a propósito. Historias y link del formulario en datos/cuentan.js -->
   <div class="card" id="cuentanCard">
@@ -594,6 +601,25 @@
       <button class="danger" id="addRelapse">Registrar consumo</button>
     </div>
     <p class="small muted">Registrar un consumo mueve tu Día 0 a hoy. No borra nada: el registro queda para que veas qué pasó antes.</p>
+  </div>
+
+  <!-- Una carta que no se envía: escribir lo que no se le dijo a alguien. Queda solo en el teléfono (dentro de cd.v1,
+       así entra en la copia de seguridad y "Borrar todo" la borra), o se suelta y se borra. Lógica en js/app.js -->
+  <div class="card" id="cartaCard">
+    <h2>Una carta que no se envía</h2>
+    <p class="small muted">Para escribirle a alguien lo que no le dijiste: a tu familia, a una pareja, a ti mismo. Nadie la va a leer. Puedes guardarla aquí, o soltarla y que se borre.</p>
+    <label class="f ancho">Para (opcional)<input id="cartaPara" maxlength="60" placeholder="Ej: a mi papá"></label>
+    <label class="f ancho">Lo que no dije<textarea id="cartaTexto" rows="7" maxlength="5000" placeholder="Escribe sin pensar en cómo suena. No hay que corregir nada."></textarea></label>
+    <div class="row">
+      <button class="primary" type="button" id="cartaGuardar">Guardar en mi teléfono</button>
+      <button class="ghost" type="button" id="cartaSoltar">Soltarla (se borra)</button>
+    </div>
+    <p class="small" id="cartaMsg" role="status" aria-live="polite"></p>
+    <details class="fold" id="cartasGuardadas" hidden>
+      <summary>Mis cartas guardadas <span class="pill" id="cartasCuenta"></span></summary>
+      <div class="stack" id="cartasLista"></div>
+    </details>
+    <p class="small muted">Queda solo en este teléfono. Si pones un PIN en Configuración, nadie más puede abrir la app. También viaja en tu copia de seguridad.</p>
   </div>
 
   <div class="card">
@@ -1029,6 +1055,15 @@
       </ul>
     </div>
     <div class="card">
+      <p class="eyebrow">Para la próxima vez: frases para poner límites</p>
+      <div class="stack limites-lista"></div>
+    </div>
+    <div class="card">
+      <p class="eyebrow">Lo que no dijiste</p>
+      <p class="small">Escribirlo ayuda a sacarlo de la cabeza sin seguir la pelea. Una carta que no se envía a nadie: queda solo en tu teléfono, o la sueltas y se borra.</p>
+      <button class="ghost" type="button" id="discusionCarta">Escribir una carta que no se envía</button>
+    </div>
+    <div class="card">
       <p class="eyebrow">Habla con alguien</p>
       <p class="small">Alguien de confianza que no sea parte de la discusión. O llama al SENDA: es gratis y anónimo, y también orienta en temas de familia.</p>
       <div class="contact"><div><div class="eyebrow">SENDA, orientación</div><b>1412</b></div><button data-copy="1412">Copiar</button></div>
@@ -1218,6 +1253,8 @@
 <script src="datos/voz.js"></script>
 <!-- DATOS: lista antes de salir -->
 <script src="datos/antes-de-salir.js"></script>
+<!-- DATOS: frases para poner límites -->
+<script src="datos/limites.js"></script>
 <!-- DATOS: lo que dice Después de una discusión según la emoción -->
 <script src="datos/discusion.js"></script>
 <!-- DATOS: frases de Un rato contigo -->
