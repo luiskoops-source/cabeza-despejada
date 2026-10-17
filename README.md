@@ -30,7 +30,7 @@ cabeza-despejada/
 
 ## Cómo guarda los datos
 
-En `localStorage` del navegador, bajo la clave `cd.v1`. Eso significa que cada aparato tiene sus propios datos. Pasar a una base de datos real es el siguiente paso del proyecto.
+En `localStorage` del navegador. Casi todo va bajo la clave `cd.v1`; algunas partes que viven en su propio archivo guardan aparte, siempre con claves que empiezan con `cd.` (por ejemplo `cd.rato`, el historial de Un rato contigo, que igual entra en la copia de seguridad). "Borrar todos mis datos" borra todas las claves `cd.`. Cada aparato tiene sus propios datos. Pasar a una base de datos real es el siguiente paso del proyecto.
 
 ## Funciones que dependen de Claude
 

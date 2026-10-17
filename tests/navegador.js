@@ -176,6 +176,27 @@ const path = require("path");
   if (await pagina.isVisible("#crave")) errores.push("El atajo abrió el Modo ganas sin pedir el PIN");
   await pagina.fill("#lockPin", "1234"); await pagina.click("#lockGo"); await pagina.waitForTimeout(200);
   if (!(await pagina.isVisible("#crave"))) errores.push("Tras el PIN, el atajo no abre el Modo ganas");
+  /* 8. La copia lleva el historial de Un rato contigo, y restaurarla lo devuelve a su lugar */
+  await pagina.evaluate(() => localStorage.setItem("cd.rato", JSON.stringify({ historial: [{ fecha: "2026-10-17T12:00:00.000Z", minutos: 3, como: "normal" }] })));
+  const [descarga] = await Promise.all([pagina.waitForEvent("download", { timeout: 5000 }).catch(() => null), pagina.evaluate(() => document.getElementById("guardarCopia").click())]);
+  if (!descarga) errores.push("Guardar copia no descargó el archivo");
+  else {
+    const copia = JSON.parse(require("fs").readFileSync(await descarga.path(), "utf8"));
+    if (!copia.datos.rato || copia.datos.rato.historial.length !== 1) errores.push("La copia no lleva el historial de Un rato contigo");
+    await pagina.evaluate(() => localStorage.removeItem("cd.rato"));
+    await pagina.evaluate(t => { document.getElementById("textoCopia").value = t; }, JSON.stringify(copia));
+    await pagina.evaluate(() => document.getElementById("restaurarTexto").click());
+    await Promise.all([pagina.waitForNavigation(), pagina.evaluate(() => document.querySelector("#copiaMsg button.primary").click())]);
+    if (!(await pagina.evaluate(() => localStorage.getItem("cd.rato")))) errores.push("Restaurar la copia no devuelve el historial de Un rato contigo");
+    if (await pagina.evaluate(() => "rato" in JSON.parse(localStorage.getItem("cd.v1")))) errores.push("El historial de Un rato contigo quedó mezclado con los datos de la app");
+  }
+  /* 9. Borrar todos mis datos borra todo lo de la app en este aparato (también Un rato contigo y el código de la nube) */
+  await pagina.evaluate(() => { localStorage.setItem("cd.nube", JSON.stringify({ codigo: "X", ultimo: null })); localStorage.setItem("cd.rato", "{}"); localStorage.setItem("otra.app", "1"); });
+  await pagina.evaluate(() => document.getElementById("wipeAll").click());
+  await Promise.all([pagina.waitForNavigation(), pagina.evaluate(() => document.getElementById("wipeAll").click())]);
+  const quedan = await pagina.evaluate(() => Object.keys(localStorage));
+  for (const k of ["cd.nube", "cd.rato"]) if (quedan.includes(k)) errores.push("Borrar todos mis datos dejó " + k);
+  if (!quedan.includes("otra.app")) errores.push("Borrar todos mis datos borró cosas que no son de la app");
   await navegador.close();
   if (errores.length) { console.error("FALLÓ:\n  " + errores.join("\n  ")); process.exit(1); }
   console.log("OK: la app abre y lo esencial funciona.");

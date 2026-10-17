@@ -45,6 +45,14 @@ prueba("el sábado a las 5:59 y a las 14:00 no",()=>{ assert.strictEqual(C.manan
 prueba("el viernes o el domingo no",()=>{ assert.strictEqual(C.mananaSabado(new Date(2026,9,16,9,0)),false); assert.strictEqual(C.mananaSabado(new Date(2026,9,18,9,0)),false); });
 prueba("algo que no es una fecha no",()=>{ assert.strictEqual(C.mananaSabado("sábado"),false); assert.strictEqual(C.mananaSabado(undefined),false); });
 
+console.log("novedadesPendientes");
+const NOV=[{id:"d"},{id:"c"},{id:"b"},{id:"a"}];
+prueba("si ya vio la más nueva, no hay nada",()=>assert.deepStrictEqual(C.novedadesPendientes(NOV,"d",4),[]));
+prueba("si vio la b, faltan d y c",()=>assert.deepStrictEqual(C.novedadesPendientes(NOV,"b",4).map(x=>x.id),["d","c"]));
+prueba("no muestra más que el máximo",()=>assert.deepStrictEqual(C.novedadesPendientes(NOV,"a",2).map(x=>x.id),["d","c"]));
+prueba("si nunca vio ninguna, o la que vio ya no está, solo la más nueva",()=>{ assert.deepStrictEqual(C.novedadesPendientes(NOV,null,4).map(x=>x.id),["d"]); assert.deepStrictEqual(C.novedadesPendientes(NOV,"vieja",4).map(x=>x.id),["d"]); });
+prueba("sin lista no rompe",()=>{ assert.deepStrictEqual(C.novedadesPendientes(undefined,"a",4),[]); assert.deepStrictEqual(C.novedadesPendientes([],"a",4),[]); });
+
 console.log("diasDesde");
 prueba("sin Día 0 devuelve 0",()=>assert.strictEqual(C.diasDesde(null,"2026-10-09"),0));
 prueba("mismo día devuelve 0",()=>assert.strictEqual(C.diasDesde("2026-10-09","2026-10-09"),0));

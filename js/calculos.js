@@ -267,10 +267,20 @@ function mananaSabado(ahora){
   return ahora instanceof Date&&!isNaN(ahora)&&ahora.getDay()===6&&ahora.getHours()>=6&&ahora.getHours()<14;
 }
 
+/* "Qué hay de nuevo": las novedades que la persona todavía no ve. La lista va de la más nueva a la más vieja;
+   se muestran las que están antes de la última vista, hasta "max". Si la última vista ya no está en la lista
+   (o nunca vio ninguna), se muestra solo la más reciente. Devuelve un arreglo (vacío si ya vio todo). */
+function novedadesPendientes(lista, vista, max){
+  if(!Array.isArray(lista)||!lista.length) return [];
+  const i=lista.findIndex(n=>n&&n.id===vista);
+  if(i===0) return [];
+  return i>0?lista.slice(0,Math.min(i,max||4)):lista.slice(0,1);
+}
+
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diaDe, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, recordatorioICS, enlaceGoogleCalendar, horaRecordatorio, fase478, tamanoCactus, esMadrugada, minutosRato, momentoSalida, mananaSabado, HITOS, pesos };
+const Calculos={ fechaTexto, diaDe, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, recordatorioICS, enlaceGoogleCalendar, horaRecordatorio, fase478, tamanoCactus, esMadrugada, minutosRato, momentoSalida, mananaSabado, novedadesPendientes, HITOS, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);

@@ -320,11 +320,18 @@ const NOVEDADES=window.NOVEDADES||[];
 function renderNovedades(){
   const n=NOVEDADES[0];
   if(n&&!S.day0&&S.novedadVista!==n.id){ S.novedadVista=n.id; save(); }
-  const ver=!!n&&!!S.day0&&S.novedadVista!==n.id;
-  $("novedades").hidden=!ver;
-  if(!ver) return;
-  $("novedadesTitulo").textContent=n.titulo;
-  $("novedadesLista").innerHTML=n.cambios.map(c=>"<li>"+esc(c)+"</li>").join("");
+  /* Si hubo varias versiones desde la última vez, se muestran todas las que faltan (hasta 4), cada una con su título */
+  const lista=S.day0?C.novedadesPendientes(NOVEDADES,S.novedadVista,4):[];
+  $("novedades").hidden=!lista.length;
+  if(!lista.length) return;
+  if(lista.length===1){
+    $("novedadesTitulo").textContent=lista[0].titulo;
+    $("novedadesLista").innerHTML=lista[0].cambios.map(c=>"<li>"+esc(c)+"</li>").join("");
+  }else{
+    $("novedadesTitulo").textContent=lista.length+" novedades desde la última vez";
+    /* Cada novedad se abre y se cierra; la más reciente parte abierta, para que la tarjeta no quede tan larga */
+    $("novedadesLista").innerHTML=lista.map((x,i)=>"<li class=\"novedad\"><details"+(i===0?" open":"")+"><summary><b>"+esc(x.titulo)+"</b></summary><ul>"+x.cambios.map(c=>"<li>"+esc(c)+"</li>").join("")+"</ul></details></li>").join("");
+  }
 }
 $("novedadesOk").onclick=()=>{ S.novedadVista=NOVEDADES[0].id; save(); renderNovedades(); };
 
@@ -348,7 +355,12 @@ function lockIfNeeded(){ if(S.pin){ $("lock").hidden=false; document.body.style.
 $("lockGo").onclick=()=>{ if($("lockPin").value===S.pin){ $("lock").hidden=true; document.body.style.overflow=""; $("lockPin").value=""; $("lockMsg").textContent=""; abrirAtajo(); } else { $("lockMsg").textContent="PIN incorrecto"; $("lockPin").value=""; } };
 $("lockPin").onkeydown=e=>{ if(e.key==="Enter") $("lockGo").click(); };
 $("savePin").onclick=()=>{ const v=$("pinNew").value.trim(); if(v&&!/^\d{4,6}$/.test(v)){ toast("El PIN debe tener 4 a 6 números"); return; } S.pin=v; save(); $("pinNew").value=""; toast(v?"PIN activado":"PIN desactivado"); };
-$("wipeAll").onclick=()=>{ const el=$("wipeAll"); if(el.dataset.c!=="1"){ el.dataset.c="1"; el.textContent="Toca de nuevo para borrar todo"; setTimeout(()=>{ el.dataset.c=""; el.textContent="Borrar todos mis datos"; },4000); return; } try{ localStorage.removeItem(KEY); }catch(e){} location.reload(); };
+$("wipeAll").onclick=()=>{ const el=$("wipeAll"); if(el.dataset.c!=="1"){ el.dataset.c="1"; el.textContent="Toca de nuevo para borrar todo"; setTimeout(()=>{ el.dataset.c=""; el.textContent="Borrar todos mis datos"; },4000); return; } borrarTodoLocal(); location.reload(); };
+/* Borra todo lo que la app guarda en este aparato: todas las claves que empiezan con "cd." (datos, Un rato contigo,
+   preferencias, fecha de la última copia y el código de la nube). La política de privacidad promete borrarlo todo. */
+function borrarTodoLocal(){
+  try{ Object.keys(localStorage).filter(k=>k.startsWith("cd.")).forEach(k=>localStorage.removeItem(k)); }catch(e){}
+}
 
 /* ---------- Respaldo: copia en archivo y nube cifrada ---------- */
 /* La lógica (armar, revisar, cifrar, enviar) vive en js/respaldo.js; aquí solo se conecta con los botones. */
@@ -361,9 +373,15 @@ function mensaje(id,texto,tipo){ const el=$(id); el.textContent=texto; el.classN
 const fechaHora=iso=>new Date(iso).toLocaleString("es-CL",{day:"numeric",month:"long",hour:"2-digit",minute:"2-digit"});
 function pintarUltimaCopia(){ const f=leerLocal(KEY_COPIA); $("ultimaCopia").textContent=f?"Última copia guardada: "+fechaHora(f):"Todavía no guardas ninguna copia."; }
 
+/* Lo que viaja en una copia: el estado de la app más el historial de "Un rato contigo", que js/rato.js guarda aparte (cd.rato) */
+const KEY_RATO="cd.rato";
+function estadoParaCopia(){
+  let rato=null; try{ rato=JSON.parse(localStorage.getItem(KEY_RATO)||"null"); }catch(e){}
+  return rato?Object.assign({},S,{rato}):S;
+}
 /* Guardar copia: en el celular abre "Compartir" para mandarla directo a Drive, Proton u otra; si no se puede, la descarga; y si tampoco, la copia como texto */
 $("guardarCopia").onclick=async()=>{
-  const texto=JSON.stringify(R.crearRespaldo(S),null,1);
+  const texto=JSON.stringify(R.crearRespaldo(estadoParaCopia()),null,1);
   const nombre=R.nombreArchivo();
   const listo=()=>{ guardarLocal(KEY_COPIA,new Date().toISOString()); pintarUltimaCopia(); };
   /* Dentro de otra página (la versión fijada en Claude) el navegador no deja descargar ni compartir.
@@ -408,7 +426,10 @@ function restaurarCopia(texto){
 }
 function aplicarRestauracion(){
   if(!pendiente) return;
-  S=Object.assign({},defaults,pendiente.datos,{pin:S.pin}); /* El PIN de este teléfono se mantiene */
+  const {rato,...datos}=pendiente.datos;
+  S=Object.assign({},defaults,datos,{pin:S.pin}); /* El PIN de este teléfono se mantiene */
+  /* El historial de "Un rato contigo" vuelve a su propio lugar, donde lo lee js/rato.js */
+  if(rato&&typeof rato==="object") try{ localStorage.setItem(KEY_RATO,JSON.stringify(rato)); }catch(e){}
   save(); location.reload();
 }
 $("archivoCopia").onchange=e=>{
@@ -434,7 +455,7 @@ function pintarNube(){
 async function nubeSubir(aviso){
   const n=leerLocal(KEY_NUBE); if(!n||nubeSubiendo||!R.nubeLista()) return;
   nubeSubiendo=true;
-  try{ n.ultimo=await R.subirNube(n.codigo,S); guardarLocal(KEY_NUBE,n); pintarNube(); if(aviso) mensaje("nubeMsg","Respaldado.","ok"); }
+  try{ n.ultimo=await R.subirNube(n.codigo,estadoParaCopia()); guardarLocal(KEY_NUBE,n); pintarNube(); if(aviso) mensaje("nubeMsg","Respaldado.","ok"); }
   catch(e){ if(aviso) mensaje("nubeMsg",e.message,"no"); }
   finally{ nubeSubiendo=false; }
 }
@@ -709,7 +730,7 @@ function renderSalida(){
   const dia=new Date(ahora); dia.setDate(ahora.getDate()+m.desfase); fechaSalida=C.fechaTexto(dia);
   $("salidaTitulo").textContent=m.viernes?"Es viernes: tu hora de salida":"Tu hora de salida";
   $("salidaIntro").textContent=m.viernes
-    ?"Los viernes suelen ser más intensos. Tres respuestas cortas antes de salir, y nada más."
+    ?"Los viernes suelen ser más intensos. Tres respuestas cortas, y nada más."
     :"Tres respuestas cortas para ordenar la vuelta a casa, y nada más.";
   if(!S.salidaPlan||S.salidaPlan.fecha!==fechaSalida) S.salidaPlan={fecha:fechaSalida,vuelta:"",comida:"",dormir:""};
   /* Si la persona está escribiendo en un campo, no le pisamos el texto */
@@ -739,13 +760,22 @@ const RESPUESTA_VIERNES={
   costo:"Pasar un viernes difícil sin consumir es un logro grande. Lo que hiciste funcionó: guárdalo para el próximo.",
   consumi:"Gracias por contarlo. Un viernes no borra los días anteriores: tu cerebro los vivió igual. Si quieres, reinicia tu Día 0 más abajo, sin apuro, y mira la tarjeta de las próximas 48 horas."
 };
+/* En modo reducir la meta no es cero: los textos hablan de la meta, no de no consumir */
+const RESPUESTA_VIERNES_REDUCIR={
+  bien:RESPUESTA_VIERNES.bien,
+  costo:"Pasar un viernes difícil cuidando tu meta es un logro grande. Lo que hiciste funcionó: guárdalo para el próximo.",
+  consumi:"Gracias por contarlo. Un viernes no borra lo que avanzaste. Mira cómo va tu semana en Hoy y vuelve a tu meta desde hoy, sin culpa."
+};
 function renderViernes(){
   const card=$("viernesCard");
   card.hidden=!S.day0||!C.mananaSabado(new Date());
   if(card.hidden) return;
   const r=S.viernesRespuesta&&S.viernesRespuesta.fecha===todayStr()?S.viernesRespuesta.como:null;
-  card.querySelectorAll("[data-viernes]").forEach(b=>b.classList.toggle("on",b.dataset.viernes===r));
-  $("viernesRespuesta").textContent=r?RESPUESTA_VIERNES[r]:"";
+  /* aria-pressed: el lector de pantalla anuncia cuál está elegida */
+  card.querySelectorAll("[data-viernes]").forEach(b=>{ b.classList.toggle("on",b.dataset.viernes===r); b.setAttribute("aria-pressed",String(b.dataset.viernes===r)); });
+  const reducir=S.modo==="reducir";
+  card.querySelector('[data-viernes="consumi"]').textContent=reducir?"Me pasé de mi meta":"Consumí";
+  $("viernesRespuesta").textContent=r?(reducir?RESPUESTA_VIERNES_REDUCIR:RESPUESTA_VIERNES)[r]:"";
 }
 $("viernesCard").querySelectorAll("[data-viernes]").forEach(b=>b.onclick=()=>{
   S.viernesRespuesta={ fecha:todayStr(), como:b.dataset.viernes }; save(); renderViernes();

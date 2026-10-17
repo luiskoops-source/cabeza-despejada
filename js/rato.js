@@ -47,9 +47,14 @@
     fin=Date.now()+minutos*60*1000; ultimaFrase=-1;
     $("ratoEmpezar").textContent="Terminar antes"; $("ratoMinutos").disabled=true;
     $("ratoComo").hidden=true; $("ratoCirculo").classList.add("corriendo");
-    /* Que la pantalla no se apague, para poder vibrar al final aunque el teléfono esté boca abajo */
-    try{ navigator.wakeLock&&navigator.wakeLock.request("screen").then(w=>{ if(reloj) pantallaEncendida=w; else w.release(); }).catch(()=>{}); }catch(e){}
     tic(); reloj=setInterval(tic,500);
+    pedirPantalla();
+  }
+
+  /* Que la pantalla no se apague, para poder vibrar al final aunque el teléfono esté boca abajo.
+     El teléfono la suelta si la persona sale de la app, así que se vuelve a pedir al regresar. */
+  function pedirPantalla(){
+    try{ navigator.wakeLock&&navigator.wakeLock.request("screen").then(w=>{ if(reloj) pantallaEncendida=w; else w.release(); }).catch(()=>{}); }catch(e){}
   }
 
   function detener(){
@@ -116,5 +121,5 @@
   /* Si las ganas están muy fuertes, esto puede esperar: pasa directo al Modo ganas */
   $("ratoGanas").onclick=()=>{ cerrar(); const g=$("openCrave"); if(g) g.click(); };
   /* Al volver a la app, el reloj se pone al día de inmediato (y si ya era la hora, termina) */
-  document.addEventListener("visibilitychange",()=>{ if(!document.hidden&&reloj) tic(); });
+  document.addEventListener("visibilitychange",()=>{ if(!document.hidden&&reloj){ tic(); if(reloj) pedirPantalla(); } });
 })();
