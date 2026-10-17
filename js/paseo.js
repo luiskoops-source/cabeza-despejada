@@ -40,7 +40,7 @@
   /* Paracaídas con los colores del cactus (verde) y de su flor (rosado y amarillo). Las cuerdas llegan al lomo del salchicha */
   const TELA='<svg class="tela" viewBox="0 0 150 110" width="150" height="110" aria-hidden="true">'+
     '<path d="M8 50 L64 108 M38 50 L65 108 M112 50 L66 108 M142 50 L67 108" stroke="#262626" stroke-width="1.5" fill="none"/>'+
-    '<path d="M6 50 Q6 4 75 4 Q144 4 144 50 Q127 42 110 50 Q92 42 75 50 Q58 42 40 50 Q23 42 6 50 Z" fill="#9DC54A" stroke="#262626" stroke-width="2.5" stroke-linejoin="round"/>'+
+    '<path d="M6 50 Q6 4 75 4 Q144 4 144 50 Q127 42 110 50 Q92 42 75 50 Q58 42 40 50 Q23 42 6 50 Z" fill="#86B85A" stroke="#262626" stroke-width="2.5" stroke-linejoin="round"/>'+
     '<path d="M52 47 Q54 8 75 4 Q96 8 98 47 Q86 42 75 50 Q64 42 52 47 Z" fill="#F4A6B8" stroke="#262626" stroke-width="2.5" stroke-linejoin="round"/>'+
     '<circle cx="75" cy="5" r="5" fill="#F6C744" stroke="#262626" stroke-width="2"/></svg>';
 
@@ -129,8 +129,8 @@
   ];
   /* Su propio cactus chiquito, con carita: después de dar vueltas, se acurruca junto a él y sale un corazón */
   const MINI_CACTUS='<svg class="mini-cactus" viewBox="0 0 40 70" width="30" height="52" aria-hidden="true">'+
-    '<rect x="10" y="12" width="20" height="54" rx="10" fill="#F4EEE1" stroke="#262626" stroke-width="2.5"/>'+
-    '<path d="M13 13 l1 -8 l5 5 l3 -7 l3 7 l5 -5 l-1 8 z" fill="#9DC54A" stroke="#262626" stroke-width="2" stroke-linejoin="round"/>'+
+    '<rect x="10" y="12" width="20" height="54" rx="10" fill="#86B85A" stroke="#262626" stroke-width="2.5"/>'+
+    '<path d="M13 13 l1 -8 l5 5 l3 -7 l3 7 l5 -5 l-1 8 z" fill="#F08FA0" stroke="#262626" stroke-width="2" stroke-linejoin="round"/>'+
     '<path d="M14 30 q2.5 -3 5 0 M21 30 q2.5 -3 5 0" fill="none" stroke="#262626" stroke-width="2" stroke-linecap="round"/>'+
     '<ellipse cx="13.5" cy="35" rx="2.5" ry="1.6" fill="#E8907A" opacity=".8"/><ellipse cx="26.5" cy="35" rx="2.5" ry="1.6" fill="#E8907A" opacity=".8"/>'+
     '<path d="M17 36 q3 3 6 0" fill="none" stroke="#262626" stroke-width="2" stroke-linecap="round"/></svg>';

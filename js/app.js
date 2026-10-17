@@ -1017,7 +1017,9 @@ try{ const dias=S.day0?daysSince(S.day0):0, fl=dias>=90?3:dias>=30?2:dias>=7?1:0
 /* Portada: el cactus crece con todos los días que llevas en esto (desde S.inicio, el primer Día 0). Una recaída no lo achica.
    Se agranda desde su base (231, 342 en el dibujo), así queda parado en el suelo y el salchicha lo sigue abrazando. */
 try{ const t=C.tamanoCactus(daysSince(S.inicio||S.day0)), crece=`translate(231 342) scale(${t}) translate(-231 -342)`;
-  $("cactusCrece").setAttribute("transform",crece); $("corazonCrece").setAttribute("transform",crece); /* su corazón baja o sube con él */ }catch(e){}
+  $("cactusCrece").setAttribute("transform",crece); $("corazonCrece").setAttribute("transform",crece); /* su corazón baja o sube con él */
+  /* Los brazos se acortan con el cactus para que terminen justo en su borde: el borde está en 231 + 36 × tamaño, el hombro en 160 */
+  $("brazosCrecen").setAttribute("transform",`translate(160 0) scale(${(71+36*t)/106} 1) translate(-160 0)`); }catch(e){}
 /* Portada: a veces (una de cada tres veces que se abre la app) el cactus dice algo, y la portada dura un poco más para leerlo */
 try{ if(Math.random()<0.34){ const F=["Gracias por no soltarme.","Sigo aquí contigo.","Aunque pinche, me quedo.","Un día más, juntos.","Tu paciencia también me cura.","Me gusta cuando vuelves."]; $("portadaGlobo").textContent=F[Math.floor(Math.random()*F.length)]; $("portadaGlobo").hidden=false; document.querySelector(".portada").classList.add("habla"); } }catch(e){}
 /* El atajo se abre cuando terminó de cargar toda la página: la respiración vive en js/respira.js, que carga después de este archivo */

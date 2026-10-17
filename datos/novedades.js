@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente y es la única que se muestra, una sola vez.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-17-logo", titulo:"El salchicha se renovó", cambios:[
+    "Los brazos del salchicha ahora son curvos y más delgados: rodean al cactus en un abrazo de verdad.",
+    "El cactus tiene color: verde, con su coronita rosada. También el cactus chiquito que el salchicha lleva cuando te visita.",
+    "El ícono del teléfono tiene una versión más simple, para que se entienda bien aunque sea chiquito. Si no lo ves cambiado, quita la app de la pantalla de inicio y vuelve a agregarla."
+  ]},
   {id:"2026-10-17-viernes", titulo:"¿Cómo te fue el viernes?", cambios:[
     "Los sábados en la mañana, Hoy te pregunta cómo te fue el viernes: bien, costó pero pasaste, o consumiste. Sin puntaje y sin culpa.",
     "Si consumiste, la app no reinicia nada sola: tú decides si reinicias tu Día 0, y los días anteriores siguen contando.",
