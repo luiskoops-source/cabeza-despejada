@@ -2,6 +2,15 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-18-arreglos", titulo:"Arreglos para que todo funcione mejor", cambios:[
+    "Si tienes PIN, se vuelve a pedir cuando la app pasa más de un minuto en segundo plano, no solo al abrirla.",
+    "Después de una recaída, los hitos (1, 3, 7, 30 días...) se vuelven a celebrar.",
+    "Al cerrar el Modo ganas o el Modo calma, la pantalla vuelve a apagarse sola.",
+    "La noche del cambio de hora, lo que anotes queda en el día correcto, y el registro copiado muestra tu hora, no la universal.",
+    "Una copia de seguridad dañada ya no deja la app trabada.",
+    "Corregimos datos de salud: cuándo aparecen las convulsiones por abstinencia de alcohol (en los dos primeros días), cuánto ayudan los parches de nicotina y qué sustancias causan más muertes.",
+    "En modo oscuro, los números del calendario de Registro se leen mejor."
+  ]},
   {id:"2026-10-18-verguenza", titulo:"Lo que hice bajo efecto, y la vergüenza", cambios:[
     "En Saber hay dos textos nuevos, con fuentes: por qué bajo efecto se hacen cosas que sobrio no harías (también en lo sexual), y por qué la vergüenza empuja a volver a consumir mientras la culpa puede ayudar.",
     "La voz de la adicción tiene una frase nueva para la mañana siguiente: \"Después de lo que hice, ya no tengo arreglo\".",

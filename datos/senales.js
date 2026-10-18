@@ -21,10 +21,10 @@ window.SENALES=[
 window.FACTORES=[
 {t:"Cuánto y qué tan puro",b:"La misma 'raya' o 'pepa' puede tener el doble o la mitad de sustancia que la de ayer. Nadie lo sabe mirándola."},
 {t:"Con qué se mezcló",b:"Alcohol encima de casi cualquier cosa cambia el efecto y multiplica el riesgo. Dos sustancias no suman: se multiplican."},
-{t:"Cuánto durmió y comió",b:"Sin sueño, los estimulantes llevan a la paranoia. Sin comida, el alcohol pega el doble."},
+{t:"Cuánto durmió y comió",b:"Sin sueño, los estimulantes llevan a la paranoia. Sin comida, el alcohol pega más fuerte."},
 {t:"Con qué ánimo llegó",b:"Lo que traes adentro se amplifica. Ansiedad previa más estimulante es paranoia; tristeza previa más alcohol es llanto o pelea."},
 {t:"Dónde y con quién",b:"Un lugar cerrado y caluroso convierte el MDMA en golpe de calor. Gente desconocida convierte la marihuana en paranoia."},
-{t:"Tolerancia",b:"Lo que a un consumidor habitual 'no le hace nada' puede ser una sobredosis para alguien que empieza. Compartir dosis entre distintos es la forma más común de que alguien termine en urgencias."},
+{t:"Tolerancia",b:"Lo que a un consumidor habitual 'no le hace nada' puede ser una sobredosis para alguien que empieza. Compartir dosis entre distintos es una forma frecuente de que alguien termine en urgencias."},
 {t:"El cuerpo de cada uno",b:"Peso, sexo, metabolismo, medicamentos que toma (antidepresivos y MDMA son una mala mezcla) y enfermedades que no sabe que tiene (del corazón, sobre todo)."},
 {t:"Salud mental de base",b:"Predisposición a la ansiedad, a la depresión o a la psicosis: la sustancia no las crea de la nada, pero las puede encender."}
 ];

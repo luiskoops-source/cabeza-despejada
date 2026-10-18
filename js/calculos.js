@@ -5,10 +5,12 @@
 (function(raiz){
 "use strict";
 
-/* Convierte una fecha a texto AAAA-MM-DD en hora local. */
+/* Convierte una fecha a texto AAAA-MM-DD en hora local.
+   Se arma con año, mes y día locales. Antes se restaba la diferencia horaria y se usaba toISOString,
+   pero la noche del cambio de hora de abril (Chile) daba el día anterior entre las 00:00 y las 00:59. */
 function fechaTexto(d){
-  const c=new Date(d); c.setMinutes(c.getMinutes()-c.getTimezoneOffset());
-  return c.toISOString().slice(0,10);
+  const c=new Date(d), dos=n=>String(n).padStart(2,"0");
+  return c.getFullYear()+"-"+dos(c.getMonth()+1)+"-"+dos(c.getDate());
 }
 
 /* El día (AAAA-MM-DD, hora local) de un registro guardado con su hora (ts, en formato ISO).

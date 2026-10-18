@@ -16,7 +16,7 @@ window.PREGUNTAS=[
 {q:"La ketamina usada seguido puede dañar la vejiga de forma seria.",v:true,e:"Verdadero. Se llama cistitis por ketamina y puede ser irreversible si no se deja a tiempo.",s:"ketamina"},
 {q:"Una recaída borra todo lo avanzado.",v:false,e:"Falso. Lo que predice el éxito es cuánto demoras en levantarte y qué aprendes. Por eso la app guarda tu racha más larga.",s:"general"},
 {q:"Si llamas al 131 por una sobredosis y dices qué se consumió, te van a denunciar.",v:false,e:"Falso. Los servicios de urgencia están para tratar, no para denunciar. Decir qué se consumió les permite ayudar mejor.",s:"general"},
-{q:"Los parches o chicles de nicotina duplican la probabilidad de dejar el tabaco.",v:true,e:"Verdadero. Se compran sin receta y son de las ayudas más estudiadas.",s:"tabaco"},
+{q:"Los parches o chicles de nicotina aumentan la probabilidad de dejar el tabaco.",v:true,e:"Verdadero. La aumentan en alrededor de la mitad. Se compran sin receta y son de las ayudas más estudiadas.",s:"tabaco"},
 {q:"Un dolor leve en el pecho después de consumir cocaína no es para preocuparse.",v:false,e:"Falso. En la hora después de consumir, el riesgo de infarto es muchas veces mayor. Dolor en el pecho, aunque sea leve, es para llamar al 131.",s:"cocaina"},
 {q:"La marihuana de hoy es mucho más potente que la de hace 20 años.",v:true,e:"Verdadero. Y las variedades potentes se asocian con más riesgo de psicosis en personas con predisposición.",s:"marihuana"},
 {q:"Los opioides (tramadol, codeína, morfina) con alcohol son una mezcla segura si es poca cantidad.",v:false,e:"Falso. Los dos deprimen la respiración y juntos son de las combinaciones más mortales que existen.",s:"opioides"},
@@ -73,7 +73,7 @@ window.PREGUNTAS.push(
 {q:"Una crisis de pánico por marihuana puede ser mortal.",v:false,e:"Falso. Es muy desagradable, pero no es mortal y pasa en 1 a 3 horas. Ayudan un lugar tranquilo, agua y compañía. Si hay convulsiones o pulso muy alto, puede ser un sintético: 131.",s:"marihuana"},
 {q:"Existe un antídoto para las benzodiacepinas que cualquiera puede usar en casa.",v:false,e:"Falso. El antídoto (flumazenil) solo se usa en hospital. Si alguien no despierta o respira lento después de tomar pastillas, se llama al 131 y se dice qué tomó.",s:"benzodiacepinas"},
 {q:"Tomar alcohol junto con MDMA ayuda a mantenerse hidratado.",v:false,e:"Falso. El alcohol deshidrata más y aumenta el calor del cuerpo, que es el riesgo principal del MDMA.",s:"mdma"},
-{q:"En quien bebe mucho a diario, los síntomas peligrosos de la abstinencia de alcohol suelen aparecer entre las 48 y 72 horas sin beber.",v:true,e:"Verdadero. Las convulsiones y el delirium tremens aparecen en esa ventana, no en la primera hora. Por eso se deja con apoyo médico y no a solas.",s:"alcohol"},
+{q:"En quien bebe mucho a diario, los primeros dos días sin beber son seguros: lo peligroso de la abstinencia de alcohol empieza después.",v:false,e:"Falso. Las convulsiones suelen aparecer en las primeras 48 horas, y el delirium tremens entre el segundo y el cuarto día. Por eso se deja con apoyo médico desde el primer día y no a solas.",s:"alcohol"},
 {q:"Mezclar ketamina con alcohol aumenta el riesgo de ahogarse con el vómito.",v:true,e:"Verdadero. Los dos deprimen la respiración y la persona puede quedar sin responder. Si alguien así vomita, se la pone de lado y se llama al 131.",s:"ketamina"}
 );
 

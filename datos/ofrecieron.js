@@ -28,7 +28,7 @@ window.OFRECIERON=[
  suele:"Ketamina.",puede:"Ingrediente principal del tusi. A veces se vende otra cosa como ketamina (análogos como 2-FDCK) con efectos más largos.",
  riesgo:"No sentir el cuerpo: caídas, accidentes, ahogarse con vómito. Con uso frecuente, daño serio a la vejiga.",emergencia:"No responde y vomita; con alcohol, respiración lenta.",sust:["ketamina"]},
 {id:"papel",aspecto:"Papelito o cartón pequeño, a veces con dibujo",nombres:["ácido","LSD","tripa","cartón","papel"],
- suele:"LSD.",puede:"Puede ser otra cosa (25I-NBOMe, 'N-bomb'), que a diferencia del LSD sí ha causado muertes. Si amarga mucho o adormece la lengua, no es LSD.",
+ suele:"LSD.",puede:"Puede ser otra cosa (25I-NBOMe, 'N-bomb'), que a diferencia del LSD sí ha causado muertes. Sin análisis no hay forma de saberlo.",
  riesgo:"Un mal viaje con pánico; con NBOMe, convulsiones y daño real.",emergencia:"Convulsiones, temperatura muy alta, pulso disparado.",sust:[]},
 {id:"liquido",aspecto:"Líquido transparente en botella o gotero",nombres:["G","GHB","éxtasis líquido","GBL"],
  suele:"GHB o GBL.",puede:"La diferencia entre una dosis que se siente y una que deja inconsciente es muy pequeña. Con alcohol, el riesgo se multiplica.",

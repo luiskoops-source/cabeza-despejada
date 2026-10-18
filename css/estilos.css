@@ -281,6 +281,9 @@ details summary{cursor:pointer;font-weight:600}
 /* Días anteriores al Día 0: se distinguen por el borde punteado, no por estar apagados (así el número se lee igual) */
 .cal div.antes{background:transparent;border:1.5px dashed var(--line)}
 .cal div.hoy{outline:2px solid var(--accent);outline-offset:1px}
+/* En modo oscuro el verde y el rojo son claros: el número va oscuro para que se lea (el blanco no llegaba al contraste mínimo) */
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .cal div.ok,:root:not([data-theme="light"]) .cal div.no{color:var(--bg)} }
+:root[data-theme="dark"] .cal div.ok,:root[data-theme="dark"] .cal div.no{color:var(--bg)}
 .dot{display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--surface2);vertical-align:middle;margin-right:4px}
 .dot.ok{background:var(--good)}.dot.ganas{background:var(--warm)}.dot.no{background:var(--bad)}.dot.antes{background:transparent;border:1.5px dashed var(--line)}
 /* Antes de salir */

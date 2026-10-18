@@ -25,14 +25,14 @@ window.SUSTANCIAS=[
  abstinencia:"Lo peor: la primera semana. Ganas intensas: 2 a 4 semanas. Mejora clara del cuerpo: 1 a 2 meses."},
 
 {id:"alcohol",nombre:"Alcohol",tipo:"Depresor",
- que:"La droga legal más consumida en Chile y la que más muertes causa. Que sea legal no la hace segura: es de las pocas sustancias cuya abstinencia puede matar.",
+ que:"La droga legal más consumida en Chile y de las que más muertes causan. Que sea legal no la hace segura: es de las pocas sustancias cuya abstinencia puede matar.",
  efecto:"Desinhibición, relajación, sociabilidad. En cantidad: torpeza, sueño, pérdida de memoria.",
  danos:["Hígado: hígado graso, hepatitis, cirrosis.","Cerebro: pérdida de memoria, daño cognitivo con los años.","Cáncer: boca, garganta, esófago, hígado, mama. No hay cantidad segura.","Depresión y ansiedad: alivia en el momento y las empeora a mediano plazo.","Accidentes, violencia y decisiones que no se tomarían sobrio."],
  emergencia:["Persona que no despierta ni con estímulos fuertes.","Respiración lenta o irregular (menos de 8 por minuto), labios azulados.","Vómitos estando inconsciente (riesgo de ahogarse): ponerla de lado.","Piel fría y pálida, convulsiones.","Llamar al 131. No dejarla 'dormir la mona' sola."],
  mezclas:["Con benzodiacepinas (clonazepam, alprazolam) u opioides: deprimen la respiración juntos. Es la mezcla que más mata.","Con cocaína: cocaetileno.","Con medicamentos comunes (paracetamol en dosis altas, antidepresivos): daño hepático o efectos impredecibles."],
- mitos:[{"m": "Es legal, así que es seguro.", "r": "Es la sustancia que más muertes causa en Chile. Legal no significa inofensivo."}, {"m": "Sé aguantar el alcohol, no me hace nada.", "r": "Tener 'resistencia' es señal de tolerancia, es decir, de que el cuerpo ya se adaptó: es un factor de riesgo, no una ventaja."}, {"m": "Un café o una ducha fría te quitan la borrachera.", "r": "Solo el tiempo baja el alcohol en la sangre (una copa estándar por hora, aproximadamente). El café te deja despierto y borracho."}],
+ mitos:[{"m": "Es legal, así que es seguro.", "r": "Es de las sustancias que más muertes causan en Chile. Legal no significa inofensivo."}, {"m": "Sé aguantar el alcohol, no me hace nada.", "r": "Tener 'resistencia' es señal de tolerancia, es decir, de que el cuerpo ya se adaptó: es un factor de riesgo, no una ventaja."}, {"m": "Un café o una ducha fría te quitan la borrachera.", "r": "Solo el tiempo baja el alcohol en la sangre (una copa estándar por hora, aproximadamente). El café te deja despierto y borracho."}],
  dejar:"ATENCIÓN: si se bebe mucho todos los días, dejar de golpe puede provocar convulsiones y delirium tremens, que pueden ser mortales. En ese caso se deja con supervisión médica (consultorio, SENDA, urgencias). Si el consumo es de fin de semana o moderado, se puede dejar sin riesgo físico.",
- abstinencia:"Síntomas físicos: 2 a 7 días (los peligrosos aparecen entre las 48 y 72 horas). Insomnio y ansiedad: semanas."},
+ abstinencia:"Síntomas físicos: 2 a 7 días (las convulsiones suelen aparecer en las primeras 48 horas y el delirium tremens entre el segundo y el cuarto día). Insomnio y ansiedad: semanas."},
 
 {id:"marihuana",nombre:"Marihuana",tipo:"Cannabinoide",
  que:"Flores de cannabis. La de hoy es mucho más potente que la de hace 20 años. Los 'cannabinoides sintéticos' (spice, K2) no son marihuana y son mucho más peligrosos.",
@@ -111,6 +111,6 @@ window.SUSTANCIAS=[
  emergencia:["Rara vez. En niños o con líquidos de vapeo ingeridos: 131."],
  mezclas:["Con otros estimulantes: más presión y pulso.","Con cocaína: el efecto de cada una pide la otra."],
  mitos:[{"m": "Fumar me calma.", "r": "Calma la abstinencia de nicotina que el cigarro anterior creó. Sin fumar, esa ansiedad baja mucho en 2 a 4 semanas."}, {"m": "Vapear es inofensivo.", "r": "Tiene menos tóxicos que el humo, pero entrega mucha nicotina y daña el pulmón. Para dejar de fumar, los parches y chicles son más seguros."}, {"m": "Ya es tarde para dejarlo.", "r": "A cualquier edad, dejar el tabaco baja el riesgo de infarto en un año y de cáncer de pulmón a la mitad en diez."}],
- dejar:"Seguro de dejar en cualquier momento. Los parches y chicles de nicotina duplican las probabilidades de éxito y se compran sin receta. Muchas personas prefieren dejar primero la otra sustancia y después el tabaco; es una decisión válida.",
+ dejar:"Seguro de dejar en cualquier momento. Los parches y chicles de nicotina aumentan en alrededor de la mitad las probabilidades de éxito y se compran sin receta. Muchas personas prefieren dejar primero la otra sustancia y después el tabaco; es una decisión válida.",
  abstinencia:"Lo peor: días 2 a 3. Ganas intensas: 2 a 4 semanas. Ganas ocasionales: meses."}
 ];

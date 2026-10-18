@@ -9,7 +9,7 @@ window.ETAPAS=[
 {desde:4,hasta:13,titulo:"Primera y segunda semana: las olas de ganas",
  que:"El cuerpo empieza a sentirse mejor, pero las ganas llegan en olas, sobre todo en tus horas, lugares y personas de siempre. Cada ola sube y baja sola.",
  ayuda:"Usar el Modo ganas, tener un plan para tu hora difícil y borrar o bloquear el contacto."},
-{desde:14,hasta:30,titulo:"Semanas 2 a 4: cuando todo se siente plano",
+{desde:14,hasta:30,titulo:"Semanas 3 y 4: cuando todo se siente plano",
  que:"Puede que nada dé gusto (anhedonia). Es el momento en que la cabeza dice \"ya no se siente mejor, para qué\". Es una etapa del cerebro, no una señal de que no funciona.",
  ayuda:"Rutina, moverte, sol, comer a sus horas y hablar con alguien. Si el ánimo sigue muy bajo, consulta en el consultorio o llama al 1412."},
 {desde:31,hasta:90,titulo:"Meses 1 a 3: vuelve el color",

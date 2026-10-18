@@ -6,6 +6,14 @@ const C=require("../js/calculos.js");
 let n=0;
 function prueba(nombre,fn){ try{ fn(); n++; console.log("  ✓ "+nombre); }catch(e){ console.log("  ✗ "+nombre+"\n    "+e.message); process.exitCode=1; } }
 
+console.log("fechaTexto");
+prueba("da el día local, sin pasar a hora universal",()=>assert.strictEqual(C.fechaTexto(new Date(2026,9,17,23,30)),"2026-10-17"));
+prueba("la noche del cambio de hora de abril no da el día anterior",()=>{
+  /* 00:30 hora de Chile (UTC-4) del domingo 5 de abril de 2026. Con TZ=America/Santiago antes daba "2026-04-04" */
+  const d=new Date("2026-04-05T04:30:00Z");
+  assert.strictEqual(C.fechaTexto(d),[d.getFullYear(),String(d.getMonth()+1).padStart(2,"0"),String(d.getDate()).padStart(2,"0")].join("-"));
+});
+
 console.log("tamanoCactus");
 prueba("el primer día es chiquito (0,62)",()=>assert.strictEqual(C.tamanoCactus(0),0.62));
 prueba("a los 90 días llega a su tamaño completo",()=>assert.strictEqual(C.tamanoCactus(90),1));

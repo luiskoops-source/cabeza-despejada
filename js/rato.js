@@ -12,7 +12,8 @@
   let datos={ historial:[] };
   try{ datos=Object.assign(datos,JSON.parse(localStorage.getItem(GUARDADO)||"{}")); }catch(e){}
   if(!Array.isArray(datos.historial)) datos.historial=[];
-  const guardar=()=>{ try{ localStorage.setItem(GUARDADO,JSON.stringify(datos)); }catch(e){} };
+  /* Después de guardar, avisa al respaldo en la nube (js/app.js), que solo se enteraba de lo que guarda app.js */
+  const guardar=()=>{ try{ localStorage.setItem(GUARDADO,JSON.stringify(datos)); }catch(e){} try{ window.nubeProgramar&&window.nubeProgramar(); }catch(e){} };
 
   /* Para subir los minutos cuentan las prácticas terminadas que no fueron "difícil": si costó, se repite sin apuro */
   const completados=()=>datos.historial.filter(h=>h.como!=="dificil").length;

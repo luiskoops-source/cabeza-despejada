@@ -20,13 +20,27 @@ const defaults={
   cartas:[], cartaBorrador:{para:"",texto:""},
   /* Configuración: sustancia principal, modo ("dejar" o "reducir"), meta semanal en modo reducir, PIN opcional */
   sustancia:"cocaina", modo:"dejar", metaSemana:2, pin:"", tema:"auto", tourVisto:false, novedadVista:null, inicio:null, ganasMin:15,
-  celebrado:0, pledgeDate:null, salirDate:null, salirOk:[], rapidoDate:null, rapidoCount:0, rapidoSeen:[], quizDate:null, quizIdx:null, quizDone:false, quizStreak:0, quizBest:0, volverDia:null, volverOk:[],
+  celebrado:0, celebradoDia0:null, pledgeDate:null, salirDate:null, salirOk:[], rapidoDate:null, rapidoCount:0, rapidoSeen:[], quizDate:null, quizIdx:null, quizDone:false, quizStreak:0, quizBest:0, volverDia:null, volverOk:[],
   historia:{disponibles:0,fecha:null}, events:[], seenFacts:[], customFacts:[], dailyIdx:null, dailyDate:null, dailyAI:null, craveWins:0
 };
 const SUST=window.SUSTANCIAS||[];
 function sustActual(){ return SUST.find(s=>s.id===S.sustancia)||SUST[0]; }
 let S=load();
-function load(){ try{ const r=localStorage.getItem(KEY); if(r){ return Object.assign({},defaults,JSON.parse(r)); } }catch(e){} return Object.assign({},defaults); }
+/* Un estado nuevo con copias propias de las listas de defaults (si no, agregar una razón también la agregaba a defaults) */
+function nuevoEstado(){ return JSON.parse(JSON.stringify(defaults)); }
+/* Arma el estado a partir de lo guardado. Si un campo viene dañado (por ejemplo una lista que no es lista),
+   usa el valor por defecto en vez de dejar la app rota en cada arranque */
+function armarEstado(datos){
+  const s=Object.assign(nuevoEstado(),datos&&typeof datos==="object"?datos:{});
+  for(const k in defaults){
+    const d=defaults[k];
+    if(Array.isArray(d)&&!Array.isArray(s[k])) s[k]=nuevoEstado()[k];
+    else if(d&&typeof d==="object"&&!Array.isArray(d)&&(!s[k]||typeof s[k]!=="object"||Array.isArray(s[k]))) s[k]=nuevoEstado()[k];
+  }
+  s.events=s.events.filter(e=>e&&typeof e==="object"&&typeof e.ts==="string");
+  return s;
+}
+function load(){ try{ const r=localStorage.getItem(KEY); if(r){ return armarEstado(JSON.parse(r)); } }catch(e){} return nuevoEstado(); }
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} try{ nubeProgramar(); }catch(e){} } /* Respaldo en la nube (ver más abajo). Los guardados del arranque, antes de que exista, se saltan. */
 function toast(t){ const el=$("toast"); el.textContent=t; el.classList.add("show"); clearTimeout(toast.t); toast.t=setTimeout(()=>el.classList.remove("show"),2200); }
 /* Los cálculos viven en js/calculos.js; aquí solo les ponemos nombres cortos. */
@@ -157,7 +171,7 @@ const SOLO=[
   "Dormir también es recuperarse.",
   "Pedir ayuda no es debilidad. Es usar todas las herramientas."
 ];
-function renderSolo(){ const d=Math.floor(Date.now()/86400000); $("soloLine").textContent=SOLO[d%SOLO.length]; }
+function renderSolo(){ const d=daysSince("2020-01-01"); /* días en hora local: la frase cambia a medianoche, no a las 21:00 */ $("soloLine").textContent=SOLO[d%SOLO.length]; }
 
 /* ---------- Volver a empezar ---------- */
 /* Cuidados para las 48 horas después de un consumo. Sin dosis ni formas de uso: solo cuidarse. */
@@ -247,14 +261,17 @@ const FRASES={1:"Un día entero. El primero siempre es el más difícil.",3:"Tre
 function checkCelebra(d){
   const h=C.hitos(d);
   /* Solo el día en que se cumple el hito (d===h.ultimo): así el número de la tarjeta es el mismo que el del contador. Al día siguiente se esconde sola. */
-  if(h.ultimo&&d===h.ultimo&&h.ultimo>(S.celebrado||0)&&S.modo==="dejar"){
+  /* Lo ya celebrado vale solo para el Día 0 en que se celebró: después de una recaída, los hitos se vuelven a celebrar.
+     Las celebraciones antiguas (sin celebradoDia0) valen mientras no superen los días actuales */
+  const yaCelebrado=S.celebradoDia0?(S.celebradoDia0===S.day0?S.celebrado||0:0):((S.celebrado||0)<=d?S.celebrado||0:0);
+  if(h.ultimo&&d===h.ultimo&&h.ultimo>yaCelebrado&&S.modo==="dejar"){
     /* Singular para el primer hito: "1 día", no "1 días" */
     $("celebraTitle").textContent="Llegaste a "+h.ultimo+(h.ultimo===1?" día":" días");
     $("celebraText").textContent=FRASES[h.ultimo]||"Un hito más.";
     $("celebra").hidden=false;
   } else $("celebra").hidden=true;
 }
-$("celebraOk").onclick=()=>{ S.celebrado=C.hitos(daysSince(S.day0)).ultimo||0; save(); $("celebra").hidden=true; };
+$("celebraOk").onclick=()=>{ S.celebrado=C.hitos(daysSince(S.day0)).ultimo||0; S.celebradoDia0=S.day0; save(); $("celebra").hidden=true; };
 
 /* ---------- Pregunta del día ---------- */
 const PREG=window.PREGUNTAS||[];
@@ -416,9 +433,10 @@ function restaurarCopia(texto){
 function aplicarRestauracion(){
   if(!pendiente) return;
   const {rato,...datos}=pendiente.datos;
-  S=Object.assign({},defaults,datos,{pin:S.pin}); /* El PIN de este teléfono se mantiene */
-  /* El historial de "Un rato contigo" vuelve a su propio lugar, donde lo lee js/rato.js */
-  if(rato&&typeof rato==="object") try{ localStorage.setItem(KEY_RATO,JSON.stringify(rato)); }catch(e){}
+  S=Object.assign(armarEstado(datos),{pin:S.pin}); /* El PIN de este teléfono se mantiene */
+  /* El historial de "Un rato contigo" vuelve a su propio lugar, donde lo lee js/rato.js.
+     Si la copia no lo trae, se borra el de este teléfono: restaurar reemplaza todo */
+  try{ if(rato&&typeof rato==="object") localStorage.setItem(KEY_RATO,JSON.stringify(rato)); else localStorage.removeItem(KEY_RATO); }catch(e){}
   save(); location.reload();
 }
 $("archivoCopia").onchange=e=>{
@@ -433,7 +451,7 @@ $("restaurarTexto").onclick=()=>restaurarCopia($("textoCopia").value);
 pintarUltimaCopia();
 
 /* Nube cifrada. Mientras la app no tenga servidor (Respaldo.nubeLista() falso), se muestra "próximamente". */
-let nubeReloj=null, nubeSubiendo=false;
+let nubeReloj=null, nubeSubiendo=false, nubePendiente=false;
 function pintarNube(){
   const lista=R.nubeLista(), n=leerLocal(KEY_NUBE);
   $("nubeProxima").hidden=lista;
@@ -442,14 +460,23 @@ function pintarNube(){
   if(n) $("nubeEstado").textContent=n.ultimo?"Último respaldo: "+fechaHora(n.ultimo):"Todavía sin respaldar.";
 }
 async function nubeSubir(aviso){
-  const n=leerLocal(KEY_NUBE); if(!n||nubeSubiendo||!R.nubeLista()) return;
-  nubeSubiendo=true;
-  try{ n.ultimo=await R.subirNube(n.codigo,estadoParaCopia()); guardarLocal(KEY_NUBE,n); pintarNube(); if(aviso) mensaje("nubeMsg","Respaldado.","ok"); }
+  const n=leerLocal(KEY_NUBE); if(!n||!R.nubeLista()) return;
+  /* Si ya hay una subida en curso, se anota que quedó algo pendiente y se sube al terminar */
+  if(nubeSubiendo){ nubePendiente=true; return; }
+  nubeSubiendo=true; nubePendiente=false;
+  try{
+    const ultimo=await R.subirNube(n.codigo,estadoParaCopia());
+    /* Si mientras subía la persona tocó "Desactivar", no se vuelve a activar */
+    const actual=leerLocal(KEY_NUBE);
+    if(actual&&actual.codigo===n.codigo){ actual.ultimo=ultimo; guardarLocal(KEY_NUBE,actual); }
+    pintarNube(); if(aviso) mensaje("nubeMsg","Respaldado.","ok");
+  }
   catch(e){ if(aviso) mensaje("nubeMsg",e.message,"no"); }
-  finally{ nubeSubiendo=false; }
+  finally{ nubeSubiendo=false; if(nubePendiente){ nubePendiente=false; nubeProgramar(); } }
 }
 /* Cada vez que la app guarda algo, se espera 8 segundos sin cambios y se sube una sola vez */
 function nubeProgramar(){ if(!R.nubeLista()||!leerLocal(KEY_NUBE)) return; clearTimeout(nubeReloj); nubeReloj=setTimeout(()=>nubeSubir(false),8000); }
+window.nubeProgramar=nubeProgramar; /* js/rato.js guarda aparte y también avisa */
 window.addEventListener("online",()=>nubeSubir(false));
 $("nubeActivar").onclick=async()=>{
   const codigo=R.nuevoCodigo();
@@ -563,7 +590,7 @@ function renderSenales(){
 function renderCal(){
   const r=C.calendario(S.events,S.day0,30);
   const hoy=todayStr();
-  $("cal").innerHTML=r.dias.map(d=>`<div class="${d.consumo?"no":d.antes?"antes":d.k===S.day0?"cero":d.ganas?"ganas":"ok"} ${d.k===hoy?"hoy":""}" title="${d.k}${d.k===S.day0?" · Día 0":""}${d.ganas?" · "+d.ganas+" ganas":""}${d.sueno!=null?" · durmió "+d.sueno+" h":""}">${d.dia}</div>`).join("");
+  $("cal").innerHTML=r.dias.map(d=>`<div class="${d.consumo?"no":d.antes?"antes":d.k===S.day0?"cero":d.ganas?"ganas":"ok"} ${d.k===hoy?"hoy":""}" title="${d.k}${d.k===S.day0?" · Día 0":""}${d.ganas?" · "+d.ganas+" ganas":""}${d.sueno!=null?" · durmió "+esc(d.sueno)+" h":""}">${d.dia}</div>`).join("");
   $("calText").textContent=`${r.limpios} ${r.limpios===1?"día limpio":"días limpios"} de los últimos 30 · ${r.ganas} ganas anotadas · ${r.consumos} ${r.consumos===1?"consumo":"consumos"}.`;
 }
 
@@ -811,7 +838,7 @@ function renderCheckin(){
 }
 $("saveCheckin").onclick=()=>{
   const sueno=Number($("ciSleep").value), animo=Number($("ciMood").value);
-  if(!(sueno>=0&&sueno<=24)){ toast("Pon las horas que dormiste (0 a 24)"); return; }
+  if($("ciSleep").value.trim()===""||!(sueno>=0&&sueno<=24)){ /* vacío no es 0 horas */ toast("Pon las horas que dormiste (0 a 24)"); return; }
   addEvent("checkin",{sueno,animo});
   renderHoy(); renderRegistro();
   toast(sueno<6?"Dormiste poco. Hoy cuídate más de lo normal.":"Anotado.");
@@ -942,7 +969,7 @@ function renderRegistro(){
   const max=Math.max(1,...days.map(d=>d.c));
   $("chart").innerHTML=days.map(d=>`<div class="${d.r?"r":""}" style="height:${d.r?100:Math.max(d.c?8:2,d.c/max*100)}%" ${d.c||d.r?`data-n="${d.r?"C":d.c}"`:""} title="${d.label}"></div>`).join("");
   $("axisFrom").textContent=days[0].label; $("axisTo").textContent=days[13].label;
-  $("log").innerHTML=S.events.length?S.events.slice(0,60).map(e=>{ const t=new Date(e.ts); return `<div class="e"><time>${t.toLocaleDateString("es-CL",{day:"2-digit",month:"2-digit"})} ${t.toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"})}</time><div><span class="pill ${e.type==="relapse"?"bad":e.type==="win"?"good":""}">${e.type==="relapse"?"consumo":e.type==="win"?"ola superada":e.type==="checkin"?"dormí "+e.sueno+" h · ánimo "+e.animo+"/5":e.type==="calma"?"modo calma":e.type==="discusion"?"después de una discusión":"ganas "+e.i+"/10"}</span>${e.trig?" · "+esc(e.trig):""}${e.did?"<br>"+esc(e.did):""}</div></div>`; }).join(""):`<p class="small muted">Nada todavía. Lo primero que anotes empieza a mostrar tu patrón.</p>`;
+  $("log").innerHTML=S.events.length?S.events.slice(0,60).map(e=>{ const t=new Date(e.ts); return `<div class="e"><time>${t.toLocaleDateString("es-CL",{day:"2-digit",month:"2-digit"})} ${t.toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"})}</time><div><span class="pill ${e.type==="relapse"?"bad":e.type==="win"?"good":""}">${e.type==="relapse"?"consumo":e.type==="win"?"ola superada":e.type==="checkin"?"dormí "+esc(e.sueno)+" h · ánimo "+esc(e.animo)+"/5":e.type==="calma"?"modo calma":e.type==="discusion"?"después de una discusión":"ganas "+esc(e.i)+"/10"}</span>${e.trig?" · "+esc(e.trig):""}${e.did?"<br>"+esc(e.did):""}</div></div>`; }).join(""):`<p class="small muted">Nada todavía. Lo primero que anotes empieza a mostrar tu patrón.</p>`;
   renderPatterns();
   renderCal();
   renderCartas();
@@ -970,7 +997,8 @@ function renderPatterns(){
 }
 
 $("exportBtn").onclick=()=>{
-  const txt=S.events.map(e=>`${e.ts.slice(0,16).replace("T"," ")}\t${e.type}\t${e.i||""}\t${e.trig||""}\t${e.did||""}`).join("\n");
+  /* La hora va en hora local (la del teléfono), igual que en la lista; cortar e.ts daba la hora universal */
+  const txt=S.events.map(e=>{ const t=new Date(e.ts); return `${dstr(t)} ${t.toTimeString().slice(0,5)}\t${e.type}\t${e.i||""}\t${e.trig||""}\t${e.did||""}`; }).join("\n");
   copyText(txt||"(sin registros)");
 };
 
@@ -980,10 +1008,22 @@ document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=()=>copyText(b.dat
 /* Junto a cada número de ayuda, un botón Llamar que abre el marcador del teléfono */
 document.querySelectorAll("[data-copy]").forEach(b=>{
   if(!/^\d+$/.test(b.dataset.copy)) return;
-  const a=document.createElement("a"); a.href="tel:"+b.dataset.copy; a.className="llamar"; a.textContent="Llamar";
+  const a=document.createElement("a"); a.href="tel:"+b.dataset.copy; a.className="llamar"; a.textContent="Llamar"; a.setAttribute("aria-label","Llamar al "+b.dataset.copy); /* el lector de pantalla dice a qué número */
   const grupo=document.createElement("div"); grupo.className="botones-contacto";
   b.replaceWith(grupo); grupo.append(a,b);
 });
+
+/* ---------- Pantalla encendida ---------- */
+/* En Modo ganas y Modo calma la pantalla no se apaga sola. Al cerrarlos se suelta,
+   para que el teléfono vuelva a apagarse como siempre (antes quedaba encendida hasta salir de la app) */
+let pantallaEncendida=null;
+function pedirPantalla(){
+  try{ if(navigator.wakeLock) navigator.wakeLock.request("screen").then(w=>{ pantallaEncendida=w; }).catch(()=>{}); }catch(e){}
+}
+function soltarPantalla(){
+  try{ if(pantallaEncendida) pantallaEncendida.release().catch(()=>{}); }catch(e){}
+  pantallaEncendida=null;
+}
 
 /* ---------- Craving mode ---------- */
 let tInt=null, bInt=null, left=0, TOTAL=15*60;
@@ -994,7 +1034,7 @@ function openCrave(){
   left=TOTAL; tick(); clearInterval(tInt); tInt=setInterval(()=>{ left=Math.max(0,left-1); tick(); if(left===0){ clearInterval(tInt); $("craveTitle").textContent="Pasaron "+(S.ganasMin||15)+" minutos. Fíjate si bajó."; } },1000);
   let inhale=false; clearInterval(bInt); const breathe=()=>{ inhale=!inhale; $("breath").classList.toggle("in",inhale); $("breathTxt").textContent=inhale?"Inhala":"Exhala"; }; breathe(); bInt=setInterval(breathe,4000);
   craveTurns=[]; $("craveReply").textContent="";
-  try{ navigator.wakeLock&&navigator.wakeLock.request("screen").catch(()=>{}); }catch(e){}
+  pedirPantalla();
 }
 function tick(){ const m=String(Math.floor(left/60)).padStart(2,"0"), s=String(left%60).padStart(2,"0"); $("timer").textContent=m+":"+s; $("barFill").style.width=((TOTAL-left)/TOTAL*100)+"%";
   /* La ola se ve bajar: --calma va de 0 a 1 con el reloj, y el CSS pasa el círculo del naranjo al azul de la calma (#crave .breath) */
@@ -1005,7 +1045,7 @@ function renderVoz(){
   $("vozList").innerHTML=V.map((x,i)=>`<details class="voz"><summary>"${esc(x.f)}"</summary><p class="small">${esc(x.r)}</p></details>`).join("");
 }
 renderVoz();
-function closeCrave(){ $("crave").hidden=true; document.body.style.overflow=""; $("craveCelebra").hidden=true; $("craveWinBox").hidden=true; $("craveBotones").hidden=false; $("craveWon").hidden=false; $("craveLost").hidden=false; clearInterval(tInt); clearInterval(bInt); $("craveTitle").textContent="Esto dura menos de lo que parece"; }
+function closeCrave(){ soltarPantalla(); $("crave").hidden=true; document.body.style.overflow=""; $("craveCelebra").hidden=true; $("craveWinBox").hidden=true; $("craveBotones").hidden=false; $("craveWon").hidden=false; $("craveLost").hidden=false; clearInterval(tInt); clearInterval(bInt); $("craveTitle").textContent="Esto dura menos de lo que parece"; }
 $("closeCrave").onclick=closeCrave;
 $("craveWon").onclick=()=>{ $("craveWinBox").hidden=false; $("craveWon").hidden=true; $("craveLost").hidden=true; };
 document.querySelectorAll("[data-ayudo]").forEach(b=>b.onclick=()=>{
@@ -1027,31 +1067,33 @@ $("openCalma").onclick=()=>{
   $("calma").hidden=false; document.body.style.overflow="hidden";
   let inhale=false; clearInterval(bIntC); const breathe=()=>{ inhale=!inhale; $("breathC").classList.toggle("in",inhale); $("breathTxtC").textContent=inhale?"Inhala":"Exhala"; }; breathe(); bIntC=setInterval(breathe,4000);
   addEvent("calma",{});
-  try{ navigator.wakeLock&&navigator.wakeLock.request("screen").catch(()=>{}); }catch(e){}
+  pedirPantalla();
 };
-$("closeCalma").onclick=()=>{ $("calma").hidden=true; document.body.style.overflow=""; clearInterval(bIntC); };
+$("closeCalma").onclick=()=>{ soltarPantalla(); $("calma").hidden=true; document.body.style.overflow=""; clearInterval(bIntC); };
 
 /* ---------- Después de una discusión ---------- */
 /* Pantalla para el rato justo después de una pelea con la familia, la pareja o alguien cercano (#discusion en index.html).
    Al abrirla queda anotada en el historial; si la persona elige qué siente, eso se suma a la misma anotación. */
 const SENTIR=window.DISCUSION_SENTIR||[];
-let discusionEvento=null; /* la anotación de esta vez, para sumarle la emoción elegida */
+let discusionTs=null; /* la hora de la anotación de esta vez, para sumarle la emoción elegida.
+   Se guarda la hora y no el objeto, porque al volver a la app el estado se recarga y el objeto viejo ya no se guarda */
 $("discusionSentir").innerHTML=SENTIR.map(x=>`<button type="button" class="chip" data-sentir="${esc(x.id)}" aria-pressed="false">${esc(x.t)}</button>`).join("");
 $("discusionSentir").querySelectorAll("[data-sentir]").forEach(b=>b.onclick=()=>{
   const x=SENTIR.find(y=>y.id===b.dataset.sentir); if(!x) return;
   $("discusionSentir").querySelectorAll("[data-sentir]").forEach(o=>{ o.classList.toggle("on",o===b); o.setAttribute("aria-pressed",String(o===b)); });
   $("discusionRespuesta").textContent=x.d;
-  if(discusionEvento){ discusionEvento.did="Sentía: "+x.t.toLowerCase(); save(); }
+  const ev=discusionTs&&S.events.find(e=>e.type==="discusion"&&e.ts===discusionTs);
+  if(ev){ ev.did="Sentía: "+x.t.toLowerCase(); save(); }
 });
 $("openDiscusion").onclick=()=>{
   /* Cada vez parte limpia: sin emoción elegida */
   $("discusionSentir").querySelectorAll("[data-sentir]").forEach(o=>{ o.classList.remove("on"); o.setAttribute("aria-pressed","false"); });
   $("discusionRespuesta").textContent="";
-  addEvent("discusion",{}); discusionEvento=S.events[0];
+  addEvent("discusion",{}); discusionTs=S.events[0].ts;
   $("discusion").hidden=false; document.body.style.overflow="hidden"; $("discusion").scrollTop=0;
 };
 $("discusionCerrar").onclick=()=>{
-  $("discusion").hidden=true; discusionEvento=null;
+  $("discusion").hidden=true; discusionTs=null;
   if(!document.querySelector(".crave:not([hidden])")) document.body.style.overflow="";
   renderRegistro();
 };
@@ -1076,7 +1118,7 @@ function renderCartas(){
   const C2=S.cartas||[];
   $("cartasGuardadas").hidden=!C2.length;
   $("cartasCuenta").textContent=C2.length;
-  $("cartasLista").innerHTML=C2.map(c=>`<details class="voz"><summary>${esc(c.para||"Sin destinatario")} · ${esc(fechaCarta(c.fecha))}</summary><p class="small carta-texto">${esc(c.texto)}</p><button class="ghost small" type="button" data-borrar-carta="${c.id}">Borrar esta carta</button></details>`).join("");
+  $("cartasLista").innerHTML=C2.map(c=>`<details class="voz"><summary>${esc(c.para||"Sin destinatario")} · ${esc(fechaCarta(c.fecha))}</summary><p class="small carta-texto">${esc(c.texto)}</p><button class="ghost small" type="button" data-borrar-carta="${esc(c.id)}">Borrar esta carta</button></details>`).join("");
   $("cartasLista").querySelectorAll("[data-borrar-carta]").forEach(btn=>btn.onclick=()=>{
     /* Se pide tocar dos veces, como en "Borrar todo" */
     if(btn.dataset.c!=="1"){ btn.dataset.c="1"; btn.textContent="Toca de nuevo para borrarla"; setTimeout(()=>{ btn.dataset.c=""; btn.textContent="Borrar esta carta"; },4000); return; }
@@ -1147,7 +1189,15 @@ if(!S.pin){ if(document.readyState==="loading") document.addEventListener("DOMCo
 /* Si la app está abierta en dos lugares (la app instalada y una pestaña), cada copia
    vuelve a leer lo guardado al volver a la pantalla, para que una copia vieja no borre lo nuevo. */
 function recargarDatos(){ S=load(); fillConfig(); renderHoy(); renderRegistro(); }
-document.addEventListener("visibilitychange",()=>{ if(!document.hidden) recargarDatos(); });
+/* Si hay PIN y la app estuvo más de un minuto en segundo plano, se vuelve a pedir: la app instalada
+   vuelve sin pasar por el arranque, y antes quien tomaba el teléfono desbloqueado la veía sin PIN */
+let ocultaDesde=null;
+document.addEventListener("visibilitychange",()=>{
+  if(document.hidden){ ocultaDesde=Date.now(); return; }
+  recargarDatos();
+  if(ocultaDesde&&Date.now()-ocultaDesde>60000) lockIfNeeded();
+  ocultaDesde=null;
+});
 window.addEventListener("storage",e=>{ if(e.key===KEY) recargarDatos(); });
 /* Cada minuto revisa si llegó la hora difícil, para mostrar el plan */
 setInterval(renderPlan,60000);
