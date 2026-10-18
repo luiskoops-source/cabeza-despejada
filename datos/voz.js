@@ -13,5 +13,7 @@ window.VOZ=[
  {f:"Ya perdí la racha, no vale la pena.",r:"La racha es un número. Los días limpios que viviste siguen siendo tuyos y tu cerebro los aprovechó igual."},
  {f:"Con esto voy a pensar más claro.",r:"Esa claridad es la misma dopamina que después trae la paranoia. Se siente como ver mejor, pero es el cerebro dando importancia a todo."},
  {f:"Sin esto no la voy a pasar bien en la fiesta.",r:"Las ganas suben y bajan en 15 a 30 minutos, con o sin fiesta. Puedes ir, quedarte un rato y salir cuando quieras: eso lo decides tú, no la sustancia."},
- {f:"Los demás consumen y están bien.",r:"No sabes cómo están de verdad, y tú no eres ellos. Lo que te pasa a ti con la sustancia ya lo conoces: por eso estás aquí."}
+ {f:"Los demás consumen y están bien.",r:"No sabes cómo están de verdad, y tú no eres ellos. Lo que te pasa a ti con la sustancia ya lo conoces: por eso estás aquí."},
+ {f:"Mañana empiezo de nuevo, hoy ya no importa.",r:"El 'mañana' es la frase favorita de la adicción, porque siempre hay otro mañana. Lo único que puedes decidir es la próxima hora, y esa sí importa."},
+ {f:"Llevo tanto tiempo bien que ya puedo probar.",r:"El tiempo limpio no vuelve el cerebro inmune: lo que aprendió con la sustancia sigue ahí, dormido. Probar es despertarlo. Lo que llevas bien es justo lo que está en juego."}
 ];

@@ -2,7 +2,7 @@
    Guarda una copia de todos los archivos para que la app abra sin internet, y la mantiene al día.
    Estrategia: la app abre SIEMPRE desde la copia guardada de su versión (rápido y sin mezclar archivos).
    Cuando se publica una versión nueva (cambia CACHE), el teléfono baja todos los archivos juntos y la app avisa. */
-const CACHE = "cabeza-despejada-v90";
+const CACHE = "cabeza-despejada-v91";
 const ARCHIVOS = ["./", "./index.html", "./css/estilos.css", "./js/calculos.js", "./js/respaldo.js", "./js/app.js", "./js/escuchar.js", "./js/respira.js", "./js/rato.js", "./js/paseo.js", "./datos/hechos.js", "./datos/sustancias.js", "./datos/preguntas.js", "./datos/actualidad.js", "./datos/primeros-dias.js", "./datos/historia.js", "./datos/ofrecieron.js", "./datos/primeros-auxilios.js", "./datos/senales.js", "./datos/antes-de-salir.js", "./datos/rato.js", "./datos/discusion.js", "./datos/limites.js", "./datos/voz.js", "./datos/novedades.js", "./datos/cuentan.js", "./manifest.json", "./iconos/icono-192.png", "./iconos/icono-512.png", "./iconos/icono-maskable-192.png", "./iconos/icono-maskable-512.png", "./privacidad.html", "./fuentes/bricolage-grotesque-latin-500.woff2", "./fuentes/bricolage-grotesque-latin-700.woff2", "./fuentes/bricolage-grotesque-latin-800.woff2", "./fuentes/instrument-sans-latin-400.woff2", "./fuentes/instrument-sans-latin-500.woff2", "./fuentes/instrument-sans-latin-600.woff2", "./fuentes/jetbrains-mono-latin-500.woff2", "./fuentes/jetbrains-mono-latin-700.woff2"];
 
 /* Al instalarse una versión nueva, descarga el juego completo de archivos a un caché nuevo.

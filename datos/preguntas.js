@@ -85,3 +85,12 @@ window.PREGUNTAS.push(
 {q:"Si el clonazepam te lo recetó un médico, no puedes volverte dependiente.",v:false,e:"Falso. La dependencia aparece con el uso diario durante meses, con o sin receta. Si llevas mucho tiempo tomándolo, se baja de a poco con el médico, nunca de golpe.",s:"benzodiacepinas"},
 {q:"Usar MDMA muy seguido puede dejar depresión y problemas de memoria, aunque no produzca una dependencia física fuerte.",v:true,e:"Verdadero. El uso frecuente agota la serotonina. Dejar espacios largos entre usos es la primera medida de reducción de daños; dejarlo del todo es lo que recupera el ánimo.",s:"mdma"}
 );
+
+/* Preguntas agregadas el 18 de octubre de 2026. Salen de los primeros auxilios y de los daños al corazón y al cuerpo de la guía. */
+window.PREGUNTAS.push(
+{q:"Si alguien convulsiona, hay que meterle algo en la boca para que no se muerda la lengua.",v:false,e:"Falso. Nunca se le pone nada en la boca ni se le sujeta: puede romperle los dientes o ahogarse. Se aleja lo que pueda golpearlo, se protege la cabeza y, cuando pasa, se pone de lado. Llamar al 131.",s:"general"},
+{q:"Dormir 'la mona' hace que el alcohol salga más rápido de la sangre.",v:false,e:"Falso. El hígado elimina el alcohol a su propio ritmo, dormido o despierto. Y alguien muy borracho que duerme puede vomitar y ahogarse: de lado y con alguien que lo mire.",s:"alcohol"},
+{q:"Las anfetaminas y la metanfetamina suben la temperatura del cuerpo, y bailar horas sin pausa aumenta el riesgo de golpe de calor.",v:true,e:"Verdadero. Los estimulantes suben la temperatura y tapan la señal de cansancio. Pausas, aire fresco y agua a sorbos. Piel muy caliente y confusión es emergencia: 131.",s:"anfetaminas"},
+{q:"Manejar después de fumar marihuana es seguro porque relaja.",v:false,e:"Falso. El THC enlentece los reflejos y la atención, y aumenta el riesgo de chocar, sobre todo mezclado con alcohol. Relajado no es lo mismo que atento.",s:"marihuana"},
+{q:"La cocaína puede provocar un infarto en una persona joven y sin problemas al corazón.",v:true,e:"Verdadero. Estrecha las arterias del corazón y sube el pulso y la presión de golpe, a cualquier edad. Dolor en el pecho después de consumir es para llamar al 131, no para esperar a que pase.",s:"cocaina"}
+);
