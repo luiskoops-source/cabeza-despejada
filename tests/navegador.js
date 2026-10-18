@@ -106,7 +106,11 @@ const path = require("path");
   await pagina.fill("#buscar", "rato contigo"); await pagina.waitForTimeout(100);
   await pagina.click('#buscarOut [data-abrir="openRato"]'); await pagina.waitForTimeout(150);
   if (!(await pagina.isVisible("#rato"))) errores.push("Abrir desde la búsqueda no abre Un rato contigo");
-  await pagina.click("#ratoCerrar"); await pagina.fill("#buscar", "");
+  await pagina.click("#ratoCerrar");
+  /* Lo nuevo sobre vergüenza y conductas bajo efecto se encuentra en la búsqueda */
+  await pagina.fill("#buscar", "sobrio no haría"); await pagina.waitForTimeout(100);
+  if (!(await pagina.evaluate(() => document.getElementById("buscarOut").textContent.includes("Por qué hice cosas que sobrio no haría")))) errores.push("La búsqueda no encuentra Por qué hice cosas que sobrio no haría");
+  await pagina.fill("#buscar", "");
   await pagina.click('[data-tab="hoy"]');
   /* 6-a0. Hora de salida: sin hora no hay tarjeta; al poner la hora de ahora (todos los días) aparece, y lo escrito se guarda */
   if (await pagina.isVisible("#salidaCard")) errores.push("La tarjeta de la hora de salida aparece sin hora configurada");

@@ -167,6 +167,7 @@ const VOLVER=[
   {id:"noseguir",t:"No seguir ni mezclar con alcohol",por:"Las primeras horas son cuando la cabeza más empuja a terminar lo que queda."},
   {id:"contacto",t:"Borrar o bloquear el contacto",por:"Alejar la señal es lo que más ayuda los días siguientes."},
   {id:"hablar",t:"Hablar con alguien o llamar al 1412",por:"Es gratis y anónimo. Contarlo le quita fuerza a la culpa."},
+  {id:"separar",t:"Si hiciste algo que te avergüenza, separar lo que hiciste de quién eres",por:"La vergüenza a solas empuja a volver a consumir. Mira el hecho y qué puedes reparar, sin convertirlo en una sentencia sobre ti."},
   {id:"anotar",t:"Anotar en Registro qué pasó antes",por:"No para culparte: para reconocer la señal la próxima vez."}
 ];
 function renderVolver(d){

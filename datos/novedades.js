@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-18-verguenza", titulo:"Lo que hice bajo efecto, y la vergüenza", cambios:[
+    "En Saber hay dos textos nuevos, con fuentes: por qué bajo efecto se hacen cosas que sobrio no harías (también en lo sexual), y por qué la vergüenza empuja a volver a consumir mientras la culpa puede ayudar.",
+    "La voz de la adicción tiene una frase nueva para la mañana siguiente: \"Después de lo que hice, ya no tengo arreglo\".",
+    "Después de un consumo, las próximas 48 horas incluyen separar lo que hiciste de quién eres."
+  ]},
   {id:"2026-10-18-herramientas", titulo:"Herramientas más a mano", cambios:[
     "En Hoy, Respirar, Un rato contigo y Después de una discusión quedaron juntas en una fila, bajo \"Para este momento\". Ocupan menos espacio y se encuentran más rápido.",
     "El buscador de Saber ahora encuentra las frases para poner límites, la voz de la adicción y las herramientas, con un botón para abrirlas.",
