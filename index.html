@@ -97,6 +97,24 @@
     <p id="planNowText"></p>
   </div>
 
+  <!-- MI PLAN DE VIERNES: el jueves (y el viernes en la mañana) invita a armarlo con la cabeza tranquila;
+       desde el viernes a las 12:00 hasta el sábado de madrugada lo muestra para seguirlo.
+       Lógica en js/app.js (renderPlanViernes), momento de la semana en js/calculos.js (momentoViernes) -->
+  <div class="card" id="planViernesCard" hidden>
+    <p class="eyebrow" id="pvTitulo">Mi plan de viernes</p>
+    <p class="small muted" id="pvIntro"></p>
+    <ul id="pvLista"></ul>
+    <div class="stack" id="pvEditor">
+      <label class="f ancho"><b>¿Qué vas a hacer esta noche?</b><input id="pvHacer" maxlength="120" placeholder="Ej: ver dos capítulos de una serie en la cama"></label>
+      <label class="f ancho"><b>¿Qué gusto te vas a dar?</b><input id="pvGusto" maxlength="120" placeholder="Ej: mi comida favorita, una ducha larga"></label>
+      <label class="f ancho"><b>¿A quién le vas a escribir?</b><input id="pvEscribir" maxlength="120" placeholder="Ej: a alguien que te hace bien"></label>
+    </div>
+    <div class="row">
+      <button class="ghost" type="button" id="pvCambiar">Cambiar el plan</button>
+      <button class="ghost" type="button" id="pvAviso">Avísame los viernes</button>
+    </div>
+  </div>
+
   <!-- HORA DE SALIDA: aparece una hora antes de que la persona salga del trabajo o de clases, y hasta 4 horas después.
        Pregunta solo lo esencial; el resto de la noche queda libre a propósito.
        Lógica en js/app.js (renderSalida), ventana de tiempo en js/calculos.js (momentoSalida) -->
@@ -274,6 +292,12 @@
       <label><input type="checkbox" data-dia="6" style="width:auto"> Sá</label>
       <label><input type="checkbox" data-dia="0" style="width:auto"> Do</label>
     </div>
+    <!-- Aviso de los viernes: igual que el recordatorio diario, pero se repite solo los viernes. Lleva a la tarjeta "Mi plan de viernes" (#planViernesCard) -->
+    <p class="eyebrow" style="margin-top:14px">Aviso de los viernes</p>
+    <p class="small muted">Tu calendario te avisará todos los viernes a esta hora, aunque la app esté cerrada, para que mires tu plan de viernes. El aviso dice solo "Tu plan de viernes".</p>
+    <div class="row"><input type="time" id="avisoViernesHora" aria-label="Hora del aviso de los viernes"><button id="avisoViernes" type="button">Agregar a mi calendario</button></div>
+    <div class="row" style="margin-top:8px"><button id="avisoViernesGoogle" type="button">Abrir en Google Calendar</button></div>
+    <p class="small" id="avisoViernesMsg" role="status"></p>
     <!-- Recordatorio diario: descarga un archivo de calendario; el calendario del teléfono hace sonar la alarma aunque la app esté cerrada -->
     <p class="eyebrow" style="margin-top:14px">Recordatorio diario</p>
     <p class="small muted">Tu calendario te avisará todos los días a esta hora, aunque la app esté cerrada. El aviso dice solo "Un momento para ti", sin nada sobre consumo, porque si tu calendario se sincroniza con tu cuenta, el evento queda guardado ahí.</p>

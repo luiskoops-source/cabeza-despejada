@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-18-plan-viernes", titulo:"Tu plan de viernes", cambios:[
+    "El jueves, Hoy te invita a dejar listo tu plan para la noche del viernes: qué vas a hacer, qué gusto te vas a dar y a quién le vas a escribir. Se arma con la cabeza tranquila, antes de que llegue el cansancio de la semana.",
+    "El viernes desde el mediodía, Hoy te muestra ese plan para seguirlo, de a una cosa. Queda guardado de una semana a otra.",
+    "Nuevo aviso de los viernes: tu calendario te avisa cada viernes a la hora que elijas, aunque la app esté cerrada. Está en Mi plan para la hora difícil."
+  ]},
   {id:"2026-10-18-hora-dia0", titulo:"Tu Día 0 con hora", cambios:[
     "Al marcar tu último consumo puedes poner también la hora (es opcional). Así los días se cuentan de 24 horas en 24 horas desde ese momento: si fue ayer a las 21:00, hoy a esa hora cumples 1 día, no a medianoche.",
     "Debajo del contador dice a qué hora empezó tu Día 0."

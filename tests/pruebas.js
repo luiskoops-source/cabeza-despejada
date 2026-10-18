@@ -227,6 +227,24 @@ prueba("a los 11 segundos se bota el aire en 8",()=>{ const f=C.fase478(11,4); a
 prueba("la cuenta regresiva baja de a un segundo",()=>assert.strictEqual(C.fase478(12.3,4).quedan,7));
 prueba("a los 19 segundos empieza la vuelta 2",()=>{ const f=C.fase478(19,4); assert.strictEqual(f.vuelta,2); assert.strictEqual(f.fase,"inhala"); });
 prueba("4 vueltas terminan a los 76 segundos",()=>{ assert.ok(!C.fase478(75.9,4).terminado); assert.ok(C.fase478(76,4).terminado); });
+
+console.log("plan de viernes");
+prueba("el jueves en la mañana es momento de armar el plan",()=>assert.strictEqual(C.momentoViernes(new Date(2026,9,15,9,0)),"armar"));
+prueba("el jueves de madrugada todavía no",()=>assert.strictEqual(C.momentoViernes(new Date(2026,9,15,5,59)),null));
+prueba("el viernes a las 11:59 todavía se arma",()=>assert.strictEqual(C.momentoViernes(new Date(2026,9,16,11,59)),"armar"));
+prueba("el viernes a las 12:00 ya es viernes",()=>assert.strictEqual(C.momentoViernes(new Date(2026,9,16,12,0)),"viernes"));
+prueba("la noche del viernes sigue hasta el sábado a las 5:59",()=>{ assert.strictEqual(C.momentoViernes(new Date(2026,9,17,5,59)),"viernes"); assert.strictEqual(C.momentoViernes(new Date(2026,9,17,6,0)),null); });
+prueba("un lunes no aparece",()=>assert.strictEqual(C.momentoViernes(new Date(2026,9,12,20,0)),null));
+prueba("con una fecha inválida no aparece",()=>assert.strictEqual(C.momentoViernes(new Date("x")),null));
+prueba("desde un miércoles, el próximo viernes es en dos días",()=>assert.strictEqual(C.proximoDiaSemana("2026-10-14",5),"2026-10-16"));
+prueba("desde un viernes, es ese mismo viernes",()=>assert.strictEqual(C.proximoDiaSemana("2026-10-16",5),"2026-10-16"));
+prueba("desde un sábado, salta a la semana siguiente",()=>assert.strictEqual(C.proximoDiaSemana("2026-10-17",5),"2026-10-23"));
+const icsViernes=C.recordatorioICS(18,0,"2026-10-18",Date.UTC(2026,9,18),"viernes");
+prueba("el aviso de los viernes se repite cada viernes",()=>assert.ok(icsViernes.includes("RRULE:FREQ=WEEKLY;BYDAY=FR")));
+prueba("el aviso de los viernes parte el próximo viernes",()=>assert.ok(icsViernes.includes("DTSTART:20261023T180000")));
+prueba("el aviso de los viernes no reemplaza al diario",()=>assert.ok(icsViernes.includes("UID:recordatorio-viernes@")&&!icsViernes.includes("recordatorio-diario")));
+prueba("el aviso diario sigue igual",()=>{ const d=C.recordatorioICS(20,30,"2026-10-18",Date.UTC(2026,9,18)); assert.ok(d.includes("RRULE:FREQ=DAILY")&&d.includes("DTSTART:20261018T203000")&&d.includes("UID:recordatorio-diario@")); });
+prueba("el enlace de Google para los viernes se repite cada viernes",()=>{ const u=C.enlaceGoogleCalendar(18,0,"2026-10-18","viernes"); assert.ok(u.includes(encodeURIComponent("BYDAY=FR"))&&u.includes("dates=20261023T180000")); });
 console.log(process.exitCode?"\nHay pruebas fallando.":"\nOK: "+n+" pruebas pasaron.");
 
 /* ---------- Respaldo (js/respaldo.js) ---------- */

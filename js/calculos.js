@@ -173,44 +173,66 @@ function avanzarHistoria(estado, hoy, total){
   return e;
 }
 
-/* Arma el texto de un archivo de calendario (.ics) con un recordatorio que se repite todos los días.
-   hora (0 a 23) y minuto (0 a 59): cuándo suena. desde: "AAAA-MM-DD", el primer día. sello: momento en que se crea.
+/* El próximo día de la semana pedido (dia: 0 domingo … 6 sábado) desde la fecha "AAAA-MM-DD", contando ese mismo día.
+   Ejemplo: desde un miércoles, el próximo viernes (5) es en dos días; desde un viernes, es ese mismo viernes. Devuelve "AAAA-MM-DD". */
+function proximoDiaSemana(desde, dia){
+  const f=new Date(desde+"T12:00:00");
+  f.setDate(f.getDate()+((dia-f.getDay()+7)%7));
+  return fechaTexto(f);
+}
+
+/* Los dos tipos de aviso de calendario: el diario y el de los viernes.
+   uid: siempre el mismo por tipo (si se agrega otra vez, muchos calendarios lo reemplazan en vez de duplicarlo).
+   titulo: discreto a propósito, porque el calendario puede verlo otra persona o sincronizarse con una cuenta.
+   dia: el día de la semana en que parte (solo el de los viernes; el diario parte el mismo día). */
+const AVISOS={
+  diario:{ uid:"recordatorio-diario", titulo:"Un momento para ti", regla:"RRULE:FREQ=DAILY", dia:null },
+  viernes:{ uid:"recordatorio-viernes", titulo:"Tu plan de viernes", regla:"RRULE:FREQ=WEEKLY;BYDAY=FR", dia:5 }
+};
+
+/* Arma el texto de un archivo de calendario (.ics) con un recordatorio que se repite.
+   hora (0 a 23) y minuto (0 a 59): cuándo suena. desde: "AAAA-MM-DD", el primer día posible. sello: momento en que se crea.
+   tipo: "diario" (si no se dice nada) o "viernes" (todos los viernes; parte el próximo viernes).
    La hora va sin zona horaria: suena a esa hora en el lugar donde esté el teléfono.
-   El título es discreto a propósito: el calendario puede verlo otra persona o sincronizarse con una cuenta.
    Devuelve null si la hora no es válida. */
-function recordatorioICS(hora, minuto, desde, sello){
+function recordatorioICS(hora, minuto, desde, sello, tipo){
   if(!(Number.isInteger(hora)&&hora>=0&&hora<=23&&Number.isInteger(minuto)&&minuto>=0&&minuto<=59)) return null;
+  const a=AVISOS[tipo]||AVISOS.diario;
   const dos=n=>String(n).padStart(2,"0");
-  const inicio=desde.replace(/-/g,"")+"T"+dos(hora)+dos(minuto)+"00";
+  const primero=a.dia==null?desde:proximoDiaSemana(desde,a.dia);
+  const inicio=primero.replace(/-/g,"")+"T"+dos(hora)+dos(minuto)+"00";
   const marca=new Date(sello).toISOString().replace(/[-:]/g,"").slice(0,15)+"Z";
   return [
     "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Cabeza Despejada//ES","CALSCALE:GREGORIAN",
     "BEGIN:VEVENT",
-    "UID:recordatorio-diario@cabeza-despejada", /* Siempre el mismo: si se agrega otra vez, muchos calendarios lo reemplazan en vez de duplicarlo */
+    "UID:"+a.uid+"@cabeza-despejada",
     "DTSTAMP:"+marca,
     "DTSTART:"+inicio,
     "DURATION:PT15M",
-    "RRULE:FREQ=DAILY",
-    "SUMMARY:Un momento para ti",
+    a.regla,
+    "SUMMARY:"+a.titulo,
     "DESCRIPTION:Abre la app y mira tu plan.",
-    "BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:Un momento para ti","TRIGGER:PT0M","END:VALARM",
+    "BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:"+a.titulo,"TRIGGER:PT0M","END:VALARM",
     "END:VEVENT","END:VCALENDAR",""
   ].join("\r\n");
 }
 
 /* Enlace que abre Google Calendar con el recordatorio ya lleno (Google Calendar en Android no abre archivos .ics).
-   Mismo título discreto, 15 minutos de duración y repetición diaria. Devuelve null si la hora no es válida. */
-function enlaceGoogleCalendar(hora, minuto, desde){
+   Mismo título discreto, 15 minutos de duración y la misma repetición que el archivo (tipo: "diario" o "viernes").
+   Devuelve null si la hora no es válida. */
+function enlaceGoogleCalendar(hora, minuto, desde, tipo){
   if(!(Number.isInteger(hora)&&hora>=0&&hora<=23&&Number.isInteger(minuto)&&minuto>=0&&minuto<=59)) return null;
+  const a=AVISOS[tipo]||AVISOS.diario;
   const dos=n=>String(n).padStart(2,"0");
   const formato=d=>""+d.getFullYear()+dos(d.getMonth()+1)+dos(d.getDate())+"T"+dos(d.getHours())+dos(d.getMinutes())+"00";
-  const inicio=new Date(desde+"T"+dos(hora)+":"+dos(minuto)+":00");
+  const primero=a.dia==null?desde:proximoDiaSemana(desde,a.dia);
+  const inicio=new Date(primero+"T"+dos(hora)+":"+dos(minuto)+":00");
   const fin=new Date(inicio.getTime()+15*60000); /* Si empieza 23:50, termina al día siguiente */
   return "https://calendar.google.com/calendar/render?action=TEMPLATE"+
-    "&text="+encodeURIComponent("Un momento para ti")+
+    "&text="+encodeURIComponent(a.titulo)+
     "&details="+encodeURIComponent("Abre la app y mira tu plan.")+
     "&dates="+formato(inicio)+"/"+formato(fin)+
-    "&recur="+encodeURIComponent("RRULE:FREQ=DAILY");
+    "&recur="+encodeURIComponent(a.regla);
 }
 
 /* Respiración 4-7-8: inhalar 4 segundos, sostener 7 y botar el aire en 8. Una vuelta dura 19 segundos.
@@ -273,6 +295,18 @@ function momentoSalida(ahora, hora, dias){
   return no;
 }
 
+/* "Mi plan de viernes": en qué momento de la semana estamos. Recibe un Date.
+   "armar": el jueves desde las 6:00 y el viernes hasta las 11:59, para dejar listo (o revisar) el plan con la cabeza tranquila.
+   "viernes": del viernes a las 12:00 al sábado a las 5:59, cuando el plan se muestra para seguirlo.
+   Cualquier otro momento devuelve null (la tarjeta no aparece). */
+function momentoViernes(ahora){
+  if(!(ahora instanceof Date)||isNaN(ahora)) return null;
+  const d=ahora.getDay(), h=ahora.getHours();
+  if((d===4&&h>=6)||(d===5&&h<12)) return "armar";
+  if((d===5&&h>=12)||(d===6&&h<6)) return "viernes";
+  return null;
+}
+
 /* "¿Cómo te fue el viernes?": la pregunta aparece los sábados en la mañana, de las 6:00 a las 13:59. Recibe un Date. */
 function mananaSabado(ahora){
   return ahora instanceof Date&&!isNaN(ahora)&&ahora.getDay()===6&&ahora.getHours()>=6&&ahora.getHours()<14;
@@ -304,7 +338,7 @@ function consumosTrasDiscusion(eventos, horas){
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diaDe, diasDesde, diasDesdeHora, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, recordatorioICS, enlaceGoogleCalendar, horaRecordatorio, fase478, tamanoCactus, esMadrugada, minutosRato, momentoSalida, mananaSabado, novedadesPendientes, consumosTrasDiscusion, HITOS, pesos };
+const Calculos={ fechaTexto, diaDe, diasDesde, diasDesdeHora, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, recordatorioICS, enlaceGoogleCalendar, proximoDiaSemana, horaRecordatorio, fase478, tamanoCactus, esMadrugada, minutosRato, momentoSalida, momentoViernes, mananaSabado, novedadesPendientes, consumosTrasDiscusion, HITOS, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);

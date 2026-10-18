@@ -16,6 +16,8 @@ const defaults={
   salidaHora:null, salidaDias:[1,2,3,4,5], salidaPlan:{fecha:null,vuelta:"",comida:"",dormir:""},
   /* Respuesta del sábado a "¿Cómo te fue el viernes?": { fecha, como } (como: "bien", "costo" o "consumi") */
   viernesRespuesta:null,
+  /* Mi plan de viernes: lo que la persona deja listo durante la semana para la noche del viernes. Queda guardado de una semana a otra. */
+  planViernes:{hacer:"",gusto:"",escribir:""},
   /* Cartas que no se envían: { id, fecha, para, texto }, y lo que se está escribiendo (para no perderlo si se cierra la app) */
   cartas:[], cartaBorrador:{para:"",texto:""},
   /* Configuración: sustancia principal, modo ("dejar" o "reducir"), meta semanal en modo reducir, PIN opcional */
@@ -122,6 +124,7 @@ function renderHoy(){
   renderSemana();
   renderPlan();
   renderSalida();
+  renderPlanViernes();
   renderViernes();
   renderHitos(d);
   renderLoQueViene(d);
@@ -734,20 +737,24 @@ function renderPlan(){
   /* Propone la hora del recordatorio solo si la persona no eligió una */
   if(!$("recHora").value) $("recHora").value=C.horaRecordatorio(h);
 }
-/* Recordatorio diario: arma el archivo de calendario y lo descarga. Al abrirlo, el teléfono ofrece agregarlo a su calendario. */
-$("recordatorio").onclick=()=>{
-  const [hh,mm]=($("recHora").value||"").split(":").map(Number);
-  const texto=C.recordatorioICS(hh,mm,todayStr(),Date.now());
-  if(!texto){ mensaje("recMsg","Elige una hora.","no"); return; }
+/* Arma el archivo de calendario y lo descarga. Al abrirlo, el teléfono ofrece agregarlo a su calendario.
+   Lo usan el recordatorio diario y el aviso de los viernes. idHora: el campo con la hora. idMsg: donde se avisa cómo salió.
+   tipo: "diario" o "viernes" (ver C.recordatorioICS). nombre: el nombre del archivo que se descarga. */
+function descargarAviso(idHora,idMsg,tipo,nombre){
+  const [hh,mm]=($(idHora).value||"").split(":").map(Number);
+  const texto=C.recordatorioICS(hh,mm,todayStr(),Date.now(),tipo);
+  if(!texto){ mensaje(idMsg,"Elige una hora.","no"); return; }
   /* Dentro de otra página (la versión en claude.ai) no se pueden descargar archivos */
-  if(window.self!==window.top){ mensaje("recMsg","Esta vista no permite descargar archivos. Agrega el recordatorio desde la app instalada en tu teléfono.","no"); return; }
+  if(window.self!==window.top){ mensaje(idMsg,"Esta vista no permite descargar archivos. Agrega el aviso desde la app instalada en tu teléfono.","no"); return; }
   try{
     const url=URL.createObjectURL(new Blob([texto],{type:"text/calendar"}));
-    const a=document.createElement("a"); a.href=url; a.download="recordatorio.ics"; document.body.appendChild(a); a.click(); a.remove();
+    const a=document.createElement("a"); a.href=url; a.download=nombre; document.body.appendChild(a); a.click(); a.remove();
     setTimeout(()=>URL.revokeObjectURL(url),4000);
-    mensaje("recMsg","Listo. Abre el archivo descargado y toca Guardar o Agregar en tu calendario. Si cambias de hora, borra el anterior en el calendario.","ok");
-  }catch(e){ mensaje("recMsg","No se pudo crear el archivo en esta vista. Prueba desde la app instalada.","no"); }
-};
+    mensaje(idMsg,"Listo. Abre el archivo descargado y toca Guardar o Agregar en tu calendario. Si cambias de hora, borra el anterior en el calendario.","ok");
+  }catch(e){ mensaje(idMsg,"No se pudo crear el archivo en esta vista. Prueba desde la app instalada.","no"); }
+}
+/* Recordatorio diario */
+$("recordatorio").onclick=()=>descargarAviso("recHora","recMsg","diario","recordatorio.ics");
 /* Segundo camino: abre Google Calendar con el evento ya lleno. La persona revisa y toca Guardar allá. */
 $("recGoogle").onclick=()=>{
   const [hh,mm]=($("recHora").value||"").split(":").map(Number);
@@ -794,6 +801,69 @@ $("salidaDias").querySelectorAll("input").forEach(i=>i.onchange=()=>{
 $("salidaRato").onclick=()=>$("openRato").click();
 /* Si la app queda abierta, revisa cada minuto si ya es la hora de mostrar (o esconder) la tarjeta */
 setInterval(renderSalida,60000);
+
+/* ---------- Mi plan de viernes ---------- */
+/* El jueves invita a dejar listo el plan con la cabeza tranquila; el viernes desde las 12:00 lo muestra para seguirlo
+   (C.momentoViernes decide cuándo). El plan queda guardado de una semana a otra: se revisa, no se rehace. */
+const CAMPOS_VIERNES={ hacer:"pvHacer", gusto:"pvGusto", escribir:"pvEscribir" };
+const ETIQUETAS_VIERNES={ hacer:"Esta noche", gusto:"Un gusto", escribir:"Le escribo a" };
+let pvEditando=false; /* el viernes, si la persona tocó "Cambiar el plan" */
+function renderPlanViernes(){
+  const ahora=new Date(), momento=C.momentoViernes(ahora);
+  /* La hora del aviso: si la persona no eligió una, se propone su hora de salida (o las 18:00) */
+  if(!$("avisoViernesHora").value) $("avisoViernesHora").value=S.salidaHora||"18:00";
+  $("planViernesCard").hidden=!momento;
+  if(!momento){ pvEditando=false; return; }
+  const p=S.planViernes;
+  const lleno=Object.keys(CAMPOS_VIERNES).some(k=>(p[k]||"").trim());
+  const hoyEsJueves=ahora.getDay()===4;
+  /* Títulos y textos según el momento y si ya hay plan */
+  if(momento==="armar"){
+    $("pvTitulo").textContent=hoyEsJueves?"Mañana es viernes":"Hoy es viernes";
+    $("pvIntro").textContent=lleno
+      ?"Este es tu plan para la noche. Cámbialo si esta semana es distinta."
+      :(hoyEsJueves?"Deja listo tu plan hoy, con la cabeza tranquila. Tres respuestas cortas.":"Deja listo tu plan antes de que termine la jornada. Tres respuestas cortas.");
+  }else{
+    $("pvTitulo").textContent="Es viernes: tu plan";
+    $("pvIntro").textContent=lleno
+      ?"Lo armaste con la cabeza tranquila. Ahora solo hay que seguirlo, de a una cosa."
+      :"Todavía no hay plan. Tres respuestas cortas para esta noche, y nada más.";
+  }
+  /* Al armar, o si no hay plan, se ven los campos; el viernes con plan, se ve la lista (y los campos solo al tocar "Cambiar el plan") */
+  const verCampos=momento==="armar"||!lleno||pvEditando;
+  $("pvEditor").hidden=!verCampos;
+  $("pvLista").hidden=verCampos;
+  $("pvCambiar").hidden=momento==="armar"||!lleno;
+  $("pvCambiar").textContent=pvEditando?"Listo":"Cambiar el plan";
+  if(!verCampos){
+    $("pvLista").innerHTML=Object.keys(ETIQUETAS_VIERNES).filter(k=>(p[k]||"").trim())
+      .map(k=>`<li><b>${ETIQUETAS_VIERNES[k]}:</b> ${esc(p[k])}</li>`).join("");
+  }
+  /* Si la persona está escribiendo en un campo, no le pisamos el texto */
+  for(const k in CAMPOS_VIERNES){ const el=$(CAMPOS_VIERNES[k]); if(document.activeElement!==el) el.value=p[k]||""; }
+}
+/* Cada respuesta se guarda sola mientras se escribe */
+for(const k in CAMPOS_VIERNES){
+  $(CAMPOS_VIERNES[k]).addEventListener("input",e=>{ S.planViernes[k]=e.target.value.slice(0,120); save(); });
+}
+$("pvCambiar").onclick=()=>{ pvEditando=!pvEditando; renderPlanViernes(); if(!pvEditando) toast("Plan de viernes guardado"); };
+/* "Avísame los viernes": abre "Mi plan para la hora difícil" y lleva al aviso */
+$("pvAviso").onclick=()=>{
+  const campo=$("avisoViernesHora"), plegable=campo.closest("details");
+  if(plegable) plegable.open=true;
+  campo.scrollIntoView({behavior:"smooth",block:"center"});
+};
+/* Aviso de los viernes: archivo de calendario o Google Calendar, igual que el recordatorio diario */
+$("avisoViernes").onclick=()=>descargarAviso("avisoViernesHora","avisoViernesMsg","viernes","aviso-viernes.ics");
+$("avisoViernesGoogle").onclick=()=>{
+  const [hh,mm]=($("avisoViernesHora").value||"").split(":").map(Number);
+  const url=C.enlaceGoogleCalendar(hh,mm,todayStr(),"viernes");
+  if(!url){ mensaje("avisoViernesMsg","Elige una hora.","no"); return; }
+  window.open(url,"_blank","noopener");
+  mensaje("avisoViernesMsg","Revisa el evento en Google Calendar y toca Guardar. Se repite todos los viernes.","ok");
+};
+/* Si la app queda abierta, revisa cada minuto si la tarjeta tiene que aparecer o cambiar */
+setInterval(()=>{ if(!pvEditando) renderPlanViernes(); },60000);
 
 /* ---------- ¿Cómo te fue el viernes? ---------- */
 /* Los sábados en la mañana (C.mananaSabado), una sola pregunta sobre el viernes. Sin puntaje y sin culpa:
