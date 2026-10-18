@@ -593,6 +593,17 @@ function indice(){
   (window.PREGUNTAS||[]).forEach(q=>it.push({tipo:"Pregunta",t:q.q,b:q.e}));
   (window.ACTUALIDAD||[]).forEach(x=>it.push({tipo:x.tipo+" "+x.fecha,t:x.titulo,b:x.resumen}));
   (window.FACTORES||[]).forEach(f=>it.push({tipo:"Por qué pega distinto",t:f.t,b:f.b}));
+  (window.VOZ||[]).forEach(v=>it.push({tipo:"La voz de la adicción",t:"\""+v.f+"\"",b:v.r}));
+  (window.LIMITES||[]).forEach(l=>it.push({tipo:"Poner límites",t:l.s,b:l.f.map(f=>"\""+f+"\"").join(" ")+" "+l.por}));
+  (window.DISCUSION_SENTIR||[]).forEach(d=>it.push({tipo:"Después de una discusión",t:d.t,b:d.d,abrir:"openDiscusion"}));
+  /* Las herramientas: al buscarlas aparece un botón que las abre */
+  [{t:"Respirar 4-7-8",b:"Respiración para la ansiedad, las ganas, la tos nerviosa y para dormir.",abrir:"openRespira"},
+   {t:"Un rato contigo",b:"Practicar estar a solas con el aburrimiento y la soledad, sin celular ni nada que hacer. Para los tiempos muertos.",abrir:"openRato"},
+   {t:"Después de una discusión",b:"Para el rato después de una pelea con la familia, la pareja o alguien cercano. Si hubo violencia: 133, 149 y 1455.",abrir:"openDiscusion"},
+   {t:"Modo ganas",b:"Cuando tienes ganas de consumir: un reloj para que la ola baje, tus razones y qué hacer mientras.",abrir:"openCrave"},
+   {t:"Modo calma",b:"Si te sientes paranoico o raro después de consumir: acompañamiento para bajar.",abrir:"openCalma"},
+   {t:"Una carta que no se envía",b:"Escribir lo que no le dijiste a alguien de tu familia o a una pareja. Queda solo en tu teléfono.",abrir:"cartaCard"}
+  ].forEach(h=>it.push(Object.assign({tipo:"Herramienta"},h)));
   return it;
 }
 let IDX=null;
@@ -603,8 +614,16 @@ $("buscar").oninput=()=>{
   IDX=IDX||indice();
   const r=IDX.map(x=>({x,s:(normalizar(x.t).includes(q)?2:0)+(normalizar(x.b).includes(q)?1:0)})).filter(z=>z.s>0).sort((a,b)=>b.s-a.s).slice(0,12);
   out.hidden=false;
-  out.innerHTML=r.length?r.map(z=>`<div class="res"><div class="row" style="justify-content:space-between"><b class="small">${esc(z.x.t)}</b><span class="pill">${esc(z.x.tipo)}</span></div><p class="small">${resaltar(z.x.b,q)}</p></div>`).join("")+`<p class="small muted">${r.length} resultados${r.length===12?" (los más relevantes)":""}. Las secciones completas están más abajo.</p>`:`<p class="small muted">Nada con "${esc($("buscar").value.trim())}". Prueba con otra palabra.</p>`;
+  out.innerHTML=r.length?r.map(z=>`<div class="res"><div class="row" style="justify-content:space-between"><b class="small">${esc(z.x.t)}</b><span class="pill">${esc(z.x.tipo)}</span></div><p class="small">${resaltar(z.x.b,q)}</p>${z.x.abrir?`<button class="ghost small" type="button" data-abrir="${esc(z.x.abrir)}">Abrir</button>`:""}</div>`).join("")+`<p class="small muted">${r.length} resultados${r.length===12?" (los más relevantes)":""}. Las secciones completas están más abajo.</p>`:`<p class="small muted">Nada con "${esc($("buscar").value.trim())}". Prueba con otra palabra.</p>`;
 };
+
+/* "Abrir" en un resultado de búsqueda: toca el botón de esa herramienta; la carta está en Registro, así que va hasta allá */
+$("buscarOut").addEventListener("click",e=>{
+  const b=e.target.closest("[data-abrir]"); if(!b) return;
+  const id=b.dataset.abrir;
+  if(id==="cartaCard"){ irA("registro"); setTimeout(()=>{ $("cartaCard").scrollIntoView({behavior:"smooth",block:"start"}); $("cartaTexto").focus({preventScroll:true}); },80); return; }
+  const el=$(id); if(el) el.click();
+});
 
 /* ---------- Diagnóstico para reportar problemas (sin datos personales) ---------- */
 const VERSION_APP="2026.10.17";
@@ -940,7 +959,13 @@ function renderPatterns(){
   let suenoTxt="";
   if(sv.conGanas!=null&&sv.sinGanas!=null) suenoTxt=`<li>Sueño: los días con ganas dormiste en promedio <b>${sv.conGanas} h</b>; los días tranquilos, <b>${sv.sinGanas} h</b>.${sv.conGanas<sv.sinGanas?" Dormir menos y tener ganas van juntos en tus datos.":""}</li>`;
   else if(sv.diasConDato<3) suenoTxt=`<li>Anota cómo dormiste cada día (en Hoy) y aquí aparecerá la relación entre sueño y ganas.</li>`;
-  $("patterns").innerHTML=`<ul><li>Tu gatillante más frecuente: <b>${esc(topTrig[0])}</b> (${topTrig[1]} veces).</li><li>La hora en que más te llegan las ganas: <b>alrededor de las ${peak}:00</b>. Ten un plan para esa hora.</li><li>Intensidad promedio de las ganas: <b>${avgInt}/10</b>.</li><li>Olas superadas sin consumir: <b>${wins}</b>. Consumos registrados: <b>${rel}</b>.</li>${suenoTxt}</ul>`;
+  /* Discusiones y consumo: solo aparece si hay discusiones y consumos anotados. Sin juicio: es un dato para cuidarse */
+  const dc=C.consumosTrasDiscusion(S.events,24);
+  let discusionTxt="";
+  if(dc.discusiones&&dc.consumos) discusionTxt=dc.tras
+    ?`<li>De tus <b>${dc.consumos}</b> consumos, <b>${dc.tras}</b> ${dc.tras===1?"pasó":"pasaron"} dentro de las 24 horas después de una discusión o un tema familiar. Para ti es un momento de riesgo: en Hoy está "Después de una discusión" para ese rato.</li>`
+    :`<li>Ninguno de tus consumos pasó en las 24 horas después de una discusión. Lo que haces en esos momentos te está sirviendo.</li>`;
+  $("patterns").innerHTML=`<ul><li>Tu gatillante más frecuente: <b>${esc(topTrig[0])}</b> (${topTrig[1]} veces).</li><li>La hora en que más te llegan las ganas: <b>alrededor de las ${peak}:00</b>. Ten un plan para esa hora.</li><li>Intensidad promedio de las ganas: <b>${avgInt}/10</b>.</li><li>Olas superadas sin consumir: <b>${wins}</b>. Consumos registrados: <b>${rel}</b>.</li>${suenoTxt}${discusionTxt}</ul>`;
 }
 
 $("exportBtn").onclick=()=>{

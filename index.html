@@ -173,9 +173,13 @@
   <button class="ghost reiniciar" id="reiniciarHoy">Consumí. Reiniciar mi Día 0</button>
 
   <button class="warm" id="openCrave">Tengo ganas de consumir</button>
-  <button class="respira-boton" id="openRespira" type="button" data-respira>Respirar 4-7-8 <span class="small">· ansiedad, ganas, tos nerviosa, dormir</span></button>
-  <button class="respira-boton" id="openRato" type="button">Un rato contigo <span class="small">· aburrimiento, soledad, tiempos muertos</span></button>
-  <button class="respira-boton" id="openDiscusion" type="button">Después de una discusión <span class="small">· familia, pareja, alguien cercano</span></button>
+  <!-- Para este momento: las tres herramientas en una fila compacta (estilo en css/estilos.css, .herramientas) -->
+  <div class="herramientas" role="group" aria-labelledby="herramientasTitulo">
+    <p class="eyebrow" id="herramientasTitulo">Para este momento</p>
+    <button class="herramienta" id="openRespira" type="button" data-respira><b>Respirar 4&#8209;7&#8209;8</b><span>ansiedad, ganas, dormir</span></button>
+    <button class="herramienta" id="openRato" type="button"><b>Un rato contigo</b><span>aburrimiento, soledad</span></button>
+    <button class="herramienta" id="openDiscusion" type="button"><b>Después de una discusión</b><span>familia, pareja</span></button>
+  </div>
 
   <!-- Lo que viene: aparece los primeros 90 días -->
   <div class="card" id="loQueViene" hidden>

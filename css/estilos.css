@@ -338,8 +338,12 @@ a.boton.primary{background:var(--accent);color:var(--accent-ink);border-color:tr
 .acompanar summary{cursor:pointer}
 .acompanar ul{margin:8px 0 0;padding-left:18px}
 /* Respiración 4-7-8: botón en Hoy y el círculo que respira (crece, se queda, se achica) */
-.respira-boton{width:100%;margin-top:8px;padding:11px 14px;border-radius:14px;background:var(--accent-soft);color:var(--accent);border-color:transparent;font-family:var(--display);font-size:1rem}
-.respira-boton .small{font-family:var(--body,inherit);font-weight:500;opacity:.85}
+/* Para este momento (Hoy): tres herramientas lado a lado; el título ocupa la fila de arriba */
+.herramientas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
+.herramientas .eyebrow{grid-column:1/-1;margin:4px 0 0}
+.herramienta{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:4px;min-height:84px;padding:10px;border-radius:14px;background:var(--accent-soft);color:var(--accent);border-color:transparent;text-align:left}
+.herramienta b{font-family:var(--display);font-size:.95rem;line-height:1.15}
+.herramienta span{font-size:.75rem;font-weight:500;opacity:.85;line-height:1.25}
 .respira-circulo{width:190px;height:190px;border-radius:50%;margin:14px auto 8px;background:var(--accent-soft);border:3px solid var(--accent);display:flex;flex-direction:column;align-items:center;justify-content:center;transform:scale(1);transition-property:transform;transition-timing-function:ease-in-out}
 .respira-fase{font-family:var(--display);font-weight:700;color:var(--accent);font-size:1.15rem}
 .respira-num{font-size:1.4rem;font-weight:700;color:var(--fg);min-height:1.6rem}

@@ -277,10 +277,23 @@ function novedadesPendientes(lista, vista, max){
   return i>0?lista.slice(0,Math.min(i,max||4)):lista.slice(0,1);
 }
 
+/* Discusiones y consumo: de los consumos registrados, cuántos pasaron dentro de las "horas" siguientes a una discusión.
+   Cuenta como discusión: usar la pantalla "Después de una discusión", o anotar ganas o un consumo con el gatillante
+   "Tema familiar" o "Discusión o algo que me dijeron". Devuelve { discusiones, consumos, tras }. */
+const GATILLANTES_DISCUSION=["Tema familiar","Discusión o algo que me dijeron"];
+function consumosTrasDiscusion(eventos, horas){
+  const lista=Array.isArray(eventos)?eventos:[];
+  const ventana=(Number(horas)||24)*3600000;
+  const momentos=lista.filter(e=>e&&(e.type==="discusion"||GATILLANTES_DISCUSION.includes(e.trig))).map(e=>Date.parse(e.ts)).filter(t=>!isNaN(t));
+  const consumos=lista.filter(e=>e&&e.type==="relapse");
+  const tras=consumos.filter(c=>{ const t=Date.parse(c.ts); return momentos.some(d=>t>=d&&t-d<=ventana); }).length;
+  return { discusiones:momentos.length, consumos:consumos.length, tras };
+}
+
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diaDe, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, recordatorioICS, enlaceGoogleCalendar, horaRecordatorio, fase478, tamanoCactus, esMadrugada, minutosRato, momentoSalida, mananaSabado, novedadesPendientes, HITOS, pesos };
+const Calculos={ fechaTexto, diaDe, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, recordatorioICS, enlaceGoogleCalendar, horaRecordatorio, fase478, tamanoCactus, esMadrugada, minutosRato, momentoSalida, mananaSabado, novedadesPendientes, consumosTrasDiscusion, HITOS, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);

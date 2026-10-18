@@ -53,6 +53,18 @@ prueba("no muestra más que el máximo",()=>assert.deepStrictEqual(C.novedadesPe
 prueba("si nunca vio ninguna, o la que vio ya no está, solo la más nueva",()=>{ assert.deepStrictEqual(C.novedadesPendientes(NOV,null,4).map(x=>x.id),["d"]); assert.deepStrictEqual(C.novedadesPendientes(NOV,"vieja",4).map(x=>x.id),["d"]); });
 prueba("sin lista no rompe",()=>{ assert.deepStrictEqual(C.novedadesPendientes(undefined,"a",4),[]); assert.deepStrictEqual(C.novedadesPendientes([],"a",4),[]); });
 
+console.log("consumosTrasDiscusion");
+const evD=[
+  {type:"discusion",ts:"2026-10-10T20:00:00.000Z"},
+  {type:"relapse",ts:"2026-10-11T02:00:00.000Z"},            /* 6 horas después de la discusión */
+  {type:"relapse",ts:"2026-10-14T02:00:00.000Z"},            /* días después: no cuenta */
+  {type:"relapse",ts:"2026-10-16T22:00:00.000Z",trig:"Tema familiar"} /* el consumo mismo fue por un tema familiar */
+];
+prueba("cuenta los consumos dentro de las 24 horas siguientes",()=>assert.deepStrictEqual(C.consumosTrasDiscusion(evD,24),{discusiones:2,consumos:3,tras:2}));
+prueba("un consumo antes de la discusión no cuenta",()=>assert.strictEqual(C.consumosTrasDiscusion([{type:"relapse",ts:"2026-10-10T19:00:00.000Z"},{type:"discusion",ts:"2026-10-10T20:00:00.000Z"}],24).tras,0));
+prueba("unas ganas con gatillante de discusión también cuentan como discusión",()=>assert.strictEqual(C.consumosTrasDiscusion([{type:"crave",trig:"Discusión o algo que me dijeron",ts:"2026-10-10T20:00:00.000Z"},{type:"relapse",ts:"2026-10-10T23:00:00.000Z"}],24).tras,1));
+prueba("sin datos no rompe",()=>{ assert.deepStrictEqual(C.consumosTrasDiscusion(undefined),{discusiones:0,consumos:0,tras:0}); assert.deepStrictEqual(C.consumosTrasDiscusion([{type:"relapse",ts:"malo"}]),{discusiones:0,consumos:1,tras:0}); });
+
 console.log("diasDesde");
 prueba("sin Día 0 devuelve 0",()=>assert.strictEqual(C.diasDesde(null,"2026-10-09"),0));
 prueba("mismo día devuelve 0",()=>assert.strictEqual(C.diasDesde("2026-10-09","2026-10-09"),0));

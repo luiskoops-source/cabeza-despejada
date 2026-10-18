@@ -99,6 +99,15 @@ const path = require("path");
   await pagina.fill("#cartaTexto", "Esta la suelto."); await pagina.click("#cartaSoltar");
   if ((await pagina.evaluate(() => JSON.parse(localStorage.getItem("cd.v1")).cartas.length)) !== 1 || (await pagina.inputValue("#cartaTexto")) !== "") errores.push("Soltarla no borra la carta sin guardarla");
   await pagina.click('[data-tab="hoy"]');
+  /* 6-a03. La búsqueda de Saber encuentra lo nuevo (límites, herramientas) y "Abrir" abre la herramienta */
+  await pagina.click('[data-tab="saber"]');
+  await pagina.fill("#buscar", "familia"); await pagina.waitForTimeout(100);
+  if (!(await pagina.evaluate(() => [...document.querySelectorAll("#buscarOut .pill")].some(p => p.textContent === "Poner límites")))) errores.push("Buscar familia no encuentra las frases para poner límites");
+  await pagina.fill("#buscar", "rato contigo"); await pagina.waitForTimeout(100);
+  await pagina.click('#buscarOut [data-abrir="openRato"]'); await pagina.waitForTimeout(150);
+  if (!(await pagina.isVisible("#rato"))) errores.push("Abrir desde la búsqueda no abre Un rato contigo");
+  await pagina.click("#ratoCerrar"); await pagina.fill("#buscar", "");
+  await pagina.click('[data-tab="hoy"]');
   /* 6-a0. Hora de salida: sin hora no hay tarjeta; al poner la hora de ahora (todos los días) aparece, y lo escrito se guarda */
   if (await pagina.isVisible("#salidaCard")) errores.push("La tarjeta de la hora de salida aparece sin hora configurada");
   await pagina.evaluate(() => document.querySelectorAll("#salidaDias input").forEach(i => { if (!i.checked) i.click(); }));
