@@ -62,6 +62,24 @@
     '</g></svg>';
   const POLVO='<span class="polvo"></span><span class="polvo"></span><span class="polvo"></span>';
 
+  /* No eres el único (datos/no-eres-el-unico.js): personas conocidas que se recuperaron, historia y datos.
+     Elige uno al azar, sin repetir el último que salió */
+  const DATOS=window.NO_ERES_EL_UNICO||[];
+  let ultimoDato=-1;
+  function datoAlAzar(){
+    if(!DATOS.length) return null;
+    let i=Math.floor(Math.random()*DATOS.length);
+    if(i===ultimoDato&&DATOS.length>1) i=(i+1)%DATOS.length;
+    ultimoDato=i; return DATOS[i];
+  }
+  /* El globo que muestra el dato: título, texto y fuente chiquita. Se llena con textContent (nunca HTML) */
+  function llenarDato(globo,d){
+    globo.querySelector("p").textContent=d.t;
+    globo.querySelector("small").textContent=d.f?"Fuente: "+d.f:"";
+  }
+  /* Segundos extra que el salchicha se queda quieto para que alcances a leer el globo */
+  const PARA_LEER=9500;
+
   let enCamino=false;
   /* Un corazón por cada toque: si lo tocas muchas veces, salen muchos corazones (máximo 12 a la vez) */
   function corazon(el){
@@ -82,12 +100,13 @@
      Cada una sabe cuándo se detiene y cuándo se va (los tiempos calzan con las animaciones de css/estilos.css, .paseo) */
   const TIPOS=["camina","camina","corre","paracaidas","yoga"];
   const PASOS={
-    /* Camina hasta el medio (3,2 s), se detiene y lame (2,8 s), y sigue hasta salir (3 s) */
-    camina:(el,luego)=>{ luego(3200,()=>{ el.classList.add("quieto"); lamer(el); }); luego(6000,()=>{ el.classList.remove("quieto"); el.classList.add("sale"); }); return 9200; },
+    /* Camina hasta el medio (3,2 s), se detiene y lame (2,8 s), y sigue hasta salir (3 s).
+       Si trae un dato (extra), se queda más rato con el globo abierto */
+    camina:(el,luego,extra)=>{ luego(3200,()=>{ el.classList.add("quieto","habla"); lamer(el); }); luego(6000+extra,()=>{ el.classList.remove("quieto"); el.classList.add("sale"); }); return 9200+extra; },
     /* Cruza corriendo de una, con la lengua afuera y polvito detrás */
     corre:()=>2900,
     /* Baja balanceándose (5,5 s), aterriza, se le desinfla el paracaídas, te lame y se va caminando */
-    paracaidas:(el,luego)=>{ luego(5500,()=>{ el.classList.add("aterriza","quieto"); saltito(el); }); luego(6200,()=>lamer(el)); luego(8600,()=>{ el.classList.remove("quieto"); el.classList.add("sale"); }); return 11800; },
+    paracaidas:(el,luego,extra)=>{ luego(5500,()=>{ el.classList.add("aterriza","quieto"); saltito(el); }); luego(6200,()=>{ lamer(el); el.classList.add("habla"); }); luego(8600+extra,()=>{ el.classList.remove("quieto"); el.classList.add("sale"); }); return 11800+extra; },
     /* Aparece sobre su colchoneta, sostiene la postura respirando y se desvanece */
     yoga:(el,luego)=>{ luego(6000,()=>el.classList.add("sale")); return 7000; }
   };
@@ -100,12 +119,20 @@
     el.className="paseo "+tipo;
     el.innerHTML='<div class="paseo-mueve">'+(tipo==="yoga"?YOGA:DIBUJO)+(tipo==="paracaidas"?TELA:"")+(tipo==="corre"?POLVO:"")+'</div>'+
       (tipo==="yoga"?'<span class="yoga-globo">Perro boca abajo</span>':"");
+    /* Cuando camina o baja en paracaídas, se detiene y te deja un dato de "No eres el único" */
+    const dato=(tipo==="camina"||tipo==="paracaidas")?datoAlAzar():null;
+    if(dato){
+      const globo=document.createElement("div");
+      globo.className="paseo-globo"; globo.setAttribute("role","status");
+      globo.innerHTML='<b>No eres el único</b><p></p><small></small>';
+      llenarDato(globo,dato); el.appendChild(globo);
+    }
     /* Si lo tocas, da un saltito de gusto y te vuelve a lamer */
     el.onclick=()=>{ saltito(el); lamer(el); };
     document.body.appendChild(el);
     void el.offsetWidth; el.classList.add("entra");
     const luego=(ms,f)=>setTimeout(f,ms);
-    luego(PASOS[tipo](el,luego),()=>{ el.remove(); enCamino=false; });
+    luego(PASOS[tipo](el,luego,dato?PARA_LEER:0),()=>{ el.remove(); enCamino=false; });
     return true;
   }
   /* Sin tipo (como al terminar la respiración), camina y te lame, como siempre. Con tipo: "corre", "paracaidas" o "yoga" */
@@ -139,17 +166,22 @@
     if(visitando||enCamino||menosMovimiento()||document.hidden||apagado()) return false;
     if(leer(GUARDADO_VISITA).n>=VISITAS_DIA||!momentoTranquilo()) return false;
     visitando=true; contar(GUARDADO_VISITA);
-    const c=CONSEJOS[Math.floor(Math.random()*CONSEJOS.length)];
+    /* La mitad de las veces trae un consejo; la otra mitad, un dato de "No eres el único" con un botón para ver otro */
+    const dato=Math.random()<0.5?datoAlAzar():null;
+    const c=dato?{t:dato.t}:CONSEJOS[Math.floor(Math.random()*CONSEJOS.length)];
     const el=document.createElement("div");
     el.className="compa"; el.setAttribute("role","status");
-    el.innerHTML='<div class="compa-globo"><p></p><div class="compa-botones">'+(c.boton?'<button class="primary small" data-a="hacer"></button>':'')+
+    el.innerHTML='<div class="compa-globo">'+(dato?'<b class="compa-titulo">No eres el único</b>':'')+'<p></p>'+(dato?'<small class="compa-fuente"></small>':'')+'<div class="compa-botones">'+(c.boton?'<button class="primary small" data-a="hacer"></button>':'')+(dato?'<button class="primary small" data-a="otro">Otro</button>':'')+
       '<button class="small" data-a="gracias">Gracias</button><button class="ghost small" data-a="nunca">No volver a mostrar</button></div></div>'+
       '<div class="compa-perro"><span class="compa-svg">'+DIBUJO+'</span>'+MINI_CACTUS+'<span class="compa-corazon" aria-hidden="true">♥</span></div>';
-    el.querySelector("p").textContent=c.t;
+    if(dato) llenarDato(el.querySelector(".compa-globo"),dato); else el.querySelector("p").textContent=c.t;
     if(c.boton) el.querySelector('[data-a="hacer"]').textContent=c.boton;
     let fuera=null;
     const irse=()=>{ clearTimeout(fuera); el.classList.add("sale"); setTimeout(()=>{ el.remove(); visitando=false; },700); };
-    el.querySelectorAll("button").forEach(b=>b.onclick=()=>{ if(b.dataset.a==="hacer") c.hacer(); if(b.dataset.a==="nunca"){ apagar(true); const cfg=document.getElementById("cfgSalchicha"); if(cfg) cfg.checked=false; } irse(); });
+    el.querySelectorAll("button").forEach(b=>b.onclick=()=>{
+      /* "Otro": cambia el dato y se queda un rato más para que alcances a leerlo */
+      if(b.dataset.a==="otro"){ const d=datoAlAzar(); if(d) llenarDato(el.querySelector(".compa-globo"),d); clearTimeout(fuera); fuera=setTimeout(irse,16000); return; }
+      if(b.dataset.a==="hacer") c.hacer(); if(b.dataset.a==="nunca"){ apagar(true); const cfg=document.getElementById("cfgSalchicha"); if(cfg) cfg.checked=false; } irse(); });
     /* Si tocas al perrito, vuelve a dar vueltas */
     el.querySelector(".compa-perro").onclick=()=>{ const d=el.querySelector(".compa-perro"); d.classList.remove("gira"); void d.offsetWidth; d.classList.add("gira"); };
     document.body.appendChild(el);

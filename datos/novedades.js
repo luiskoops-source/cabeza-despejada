@@ -2,6 +2,10 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-18-no-eres-el-unico", titulo:"El salchicha trae noticias: no eres el único", cambios:[
+    "Cuando el salchicha cruza la pantalla, se detiene y te deja un globo: personas conocidas que contaron cómo dejaron el alcohol o las drogas, cómo nacieron los grupos de ayuda, y datos sobre lo común que es recuperarse.",
+    "Su visita de la esquina a veces trae uno de estos datos, con un botón \"Otro\" para leer más."
+  ]},
   {id:"2026-10-18-plan-viernes", titulo:"Tu plan de viernes", cambios:[
     "El jueves, Hoy te invita a dejar listo tu plan para la noche del viernes: qué vas a hacer, qué gusto te vas a dar y a quién le vas a escribir. Se arma con la cabeza tranquila, antes de que llegue el cansancio de la semana.",
     "El viernes desde el mediodía, Hoy te muestra ese plan para seguirlo, de a una cosa. Queda guardado de una semana a otra.",

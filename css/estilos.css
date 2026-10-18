@@ -467,6 +467,15 @@ a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;pad
 @keyframes aparece-yoga{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
 @keyframes respira-yoga{from{transform:scale(1)}to{transform:scale(1.04,1.08)}}
 @keyframes globo-yoga{from{opacity:0;transform:translateX(-50%) translateY(6px)}to{opacity:1;transform:translateX(-50%)}}
+/* Globo de "No eres el único" (js/paseo.js): aparece sobre el salchicha cuando se detiene, y se va antes que él */
+.paseo-globo{position:absolute;bottom:calc(100% + 6px);left:50%;width:min(270px,calc(100vw - 32px));background:var(--surface);color:var(--fg);border:1.5px solid var(--line);border-radius:14px;padding:8px 11px;box-shadow:var(--sombra);font-size:.86rem;line-height:1.35;opacity:0;transform:translateX(-50%) translateY(6px);transition:opacity .4s,transform .4s;pointer-events:none}
+.paseo-globo p{margin:2px 0 0}
+.paseo-globo b,.compa-titulo{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--accent)}
+.paseo-globo small,.compa-fuente{display:block;margin-top:4px;font-size:.7rem;color:var(--muted)}
+.compa-fuente{margin:-4px 0 8px}
+.paseo.habla .paseo-globo{opacity:1;transform:translateX(-50%)}
+.paseo.sale .paseo-globo{opacity:0}
+
 /* Visita del compañero (js/paseo.js): asoma por la esquina de abajo, da vueltas y deja un consejo en un globo */
 .compa{pointer-events:none;position:fixed;right:12px;bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:25;display:flex;flex-direction:column;align-items:flex-end;gap:6px;max-width:min(300px,calc(100vw - 24px));transform:translateY(140%);opacity:0;transition:transform .6s cubic-bezier(.2,1.4,.4,1),opacity .4s}
 .compa.entra{transform:translateY(0);opacity:1}
