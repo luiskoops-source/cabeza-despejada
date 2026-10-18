@@ -2,6 +2,10 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-18-hora-dia0", titulo:"Tu Día 0 con hora", cambios:[
+    "Al marcar tu último consumo puedes poner también la hora (es opcional). Así los días se cuentan de 24 horas en 24 horas desde ese momento: si fue ayer a las 21:00, hoy a esa hora cumples 1 día, no a medianoche.",
+    "Debajo del contador dice a qué hora empezó tu Día 0."
+  ]},
   {id:"2026-10-18-arreglos", titulo:"Arreglos para que todo funcione mejor", cambios:[
     "Si tienes PIN, se vuelve a pedir cuando la app pasa más de un minuto en segundo plano, no solo al abrirla.",
     "Después de una recaída, los hitos (1, 3, 7, 30 días...) se vuelven a celebrar.",

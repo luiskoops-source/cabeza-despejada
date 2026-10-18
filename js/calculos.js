@@ -26,6 +26,15 @@ function diasDesde(dia0, hoy){
   return Math.max(0,Math.round((b-a)/86400000));
 }
 
+/* Días completos (de 24 horas) desde un momento exacto (inicio en formato ISO). Nunca negativo.
+   Se usa cuando la persona dijo a qué hora fue su último consumo: si fue ayer a las 21:00,
+   hoy a las 16:00 todavía es 0 días (19 horas), y a las 21:00 de hoy pasa a 1 día. */
+function diasDesdeHora(inicio, ahora){
+  const a=new Date(inicio).getTime(), b=ahora?new Date(ahora).getTime():Date.now();
+  if(isNaN(a)||isNaN(b)) return 0;
+  return Math.max(0,Math.floor((b-a)/86400000));
+}
+
 /* Dinero no gastado: gasto semanal dividido en 7, por los días limpios. */
 function dineroAhorrado(gastoSemana, dias){
   const porDia=(Number(gastoSemana)||0)/7;
@@ -295,7 +304,7 @@ function consumosTrasDiscusion(eventos, horas){
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diaDe, diasDesde, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, recordatorioICS, enlaceGoogleCalendar, horaRecordatorio, fase478, tamanoCactus, esMadrugada, minutosRato, momentoSalida, mananaSabado, novedadesPendientes, consumosTrasDiscusion, HITOS, pesos };
+const Calculos={ fechaTexto, diaDe, diasDesde, diasDesdeHora, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, recordatorioICS, enlaceGoogleCalendar, horaRecordatorio, fase478, tamanoCactus, esMadrugada, minutosRato, momentoSalida, mananaSabado, novedadesPendientes, consumosTrasDiscusion, HITOS, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);

@@ -52,7 +52,12 @@ const daysSince=iso=>C.diasDesde(iso);
 /* Fecha (AAAA-MM-DD, hora local) de un momento guardado como texto ISO */
 const todayStrDe=iso=>C.fechaTexto(new Date(iso));
 /* Guarda el momento exacto solo si el Día 0 elegido es hoy; para fechas pasadas se cuenta desde la medianoche */
-const horaDia0=fecha=>fecha===todayStr()?new Date().toISOString():null;
+/* El momento exacto del Día 0: si la persona escribió la hora, esa fecha y hora; si no, y el Día 0 es hoy, ahora mismo; si no, nada */
+const horaDia0=(fecha,hora)=>hora?new Date(fecha+"T"+hora+":00").toISOString():fecha===todayStr()?new Date().toISOString():null;
+/* ¿Sabemos a qué hora fue el último consumo? (la hora guardada tiene que ser del mismo Día 0) */
+const dia0Exacto=()=>Boolean(S.day0&&S.day0Hora&&todayStrDe(S.day0Hora)===S.day0);
+/* Días sin consumir: con hora conocida, días completos de 24 h desde ese momento; si no, días del calendario */
+const diasSobrio=()=>dia0Exacto()?C.diasDesdeHora(S.day0Hora):daysSince(S.day0);
 
 /* ---------- Día 0 desde el link ---------- */
 /* Si la app se abre con ?dia0=AAAA-MM-DD, fija ese Día 0 en este teléfono.
@@ -94,11 +99,12 @@ function renderHoy(){
   const h=now.getHours();
   $("greet").textContent=h<12?"Buenos días":h<20?"Buenas tardes":"Buenas noches";
   $("today").textContent=now.toLocaleDateString("es-CL",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
-  const d=daysSince(S.day0);
+  const d=diasSobrio();
   $("days").textContent=d;
   $("daysLabel").textContent=d===1?"día":"días";
-  $("sinceText").textContent=S.day0?("Día 0: "+new Date(S.day0+"T12:00:00").toLocaleDateString("es-CL",{day:"numeric",month:"long"})+(S.craveWins?" · "+S.craveWins+(S.craveWins===1?" ola de ganas superada":" olas de ganas superadas"):"")):"Marca la fecha de tu último consumo para empezar a contar.";
+  $("sinceText").textContent=S.day0?("Día 0: "+new Date(S.day0+"T12:00:00").toLocaleDateString("es-CL",{day:"numeric",month:"long"})+(dia0Exacto()?" a las "+new Date(S.day0Hora).toTimeString().slice(0,5):"")+(S.craveWins?" · "+S.craveWins+(S.craveWins===1?" ola de ganas superada":" olas de ganas superadas"):"")):"Marca la fecha de tu último consumo para empezar a contar.";
   $("day0").value=S.day0||"";
+  $("day0HoraInput").value=dia0Exacto()?new Date(S.day0Hora).toTimeString().slice(0,5):"";
   $("spendWeek").value=S.spendWeek||"";
   $("salary").value=S.salary||"";
   const dinero=C.dineroAhorrado(S.spendWeek,d);
@@ -134,11 +140,13 @@ function renderHoy(){
 function renderLive(){
   if(!S.day0){ $("liveTime").textContent=""; return; }
   /* Si sabemos el momento exacto del Día 0 (day0Hora), contamos desde ahí; si no, desde la medianoche de ese día */
-  const exacto=S.day0Hora&&todayStrDe(S.day0Hora)===S.day0;
+  const exacto=dia0Exacto();
   const inicio=exacto?new Date(S.day0Hora).getTime():new Date(S.day0+"T00:00:00").getTime();
   const ms=Date.now()-inicio; if(ms<0){ $("liveTime").textContent=""; return; }
   const h=Math.floor(ms/3600000)%24, m=Math.floor(ms/60000)%60, s=Math.floor(ms/1000)%60;
   $("liveTime").textContent=`${String(h).padStart(2,"0")} h ${String(m).padStart(2,"0")} min ${String(s).padStart(2,"0")} s`;
+  /* Con hora exacta, el número de días cambia a la misma hora del último consumo, no a medianoche: si cambió, se redibuja Hoy */
+  if($("days").textContent!==String(diasSobrio())) renderHoy();
 }
 setInterval(renderLive,1000);
 
@@ -271,7 +279,7 @@ function checkCelebra(d){
     $("celebra").hidden=false;
   } else $("celebra").hidden=true;
 }
-$("celebraOk").onclick=()=>{ S.celebrado=C.hitos(daysSince(S.day0)).ultimo||0; S.celebradoDia0=S.day0; save(); $("celebra").hidden=true; };
+$("celebraOk").onclick=()=>{ S.celebrado=C.hitos(diasSobrio()).ultimo||0; S.celebradoDia0=S.day0; save(); $("celebra").hidden=true; };
 
 /* ---------- Pregunta del día ---------- */
 const PREG=window.PREGUNTAS||[];
@@ -826,7 +834,7 @@ $("welcomeGo").onclick=()=>{
   if(!$("welcomeEdad").checked){ mensaje("welcomeEdadMsg","Esta app es para personas de 18 años o más. Si eres menor y necesitas hablar con alguien, llama gratis y anónimo al 1412 o conversa con un adulto de confianza.","no"); return; }
   if(!$("welcomeSust").value){ mensaje("welcomeEdadMsg","Elige qué quieres dejar o reducir. Puedes cambiarlo después.","no"); return; }
   S.mayorEdad=true;
-  const v=$("welcomeDay0").value; if(!v){ toast("Elige una fecha"); return; } if(v>todayStr()){ toast("La fecha no puede ser futura"); return; } S.day0=v; S.day0Hora=horaDia0(v); S.sustancia=$("welcomeSust").value; S.modo=$("welcomeModo").value; save(); aplicarTema(); fillConfig(); renderHoy(); renderRegistro(); renderSust(); toast("Empezamos a contar desde ahí."); };
+  const v=$("welcomeDay0").value; if(!v){ toast("Elige una fecha"); return; } if(v>todayStr()){ toast("La fecha no puede ser futura"); return; } const hora=$("welcomeHora").value; if(hora&&new Date(v+"T"+hora+":00")>new Date()){ toast("La hora no puede ser futura"); return; } S.day0=v; S.day0Hora=horaDia0(v,hora); S.sustancia=$("welcomeSust").value; S.modo=$("welcomeModo").value; save(); aplicarTema(); fillConfig(); renderHoy(); renderRegistro(); renderSust(); toast("Empezamos a contar desde ahí."); };
 
 /* ---------- Check-in diario (sueño y ánimo) ---------- */
 function todayCheckin(){ const t=todayStr(); return S.events.find(e=>e.type==="checkin"&&todayStrDe(e.ts)===t); }
@@ -844,7 +852,10 @@ $("saveCheckin").onclick=()=>{
   toast(sueno<6?"Dormiste poco. Hoy cuídate más de lo normal.":"Anotado.");
 };
 $("editCheckin").onclick=()=>{ const i=S.events.indexOf(todayCheckin()); if(i>-1) S.events.splice(i,1); save(); renderCheckin(); };
-$("saveDay0").onclick=()=>{ if($("day0").value>todayStr()){ toast("La fecha no puede ser futura"); return; } S.day0=$("day0").value||null; S.day0Hora=S.day0?horaDia0(S.day0):null; save(); renderHoy(); renderRegistro(); toast("Día 0 guardado"); };
+$("saveDay0").onclick=()=>{ if($("day0").value>todayStr()){ toast("La fecha no puede ser futura"); return; }
+  const hora=$("day0HoraInput").value;
+  if($("day0").value&&hora&&new Date($("day0").value+"T"+hora+":00")>new Date()){ toast("La hora no puede ser futura"); return; }
+  S.day0=$("day0").value||null; S.day0Hora=S.day0?horaDia0(S.day0,hora):null; save(); renderHoy(); renderRegistro(); toast("Día 0 guardado"); };
 $("saveMoney").onclick=()=>{ S.spendWeek=Number($("spendWeek").value)||0; S.salary=Number($("salary").value)||null; save(); renderHoy(); toast("Guardado"); };
 
 function renderReasons(){
@@ -931,7 +942,7 @@ $("craveAsk").onclick=async()=>{
   $("craveReply").textContent="Pensando...";
   const ctx=`${RULES()}
 
-Contexto: la persona está AHORA MISMO con ganas intensas de consumir y abrió el modo de emergencia de la app. Lleva ${daysSince(S.day0)} días sin consumir. Sus propias razones para no consumir: ${S.reasons.join(" | ")}. Sus gatillantes más frecuentes según su registro: ${gatillantesTop()}. Lo que ha anotado que le sirvió antes: ${loQueSirvio()}.
+Contexto: la persona está AHORA MISMO con ganas intensas de consumir y abrió el modo de emergencia de la app. Lleva ${diasSobrio()} días sin consumir. Sus propias razones para no consumir: ${S.reasons.join(" | ")}. Sus gatillantes más frecuentes según su registro: ${gatillantesTop()}. Lo que ha anotado que le sirvió antes: ${loQueSirvio()}.
 
 Responde en máximo 5 frases cortas. Primero reconoce lo que dice, después UNA acción concreta para los próximos 10 minutos, y recuérdale que la ola baja sola. Sin listas, sin negritas, sin sermones.`;
   try{
@@ -1175,7 +1186,7 @@ function abrirAtajo(){ if(!atajoPendiente) return; const a=atajoPendiente; atajo
 /* ---------- Boot ---------- */
 fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderSenales(); renderSalir(); renderRapido(); renderOfChips(); renderNovedades(); renderCuentan(); lockIfNeeded();
 /* Portada: al cactus le sale una flor con los hitos (7 días: brote, 30: abierta, 90: florecido) */
-try{ const dias=S.day0?daysSince(S.day0):0, fl=dias>=90?3:dias>=30?2:dias>=7?1:0; if(fl) document.querySelector(".portada").dataset.flor=fl; }catch(e){}
+try{ const dias=S.day0?diasSobrio():0, fl=dias>=90?3:dias>=30?2:dias>=7?1:0; if(fl) document.querySelector(".portada").dataset.flor=fl; }catch(e){}
 /* Portada: el cactus crece con todos los días que llevas en esto (desde S.inicio, el primer Día 0). Una recaída no lo achica.
    Se agranda desde su base (231, 342 en el dibujo), así queda parado en el suelo y el salchicha lo sigue abrazando. */
 try{ const t=C.tamanoCactus(daysSince(S.inicio||S.day0)), crece=`translate(231 342) scale(${t}) translate(-231 -342)`;

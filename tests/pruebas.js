@@ -73,6 +73,11 @@ prueba("un consumo antes de la discusión no cuenta",()=>assert.strictEqual(C.co
 prueba("unas ganas con gatillante de discusión también cuentan como discusión",()=>assert.strictEqual(C.consumosTrasDiscusion([{type:"crave",trig:"Discusión o algo que me dijeron",ts:"2026-10-10T20:00:00.000Z"},{type:"relapse",ts:"2026-10-10T23:00:00.000Z"}],24).tras,1));
 prueba("sin datos no rompe",()=>{ assert.deepStrictEqual(C.consumosTrasDiscusion(undefined),{discusiones:0,consumos:0,tras:0}); assert.deepStrictEqual(C.consumosTrasDiscusion([{type:"relapse",ts:"malo"}]),{discusiones:0,consumos:1,tras:0}); });
 
+console.log("diasDesdeHora");
+prueba("último consumo ayer 21:00, hoy 16:30: todavía 0 días",()=>assert.strictEqual(C.diasDesdeHora("2026-10-18T00:00:00Z","2026-10-18T19:30:00Z"),0));
+prueba("a las 24 horas justas pasa a 1 día",()=>assert.strictEqual(C.diasDesdeHora("2026-10-18T00:00:00Z","2026-10-19T00:00:00Z"),1));
+prueba("una hora futura o inválida da 0",()=>{ assert.strictEqual(C.diasDesdeHora("2026-10-20T00:00:00Z","2026-10-18T00:00:00Z"),0); assert.strictEqual(C.diasDesdeHora("abc"),0); });
+
 console.log("diasDesde");
 prueba("sin Día 0 devuelve 0",()=>assert.strictEqual(C.diasDesde(null,"2026-10-09"),0));
 prueba("mismo día devuelve 0",()=>assert.strictEqual(C.diasDesde("2026-10-09","2026-10-09"),0));
