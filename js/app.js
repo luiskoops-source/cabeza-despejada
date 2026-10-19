@@ -242,7 +242,8 @@ function renderHistoria(){
   const antes=JSON.stringify(S.historia);
   S.historia=C.avanzarHistoria(S.historia,todayStr(),H.length);
   if(JSON.stringify(S.historia)!==antes) save();
-  const n=S.historia.disponibles, cap=H[n-1];
+  /* n: el capítulo en que vas; esperando: los que ya se abrieron y todavía no lees */
+  const n=S.historia.leido, cap=H[n-1], esperando=S.historia.disponibles-n;
   /* Párrafos: el texto viene separado por líneas en blanco */
   const parrafos=t=>t.split("\n\n").map(p=>`<p>${esc(p)}</p>`).join("");
   $("historiaPill").textContent="Capítulo "+n+" de "+H.length;
@@ -250,12 +251,19 @@ function renderHistoria(){
   $("historiaTexto").innerHTML=parrafos(cap.texto);
   $("historiaPregunta").textContent=cap.pregunta||"";
   $("historiaPregunta").hidden=!cap.pregunta;
-  $("historiaNota").textContent=n<H.length?"Mañana se abre el capítulo "+(n+1)+".":"Por ahora la historia llega hasta aquí. Pronto vienen más capítulos.";
+  $("historiaNota").textContent=esperando>0?(esperando===1?"Tienes 1 capítulo más esperándote.":"Tienes "+esperando+" capítulos más esperándote.")
+    :n<H.length?"Mañana se abre el capítulo "+(n+1)+".":"Por ahora la historia llega hasta aquí. Pronto vienen más capítulos.";
+  $("historiaSiguiente").hidden=esperando<1;
   /* Los capítulos ya leídos, del más reciente al primero, plegados */
   $("historiaAnteriores").hidden=n<2;
   $("historiaLista").innerHTML=H.slice(0,n-1).map((c,i)=>`<details class="etapa"><summary>${i+1}. ${esc(c.titulo)}</summary>${parrafos(c.texto)}</details>`).reverse().join("");
   renderOtrasHistorias(parrafos);
 }
+/* "Leer el siguiente": pasa al próximo capítulo que ya se abrió y deja la tarjeta arriba, lista para leer */
+$("historiaSiguiente").onclick=()=>{
+  S.historia=C.siguienteCapitulo(S.historia); save(); renderHistoria();
+  $("historiaCard").scrollIntoView({behavior:"smooth",block:"start"});
+};
 /* Otras historias: a diferencia de Mati, están todas abiertas desde el principio, para leer sin esperar al día siguiente */
 function renderOtrasHistorias(parrafos){
   const O=window.OTRAS_HISTORIAS||[];

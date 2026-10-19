@@ -193,12 +193,16 @@ prueba("sin registros previos, el inicio guardado mantiene los días limpios",()
 prueba("sin inicio guardado funciona como antes",()=>assert.strictEqual(C.limpiosAcumulados([{type:"relapse",ts:"2026-10-12T12:00:00.000Z"}],"2026-10-12",30,"2026-10-12").total,0));
 prueba("sin datos devuelve ceros",()=>assert.deepStrictEqual(C.limpiosAcumulados([],null,30,"2026-10-12"),{total:0,enVentana:0,ventana:30,desde:null}));
 console.log("avanzarHistoria");
-prueba("la primera vez abre el capítulo 1",()=>assert.deepStrictEqual(C.avanzarHistoria(null,"2026-10-14",15),{disponibles:1,fecha:"2026-10-14"}));
+prueba("la primera vez abre el capítulo 1",()=>assert.deepStrictEqual(C.avanzarHistoria(null,"2026-10-14",15),{disponibles:1,fecha:"2026-10-14",leido:1}));
 prueba("el mismo día no abre otro",()=>assert.strictEqual(C.avanzarHistoria({disponibles:1,fecha:"2026-10-14"},"2026-10-14",15).disponibles,1));
 prueba("al día siguiente abre el que sigue",()=>assert.strictEqual(C.avanzarHistoria({disponibles:1,fecha:"2026-10-14"},"2026-10-15",15).disponibles,2));
-prueba("días sin abrir no se acumulan",()=>assert.strictEqual(C.avanzarHistoria({disponibles:3,fecha:"2026-10-10"},"2026-10-20",15).disponibles,4));
-prueba("no pasa del último capítulo",()=>assert.strictEqual(C.avanzarHistoria({disponibles:15,fecha:"2026-10-10"},"2026-10-20",15).disponibles,15));
-prueba("si llegan capítulos nuevos, sigue desde donde quedó",()=>assert.strictEqual(C.avanzarHistoria({disponibles:15,fecha:"2026-10-10"},"2026-10-20",20).disponibles,16));
+prueba("los días sin abrir la app también abren capítulos",()=>assert.strictEqual(C.avanzarHistoria({disponibles:3,fecha:"2026-10-10"},"2026-10-13",15).disponibles,6));
+prueba("al volver después de días, quedas en el siguiente que no has leído",()=>assert.strictEqual(C.avanzarHistoria({disponibles:3,fecha:"2026-10-10"},"2026-10-13",15).leido,4));
+prueba("Leer el siguiente avanza de a uno hasta el último abierto",()=>{ let e={disponibles:6,fecha:"2026-10-13",leido:4}; e=C.siguienteCapitulo(e); assert.strictEqual(e.leido,5); e=C.siguienteCapitulo(e); e=C.siguienteCapitulo(e); assert.strictEqual(e.leido,6); });
+prueba("si el reloj retrocede, abre solo uno",()=>assert.strictEqual(C.avanzarHistoria({disponibles:3,fecha:"2026-10-20"},"2026-10-18",15).disponibles,4));
+prueba("no pasa del último capítulo",()=>{ assert.strictEqual(C.avanzarHistoria({disponibles:15,fecha:"2026-10-10"},"2026-10-20",15).disponibles,15); assert.strictEqual(C.avanzarHistoria({disponibles:13,fecha:"2026-10-10"},"2026-10-20",15).disponibles,15); });
+prueba("si llegan capítulos nuevos, sigue desde donde quedó",()=>assert.strictEqual(C.avanzarHistoria({disponibles:15,fecha:"2026-10-10"},"2026-10-20",20).leido,16));
+prueba("con todos leídos, igual anota la fecha (los capítulos que lleguen después se cuentan desde ahí)",()=>assert.strictEqual(C.avanzarHistoria({disponibles:15,fecha:"2026-10-10"},"2026-10-20",15).fecha,"2026-10-20"));
 
 console.log("recordatorio de calendario");
 const ics=C.recordatorioICS(22,30,"2026-10-15",Date.UTC(2026,9,15,12,0,0));

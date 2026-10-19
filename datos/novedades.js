@@ -2,6 +2,10 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-19-mati-sin-perderse", titulo:"Mati ya no se queda atrás", cambios:[
+    "Los capítulos de Mati se abren uno por día del calendario, aunque no abras la app. Si pasan unos días, te esperan juntos.",
+    "Al volver, sigues en el capítulo que te tocaba, y con el botón \"Leer el siguiente\" avanzas por los que se juntaron."
+  ]},
   {id:"2026-10-19-otras-historias", titulo:"Otras historias, sin esperar", cambios:[
     "Debajo de la historia de Mati hay siete historias nuevas que se leen enteras, cuando quieras: la bajada de turno, después de la pelea, lo que no recuerdo, el domingo largo, cuarenta días, el matrimonio del primo y la plata que no se fue.",
     "Son ficción: personas inventadas en distintas ciudades de Chile, que pasan por cosas que mucha gente reconoce."

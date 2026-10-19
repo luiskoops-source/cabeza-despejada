@@ -163,13 +163,29 @@ function limpiosAcumulados(eventos, dia0, ventana, hoy, inicioConocido){
   return { total, enVentana, ventana, desde:inicio };
 }
 
-/* La historia por capítulos: abre un capítulo nuevo por cada día distinto en que se abre la app.
-   "estado" guarda cuántos capítulos hay disponibles y la fecha del último que se abrió.
-   No se acumulan días perdidos: así la historia engancha sin dar para maratón.
+/* La historia por capítulos: se abre un capítulo por cada día del calendario, aunque no abras la app.
+   "estado" guarda cuántos capítulos hay disponibles, la fecha de la última vez que se revisó,
+   y "leido": el capítulo en que vas. Si pasaron tres días sin abrir la app, se abren tres capítulos,
+   pero quedas en el siguiente que no has leído; los demás se leen con "Leer el siguiente" (siguienteCapitulo).
    Si se agregan capítulos nuevos más adelante, siguen abriéndose desde donde quedó. */
 function avanzarHistoria(estado, hoy, total){
   const e={ disponibles:Number(estado&&estado.disponibles)||0, fecha:(estado&&estado.fecha)||null };
-  if(e.fecha!==hoy&&e.disponibles<total){ e.disponibles++; e.fecha=hoy; }
+  /* Los estados guardados antes de que existiera "leido" iban siempre en el último capítulo abierto */
+  e.leido=Math.min(Number(estado&&estado.leido)||e.disponibles, e.disponibles);
+  if(e.fecha!==hoy&&e.disponibles<total){
+    /* Cuántos días pasaron desde la última vez (al menos 1: la primera vez, o si el reloj del teléfono retrocedió) */
+    const dias=e.fecha?Math.max(1,diasDesde(e.fecha,hoy)):1;
+    e.disponibles=Math.min(total,e.disponibles+dias);
+    e.leido=Math.min(e.leido+1,e.disponibles);
+  }
+  /* La fecha se anota aunque ya estén todos abiertos: si después se agregan capítulos, se cuentan desde hoy */
+  e.fecha=hoy;
+  return e;
+}
+/* "Leer el siguiente": avanza al próximo capítulo ya abierto, si hay alguno esperando */
+function siguienteCapitulo(estado){
+  const e=Object.assign({},estado);
+  if((e.leido||0)<(e.disponibles||0)) e.leido++;
   return e;
 }
 
@@ -338,7 +354,7 @@ function consumosTrasDiscusion(eventos, horas){
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diaDe, diasDesde, diasDesdeHora, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, recordatorioICS, enlaceGoogleCalendar, proximoDiaSemana, horaRecordatorio, fase478, tamanoCactus, esMadrugada, minutosRato, momentoSalida, momentoViernes, mananaSabado, novedadesPendientes, consumosTrasDiscusion, HITOS, pesos };
+const Calculos={ fechaTexto, diaDe, diasDesde, diasDesdeHora, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, siguienteCapitulo, recordatorioICS, enlaceGoogleCalendar, proximoDiaSemana, horaRecordatorio, fase478, tamanoCactus, esMadrugada, minutosRato, momentoSalida, momentoViernes, mananaSabado, novedadesPendientes, consumosTrasDiscusion, HITOS, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);
