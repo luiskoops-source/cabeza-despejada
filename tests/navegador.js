@@ -30,6 +30,8 @@ const path = require("path");
   /* 1c. La historia: el primer día se abre el capítulo 1 */
   if (!(await pagina.isVisible("#historiaCard"))) errores.push("La tarjeta de la historia no aparece");
   else if (!/Capítulo 1 de/.test(await pagina.textContent("#historiaPill"))) errores.push("La historia no parte en el capítulo 1");
+  /* 1d. Otras historias: todas disponibles desde el primer día (si su archivo se carga después de app.js, quedan vacías) */
+  if ((await pagina.evaluate(() => document.querySelectorAll("#otrasLista > details").length)) < 1) errores.push("Otras historias está vacía");
   /* 2. Botones principales */
   await pagina.click("#pledgeBtn");
   /* 2a. Reiniciar desde Hoy: dos toques dejan el Día 0 en hoy y el contador parte en 00 h */

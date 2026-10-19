@@ -217,6 +217,11 @@
     <p class="fact new" id="historiaPregunta"></p>
     <p class="small muted" id="historiaNota"></p>
     <details class="etapa" id="historiaAnteriores"><summary>Capítulos anteriores</summary><div class="stack" id="historiaLista"></div></details>
+    <!-- Otras historias: cortas y completas, se leen enteras cuando quieras (datos/otras-historias.js, js/app.js renderOtrasHistorias) -->
+    <details class="etapa" id="otrasHistorias" hidden><summary>Otras historias, para leer cuando quieras</summary>
+      <p class="small muted">Ficción: personas inventadas, en otras ciudades, que pasan por cosas parecidas.</p>
+      <div class="stack" id="otrasLista"></div>
+    </details>
   </div>
 
   <!-- No estás solo -->
@@ -1273,6 +1278,7 @@
 <script src="datos/actualidad.js"></script>
 <script src="datos/primeros-dias.js"></script>
 <script src="datos/historia.js"></script>
+<script src="datos/otras-historias.js"></script>
 <!-- DATOS: identificador "¿qué me ofrecieron?" -->
 <script src="datos/ofrecieron.js"></script>
 <!-- DATOS: primeros auxilios -->

@@ -2,6 +2,10 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-19-otras-historias", titulo:"Otras historias, sin esperar", cambios:[
+    "Debajo de la historia de Mati hay siete historias nuevas que se leen enteras, cuando quieras: la bajada de turno, después de la pelea, lo que no recuerdo, el domingo largo, cuarenta días, el matrimonio del primo y la plata que no se fue.",
+    "Son ficción: personas inventadas en distintas ciudades de Chile, que pasan por cosas que mucha gente reconoce."
+  ]},
   {id:"2026-10-18-no-eres-el-unico", titulo:"El salchicha trae noticias: no eres el único", cambios:[
     "Cuando el salchicha cruza la pantalla, se detiene y te deja un globo: personas conocidas que contaron cómo dejaron el alcohol o las drogas, cómo nacieron los grupos de ayuda, y datos sobre lo común que es recuperarse.",
     "Su visita de la esquina a veces trae uno de estos datos, con un botón \"Otro\" para leer más."

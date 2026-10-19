@@ -254,6 +254,15 @@ function renderHistoria(){
   /* Los capítulos ya leídos, del más reciente al primero, plegados */
   $("historiaAnteriores").hidden=n<2;
   $("historiaLista").innerHTML=H.slice(0,n-1).map((c,i)=>`<details class="etapa"><summary>${i+1}. ${esc(c.titulo)}</summary>${parrafos(c.texto)}</details>`).reverse().join("");
+  renderOtrasHistorias(parrafos);
+}
+/* Otras historias: a diferencia de Mati, están todas abiertas desde el principio, para leer sin esperar al día siguiente */
+function renderOtrasHistorias(parrafos){
+  const O=window.OTRAS_HISTORIAS||[];
+  $("otrasHistorias").hidden=!O.length;
+  /* Se arman una sola vez: si ya están, no se tocan (así no se cierra la que estás leyendo cuando se redibuja Hoy) */
+  if(!O.length||$("otrasLista").childElementCount) return;
+  $("otrasLista").innerHTML=O.map(h=>`<details class="etapa"><summary>${esc(h.titulo)}</summary><p class="small muted">${esc(h.quien)}</p>${parrafos(h.texto)}</details>`).join("");
 }
 
 /* ---------- Hitos ---------- */

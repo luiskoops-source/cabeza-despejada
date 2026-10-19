@@ -394,7 +394,8 @@ a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;pad
 /* La historia de Mati: la pregunta del final destaca un poco para invitar a volver mañana */
 #historiaTexto p{margin:8px 0}
 #historiaPregunta{font-weight:600;font-style:italic}
-#historiaLista .etapa p{font-size:.95em}
+#historiaLista .etapa p,#otrasLista .etapa p{font-size:.95em}
+#otrasHistorias{margin-top:8px}
 /* Respaldo: el "botón" de Restaurar es una etiqueta que abre el selector de archivos; el input queda escondido */
 .boton-archivo{display:inline-block;cursor:pointer;border:1.5px solid var(--line);background:var(--surface);color:var(--fg);border-radius:11px;padding:8px 12px;font-weight:600;font-size:.95rem;box-shadow:var(--sombra)}
 .boton-archivo:focus-within{outline:2px solid var(--accent);outline-offset:2px}
