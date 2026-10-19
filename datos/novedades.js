@@ -2,6 +2,10 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-19-aprender", titulo:"Aprender a no recaer", cambios:[
+    "En Hoy, \"Lo que aprendí\": una línea por día con algo que entendiste. Cuando abras el Modo ganas, la app te muestra tus propias lecciones.",
+    "En Saber, \"Aprender a no recaer\": las tres etapas en que suele llegar una recaída (emocional, mental y física), con sus señales y qué hacer en cada una, y las lecciones que más se repiten entre personas en recuperación."
+  ]},
   {id:"2026-10-19-mati-sin-perderse", titulo:"Mati ya no se queda atrás", cambios:[
     "Los capítulos de Mati se abren uno por día del calendario, aunque no abras la app. Si pasan unos días, te esperan juntos.",
     "Al volver, sigues en el capítulo que te tocaba, y con el botón \"Leer el siguiente\" avanzas por los que se juntaron."

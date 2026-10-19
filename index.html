@@ -236,6 +236,16 @@
     <p class="small muted">En Saber hay comunidades de gente que está en lo mismo. Leer sin participar también sirve.</p>
   </div>
 
+  <!-- Lo que aprendí: una línea por día. Se guarda en el estado (cd.v1), viaja en la copia y aparece en el Modo ganas (js/app.js, renderAprendi) -->
+  <div class="card" id="aprendiCard">
+    <p class="eyebrow">Lo que aprendí</p>
+    <p class="small muted">Una línea por día: algo que entendiste de ti, de tus ganas o de lo que te pasó. Cuando vengan las ganas, la app te lo va a recordar.</p>
+    <textarea id="aprendiTexto" maxlength="200" aria-label="Lo que aprendí hoy" placeholder="Ej: los domingos en la tarde son mi momento difícil, no las fiestas"></textarea>
+    <div class="row"><button class="primary" id="aprendiGuardar" type="button">Guardar lo de hoy</button></div>
+    <p class="small" id="aprendiMsg" role="status"></p>
+    <div class="stack" id="aprendiLista"></div>
+  </div>
+
   <!-- Lo de todos los días, plegado -->
   <details class="fold" open>
     <summary>Cómo amanecí</summary>
@@ -580,6 +590,16 @@
       <div class="study"><span class="pill">OMS</span><h3>Trastornos por consumo de sustancias</h3><p class="small">Marco general de la Organización Mundial de la Salud: la adicción como condición de salud tratable, no como falla moral.</p><a href="https://www.who.int/health-topics/drugs-psychoactive" target="_blank" rel="noopener">who.int → drogas psicoactivas</a></div>
       <div class="study"><span class="pill">PubMed</span><h3>Buscar estudios tú mismo</h3><p class="small">La base de datos médica más grande. Busca en inglés el nombre de lo que consumes y una palabra como "withdrawal" (abstinencia) o "recovery" (recuperación).</p><a href="https://pubmed.ncbi.nlm.nih.gov/?term=substance+use+disorder+recovery" target="_blank" rel="noopener">pubmed.ncbi.nlm.nih.gov</a></div>
     </div>
+  </div>
+
+  <!-- Aprender a no recaer: etapas de una recaída y lecciones de las comunidades (datos/no-recaer.js, js/app.js renderNoRecaer) -->
+  <div class="card" id="noRecaerCard">
+    <h2>Aprender a no recaer</h2>
+    <p class="small muted">Una recaída casi nunca empieza el día del consumo: empieza antes, en etapas. Mientras antes la ves venir, más fácil es frenarla.</p>
+    <div class="stack" id="noRecaerEtapas"></div>
+    <h3>Lo que repiten miles de personas en recuperación</h3>
+    <div class="stack" id="noRecaerLecciones"></div>
+    <p class="small muted" id="noRecaerFuente"></p>
   </div>
 
   <div class="card">
@@ -1004,6 +1024,10 @@
       <p class="small muted">Las ganas hablan con tu voz. Toca la frase que estás escuchando ahora.</p>
       <div class="stack" id="vozList"></div>
     </div>
+    <div class="card" id="craveAprendiCard" hidden>
+      <p class="eyebrow">Lo que tú mismo aprendiste</p>
+      <ul class="reasons" id="craveAprendi"></ul>
+    </div>
     <div class="card">
       <p class="eyebrow">Mis razones</p>
       <ul class="reasons" id="craveReasons"></ul>
@@ -1281,6 +1305,7 @@
 <script src="datos/primeros-dias.js"></script>
 <script src="datos/historia.js"></script>
 <script src="datos/otras-historias.js"></script>
+<script src="datos/no-recaer.js"></script>
 <!-- DATOS: identificador "¿qué me ofrecieron?" -->
 <script src="datos/ofrecieron.js"></script>
 <!-- DATOS: primeros auxilios -->

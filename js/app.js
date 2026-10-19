@@ -20,6 +20,8 @@ const defaults={
   planViernes:{hacer:"",gusto:"",escribir:""},
   /* Cartas que no se envían: { id, fecha, para, texto }, y lo que se está escribiendo (para no perderlo si se cierra la app) */
   cartas:[], cartaBorrador:{para:"",texto:""},
+  /* Lo que aprendí: una línea por día { fecha:"AAAA-MM-DD", texto }, la más reciente primero */
+  aprendizajes:[],
   /* Configuración: sustancia principal, modo ("dejar" o "reducir"), meta semanal en modo reducir, PIN opcional */
   sustancia:"cocaina", modo:"dejar", metaSemana:2, pin:"", tema:"auto", tourVisto:false, novedadVista:null, inicio:null, ganasMin:15,
   celebrado:0, celebradoDia0:null, pledgeDate:null, salirDate:null, salirOk:[], rapidoDate:null, rapidoCount:0, rapidoSeen:[], quizDate:null, quizIdx:null, quizDone:false, quizStreak:0, quizBest:0, volverDia:null, volverOk:[],
@@ -40,6 +42,7 @@ function armarEstado(datos){
     else if(d&&typeof d==="object"&&!Array.isArray(d)&&(!s[k]||typeof s[k]!=="object"||Array.isArray(s[k]))) s[k]=nuevoEstado()[k];
   }
   s.events=s.events.filter(e=>e&&typeof e==="object"&&typeof e.ts==="string");
+  s.aprendizajes=s.aprendizajes.filter(a=>a&&typeof a.fecha==="string"&&typeof a.texto==="string");
   return s;
 }
 function load(){ try{ const r=localStorage.getItem(KEY); if(r){ return armarEstado(JSON.parse(r)); } }catch(e){} return nuevoEstado(); }
@@ -120,6 +123,7 @@ function renderHoy(){
   $("bestStreak").textContent=mejor;
   $("resets").textContent=S.events.filter(e=>e.type==="relapse").length;
   renderReasons();
+  renderAprendi();
   renderCheckin();
   renderSemana();
   renderPlan();
@@ -265,6 +269,15 @@ $("historiaSiguiente").onclick=()=>{
   $("historiaCard").scrollIntoView({behavior:"smooth",block:"start"});
 };
 /* Otras historias: a diferencia de Mati, están todas abiertas desde el principio, para leer sin esperar al día siguiente */
+/* Aprender a no recaer (Saber): las tres etapas, plegadas, y las lecciones de las comunidades */
+function renderNoRecaer(){
+  const N=window.NO_RECAER; $("noRecaerCard").hidden=!N; if(!N) return;
+  $("noRecaerEtapas").innerHTML=N.etapas.map(e=>`<details class="etapa"><summary>${esc(e.t)}</summary><p>${esc(e.que)}</p><p class="small"><b>Señales:</b></p><ul class="small">${e.senales.map(x=>`<li>${esc(x)}</li>`).join("")}</ul><p class="small"><b>Qué hacer:</b> ${esc(e.hacer)}</p></details>`).join("");
+  $("noRecaerLecciones").innerHTML=N.lecciones.map(l=>`<details class="etapa"><summary>${esc(l.t)}</summary><p class="small">${esc(l.b)}</p></details>`).join("");
+  $("noRecaerFuente").innerHTML=N.fuente?`Etapas según <a href="${esc(N.fuente.u)}" target="_blank" rel="noopener">${esc(N.fuente.n)}</a>.`:"";
+}
+renderNoRecaer();
+
 function renderOtrasHistorias(parrafos){
   const O=window.OTRAS_HISTORIAS||[];
   $("otrasHistorias").hidden=!O.length;
@@ -945,6 +958,33 @@ $("saveDay0").onclick=()=>{ if($("day0").value>todayStr()){ toast("La fecha no p
   S.day0=$("day0").value||null; S.day0Hora=S.day0?horaDia0(S.day0,hora):null; save(); renderHoy(); renderRegistro(); toast("Día 0 guardado"); };
 $("saveMoney").onclick=()=>{ S.spendWeek=Number($("spendWeek").value)||0; S.salary=Number($("salary").value)||null; save(); renderHoy(); toast("Guardado"); };
 
+/* ---------- Lo que aprendí ---------- */
+/* Una línea por día. Si ya escribiste hoy, el cuadro trae lo de hoy y guardar lo reemplaza */
+function renderAprendi(){
+  const A=S.aprendizajes, hoy=todayStr(), deHoy=A.find(a=>a.fecha===hoy);
+  /* Solo se rellena si el cuadro no está en uso, para no borrar lo que estás escribiendo cuando se redibuja Hoy */
+  if(document.activeElement!==$("aprendiTexto")) $("aprendiTexto").value=deHoy?deHoy.texto:"";
+  $("aprendiGuardar").textContent=deHoy?"Cambiar lo de hoy":"Guardar lo de hoy";
+  const fecha=f=>new Date(f+"T12:00:00").toLocaleDateString("es-CL",{day:"numeric",month:"long"});
+  const item=a=>`<div class="mito small"><span><b>${esc(fecha(a.fecha))}.</b> ${esc(a.texto)}</span></div>`;
+  /* Las 5 más recientes a la vista; las demás, plegadas */
+  $("aprendiLista").innerHTML=A.slice(0,5).map(item).join("")+
+    (A.length>5?`<details class="etapa"><summary>Ver todo lo que aprendiste (${A.length})</summary><div class="stack">${A.slice(5).map(item).join("")}</div></details>`:"");
+}
+$("aprendiGuardar").onclick=()=>{
+  const texto=$("aprendiTexto").value.trim(); if(!texto){ toast("Escribe algo que aprendiste hoy"); return; }
+  const hoy=todayStr();
+  S.aprendizajes=[{fecha:hoy,texto}].concat(S.aprendizajes.filter(a=>a.fecha!==hoy));
+  save(); $("aprendiTexto").blur(); renderAprendi();
+  mensaje("aprendiMsg","Guardado. Eso también es avanzar.","ok");
+};
+/* En el Modo ganas: hasta 3 de tus propias lecciones, al azar, para que te hables tú */
+function renderCraveAprendi(){
+  const A=S.aprendizajes.slice().sort(()=>Math.random()-0.5).slice(0,3);
+  $("craveAprendiCard").hidden=!A.length;
+  $("craveAprendi").innerHTML=A.map(a=>`<li><span>${esc(a.texto)}</span></li>`).join("");
+}
+
 function renderReasons(){
   const html=S.reasons.map((r,i)=>`<li><span>${esc(r)}</span><button data-del="${i}" aria-label="Quitar">×</button></li>`).join("");
   $("reasons").innerHTML=html;
@@ -1132,6 +1172,7 @@ function openCrave(){
   left=TOTAL; tick(); clearInterval(tInt); tInt=setInterval(()=>{ left=Math.max(0,left-1); tick(); if(left===0){ clearInterval(tInt); $("craveTitle").textContent="Pasaron "+(S.ganasMin||15)+" minutos. Fíjate si bajó."; } },1000);
   let inhale=false; clearInterval(bInt); const breathe=()=>{ inhale=!inhale; $("breath").classList.toggle("in",inhale); $("breathTxt").textContent=inhale?"Inhala":"Exhala"; }; breathe(); bInt=setInterval(breathe,4000);
   craveTurns=[]; $("craveReply").textContent="";
+  renderCraveAprendi();
   pedirPantalla();
 }
 function tick(){ const m=String(Math.floor(left/60)).padStart(2,"0"), s=String(left%60).padStart(2,"0"); $("timer").textContent=m+":"+s; $("barFill").style.width=((TOTAL-left)/TOTAL*100)+"%";

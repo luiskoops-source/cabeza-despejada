@@ -32,6 +32,13 @@ const path = require("path");
   else if (!/Capítulo 1 de/.test(await pagina.textContent("#historiaPill"))) errores.push("La historia no parte en el capítulo 1");
   /* 1d. Otras historias: todas disponibles desde el primer día (si su archivo se carga después de app.js, quedan vacías) */
   if ((await pagina.evaluate(() => document.querySelectorAll("#otrasLista > details").length)) < 1) errores.push("Otras historias está vacía");
+  /* 1e. Lo que aprendí: se guarda, queda en la lista y aparece en el Modo ganas */
+  await pagina.fill("#aprendiTexto", "Los domingos en la tarde son mi momento difícil");
+  await pagina.click("#aprendiGuardar");
+  if (!(await pagina.textContent("#aprendiLista")).includes("domingos en la tarde")) errores.push("Lo que aprendí no queda en la lista");
+  if (!(await pagina.evaluate(() => JSON.parse(localStorage.getItem("cd.v1")).aprendizajes.length === 1))) errores.push("Lo que aprendí no se guarda en cd.v1");
+  /* 1f. Aprender a no recaer: las tres etapas en Saber */
+  if ((await pagina.evaluate(() => document.querySelectorAll("#noRecaerEtapas > details").length)) !== 3) errores.push("Aprender a no recaer no muestra las tres etapas");
   /* 2. Botones principales */
   await pagina.click("#pledgeBtn");
   /* 2a. Reiniciar desde Hoy: dos toques dejan el Día 0 en hoy y el contador parte en 00 h */
@@ -40,6 +47,7 @@ const path = require("path");
   if (!/^00 h 00 min/.test(vivo)) errores.push("Tras reiniciar, el contador no parte desde cero: " + vivo);
   await pagina.click("#openCrave"); await pagina.waitForTimeout(200);
   if (!(await pagina.isVisible("#crave"))) errores.push("El Modo ganas no abre");
+  if (!(await pagina.textContent("#craveAprendi")).includes("domingos en la tarde")) errores.push("El Modo ganas no muestra lo que aprendiste");
   /* El reloj del Modo ganas le pasa su avance al círculo (--calma), para que vaya del naranjo al azul */
   await pagina.waitForTimeout(1100);
   const calmaOla = Number(await pagina.evaluate(() => document.getElementById("crave").style.getPropertyValue("--calma")));
