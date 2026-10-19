@@ -45,6 +45,7 @@ Los botones "Cuéntame algo nuevo", "Explícame" y el chat del Modo ganas usan `
 4. Avisos a la hora difícil (hecho en parte: recordatorio diario en el calendario del teléfono, sin servidor). Con el paquete de Google Play: avisos locales de Android con Capacitor, también sin servidor.
 5. Base de datos y cuenta, para que celular y PC muestren lo mismo.
 6. Servicio que agregue un dato o estudio nuevo cada día.
+7. Foto de lo que me ofrecieron, con IA y sin guardar nada (diseño más abajo, pendiente de servidor).
 
 ## Comandos
 
@@ -115,3 +116,27 @@ Reglas de diseño:
 - Tope: una nota por aparato por día.
 
 Necesita un servidor pequeño (base de datos + dos funciones: enviar y listar aprobadas). Opción sugerida: Supabase (gratis), con una tabla `notas` (texto, fecha, sustancia, estado) y una regla que solo permite leer las aprobadas. El panel de moderación puede ser una página privada protegida por clave.
+
+## Foto de lo que me ofrecieron (diseño, pendiente de servidor)
+
+Idea: en "¿Qué me ofrecieron?", la persona le toma una foto a lo que le ofrecieron y la app le dice qué **podría** ser, qué puede traer adentro y qué cuidar. Todo anónimo y sin guardar nada.
+
+Lo más importante, antes que la tecnología:
+- **Una foto no identifica una sustancia.** Polvos y pastillas distintas se ven iguales, y lo más peligroso (fentanilo u otros opioides mezclados, el tusi con lo que traiga esa bolsa, pastillas falsificadas que copian el logo de las originales) no se ve. Solo un análisis químico lo dice.
+- Por eso la respuesta **nunca** dice "es X", "es seguro", "es puro" ni "está bien". Siempre dice "podría ser", explica por qué no se puede saber sin análisis, y muestra los riesgos y la señal de emergencia (131).
+- La IA no inventa la respuesta: elige entre las fichas de `datos/ofrecieron.js` (las que se parecen a lo que se ve) y la app muestra esas fichas, que ya están revisadas. Si no se parece a ninguna, dice "no se puede saber" y muestra los consejos generales.
+- Nunca cantidades, formas de uso ni nada que sirva para consumir "mejor". Lo mismo que el resto de la app.
+
+Cómo se protege el anonimato:
+- **La foto se limpia en el teléfono antes de salir:** se vuelve a dibujar en un `<canvas>` y se envía esa copia. Eso borra los datos ocultos de la foto (ubicación GPS, modelo del teléfono, fecha), y se achica para que pese poco.
+- **Se pide permiso cada vez,** con un aviso claro: "La foto se envía a analizar y se borra. No la guardamos ni sabemos quién eres". Si la persona no quiere, sigue teniendo la guía de siempre sin foto.
+- **El servidor no guarda nada:** recibe la foto, se la pasa a la IA, devuelve la respuesta y la descarta. Sin base de datos de fotos, sin registros con la foto ni con la dirección IP, sin cuenta, y sin relación con el código del respaldo en la nube.
+- **La clave de la IA vive solo en el servidor,** nunca en la app (si estuviera en la app, cualquiera podría usarla).
+- **Tope de uso sin identificar a nadie:** por ejemplo, un límite por minuto en el servidor, no por persona.
+- En el teléfono tampoco queda la foto: no se guarda en la galería ni en `localStorage`.
+
+Cómo se arma (cuando haya servidor):
+1. Una función del servidor (por ejemplo en Supabase, igual que el respaldo) que recibe la imagen ya limpia y llama a una IA con visión (por ejemplo la API de Claude).
+2. A la IA se le dan las instrucciones de arriba y la lista de ids de `datos/ofrecieron.js`, y se le pide que conteste solo en un formato fijo: `{ aspecto, posibles: [ids], seguridad: "baja" }`. La app ignora cualquier otra cosa que conteste.
+3. La app muestra lo que se ve, las fichas posibles, el aviso "sin análisis no hay forma de saberlo", y los botones de 131 y Primeros auxilios.
+4. Pruebas: fotos de cosas que no son droga (azúcar, sal, una aspirina) deben dar "no se puede saber", nunca un nombre seguro.
