@@ -94,3 +94,12 @@ window.PREGUNTAS.push(
 {q:"Manejar después de fumar marihuana es seguro porque relaja.",v:false,e:"Falso. El THC enlentece los reflejos y la atención, y aumenta el riesgo de chocar, sobre todo mezclado con alcohol. Relajado no es lo mismo que atento.",s:"marihuana"},
 {q:"La cocaína puede provocar un infarto en una persona joven y sin problemas al corazón.",v:true,e:"Verdadero. Estrecha las arterias del corazón y sube el pulso y la presión de golpe, a cualquier edad. Dolor en el pecho después de consumir es para llamar al 131, no para esperar a que pase.",s:"cocaina"}
 );
+
+/* Preguntas agregadas el 19 de octubre de 2026. Salen de los mitos de la guía y de los datos de la biblioteca (vergüenza y recaída, daño en la nariz). */
+window.PREGUNTAS.push(
+{q:"Como el tusi es rosado y caro, viene de mejor calidad.",v:false,e:"Falso. El color es colorante y el precio no dice nada de lo que trae. Los análisis muestran ketamina, MDMA y cafeína, en proporciones que cambian de bolsa en bolsa.",s:"tusi"},
+{q:"Mezclar anfetaminas con alcohol hace que la persona sienta menos la borrachera y termine bebiendo más.",v:true,e:"Verdadero. El estimulante tapa las señales del alcohol, así que se bebe más de lo que el cuerpo aguanta. Cuando el estimulante se pasa, toda esa borrachera aparece de golpe.",s:"anfetaminas"},
+{q:"Las benzodiacepinas (clonazepam, alprazolam) tomadas todos los días durante meses pueden empeorar la depresión.",v:true,e:"Verdadero. Al principio apagan la angustia, pero con el uso prolongado la depresión se agrava, además de las lagunas de memoria y la dependencia. Si llevas meses tomándolas, se bajan de a poco con el médico.",s:"benzodiacepinas"},
+{q:"Aspirar cocaína puede perforar el tabique de la nariz.",v:true,e:"Verdadero. Cada vez que se aspira, la cocaína corta el riego de sangre al tabique; con el tiempo el cartílago muere y se perfora. Sangrados seguidos, costras o un silbido al respirar son para consultar pronto.",s:"cocaina"},
+{q:"Sentir vergüenza de uno mismo después de una recaída ayuda a no volver a consumir.",v:false,e:"Falso. La vergüenza ('soy malo') se asocia con más recaídas; la culpa ('hice algo malo') no. Lo que ayuda es mirar el hecho, ver qué se puede reparar y hablarlo con alguien de confianza o con el 1412.",s:"general"}
+);
