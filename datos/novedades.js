@@ -2,6 +2,10 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-20-voz-respira", titulo:"Una voz más linda para respirar", cambios:[
+    "En la respiración 4-7-8, la guía con voz ahora busca sola la voz más natural de tu teléfono, habla más lento y más suave.",
+    "Dice \"Inhala suave, por la nariz\", \"Sostén\" y \"Suelta el aire, despacio\". Puedes elegir otra voz y probarla antes de empezar."
+  ]},
   {id:"2026-10-20-codigo-pastilla", titulo:"Buscar una pastilla por su código", cambios:[
     "En Noche, \"¿Qué me ofrecieron?\", si es una pastilla con letras o números grabados puedes escribir el código y buscarlo en Drugs.com, traducido al español.",
     "Antes de abrir, la app te dice qué se envía y a quién, y solo abre si aceptas. Recuerda: hay pastillas falsificadas que copian el código."

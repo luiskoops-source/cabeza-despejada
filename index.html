@@ -1257,6 +1257,16 @@
       <label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="respiraVibrar" style="width:auto"> Vibrar al cambiar</label>
       <label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="respiraVoz" style="width:auto"> Guía con voz</label>
     </div>
+    <!-- Elegir la voz: aparece solo con "Guía con voz" activada (js/respira.js) -->
+    <div class="stack small" id="respiraVozOpciones" style="margin-top:8px" hidden>
+      <div class="row" style="justify-content:center;gap:8px">
+        <label style="display:flex;gap:6px;align-items:center">Voz
+          <select id="respiraVozElegida" style="width:auto;max-width:220px"><option value="">Automática (la más natural)</option></select>
+        </label>
+        <button class="ghost small" id="respiraVozProbar" type="button">Probar</button>
+      </div>
+      <p class="small muted" style="text-align:center">Si suena a robot, puedes bajar una voz mejorada gratis en tu teléfono. Android: Ajustes, busca "Texto a voz". iPhone: Ajustes, Accesibilidad, Contenido leído, Voces, Español.</p>
+    </div>
     <p class="small muted" style="text-align:center">Con la vibración o la voz puedes hacerlo con los ojos cerrados.</p>
 
     <div class="stack" style="margin-top:12px">
