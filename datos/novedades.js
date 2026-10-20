@@ -5,7 +5,8 @@ window.NOVEDADES=[
   {id:"2026-10-20-kay-y-floy", titulo:"Kay y Floy", cambios:[
     "El salchicha negro que cruza la pantalla ahora tiene nombre: Kay.",
     "Llegó Floy, con su chaleco de patitas de colores. A veces pasea sola, a veces con Kay, y a veces es ella la que viene de visita a la esquina.",
-    "En los globos dice quién te cuenta cada cosa."
+    "En los globos dice quién te cuenta cada cosa.",
+    "Arreglo: la visita de Kay o Floy ya no tapa el botón Actualizar cuando hay una versión nueva."
   ]},
   {id:"2026-10-19-aprender", titulo:"Aprender a no recaer", cambios:[
     "En Hoy, \"Lo que aprendí\": una línea por día con algo que entendiste. Cuando abras el Modo ganas, la app te muestra tus propias lecciones.",
