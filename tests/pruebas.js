@@ -192,6 +192,12 @@ prueba("sin registros previos, el inicio guardado mantiene los días limpios",()
 });
 prueba("sin inicio guardado funciona como antes",()=>assert.strictEqual(C.limpiosAcumulados([{type:"relapse",ts:"2026-10-12T12:00:00.000Z"}],"2026-10-12",30,"2026-10-12").total,0));
 prueba("sin datos devuelve ceros",()=>assert.deepStrictEqual(C.limpiosAcumulados([],null,30,"2026-10-12"),{total:0,enVentana:0,ventana:30,desde:null}));
+console.log("enlaceCodigoPastilla");
+prueba("arma la búsqueda de Drugs.com con el código",()=>assert.strictEqual(C.enlaceCodigoPastilla("m 367",false),"https://www.drugs.com/imprints.php?imprint=M%20367"));
+prueba("traducida, pasa por el traductor de Google",()=>assert.ok(C.enlaceCodigoPastilla("M 367",true).startsWith("https://translate.google.com/translate?sl=en&tl=es&u=https%3A%2F%2Fwww.drugs.com")));
+prueba("solo viaja el código: borra símbolos y corta a 20",()=>{ assert.strictEqual(C.enlaceCodigoPastilla("<b>ab&c?</b>",false),"https://www.drugs.com/imprints.php?imprint=BABCB"); assert.ok(C.enlaceCodigoPastilla("1234567890123456789012345",false).endsWith("12345678901234567890")); });
+prueba("vacío o solo símbolos no abre nada",()=>{ assert.strictEqual(C.enlaceCodigoPastilla("",true),null); assert.strictEqual(C.enlaceCodigoPastilla("¿?¡!",true),null); });
+
 console.log("avanzarHistoria");
 prueba("la primera vez abre el capítulo 1",()=>assert.deepStrictEqual(C.avanzarHistoria(null,"2026-10-14",15),{disponibles:1,fecha:"2026-10-14",leido:1}));
 prueba("el mismo día no abre otro",()=>assert.strictEqual(C.avanzarHistoria({disponibles:1,fecha:"2026-10-14"},"2026-10-14",15).disponibles,1));

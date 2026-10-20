@@ -37,6 +37,12 @@ const path = require("path");
   await pagina.click("#aprendiGuardar");
   if (!(await pagina.textContent("#aprendiLista")).includes("domingos en la tarde")) errores.push("Lo que aprendí no queda en la lista");
   if (!(await pagina.evaluate(() => JSON.parse(localStorage.getItem("cd.v1")).aprendizajes.length === 1))) errores.push("Lo que aprendí no se guarda en cd.v1");
+  /* 1e2. Código de pastilla: nada se abre antes de "Sí, abrir" */
+  await pagina.evaluate(() => { window.__abiertos = []; window.open = u => { window.__abiertos.push(u); return null; }; });
+  await pagina.evaluate(() => { document.getElementById("pastillaCard").open = true; document.getElementById("pastillaCodigo").value = "M 367"; document.getElementById("pastillaBuscar").click(); });
+  if ((await pagina.evaluate(() => window.__abiertos.length)) > 0) errores.push("El código de pastilla abrió el sitio sin pedir permiso");
+  await pagina.evaluate(() => document.getElementById("pastillaAbrir").click());
+  if (!(await pagina.evaluate(() => (window.__abiertos[0] || "").includes("drugs.com")))) errores.push("Sí, abrir no abre Drugs.com");
   /* 1f. Aprender a no recaer: las tres etapas en Saber */
   if ((await pagina.evaluate(() => document.querySelectorAll("#noRecaerEtapas > details").length)) !== 3) errores.push("Aprender a no recaer no muestra las tres etapas");
   /* 2. Botones principales */

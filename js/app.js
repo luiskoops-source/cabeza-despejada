@@ -589,6 +589,26 @@ function renderOfChips(){
   $("ofChips").innerHTML=OF.map(o=>`<button class="chip" data-of="${o.id}">${esc(o.aspecto)}</button>`).join("");
   $("ofChips").querySelectorAll("[data-of]").forEach(b=>b.onclick=()=>{ $("ofBuscar").value=""; mostrarOf([OF.find(o=>o.id===b.dataset.of)],b.dataset.of); });
 }
+/* ---------- Código de pastilla (Drugs.com) ---------- */
+/* Nada sale de la app sin permiso: primero se muestra qué se envía y a quién, y solo con "Sí, abrir" se abre el sitio.
+   Lo único que viaja es el código grabado (Calculos.enlaceCodigoPastilla lo limpia); la app no guarda lo que escribiste */
+let pastillaEnlace=null;
+$("pastillaBuscar").onclick=()=>{
+  const traducir=$("pastillaTraducir").checked;
+  pastillaEnlace=C.enlaceCodigoPastilla($("pastillaCodigo").value,traducir);
+  if(!pastillaEnlace){ toast("Escribe las letras o números de la pastilla"); return; }
+  $("pastillaAviso").textContent="Se abrirá Drugs.com"+(traducir?", traducido por Google,":"")+" en otra pestaña. "+
+    (traducir?"Drugs.com y Google van a ver":"Drugs.com va a ver")+" el código que escribiste, como cualquier búsqueda en internet. La app no les envía nada más y no guarda tu búsqueda. ¿Abrir?";
+  $("pastillaPermiso").hidden=false;
+};
+$("pastillaAbrir").onclick=()=>{
+  if(pastillaEnlace) window.open(pastillaEnlace,"_blank","noopener");
+  $("pastillaPermiso").hidden=true; $("pastillaCodigo").value=""; pastillaEnlace=null;
+};
+$("pastillaCancelar").onclick=()=>{ $("pastillaPermiso").hidden=true; pastillaEnlace=null; };
+/* Si cambia el código o la traducción, hay que volver a pedir permiso */
+$("pastillaCodigo").oninput=$("pastillaTraducir").onchange=()=>{ $("pastillaPermiso").hidden=true; pastillaEnlace=null; };
+
 function mostrarOf(lista,activo){
   $("ofChips").querySelectorAll(".chip").forEach(c=>c.classList.toggle("on",c.dataset.of===activo));
   $("ofOut").hidden=!lista.length;

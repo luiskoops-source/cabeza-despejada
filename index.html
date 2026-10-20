@@ -419,6 +419,19 @@
     <input id="ofBuscar" aria-label="Cómo se ve o cómo lo llamaron" placeholder="Ej: tusi, pepa, clona, cristal...">
     <div class="row" id="ofChips"></div>
     <div id="ofOut" hidden></div>
+    <!-- Pastillas de farmacia: buscar el código grabado en Drugs.com (sitio externo), solo con permiso. Lógica en js/app.js (Código de pastilla) -->
+    <details class="etapa" id="pastillaCard">
+      <summary>¿Es una pastilla con letras o números grabados?</summary>
+      <p class="small">Los medicamentos de farmacia traen un código grabado. Escríbelo tal como se ve y lo buscamos en Drugs.com, un buscador de pastillas de Estados Unidos.</p>
+      <p class="small"><b>Ojo:</b> hay pastillas falsificadas que copian el código, la forma y el color, y pueden traer otra cosa, como fentanilo. Si no viene de una farmacia, el resultado dice qué sería <b>si fuera original</b>, no qué es.</p>
+      <div class="row"><input id="pastillaCodigo" maxlength="20" autocomplete="off" autocapitalize="characters" aria-label="Código grabado en la pastilla" placeholder="Ej: M 367"><button id="pastillaBuscar" type="button">Buscar</button></div>
+      <label class="small" style="display:flex;gap:8px;align-items:center;margin:6px 0"><input type="checkbox" id="pastillaTraducir" style="width:auto" checked> Traducir al español (con el traductor de Google)</label>
+      <!-- El permiso: antes de abrir, se dice qué se envía y a quién -->
+      <div id="pastillaPermiso" hidden>
+        <p class="small" id="pastillaAviso"></p>
+        <div class="row"><button class="primary" id="pastillaAbrir" type="button">Sí, abrir</button><button class="ghost" id="pastillaCancelar" type="button">Cancelar</button></div>
+      </div>
+    </details>
   </div>
 
 <div class="card">

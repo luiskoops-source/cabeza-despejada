@@ -2,6 +2,10 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-20-codigo-pastilla", titulo:"Buscar una pastilla por su código", cambios:[
+    "En Noche, \"¿Qué me ofrecieron?\", si es una pastilla con letras o números grabados puedes escribir el código y buscarlo en Drugs.com, traducido al español.",
+    "Antes de abrir, la app te dice qué se envía y a quién, y solo abre si aceptas. Recuerda: hay pastillas falsificadas que copian el código."
+  ]},
   {id:"2026-10-20-respirar-con-kay-y-floy", titulo:"Respirar con Kay y Floy", cambios:[
     "En la respiración 4-7-8, Kay y Floy caminan juntitos abajo mientras respiras. Cuando toca sostener el aire, se detienen contigo.",
     "Al terminar, pasan los dos a felicitarte."

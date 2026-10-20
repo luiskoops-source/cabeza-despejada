@@ -182,6 +182,16 @@ function avanzarHistoria(estado, hoy, total){
   e.fecha=hoy;
   return e;
 }
+/* Buscar una pastilla de farmacia por el código grabado (letras o números), en el buscador de Drugs.com.
+   Limpia lo escrito: solo letras, números, espacios y guiones, máximo 20 caracteres (así no viaja nada más que el código).
+   traducir: lo abre a través del traductor de Google, en español. Devuelve la dirección, o null si no queda código. */
+function enlaceCodigoPastilla(codigo, traducir){
+  const limpio=String(codigo||"").toUpperCase().replace(/[^A-Z0-9 \-]/g,"").replace(/\s+/g," ").trim().slice(0,20);
+  if(!limpio) return null;
+  const drugs="https://www.drugs.com/imprints.php?imprint="+encodeURIComponent(limpio);
+  return traducir?"https://translate.google.com/translate?sl=en&tl=es&u="+encodeURIComponent(drugs):drugs;
+}
+
 /* "Leer el siguiente": avanza al próximo capítulo ya abierto, si hay alguno esperando */
 function siguienteCapitulo(estado){
   const e=Object.assign({},estado);
@@ -354,7 +364,7 @@ function consumosTrasDiscusion(eventos, horas){
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diaDe, diasDesde, diasDesdeHora, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, siguienteCapitulo, recordatorioICS, enlaceGoogleCalendar, proximoDiaSemana, horaRecordatorio, fase478, tamanoCactus, esMadrugada, minutosRato, momentoSalida, momentoViernes, mananaSabado, novedadesPendientes, consumosTrasDiscusion, HITOS, pesos };
+const Calculos={ fechaTexto, diaDe, diasDesde, diasDesdeHora, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, siguienteCapitulo, enlaceCodigoPastilla, recordatorioICS, enlaceGoogleCalendar, proximoDiaSemana, horaRecordatorio, fase478, tamanoCactus, esMadrugada, minutosRato, momentoSalida, momentoViernes, mananaSabado, novedadesPendientes, consumosTrasDiscusion, HITOS, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);
