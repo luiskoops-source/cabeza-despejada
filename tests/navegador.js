@@ -53,6 +53,9 @@ const path = require("path");
   if (!/^00 h 00 min/.test(vivo)) errores.push("Tras reiniciar, el contador no parte desde cero: " + vivo);
   await pagina.click("#openCrave"); await pagina.waitForTimeout(200);
   if (!(await pagina.isVisible("#crave"))) errores.push("El Modo ganas no abre");
+  /* Lectores de pantalla: el Modo ganas es una ventana y el foco pasa a su título */
+  await pagina.waitForTimeout(50);
+  if ((await pagina.evaluate(() => document.getElementById("crave").getAttribute("role") + "|" + document.activeElement.id)) !== "dialog|craveTitle") errores.push("El Modo ganas no se anuncia como ventana o no lleva el foco al título");
   if (!(await pagina.textContent("#craveAprendi")).includes("domingos en la tarde")) errores.push("El Modo ganas no muestra lo que aprendiste");
   /* El reloj del Modo ganas le pasa su avance al círculo (--calma), para que vaya del naranjo al azul */
   await pagina.waitForTimeout(1100);

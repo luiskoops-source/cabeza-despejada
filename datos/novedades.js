@@ -2,6 +2,10 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-20-privacidad-accesible", titulo:"Privacidad más clara y app más accesible", cambios:[
+    "La política de privacidad ahora nombra todos los casos en que algo sale del teléfono, y solo si tú lo eliges. Dice también que la copia en archivo no va cifrada y que el PIN no cifra lo que anotas.",
+    "Con lector de pantalla, el Modo ganas, el Modo calma, la respiración y las demás pantallas completas se anuncian al abrirse, y al cerrarlas vuelves al botón donde estabas."
+  ]},
   {id:"2026-10-20-voz-respira", titulo:"Una voz más linda para respirar", cambios:[
     "En la respiración 4-7-8, la guía con voz ahora busca sola la voz más natural de tu teléfono, habla más lento y más suave.",
     "Dice \"Inhala suave, por la nariz\", \"Sostén\" y \"Suelta el aire, despacio\". Puedes elegir otra voz y probarla antes de empezar."

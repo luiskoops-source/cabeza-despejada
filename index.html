@@ -887,7 +887,7 @@
     <h2>Tu privacidad</h2>
     <ul class="small">
       <li>No hay cuenta, nombre ni correo. Nadie sabe que usas esta app.</li>
-      <li>Todo lo que anotas queda en este aparato. Solo sale si tú guardas una copia o activas el respaldo cifrado, y en ese caso nadie más que tú puede leerlo.</li>
+      <li>Todo lo que anotas queda en este aparato. Solo sale si tú lo eliges: una copia en archivo (que no va cifrada: guárdala en un lugar privado) o el respaldo en la nube, que sí va cifrado y solo tú puedes leer. El detalle está en Acerca de esta app → Política de privacidad.</li>
       <li id="aiPriv">Si usas los botones de Claude, lo que escribes ahí se envía a Claude para responderte, nada más.</li>
     </ul>
     <div class="row">
@@ -929,11 +929,22 @@
     </details>
     <details>
       <summary class="small">Política de privacidad</summary>
+      <!-- La misma lista que en privacidad.html: si cambias una, cambia la otra -->
       <ul class="small" style="margin-top:8px">
         <li><b>No pedimos datos.</b> No hay registro, nombre, correo ni teléfono.</li>
-        <li><b>Todo queda en tu aparato.</b> Lo que anotas se guarda solo en el navegador de tu celular o computador. No se envía a ningún servidor ni lo vemos nosotros.</li>
-        <li><b>Sin rastreo.</b> No hay analíticas, cookies de seguimiento ni publicidad.</li>
-        <li><b>Funciones de Claude.</b> En la versión dentro de claude.ai, lo que escribes en los botones de Claude se envía a Anthropic para generar la respuesta, bajo las condiciones de ese servicio. En la app instalada esos botones no están activos.</li>
+        <li><b>Todo queda en tu aparato.</b> Lo que anotas se guarda solo en el navegador de tu celular o computador. Nada sale de ahí, salvo en estos casos, que solo ocurren si tú los eliges:
+          <ul>
+            <li><b>Copia de seguridad en archivo:</b> la guardas tú donde quieras (Drive, correo, una nota). Ese archivo <b>no va cifrado</b>: quien lo tenga puede leerlo, así que guárdalo en un lugar privado.</li>
+            <li><b>Respaldo en la nube</b> (cuando esté disponible): tus datos se cifran en tu teléfono con un código que solo tú tienes. Al servidor llega texto ilegible.</li>
+            <li><b>Cuenta tu historia:</b> el botón abre un formulario de Google, fuera de la app. No pide nombre ni correo, pero lo que escribas queda guardado en Google y lo lee el responsable de la app. Solo se publica si lo autorizas, y sin nada que te identifique.</li>
+            <li><b>Google Calendar:</b> si usas ese botón del recordatorio, Google recibe el título del evento (discreto, sin nombrar la app ni el consumo) y la hora, como cualquier evento de tu calendario.</li>
+            <li><b>Código de pastilla:</b> si lo buscas, se abre Drugs.com (y el traductor de Google, si lo eliges). Ellos reciben solo el código que escribiste. Antes de abrir, la app te avisa y te pide permiso.</li>
+            <li><b>Funciones de Claude:</b> solo en la versión dentro de claude.ai. Lo que escribes en esos botones se envía a Anthropic para responderte, bajo las condiciones de ese servicio. En la app instalada no están.</li>
+            <li><b>Voz del teléfono:</b> si eliges una voz que funciona por internet, las frases que lee la app pasan por el servicio de voz de tu teléfono. Lo que tú escribes no se lee en voz alta.</li>
+          </ul>
+        </li>
+        <li><b>Sin rastreo.</b> No hay analíticas, cookies de seguimiento ni publicidad. Las tipografías vienen dentro de la app, sin pedirlas a otros sitios.</li>
+        <li><b>El PIN</b> evita que alguien abra la app de una mirada, pero no cifra lo que anotas.</li>
         <li><b>Borrar todo.</b> El botón "Borrar todos mis datos" elimina la información del aparato de forma inmediata y definitiva.</li>
         <li><b>Enlaces externos.</b> Al abrir un estudio o comunidad, sales de la app y aplican las políticas de ese sitio.</li>
       </ul>
@@ -951,10 +962,10 @@
 </main>
 
 <!-- BLOQUEO POR PIN -->
-<div class="crave" id="lock" hidden>
+<div class="crave" id="lock" role="dialog" aria-modal="true" aria-labelledby="lockTitulo" hidden>
   <div class="inner" style="max-width:360px;margin-top:20vh">
     <div class="logo"><svg viewBox="0 0 512 512" width="44" height="44" aria-hidden="true"><rect width="512" height="512" rx="112" fill="#F4EEE1"/><use href="#dibujoSalchicha"/></svg><span class="eyebrow">Cabeza Despejada</span></div>
-    <h1>Tu PIN</h1>
+    <h1 id="lockTitulo">Tu PIN</h1>
     <input type="password" inputmode="numeric" id="lockPin" maxlength="6" autocomplete="off" aria-label="PIN">
     <button class="primary" id="lockGo">Entrar</button>
     <p class="small muted" id="lockMsg"></p>
@@ -962,13 +973,13 @@
 </div>
 
 <!-- MODO CALMA: para una crisis de paranoia o psicosis en curso -->
-<div class="crave" id="calma" hidden>
+<div class="crave" id="calma" role="dialog" aria-modal="true" aria-labelledby="calmaTitulo" hidden>
   <div class="inner">
     <div class="row" style="justify-content:space-between">
       <span class="pill">Modo calma</span>
       <button class="ghost" id="closeCalma">Salir</button>
     </div>
-    <h1>Lo que sientes es la sustancia y la falta de sueño. Va a pasar.</h1>
+    <h1 id="calmaTitulo">Lo que sientes es la sustancia y la falta de sueño. Va a pasar.</h1>
     <p class="muted">No tienes que resolver nada ahora. Solo pasar este rato lo más tranquilo posible. Aquí no hay nadie mirándote ni nada que demostrar.</p>
     <div class="breath" id="breathC"><span id="breathTxtC">Inhala</span></div>
     <p class="small muted" style="text-align:center">Respira siguiendo el círculo: 4 segundos adentro, 4 afuera.</p>
@@ -1006,7 +1017,7 @@
 </div>
 
 <!-- CRAVING MODE -->
-<div class="crave" id="crave" hidden>
+<div class="crave" id="crave" role="dialog" aria-modal="true" aria-labelledby="craveTitle" hidden>
   <div class="inner">
     <div class="row" style="justify-content:space-between">
       <span class="pill warm">Modo ganas</span>
@@ -1090,13 +1101,13 @@
 <!-- DESPUÉS DE UNA DISCUSIÓN: pantalla completa para el rato justo después de una pelea con la familia, la pareja o alguien cercano,
      uno de los momentos en que más se recae. Primero el cuerpo, después no decidir nada, ponerle nombre a lo que se siente y pedir ayuda.
      Lógica en js/app.js (Después de una discusión), textos de cada emoción en datos/discusion.js -->
-<div class="crave" id="discusion" hidden>
+<div class="crave" id="discusion" role="dialog" aria-modal="true" aria-labelledby="discusionTitulo" hidden>
   <div class="inner">
     <div class="row" style="justify-content:space-between">
       <span class="pill good">Después de una discusión</span>
       <button class="ghost" id="discusionCerrar" type="button">Salir</button>
     </div>
-    <h1>Lo que pasó duele. No tienes que resolverlo ahora.</h1>
+    <h1 id="discusionTitulo">Lo que pasó duele. No tienes que resolverlo ahora.</h1>
     <p class="muted">Después de una discusión es normal que aparezcan las ganas. Este rato es para pasarlo sin hacerte más daño. Lo demás puede esperar a mañana.</p>
     <div class="card">
       <p class="eyebrow">Primero, el cuerpo</p>
@@ -1161,13 +1172,13 @@
 </div>
 <!-- UN RATO CONTIGO: pantalla completa para practicar estar a solas, sin celular ni nada que hacer.
      Lógica en js/rato.js, frases en datos/rato.js, minutos en js/calculos.js (minutosRato) -->
-<div class="crave" id="rato" hidden>
+<div class="crave" id="rato" role="dialog" aria-modal="true" aria-labelledby="ratoTitulo" hidden>
   <div class="inner">
     <div class="row" style="justify-content:space-between">
       <span class="pill good">Un rato contigo</span>
       <button class="ghost" id="ratoCerrar" type="button">Salir</button>
     </div>
-    <h1>Un rato contigo</h1>
+    <h1 id="ratoTitulo">Un rato contigo</h1>
     <p class="muted">Unos minutos sin celular, sin música y sin hacer nada. Si aparece el aburrimiento o la soledad, no tienes que arreglarlo: solo notarlo. Así se aprende que también pasa.</p>
     <!-- Un círculo quieto con el reloj; mientras corre, late muy lento (css/estilos.css, .rato-circulo) -->
     <div class="respira-circulo rato-circulo" id="ratoCirculo" aria-hidden="true">
@@ -1204,7 +1215,7 @@
   </div>
 </div>
 <!-- RESPIRACIÓN 4-7-8: pantalla completa, como el Modo ganas. Lógica en js/respira.js, fases en js/calculos.js (fase478) -->
-<div class="crave" id="respira" hidden>
+<div class="crave" id="respira" role="dialog" aria-modal="true" aria-labelledby="respiraTitulo" hidden>
   <!-- Kay y Floy caminan juntitos abajo mientras respiras; en "Sostén" se detienen contigo (js/respira.js, css .respira-paseo) -->
   <div class="respira-paseo" id="respiraPaseo" aria-hidden="true"></div>
   <div class="inner">
@@ -1212,7 +1223,7 @@
       <span class="pill good">Respiración 4-7-8</span>
       <button class="ghost" id="respiraCerrar" type="button">Salir</button>
     </div>
-    <h1>Respira conmigo</h1>
+    <h1 id="respiraTitulo">Respira conmigo</h1>
     <p class="muted">Inhala por la nariz en <b>4</b>, sostén el aire <b>7</b> y bótalo lento por la boca en <b>8</b>. Botar el aire más lento de lo que entra es lo que calma: le avisa al cuerpo que puede bajar la guardia.</p>
     <!-- El círculo crece al inhalar, se queda quieto al sostener y se achica al botar el aire; adentro, el salchicha respira contigo -->
     <div class="respira-circulo" id="respiraCirculo" aria-hidden="true">

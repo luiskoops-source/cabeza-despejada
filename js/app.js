@@ -1331,6 +1331,25 @@ let atajoPendiente=null;
 try{ const ir=new URLSearchParams(location.search).get("ir"); if(ir==="ganas"||ir==="calma"||ir==="respira"){ atajoPendiente=ir; history.replaceState(null,"",location.pathname); } }catch(e){}
 function abrirAtajo(){ if(!atajoPendiente) return; const a=atajoPendiente; atajoPendiente=null; $(a==="ganas"?"openCrave":a==="respira"?"openRespira":"openCalma").click(); }
 
+/* ---------- Pantallas completas y lectores de pantalla ---------- */
+/* PIN, Modo ganas, Modo calma, Después de una discusión, Un rato contigo y Respiración (las .crave de index.html)
+   son ventanas (role="dialog"). Al abrirse, el foco pasa a su título para que el lector de pantalla lo diga;
+   al cerrarse, vuelve al botón desde donde se abrió. Un solo vigilante para todas, sin tocar cada botón */
+document.querySelectorAll(".crave").forEach(pantalla=>{
+  let desde=null; /* el botón que la abrió */
+  new MutationObserver(()=>{
+    if(!pantalla.hidden){
+      /* Si la pantalla ya puso el foco adentro (por ejemplo el PIN en su casilla), no se mueve */
+      if(pantalla.contains(document.activeElement)) return;
+      desde=document.activeElement;
+      const titulo=pantalla.querySelector("h1");
+      if(titulo){ titulo.tabIndex=-1; titulo.focus({preventScroll:true}); }
+    } else if(desde&&document.contains(desde)){
+      desde.focus({preventScroll:true}); desde=null;
+    }
+  }).observe(pantalla,{attributes:true,attributeFilter:["hidden"]});
+});
+
 /* ---------- Boot ---------- */
 fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderSenales(); renderSalir(); renderRapido(); renderOfChips(); renderNovedades(); renderCuentan(); lockIfNeeded();
 /* Portada: al cactus le sale una flor con los hitos (7 días: brote, 30: abierta, 90: florecido) */
