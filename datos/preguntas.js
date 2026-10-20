@@ -103,3 +103,12 @@ window.PREGUNTAS.push(
 {q:"Aspirar cocaína puede perforar el tabique de la nariz.",v:true,e:"Verdadero. Cada vez que se aspira, la cocaína corta el riego de sangre al tabique; con el tiempo el cartílago muere y se perfora. Sangrados seguidos, costras o un silbido al respirar son para consultar pronto.",s:"cocaina"},
 {q:"Sentir vergüenza de uno mismo después de una recaída ayuda a no volver a consumir.",v:false,e:"Falso. La vergüenza ('soy malo') se asocia con más recaídas; la culpa ('hice algo malo') no. Lo que ayuda es mirar el hecho, ver qué se puede reparar y hablarlo con alguien de confianza o con el 1412.",s:"general"}
 );
+
+/* Preguntas agregadas el 20 de octubre de 2026. Salen de los datos con fuente de la biblioteca y de la guía de sustancias. */
+window.PREGUNTAS.push(
+{q:"La nicotina de un cigarro llega al cerebro en unos 10 segundos y su efecto dura solo minutos.",v:true,e:"Verdadero. Ese ciclo tan corto (subida rápida, bajada rápida) es lo que hace al tabaco tan difícil de dejar. No es falta de voluntad.",s:"tabaco"},
+{q:"El Ritalín (metilfenidato) sin receta mejora las notas de cualquier persona que lo tome.",v:false,e:"Falso. Puede mantener despierto, pero no hay estudios que muestren mejores notas en quien no tiene TDAH. Y dormir poco perjudica justamente el aprendizaje y la concentración.",s:"anfetaminas"},
+{q:"Mientras las benzodiacepinas hacen efecto, el cerebro guarda los recuerdos con normalidad.",v:false,e:"Falso. Bloquean la formación de recuerdos nuevos mientras actúan: por eso las lagunas. Con uso prolongado, la memoria y la concentración se deterioran de forma que se nota.",s:"benzodiacepinas"},
+{q:"El fentanilo es menos potente que la morfina.",v:false,e:"Falso. Es entre 50 y 100 veces más potente. Por eso una pastilla o un polvo que lo traiga sin que la persona lo sepa puede detener la respiración. Si alguien no despierta o respira muy lento, 131.",s:"opioides"},
+{q:"Al dejar una sustancia, el cuerpo suele mejorar antes que el ánimo.",v:true,e:"Verdadero. En las semanas siguientes el cuerpo se recupera, pero el desánimo y las ganas pueden seguir por semanas o meses. Es un momento de riesgo de recaída porque 'ya no se siente mejor'; saberlo ayuda a no rendirse ahí.",s:"general"}
+);
