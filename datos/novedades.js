@@ -4,6 +4,7 @@
 window.NOVEDADES=[
   {id:"2026-10-20-privacidad-accesible", titulo:"Privacidad más clara y app más accesible", cambios:[
     "La política de privacidad ahora nombra todos los casos en que algo sale del teléfono, y solo si tú lo eliges. Dice también que la copia en archivo no va cifrada y que el PIN no cifra lo que anotas.",
+    "Revisamos contra fuentes cada dato de \"No eres el único\": corregimos fechas, cifras y fuentes, y quitamos uno que ya no era verdad.",
     "Con lector de pantalla, el Modo ganas, el Modo calma, la respiración y las demás pantallas completas se anuncian al abrirse, y al cerrarlas vuelves al botón donde estabas."
   ]},
   {id:"2026-10-20-voz-respira", titulo:"Una voz más linda para respirar", cambios:[
