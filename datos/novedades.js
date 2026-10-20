@@ -2,6 +2,10 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-20-respirar-con-kay-y-floy", titulo:"Respirar con Kay y Floy", cambios:[
+    "En la respiración 4-7-8, Kay y Floy caminan juntitos abajo mientras respiras. Cuando toca sostener el aire, se detienen contigo.",
+    "Al terminar, pasan los dos a felicitarte."
+  ]},
   {id:"2026-10-20-kay-y-floy", titulo:"Kay y Floy", cambios:[
     "El salchicha negro que cruza la pantalla ahora tiene nombre: Kay.",
     "Llegó Floy, con su chaleco de patitas de colores. A veces pasea sola, a veces con Kay, y a veces es ella la que viene de visita a la esquina.",

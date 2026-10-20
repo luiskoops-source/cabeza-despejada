@@ -29,6 +29,8 @@
     c.style.transform="scale("+ESCALA[fase]+")";
     /* La clase de la fase hace que el salchicha infle el pecho, lo sostenga o bote el aire por la nariz */
     c.classList.remove("fase-inhala","fase-sosten","fase-exhala"); c.classList.add("fase-"+fase);
+    /* Kay y Floy caminan al inhalar y al botar el aire, y se detienen en "Sostén" (css/estilos.css, .respira-paseo) */
+    $("respira").dataset.fase=fase;
   }
 
   function tic(){
@@ -58,14 +60,15 @@
     $("respiraVuelta").textContent=pref.vueltas===4?"Cuatro vueltas toman poco más de un minuto.":"Ocho vueltas toman unos dos minutos y medio.";
     const c=$("respiraCirculo"); c.style.transitionDuration="0.6s"; c.style.transform="scale(1)";
     c.classList.remove("fase-inhala","fase-sosten","fase-exhala");
+    delete $("respira").dataset.fase; /* sin ejercicio, Kay y Floy esperan quietos */
   }
   function terminar(){
     detener();
     $("respiraFase").textContent="Bien hecho";
     $("respiraVuelta").textContent="Terminaste "+pref.vueltas+" vueltas. Nota cómo está tu cuerpo ahora. Puedes repetir cuando quieras.";
     vibrar(); decir("Bien hecho");
-    /* Al terminar, el salchicha pasa a felicitarte con una lamida (js/paseo.js) */
-    setTimeout(()=>{ if(window.paseoSalchicha) window.paseoSalchicha(); },900);
+    /* Al terminar, Kay y Floy pasan juntos a felicitarte con una lamida (js/paseo.js) */
+    setTimeout(()=>{ if(window.paseoSalchicha) window.paseoSalchicha("juntos"); },900);
   }
 
   function abrir(){
@@ -74,6 +77,9 @@
     $("respiraVibrar").closest("label").hidden=!navigator.vibrate; /* Si el teléfono no vibra, no se ofrece */
     $("respiraVoz").closest("label").hidden=!("speechSynthesis" in window);
     $("respiraVuelta").textContent=pref.vueltas===4?"Cuatro vueltas toman poco más de un minuto.":"Ocho vueltas toman unos dos minutos y medio.";
+    /* Kay y Floy abajo: se dibujan la primera vez que se abre (los dibujos vienen de js/paseo.js) */
+    const D=window.dibujosSalchichas;
+    if(D&&!$("respiraPaseo").childElementCount) $("respiraPaseo").innerHTML='<div class="respira-pareja"><span class="respira-floy">'+D.floy+'</span><span class="respira-kay">'+D.kay+'</span></div>';
     $("respira").hidden=false; document.body.style.overflow="hidden";
     $("respira").scrollTop=0;
   }

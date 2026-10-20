@@ -543,6 +543,27 @@ a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;pad
 #calma .breath{margin:30px auto;color:var(--warm-texto);border-width:2px;box-shadow:0 0 0 0 var(--halo);transition:transform 4s ease-in-out,box-shadow 4s ease-in-out}
 #calma .breath.in{box-shadow:0 0 0 22px var(--halo)}
 /* La respiración: el halo acompaña al círculo, y el aire que entra y sale del salchicha toma el azul de la pantalla */
+/* Kay y Floy caminando juntitos abajo de la respiración (js/respira.js).
+   Cruzan despacio de izquierda a derecha y vuelven a empezar. Caminan solo al inhalar y al botar el aire:
+   sin ejercicio o en "Sostén" (data-fase="sosten") todo queda en pausa, y se detienen contigo */
+.respira-paseo{position:fixed;left:0;right:0;bottom:0;height:calc(84px + env(safe-area-inset-bottom,0px));overflow:hidden;pointer-events:none;
+  /* Un caminito: el texto de atrás se desvanece para que la pareja se vea limpia */
+  background:linear-gradient(to bottom,transparent,var(--bg) 40%)}
+.respira-paseo::after{content:"";position:absolute;left:0;right:0;bottom:calc(8px + env(safe-area-inset-bottom,0px));height:2px;background:var(--line);opacity:.7}
+.respira-pareja{position:absolute;bottom:calc(6px + env(safe-area-inset-bottom,0px));left:0;display:flex;align-items:flex-end;gap:4px;animation:respira-camina 26s linear -11s infinite;animation-play-state:paused}
+/* -11s: parten ya a la vista, abajo a la izquierda, esperando a que empieces */
+.respira-pareja svg{width:96px;height:auto;display:block}
+.respira-pareja .pata{transform-box:fill-box;transform-origin:50% 0;animation:patita .55s ease-in-out infinite alternate;animation-play-state:paused}
+.respira-pareja .respira-floy .pata-b,.respira-pareja .respira-kay .pata-b{animation-delay:-.27s}
+.respira-pareja .cola{transform-box:fill-box;transform-origin:100% 100%;animation:colita .5s ease-in-out infinite alternate;animation-play-state:paused}
+.respira-pareja .lengua{transform:scaleY(0)}
+#respira[data-fase="inhala"] .respira-pareja,#respira[data-fase="exhala"] .respira-pareja,
+#respira[data-fase="inhala"] .respira-pareja .pata,#respira[data-fase="exhala"] .respira-pareja .pata,
+#respira[data-fase="inhala"] .respira-pareja .cola,#respira[data-fase="exhala"] .respira-pareja .cola{animation-play-state:running}
+@keyframes respira-camina{from{transform:translateX(-210px)}to{transform:translateX(100vw)}}
+/* Espacio abajo para que la pareja no tape los botones del final */
+#respira .inner{padding-bottom:90px}
+@media (prefers-reduced-motion:reduce){ .respira-pareja{animation:none;transform:translateX(18vw)} .respira-pareja .pata,.respira-pareja .cola{animation:none} }
 #respira .respira-circulo{border-width:2px;box-shadow:0 0 0 14px var(--halo)}
 #respira .aire-entra{stroke:var(--aire)}
 #respira .soplos{fill:var(--aire)}

@@ -47,6 +47,8 @@
     '<g fill="#F08F4A"><circle cx="110" cy="88" r="5"/><circle cx="105" cy="80" r="2.2"/><circle cx="111" cy="78" r="2.2"/><circle cx="116" cy="81" r="2.2"/></g>'+
     '<g fill="#86B85A"><circle cx="124" cy="70" r="4.5"/><circle cx="120" cy="63" r="2"/><circle cx="125" cy="61" r="2"/><circle cx="130" cy="64" r="2"/></g></g></g>';
   const FLOY=DIBUJO.replace('<path class="lengua"',CHALECO+'<path class="lengua"');
+  /* Los dos dibujos quedan disponibles para otras pantallas (js/respira.js los pone a caminar abajo mientras respiras) */
+  window.dibujosSalchichas={ kay:DIBUJO, floy:FLOY };
   /* Quién aparece: Kay es el salchicha negro de siempre; Floy, la del chaleco */
   const quienPasea=tipo=>tipo==="floy"?"Floy":tipo==="juntos"?"Kay y Floy":"Kay";
 
