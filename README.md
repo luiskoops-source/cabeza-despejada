@@ -84,6 +84,8 @@ Sin foro ni chat, a propósito: lo simple es lo mejor. En Saber, la gente puede 
 
 El salchicha que abraza al cactus aunque le pinche. El cactus son los momentos malos: recaídas, ganas, heridas, púas. El salchicha es el tiempo y la paciencia, que los abraza igual. Aparece en la portada, en el Modo ganas (respira dentro del círculo), en los hitos y después de una recaída. En honor a Floy.
 
+Los que pasean por la app son **Kay**, el salchicha negro con café que cruza la pantalla, baja en paracaídas, hace yoga y viene de visita; y **Floy**, el mismo salchicha con su chaleco café de patitas de colores y la correa azul (el dibujo que nació en el cumpleaños). A veces Floy pasea sola, a veces van los dos juntos, y a veces la visita de la esquina es de ella. Los dos dibujos están en `js/paseo.js` (`DIBUJO` y `FLOY`).
+
 ## Principios
 
 - Gratis para siempre: sin suscripción, sin anuncios, sin compras dentro de la app. Donaciones voluntarias, nunca obligatorias.

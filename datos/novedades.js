@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-20-kay-y-floy", titulo:"Kay y Floy", cambios:[
+    "El salchicha negro que cruza la pantalla ahora tiene nombre: Kay.",
+    "Llegó Floy, con su chaleco de patitas de colores. A veces pasea sola, a veces con Kay, y a veces es ella la que viene de visita a la esquina.",
+    "En los globos dice quién te cuenta cada cosa."
+  ]},
   {id:"2026-10-19-aprender", titulo:"Aprender a no recaer", cambios:[
     "En Hoy, \"Lo que aprendí\": una línea por día con algo que entendiste. Cuando abras el Modo ganas, la app te muestra tus propias lecciones.",
     "En Saber, \"Aprender a no recaer\": las tres etapas en que suele llegar una recaída (emocional, mental y física), con sus señales y qué hacer en cada una, y las lecciones que más se repiten entre personas en recuperación."

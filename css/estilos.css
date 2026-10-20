@@ -474,6 +474,12 @@ a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;pad
 .paseo-globo b,.compa-titulo{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--accent)}
 .paseo-globo small,.compa-fuente{display:block;margin-top:4px;font-size:.7rem;color:var(--muted)}
 .compa-fuente{margin:-4px 0 8px}
+/* Kay y Floy juntos: Floy camina detrás (a la izquierda). La pareja se detiene un poco más a la derecha para caber
+   en pantallas angostas, y sale más lejos para que Floy no quede asomada */
+.paseo-floy{position:absolute;left:-122px;bottom:0}
+.paseo.juntos.entra{transform:translateX(calc(50vw - 15px))}
+.paseo.juntos.sale{transform:translateX(calc(100vw + 160px))}
+.paseo.juntos .paseo-globo{left:calc(50% - 60px)}
 .paseo.habla .paseo-globo{opacity:1;transform:translateX(-50%)}
 .paseo.sale .paseo-globo{opacity:0}
 

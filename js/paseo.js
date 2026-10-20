@@ -37,6 +37,18 @@
       '<circle cx="170" cy="40" r="2.6" fill="#B9773F" stroke="none"/>'+
     '</g></svg>';
 
+  /* Floy: el mismo salchicha, con su chaleco café de patitas de colores y la correa azul (como en el dibujo del cumpleaños).
+     El chaleco va entre el cuerpo y la cabeza; stroke="none" para que las patitas no tomen el borde claro del dibujo */
+  const CHALECO='<g class="chaleco">'+
+    '<rect x="62" y="56" width="92" height="46" rx="20" fill="#6B3F22" stroke="#F4EEE1" stroke-width="2.5"/>'+
+    '<rect x="138" y="54" width="14" height="50" rx="7" fill="#2F5FB3" stroke="#F4EEE1" stroke-width="2.5"/>'+
+    '<g stroke="none"><g fill="#F6C744"><circle cx="84" cy="74" r="5"/><circle cx="79" cy="66" r="2.2"/><circle cx="85" cy="64" r="2.2"/><circle cx="90" cy="67" r="2.2"/></g>'+
+    '<g fill="#F08F4A"><circle cx="110" cy="88" r="5"/><circle cx="105" cy="80" r="2.2"/><circle cx="111" cy="78" r="2.2"/><circle cx="116" cy="81" r="2.2"/></g>'+
+    '<g fill="#86B85A"><circle cx="124" cy="70" r="4.5"/><circle cx="120" cy="63" r="2"/><circle cx="125" cy="61" r="2"/><circle cx="130" cy="64" r="2"/></g></g></g>';
+  const FLOY=DIBUJO.replace('<path class="lengua"',CHALECO+'<path class="lengua"');
+  /* Quién aparece: Kay es el salchicha negro de siempre; Floy, la del chaleco */
+  const quienPasea=tipo=>tipo==="floy"?"Floy":tipo==="juntos"?"Kay y Floy":"Kay";
+
   /* Paracaídas con los colores del cactus (verde) y de su flor (rosado y amarillo). Las cuerdas llegan al lomo del salchicha */
   const TELA='<svg class="tela" viewBox="0 0 150 110" width="150" height="110" aria-hidden="true">'+
     '<path d="M8 50 L64 108 M38 50 L65 108 M112 50 L66 108 M142 50 L67 108" stroke="#262626" stroke-width="1.5" fill="none"/>'+
@@ -98,7 +110,7 @@
 
   /* Las apariciones, al azar: caminar es la más común; correr, el paracaídas y el yoga son sorpresas.
      Cada una sabe cuándo se detiene y cuándo se va (los tiempos calzan con las animaciones de css/estilos.css, .paseo) */
-  const TIPOS=["camina","camina","corre","paracaidas","yoga"];
+  const TIPOS=["camina","camina","floy","juntos","corre","paracaidas","yoga"];
   const PASOS={
     /* Camina hasta el medio (3,2 s), se detiene y lame (2,8 s), y sigue hasta salir (3 s).
        Si trae un dato (extra), se queda más rato con el globo abierto */
@@ -110,6 +122,8 @@
     /* Aparece sobre su colchoneta, sostiene la postura respirando y se desvanece */
     yoga:(el,luego)=>{ luego(6000,()=>el.classList.add("sale")); return 7000; }
   };
+  /* Floy sola, o Kay con Floy detrás: caminan igual que Kay (se detienen, lamen y siguen) */
+  PASOS.floy=PASOS.camina; PASOS.juntos=PASOS.camina;
   function paseo(forzar,tipo){
     if(enCamino||menosMovimiento()||document.hidden||apagado()) return false;
     if(!forzar&&(leer().n>=POR_DIA||!momentoTranquilo())) return false;
@@ -117,14 +131,16 @@
     if(!PASOS[tipo]) tipo=TIPOS[Math.floor(Math.random()*TIPOS.length)];
     const el=document.createElement("div");
     el.className="paseo "+tipo;
-    el.innerHTML='<div class="paseo-mueve">'+(tipo==="yoga"?YOGA:DIBUJO)+(tipo==="paracaidas"?TELA:"")+(tipo==="corre"?POLVO:"")+'</div>'+
+    const dibujo=tipo==="yoga"?YOGA:tipo==="floy"?FLOY:DIBUJO;
+    el.innerHTML='<div class="paseo-mueve">'+dibujo+(tipo==="juntos"?'<span class="paseo-floy">'+FLOY+'</span>':"")+(tipo==="paracaidas"?TELA:"")+(tipo==="corre"?POLVO:"")+'</div>'+
       (tipo==="yoga"?'<span class="yoga-globo">Perro boca abajo</span>':"");
     /* Cuando camina o baja en paracaídas, se detiene y te deja un dato de "No eres el único" */
-    const dato=(tipo==="camina"||tipo==="paracaidas")?datoAlAzar():null;
+    const dato=(tipo!=="corre"&&tipo!=="yoga")?datoAlAzar():null;
     if(dato){
       const globo=document.createElement("div");
       globo.className="paseo-globo"; globo.setAttribute("role","status");
-      globo.innerHTML='<b>No eres el único</b><p></p><small></small>';
+      globo.innerHTML='<b></b><p></p><small></small>';
+      globo.querySelector("b").textContent=quienPasea(tipo)+" · No eres el único"; /* quién te lo cuenta */
       llenarDato(globo,dato); el.appendChild(globo);
     }
     /* Si lo tocas, da un saltito de gusto y te vuelve a lamer */
@@ -169,11 +185,14 @@
     /* La mitad de las veces trae un consejo; la otra mitad, un dato de "No eres el único" con un botón para ver otro */
     const dato=Math.random()<0.5?datoAlAzar():null;
     const c=dato?{t:dato.t}:CONSEJOS[Math.floor(Math.random()*CONSEJOS.length)];
+    /* A veces la visita es de Floy y no de Kay */
+    const esFloy=Math.random()<0.4, nombre=esFloy?"Floy":"Kay";
     const el=document.createElement("div");
     el.className="compa"; el.setAttribute("role","status");
-    el.innerHTML='<div class="compa-globo">'+(dato?'<b class="compa-titulo">No eres el único</b>':'')+'<p></p>'+(dato?'<small class="compa-fuente"></small>':'')+'<div class="compa-botones">'+(c.boton?'<button class="primary small" data-a="hacer"></button>':'')+(dato?'<button class="primary small" data-a="otro">Otro</button>':'')+
+    el.innerHTML='<div class="compa-globo"><b class="compa-titulo"></b>'+'<p></p>'+(dato?'<small class="compa-fuente"></small>':'')+'<div class="compa-botones">'+(c.boton?'<button class="primary small" data-a="hacer"></button>':'')+(dato?'<button class="primary small" data-a="otro">Otro</button>':'')+
       '<button class="small" data-a="gracias">Gracias</button><button class="ghost small" data-a="nunca">No volver a mostrar</button></div></div>'+
-      '<div class="compa-perro"><span class="compa-svg">'+DIBUJO+'</span>'+MINI_CACTUS+'<span class="compa-corazon" aria-hidden="true">♥</span></div>';
+      '<div class="compa-perro"><span class="compa-svg">'+(esFloy?FLOY:DIBUJO)+'</span>'+MINI_CACTUS+'<span class="compa-corazon" aria-hidden="true">♥</span></div>';
+    el.querySelector(".compa-titulo").textContent=dato?nombre+" · No eres el único":nombre;
     if(dato) llenarDato(el.querySelector(".compa-globo"),dato); else el.querySelector("p").textContent=c.t;
     if(c.boton) el.querySelector('[data-a="hacer"]').textContent=c.boton;
     let fuera=null;
