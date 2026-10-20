@@ -137,6 +137,13 @@ Cómo se protege el anonimato:
 - **Tope de uso sin identificar a nadie:** por ejemplo, un límite por minuto en el servidor, no por persona.
 - En el teléfono tampoco queda la foto: no se guarda en la galería ni en `localStorage`.
 
+Pastillas de farmacia (el caso más parecido a Google Lens):
+- Los medicamentos originales traen letras o números grabados (el "código de impresión") y tienen forma y color registrados. Con la foto, la IA lee ese código y se busca en una base de datos de medicamentos.
+- La respuesta siempre es condicional: "Si es original, es tal medicamento (por ejemplo, un analgésico o una benzodiacepina)". Y siempre con el aviso: **hay pastillas falsificadas que copian el código, la forma y el color, y pueden traer otra cosa, como fentanilo**. Una pastilla que no viene de una farmacia no se puede dar por original.
+- Si el medicamento es de los que la app conoce (por ejemplo, benzodiacepinas u opioides), se muestra su ficha de `datos/sustancias.js`: riesgos, mezclas peligrosas y señales de emergencia. Nunca dosis.
+- Lo que falta para esto: una base de datos de códigos de pastillas. En Chile no hay una abierta; las de Estados Unidos (por ejemplo, la información de etiquetas de DailyMed) cubren medicamentos de allá, que no siempre son iguales a los de acá. Hay que elegir la fuente antes de construirlo.
+- Pastillas sin código (éxtasis, "tusi" en pastilla, pastillas caseras): no hay nada que leer, así que se tratan como cualquier otra foto: "podría ser", y sin análisis no se puede saber.
+
 Cómo se arma (cuando haya servidor):
 1. Una función del servidor (por ejemplo en Supabase, igual que el respaldo) que recibe la imagen ya limpia y llama a una IA con visión (por ejemplo la API de Claude).
 2. A la IA se le dan las instrucciones de arriba y la lista de ids de `datos/ofrecieron.js`, y se le pide que conteste solo en un formato fijo: `{ aspecto, posibles: [ids], seguridad: "baja" }`. La app ignora cualquier otra cosa que conteste.
