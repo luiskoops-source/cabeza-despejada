@@ -112,3 +112,12 @@ window.PREGUNTAS.push(
 {q:"El fentanilo es menos potente que la morfina.",v:false,e:"Falso. Es entre 50 y 100 veces más potente. Por eso una pastilla o un polvo que lo traiga sin que la persona lo sepa puede detener la respiración. Si alguien no despierta o respira muy lento, 131.",s:"opioides"},
 {q:"Al dejar una sustancia, el cuerpo suele mejorar antes que el ánimo.",v:true,e:"Verdadero. En las semanas siguientes el cuerpo se recupera, pero el desánimo y las ganas pueden seguir por semanas o meses. Es un momento de riesgo de recaída porque 'ya no se siente mejor'; saberlo ayuda a no rendirse ahí.",s:"general"}
 );
+
+/* Preguntas agregadas el 21 de octubre de 2026. Salen de las mezclas, los daños y los mitos de la guía de sustancias. */
+window.PREGUNTAS.push(
+{q:"Tomar una benzodiacepina o alcohol 'para bajar' la cocaína es una forma segura de terminar la noche.",v:false,e:"Falso. Tapa las señales de alarma del corazón y empuja a seguir consumiendo. Y si hay alcohol de por medio, la mezcla deprime la respiración. Lo que baja la cocaína es el tiempo, agua y dormir.",s:"cocaina"},
+{q:"La metanfetamina deteriora los dientes y la piel.",v:true,e:"Verdadero. Seca la boca, aprieta la mandíbula y lleva a rascarse la piel; el deterioro físico se nota en semanas, más rápido que con cualquier otra droga común.",s:"anfetaminas"},
+{q:"Con MDMA, si la persona dejó de sudar y tiene la piel muy caliente, es señal de que el cuerpo ya se enfrió.",v:false,e:"Falso. Es lo contrario: dejar de sudar con la piel muy caliente y confusión es golpe de calor, la emergencia principal del MDMA. Llamar al 131 y llevarla a un lugar fresco.",s:"mdma"},
+{q:"Fumar marihuana mezclada con tabaco suma la adicción a la nicotina.",v:true,e:"Verdadero. La nicotina es de las sustancias más adictivas que existen, y mucha gente que 'solo fuma marihuana' termina dependiendo también del tabaco.",s:"marihuana"},
+{q:"Si como bien antes de beber, el alcohol no llega a la sangre.",v:false,e:"Falso. Comer retrasa la subida, no la evita: todo lo que se toma llega igual a la sangre, solo más lento. Sirve para que no pegue de golpe, no para tomar más.",s:"alcohol"}
+);
