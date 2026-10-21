@@ -22,6 +22,8 @@
     /* Los títulos se ven en MAYÚSCULAS por estilo; se pasan a minúsculas para que la voz no los deletree */
     return t.split("\n").map(x=>x.trim().replace(/\b[A-ZÁÉÍÓÚÑ]{2,}\b/g,w=>w.toLowerCase())).filter(Boolean);
   }
+  /* Otras partes de la app que usan la voz (js/respira.js) la llaman para que el botón 🔊 no quede pegado en ⏹ */
+  window.detenerLectura=()=>detener();
   function detener(){ voz.cancel(); if(leyendo){ const b=leyendo.querySelector(":scope > .leer"); if(b){ b.textContent="🔊"; b.setAttribute("aria-label","Escuchar esta parte"); } } leyendo=null; }
   function leer(card,boton){
     if(leyendo===card){ detener(); return; } /* Tocar de nuevo la misma tarjeta la detiene */

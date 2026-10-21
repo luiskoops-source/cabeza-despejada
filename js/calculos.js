@@ -250,10 +250,14 @@ function enlaceGoogleCalendar(hora, minuto, desde, tipo){
   if(!(Number.isInteger(hora)&&hora>=0&&hora<=23&&Number.isInteger(minuto)&&minuto>=0&&minuto<=59)) return null;
   const a=AVISOS[tipo]||AVISOS.diario;
   const dos=n=>String(n).padStart(2,"0");
-  const formato=d=>""+d.getFullYear()+dos(d.getMonth()+1)+dos(d.getDate())+"T"+dos(d.getHours())+dos(d.getMinutes())+"00";
   const primero=a.dia==null?desde:proximoDiaSemana(desde,a.dia);
-  const inicio=new Date(primero+"T"+dos(hora)+":"+dos(minuto)+":00");
+  /* La hora se arma con los números, en un reloj sin cambio de hora (UTC), y se escribe tal cual.
+     Antes pasaba por la hora del teléfono, y la noche del cambio de hora de septiembre (00:00 a 00:59 no existen en Chile)
+     el recordatorio quedaba corrido a la 01:xx todos los días */
+  const [y,m,d]=primero.split("-").map(Number);
+  const inicio=new Date(Date.UTC(y,m-1,d,hora,minuto));
   const fin=new Date(inicio.getTime()+15*60000); /* Si empieza 23:50, termina al día siguiente */
+  const formato=f=>""+f.getUTCFullYear()+dos(f.getUTCMonth()+1)+dos(f.getUTCDate())+"T"+dos(f.getUTCHours())+dos(f.getUTCMinutes())+"00";
   return "https://calendar.google.com/calendar/render?action=TEMPLATE"+
     "&text="+encodeURIComponent(a.titulo)+
     "&details="+encodeURIComponent("Abre la app y mira tu plan.")+

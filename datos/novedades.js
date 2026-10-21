@@ -2,6 +2,12 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-21-arreglos", titulo:"Pequeños arreglos", cambios:[
+    "Si estabas escuchando una tarjeta y abres la respiración con voz, el botón de la tarjeta ya no queda pegado.",
+    "\"4-7-8\" ya no se corta en dos líneas en pantallas angostas.",
+    "Algunos textos verdes y las pantallas azules (respiración, Un rato contigo, Después de una discusión) se leen mejor en modo claro.",
+    "Un recordatorio puesto justo después de medianoche, el día del cambio de hora de septiembre, ya no queda corrido una hora."
+  ]},
   {id:"2026-10-20-privacidad-accesible", titulo:"Privacidad más clara y app más accesible", cambios:[
     "La política de privacidad ahora nombra todos los casos en que algo sale del teléfono, y solo si tú lo eliges. Dice también que la copia en archivo no va cifrada y que el PIN no cifra lo que anotas.",
     "Revisamos contra fuentes cada dato de \"No eres el único\": corregimos fechas, cifras y fuentes, y quitamos uno que ya no era verdad.",

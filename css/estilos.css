@@ -275,7 +275,9 @@ details summary{cursor:pointer;font-weight:600}
 .pa ol{margin-top:8px}
 .pa .no{background:var(--bad-soft);border-radius:8px;padding:8px 10px;margin-top:8px}
 .mito{display:flex;flex-direction:column;gap:2px;padding:8px 10px;background:var(--surface2);border-radius:8px}
-.mito b{color:var(--bad)} .mito i{color:var(--good);font-style:normal;font-weight:700}
+.mito b{color:var(--bad)} .mito i{color:#24603d;font-style:normal;font-weight:700} /* verde más oscuro en modo claro: se lee mejor sobre el fondo */
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .mito i{color:var(--good)} }
+:root[data-theme="dark"] .mito i{color:var(--good)}
 
 /* Calendario mensual */
 .cal{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px}
@@ -522,7 +524,7 @@ a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;pad
 }
 #respira,#rato,#discusion{
   --bg:#e6f0f7; --surface:#f4f9fc; --surface2:#dbe8f2; --fg:#182634; --muted:#4a6072; --line:#c3d6e5;
-  --accent:#336d9c; --accent-ink:#ffffff; --accent-soft:#d5e6f3; --accent-sombra:#245478;
+  --accent:#2c6290; --accent-ink:#ffffff; --accent-soft:#d5e6f3; --accent-sombra:#245478; /* azul un poco más oscuro: contraste suficiente para leer */
   --sombra:none; --aire:#5e8fb8; --halo:rgba(51,109,156,.13);
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) #calma{

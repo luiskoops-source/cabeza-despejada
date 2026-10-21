@@ -222,6 +222,7 @@ prueba("siempre el mismo identificador, para no duplicar",()=>assert.ok(ics.incl
 const g=C.enlaceGoogleCalendar(22,30,"2026-10-15");
 prueba("Google Calendar: hora de inicio y fin 15 minutos después",()=>assert.ok(g.includes("dates=20261015T223000/20261015T224500")));
 prueba("Google Calendar: se repite todos los días",()=>assert.ok(g.includes("recur="+encodeURIComponent("RRULE:FREQ=DAILY"))));
+prueba("Google Calendar: a las 00:15 del día del cambio de hora de septiembre queda a las 00:15",()=>assert.ok(C.enlaceGoogleCalendar(0,15,"2026-09-06").includes("dates=20260906T001500/20260906T003000")));
 prueba("Google Calendar: si empieza 23:50 termina al día siguiente",()=>assert.ok(C.enlaceGoogleCalendar(23,50,"2026-10-15").includes("/20261016T000500")));
 prueba("Google Calendar: título discreto y hora inválida da null",()=>{ assert.ok(g.includes("text=Un%20momento%20para%20ti")); assert.strictEqual(C.enlaceGoogleCalendar(25,0,"2026-10-15"),null); });
 prueba("sugiere media hora antes de la hora difícil",()=>assert.strictEqual(C.horaRecordatorio(23),"22:30"));

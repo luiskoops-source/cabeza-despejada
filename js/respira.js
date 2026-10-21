@@ -46,6 +46,7 @@
   /* La voz dice cada fase: lenta, un poco más grave y no tan fuerte, para que acompañe y no mande */
   function decir(t, aunqueApagada){
     if((!pref.voz&&!aunqueApagada)||!("speechSynthesis" in window)) return;
+    if(window.detenerLectura) window.detenerLectura(); /* si se estaba leyendo una tarjeta, se detiene bien (js/escuchar.js) */
     speechSynthesis.cancel();
     const u=new SpeechSynthesisUtterance(t);
     const v=vozElegida(); if(v){ u.voice=v; u.lang=v.lang; } else u.lang="es-CL";
