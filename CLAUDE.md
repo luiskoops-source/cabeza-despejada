@@ -12,6 +12,17 @@ Cabeza Despejada es una app anónima de apoyo para dejar o reducir el consumo de
 - No agregues dependencias sin preguntar.
 - Nunca pongas en el código datos personales del dueño (nombres de familiares, montos reales, episodios). Las razones personales se cargan desde la app, no desde el código.
 
+## Reglas de diseño (revisar en cada cambio de pantalla)
+- Todo lo que la persona escribe o elige muestra que quedó guardado (un "Guardado", un "Listo ✓" o un resumen). Si se guarda solo, se dice.
+- Cada tarjeta tiene un solo propósito claro. Lo opcional va aparte (separado con una línea) y dice que es opcional; nunca parece un paso que falta.
+- Un botón dice lo que hace. No hay botones que lleven a otra cosa sin explicar por qué están ahí.
+- Nada tapa un botón: Kay y Floy, avisos y pantallas completas no se pisan (revisar z-index y momentoTranquilo en js/paseo.js).
+- Probar a 360 px de ancho, en modo claro y oscuro: sin cortes raros, sin scroll horizontal, con contraste suficiente.
+- Cada cambio visible se anota en datos/novedades.js y sube el número de CACHE en sw.js.
+
+## Mantenimiento nocturno
+Una tarea programada abre cada noche una sesión nueva que revisa la app con estas reglas y corrige lo pequeño y seguro. Nunca cambia contenido de salud, teléfonos, la política de privacidad ni agrega funciones: eso lo deja anotado en su resumen para el dueño.
+
 ## Modelo
 - Gratis para siempre, sin suscripción ni anuncios ni compras. Solo donaciones voluntarias cuando el dueño decida la vía. Nunca agregar nada de pago.
 
