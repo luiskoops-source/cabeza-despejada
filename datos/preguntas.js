@@ -121,3 +121,12 @@ window.PREGUNTAS.push(
 {q:"Fumar marihuana mezclada con tabaco suma la adicción a la nicotina.",v:true,e:"Verdadero. La nicotina es de las sustancias más adictivas que existen, y mucha gente que 'solo fuma marihuana' termina dependiendo también del tabaco.",s:"marihuana"},
 {q:"Si como bien antes de beber, el alcohol no llega a la sangre.",v:false,e:"Falso. Comer retrasa la subida, no la evita: todo lo que se toma llega igual a la sangre, solo más lento. Sirve para que no pegue de golpe, no para tomar más.",s:"alcohol"}
 );
+
+/* Preguntas agregadas el 22 de octubre de 2026. Salen de los daños, las emergencias y los mitos de la guía de sustancias. */
+window.PREGUNTAS.push(
+{q:"La pasta base daña los pulmones porque trae restos de solventes que queman las vías respiratorias.",v:true,e:"Verdadero. Es el residuo del proceso de la cocaína, con restos de queroseno y ácido. Tos con sangre o dificultad para respirar son para llamar al 131.",s:"pasta-base"},
+{q:"El alcohol ayuda con la depresión y la ansiedad si se toma seguido.",v:false,e:"Falso. Alivia en el momento y las empeora a mediano plazo. Es un depresor: lo que calma esta noche vuelve más fuerte en los días siguientes.",s:"alcohol"},
+{q:"La ketamina no produce dependencia porque es un anestésico.",v:false,e:"Falso. Produce dependencia psicológica fuerte, y con el uso frecuente daña la vejiga y la memoria. Que se use en hospitales no la vuelve inofensiva en la calle.",s:"ketamina"},
+{q:"Fumar marihuana no daña los pulmones porque no es tabaco.",v:false,e:"Falso. El humo de marihuana trae muchos de los mismos irritantes que el del tabaco: tos y bronquitis crónica con el uso diario. Y mezclada con tabaco, suma la nicotina.",s:"marihuana"},
+{q:"Si alguien se pone mal después de tomar tusi, hay que decirle al 131 que fue tusi, aunque no se sepa qué traía.",v:true,e:"Verdadero. Justamente porque no se sabe qué trae (suele ser ketamina, MDMA y cafeína), decirlo ayuda a que atiendan tanto el calor extremo del MDMA como el no responder de la ketamina.",s:"tusi"}
+);

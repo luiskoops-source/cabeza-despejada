@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-22-mas-contenido", titulo:"Más preguntas, mitos y una frase de la voz", cambios:[
+    "Cinco preguntas nuevas de verdadero o falso: pasta base y pulmones, alcohol y ánimo, dependencia a la ketamina, humo de marihuana y qué decir al 131 si fue tusi.",
+    "Dos mitos nuevos en la guía: el bajón de días después del MDMA no es solo cansancio, y fumar \"poquito\" también daña.",
+    "La voz tiene una frase más: \"Es viernes, toda la semana aguanté\", con su respuesta."
+  ]},
   {id:"2026-10-22-salida-clara", titulo:"Tu hora de salida, más clara", cambios:[
     "Debajo de las tres preguntas ahora se ve que tus respuestas se guardan, cuántas te faltan, y al completarlas, \"Listo\" con el resumen de tu plan.",
     "\"Un rato contigo\" quedó aparte y marcado como opcional: es para después, si te sobra un rato, no una cuarta pregunta."
