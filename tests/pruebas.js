@@ -114,6 +114,15 @@ const ev2=[
 prueba("promedia 5 h con ganas y 8 h sin ganas",()=>{ const r=C.suenoVsGanas(ev2); assert.strictEqual(r.conGanas,5); assert.strictEqual(r.sinGanas,8); assert.strictEqual(r.diasConDato,3); });
 prueba("sin check-ins devuelve null",()=>assert.deepStrictEqual(C.suenoVsGanas([{type:"crave",ts:"2026-10-01T22:00:00.000Z"}]),{conGanas:null,sinGanas:null,diasConDato:0}));
 
+console.log("diaPico");
+{ /* fechas a mediodía local: el 17/10/2026 es sábado y el 13/10 es martes */
+  const ev=(f,type)=>({type:type||"crave",ts:new Date(f+"T12:00:00").toISOString()});
+  prueba("con menos de 5 registros no hay día claro",()=>assert.strictEqual(C.diaPico([ev("2026-10-17"),ev("2026-10-17"),ev("2026-10-13")]),null));
+  prueba("encuentra el sábado",()=>assert.deepStrictEqual(C.diaPico([ev("2026-10-17"),ev("2026-10-10"),ev("2026-10-17","relapse"),ev("2026-10-13"),ev("2026-10-14")]),{dia:6,veces:3,total:5}));
+  prueba("si hay empate, no elige",()=>assert.strictEqual(C.diaPico([ev("2026-10-17"),ev("2026-10-10"),ev("2026-10-13"),ev("2026-10-06"),ev("2026-10-14")]),null));
+  prueba("solo cuenta ganas y consumos, y no rompe con datos malos",()=>{ assert.strictEqual(C.diaPico([ev("2026-10-17","checkin"),ev("2026-10-17","win"),{type:"crave",ts:"malo"},null]),null); assert.strictEqual(C.diaPico(undefined),null); });
+}
+
 console.log("horaPico");
 prueba("con menos de 3 registros devuelve null",()=>assert.strictEqual(C.horaPico(ev2.slice(0,2)),null));
 prueba("encuentra la hora con más registros",()=>{

@@ -84,6 +84,19 @@ function horaPico(eventos){
   return pico;
 }
 
+/* El día de la semana (0 domingo … 6 sábado, en hora local) en que más llegan las ganas o los consumos.
+   Pide al menos 5 registros, y que ese día tenga al menos 2 y más que cualquier otro (si hay empate, no hay un día claro).
+   Devuelve { dia, veces, total } o null. */
+function diaPico(eventos){
+  const cr=(Array.isArray(eventos)?eventos:[]).filter(e=>e&&(e.type==="crave"||e.type==="relapse")&&!isNaN(Date.parse(e.ts)));
+  if(cr.length<5) return null;
+  const porDia=new Array(7).fill(0);
+  cr.forEach(e=>porDia[new Date(e.ts).getDay()]++);
+  const max=Math.max(...porDia), dia=porDia.indexOf(max);
+  if(max<2||porDia.filter(v=>v===max).length>1) return null;
+  return { dia, veces:max, total:cr.length };
+}
+
 /* Resumen de los últimos 7 días: días sin consumo, olas superadas, sueño promedio y dinero no gastado. */
 /* dia0 (opcional): los días antes del Día 0 no se cuentan como limpios ni suman dinero */
 function resumenSemana(eventos, gastoSemana, hoy, dia0){
@@ -368,7 +381,7 @@ function consumosTrasDiscusion(eventos, horas){
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diaDe, diasDesde, diasDesdeHora, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, siguienteCapitulo, enlaceCodigoPastilla, recordatorioICS, enlaceGoogleCalendar, proximoDiaSemana, horaRecordatorio, fase478, tamanoCactus, esMadrugada, minutosRato, momentoSalida, momentoViernes, mananaSabado, novedadesPendientes, consumosTrasDiscusion, HITOS, pesos };
+const Calculos={ fechaTexto, diaDe, diaPico, diasDesde, diasDesdeHora, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, siguienteCapitulo, enlaceCodigoPastilla, recordatorioICS, enlaceGoogleCalendar, proximoDiaSemana, horaRecordatorio, fase478, tamanoCactus, esMadrugada, minutosRato, momentoSalida, momentoViernes, mananaSabado, novedadesPendientes, consumosTrasDiscusion, HITOS, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);

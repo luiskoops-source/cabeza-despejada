@@ -2,6 +2,10 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-21-dia-pico", titulo:"Tu día con más ganas", cambios:[
+    "En Registro, los patrones ahora muestran el día de la semana en que más te llegan las ganas (aparece con 5 o más registros).",
+    "Si es un día con más tiempo libre, como el viernes o el fin de semana, la app te lo dice y te recuerda el plan de viernes."
+  ]},
   {id:"2026-10-21-arreglos", titulo:"Pequeños arreglos", cambios:[
     "Si estabas escuchando una tarjeta y abres la respiración con voz, el botón de la tarjeta ya no queda pegado.",
     "\"4-7-8\" ya no se corta en dos líneas en pantallas angostas.",

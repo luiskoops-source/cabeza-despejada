@@ -1151,7 +1151,11 @@ function renderPatterns(){
   if(dc.discusiones&&dc.consumos) discusionTxt=dc.tras
     ?`<li>De tus <b>${dc.consumos}</b> consumos, <b>${dc.tras}</b> ${dc.tras===1?"pasó":"pasaron"} dentro de las 24 horas después de una discusión o un tema familiar. Para ti es un momento de riesgo: en Hoy está "Después de una discusión" para ese rato.</li>`
     :`<li>Ninguno de tus consumos pasó en las 24 horas después de una discusión. Lo que haces en esos momentos te está sirviendo.</li>`;
-  $("patterns").innerHTML=`<ul><li>Tu gatillante más frecuente: <b>${esc(topTrig[0])}</b> (${topTrig[1]} veces).</li><li>La hora en que más te llegan las ganas: <b>alrededor de las ${peak}:00</b>. Ten un plan para esa hora.</li><li>Intensidad promedio de las ganas: <b>${avgInt}/10</b>.</li><li>Olas superadas sin consumir: <b>${wins}</b>. Consumos registrados: <b>${rel}</b>.</li>${suenoTxt}${discusionTxt}</ul>`;
+  /* El día de la semana con más ganas. Si es viernes, sábado o domingo, se nombra el tiempo libre y se ofrece el plan de viernes */
+  const dp=C.diaPico(S.events);
+  const DIAS=["domingos","lunes","martes","miércoles","jueves","viernes","sábados"];
+  const diaTxt=dp?`<li>El día en que más te llegan las ganas: <b>los ${DIAS[dp.dia]}</b> (${dp.veces} de ${dp.total} registros).${[0,5,6].includes(dp.dia)?" Los días con más tiempo libre pueden pesar más: llegar con un plan ayuda (el plan de viernes está en Hoy).":" Ese día, ten a mano tu plan."}</li>`:"";
+  $("patterns").innerHTML=`<ul><li>Tu gatillante más frecuente: <b>${esc(topTrig[0])}</b> (${topTrig[1]} veces).</li><li>La hora en que más te llegan las ganas: <b>alrededor de las ${peak}:00</b>. Ten un plan para esa hora.</li>${diaTxt}<li>Intensidad promedio de las ganas: <b>${avgInt}/10</b>.</li><li>Olas superadas sin consumir: <b>${wins}</b>. Consumos registrados: <b>${rel}</b>.</li>${suenoTxt}${discusionTxt}</ul>`;
 }
 
 $("exportBtn").onclick=()=>{
