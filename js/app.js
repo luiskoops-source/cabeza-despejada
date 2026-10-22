@@ -835,12 +835,23 @@ function renderSalida(){
   if(!S.salidaPlan||S.salidaPlan.fecha!==fechaSalida) S.salidaPlan={fecha:fechaSalida,vuelta:"",comida:"",dormir:""};
   /* Si la persona está escribiendo en un campo, no le pisamos el texto */
   for(const k in CAMPOS_SALIDA){ const el=$(CAMPOS_SALIDA[k]); if(document.activeElement!==el) el.value=S.salidaPlan[k]||""; }
+  estadoSalida();
+}
+/* Debajo de las tres preguntas: cuántas faltan, y con las tres respondidas, "Listo" y el resumen del plan.
+   Se guardan solas al escribir; esta línea es para que se note */
+function estadoSalida(){
+  const p=S.salidaPlan||{}, faltan=["vuelta","comida","dormir"].filter(k=>!(p[k]||"").trim()).length;
+  const el=$("salidaEstado");
+  el.className="small"+(faltan?"":" ok");
+  el.textContent=faltan===3?"Responde las tres y tu vuelta queda lista. Se guarda sola mientras escribes."
+    :faltan?"Guardado. "+(faltan===1?"Te falta 1.":"Te faltan "+faltan+".")
+    :"Listo ✓ Vuelves: "+p.vuelta.trim()+" · Comes: "+p.comida.trim()+" · A la cama a las "+p.dormir+". Mañana empiezas de nuevo.";
 }
 /* Cada respuesta se guarda sola mientras se escribe */
 for(const k in CAMPOS_SALIDA){
   $(CAMPOS_SALIDA[k]).addEventListener("input",e=>{
     if(!S.salidaPlan||S.salidaPlan.fecha!==fechaSalida) S.salidaPlan={fecha:fechaSalida,vuelta:"",comida:"",dormir:""};
-    S.salidaPlan[k]=e.target.value.slice(0,120); save();
+    S.salidaPlan[k]=e.target.value.slice(0,120); save(); estadoSalida();
   });
 }
 $("salidaHora").onchange=()=>{ S.salidaHora=$("salidaHora").value||null; save(); renderSalida(); if(S.salidaHora) toast("Hora de salida guardada"); };

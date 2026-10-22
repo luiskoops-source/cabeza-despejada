@@ -126,8 +126,13 @@
       <label class="f ancho"><b>¿Qué vas a comer?</b><input id="salidaComida" maxlength="120" placeholder="Ej: lo que quedó de ayer"></label>
       <label class="f ancho"><b>¿A qué hora te acuestas?</b><input type="time" id="salidaDormir"></label>
     </div>
-    <p class="small muted">El resto de la noche queda libre a propósito. Si llega un rato vacío, no hace falta llenarlo.</p>
-    <button class="ghost" type="button" id="salidaRato">Probar Un rato contigo</button>
+    <!-- Cuántas faltan, y al completarlas el resumen: así se ve que se guardó (js/app.js, estadoSalida) -->
+    <p class="small" id="salidaEstado" role="status"></p>
+    <!-- Aparte, y opcional: no es una cuarta pregunta -->
+    <div class="salida-extra">
+      <p class="small muted"><b>Después, si te sobra un rato</b> y llegan las ganas, no tienes que llenarlo con algo. Si quieres, prueba quedarte unos minutos sin hacer nada: el aburrimiento también pasa.</p>
+      <button class="ghost small" type="button" id="salidaRato">Un rato contigo (opcional)</button>
+    </div>
   </div>
 
   <!-- ¿CÓMO TE FUE EL VIERNES?: los sábados en la mañana, una sola pregunta, sin culpa. Lógica en js/app.js (renderViernes) -->

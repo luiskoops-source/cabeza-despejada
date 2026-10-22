@@ -616,3 +616,7 @@ a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;pad
 /* De madrugada, en el cielo de Noche: una línea que invita a dormir, con una lunita al lado */
 .cielo-dormir{margin-top:4px;padding:8px 10px;border-radius:12px;background:rgba(244,233,200,.12);color:#f1ece0;font-size:.9rem;max-width:36ch}
 .cielo-dormir::before{content:"☾ ";color:#f4e9c8}
+/* Tarjeta de la hora de salida: lo opcional (Un rato contigo) va aparte de las tres preguntas */
+.salida-extra{border-top:1px dashed var(--line);margin-top:6px;padding-top:10px}
+.salida-extra p{margin:0 0 8px}
+#salidaEstado.ok{color:var(--good);font-weight:600}

@@ -2,6 +2,10 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-22-salida-clara", titulo:"Tu hora de salida, más clara", cambios:[
+    "Debajo de las tres preguntas ahora se ve que tus respuestas se guardan, cuántas te faltan, y al completarlas, \"Listo\" con el resumen de tu plan.",
+    "\"Un rato contigo\" quedó aparte y marcado como opcional: es para después, si te sobra un rato, no una cuarta pregunta."
+  ]},
   {id:"2026-10-21-dia-pico", titulo:"Tu día con más ganas", cambios:[
     "En Registro, los patrones ahora muestran el día de la semana en que más te llegan las ganas (aparece con 5 o más registros).",
     "Si es un día con más tiempo libre, como el viernes o el fin de semana, la app te lo dice y te recuerda el plan de viernes."
