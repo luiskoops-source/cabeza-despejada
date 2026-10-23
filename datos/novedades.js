@@ -2,6 +2,10 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-23-mantenimiento", titulo:"Detalles más claros", cambios:[
+    "Tu plan de viernes ahora muestra que se guarda mientras escribes, cuántas respuestas te faltan y \"Listo\" al completarlo.",
+    "En el Modo ganas, la palabra del círculo (\"Inhala\", \"Exhala\") se lee mejor en modo claro."
+  ]},
   {id:"2026-10-22-mas-contenido", titulo:"Más preguntas, mitos y una frase de la voz", cambios:[
     "Cinco preguntas nuevas de verdadero o falso: pasta base y pulmones, alcohol y ánimo, dependencia a la ketamina, humo de marihuana y qué decir al 131 si fue tusi.",
     "Dos mitos nuevos en la guía: el bajón de días después del MDMA no es solo cansancio, y fumar \"poquito\" también daña.",

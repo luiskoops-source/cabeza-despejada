@@ -718,7 +718,7 @@ $("buscarOut").addEventListener("click",e=>{
 });
 
 /* ---------- Diagnóstico para reportar problemas (sin datos personales) ---------- */
-const VERSION_APP="2026.10.22";
+const VERSION_APP="2026.10.23";
 $("copiarDiag").onclick=()=>copyText(`Cabeza Despejada ${VERSION_APP} · ${navigator.userAgent} · pantalla ${window.innerWidth}x${window.innerHeight} · modo ${document.documentElement.getAttribute("data-theme")||"auto"} · instalada: ${window.matchMedia("(display-mode: standalone)").matches?"sí":"no"}`);
 
 /* ---------- Compartir ---------- */
@@ -905,10 +905,21 @@ function renderPlanViernes(){
   }
   /* Si la persona está escribiendo en un campo, no le pisamos el texto */
   for(const k in CAMPOS_VIERNES){ const el=$(CAMPOS_VIERNES[k]); if(document.activeElement!==el) el.value=p[k]||""; }
+  estadoViernes();
+}
+/* Debajo de las tres preguntas: cuántas faltan, y con las tres respondidas, "Listo".
+   Se guardan solas al escribir; esta línea es para que se note */
+function estadoViernes(){
+  const p=S.planViernes, faltan=Object.keys(CAMPOS_VIERNES).filter(k=>!(p[k]||"").trim()).length;
+  const el=$("pvEstado");
+  el.className="small"+(faltan?"":" ok");
+  el.textContent=faltan===3?"Se guarda solo mientras escribes."
+    :faltan?"Guardado. "+(faltan===1?"Te falta 1.":"Te faltan "+faltan+".")
+    :"Listo ✓ Tu plan de viernes quedó guardado.";
 }
 /* Cada respuesta se guarda sola mientras se escribe */
 for(const k in CAMPOS_VIERNES){
-  $(CAMPOS_VIERNES[k]).addEventListener("input",e=>{ S.planViernes[k]=e.target.value.slice(0,120); save(); });
+  $(CAMPOS_VIERNES[k]).addEventListener("input",e=>{ S.planViernes[k]=e.target.value.slice(0,120); save(); estadoViernes(); });
 }
 $("pvCambiar").onclick=()=>{ pvEditando=!pvEditando; renderPlanViernes(); if(!pvEditando) toast("Plan de viernes guardado"); };
 /* "Avísame los viernes": abre "Mi plan para la hora difícil" y lleva al aviso */

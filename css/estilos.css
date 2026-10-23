@@ -103,7 +103,7 @@ ul,ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
 /* craving mode */
 .crave{position:fixed;inset:0;background:var(--bg);z-index:20;overflow:auto;padding:calc(16px + env(safe-area-inset-top,0px)) 16px calc(24px + env(safe-area-inset-bottom,0px))}
 .crave .inner{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
-.breath{width:150px;height:150px;border-radius:50%;background:var(--warm-soft);border:3px solid var(--warm);margin:6px auto;display:grid;place-items:center;font-family:var(--display);font-weight:700;color:var(--warm);transform:scale(.8);transition:transform 4s ease-in-out}
+.breath{width:150px;height:150px;border-radius:50%;background:var(--warm-soft);border:3px solid var(--warm);margin:6px auto;display:grid;place-items:center;font-family:var(--display);font-weight:700;color:var(--warm-texto);transform:scale(.8);transition:transform 4s ease-in-out}
 .breath.in{transform:scale(1.15)}
 .timer{font-family:var(--mono);font-size:3rem;font-weight:700;text-align:center;font-variant-numeric:tabular-nums}
 .bar{height:8px;background:var(--surface2);border-radius:999px;overflow:hidden}
@@ -610,7 +610,7 @@ a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;pad
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--ola-azul:#8db6da;--ola-azul-suave:#1b2d40;--ola-azul-texto:#a9c8e4} }
 :root[data-theme="dark"]{--ola-azul:#8db6da;--ola-azul-suave:#1b2d40;--ola-azul-texto:#a9c8e4}
 @supports (color:color-mix(in oklch,red 50%,blue)){
-  #crave .breath{border-color:color-mix(in oklch increasing hue,var(--ola-azul) calc(var(--calma,0)*100%),var(--warm));background:color-mix(in oklch increasing hue,var(--ola-azul-suave) calc(var(--calma,0)*100%),var(--warm-soft));color:color-mix(in oklch increasing hue,var(--ola-azul-texto) calc(var(--calma,0)*100%),var(--warm))}
+  #crave .breath{border-color:color-mix(in oklch increasing hue,var(--ola-azul) calc(var(--calma,0)*100%),var(--warm));background:color-mix(in oklch increasing hue,var(--ola-azul-suave) calc(var(--calma,0)*100%),var(--warm-soft));color:color-mix(in oklch increasing hue,var(--ola-azul-texto) calc(var(--calma,0)*100%),var(--warm-texto))}
   #crave .bar i{background:color-mix(in oklch increasing hue,var(--ola-azul) calc(var(--calma,0)*100%),var(--warm))}
 }
 /* De madrugada, en el cielo de Noche: una línea que invita a dormir, con una lunita al lado */
