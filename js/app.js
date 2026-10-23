@@ -825,6 +825,11 @@ function renderSalida(){
   /* Configuración (en "Mi plan para la hora difícil") */
   if(document.activeElement!==$("salidaHora")) $("salidaHora").value=S.salidaHora||"";
   $("salidaDias").querySelectorAll("input").forEach(i=>{ i.checked=(S.salidaDias||[]).includes(Number(i.dataset.dia)); });
+  /* Resumen de lo guardado: los días se guardan solos al marcarlos, así que aquí se dice */
+  const NOMBRES_DIA=["Do","Lu","Ma","Mi","Ju","Vi","Sá"], diasMarcados=[1,2,3,4,5,6,0].filter(d=>(S.salidaDias||[]).includes(d)).map(d=>NOMBRES_DIA[d]);
+  $("salidaResumen").textContent=!S.salidaHora?""
+    :!diasMarcados.length?"Hora guardada, pero sin días marcados: marca al menos uno para que aparezca la tarjeta."
+    :"Guardado: "+diasMarcados.join(", ")+" a las "+S.salidaHora+".";
   /* La tarjeta de Hoy */
   const ahora=new Date(), m=C.momentoSalida(ahora,S.salidaHora,S.salidaDias);
   $("salidaCard").hidden=!m.mostrar;

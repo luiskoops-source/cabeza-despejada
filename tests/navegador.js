@@ -137,6 +137,7 @@ const path = require("path");
   const ahoraHHMM = await pagina.evaluate(() => { const d = new Date(); return String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0"); });
   await pagina.evaluate(h => { const i = document.getElementById("salidaHora"); i.value = h; i.dispatchEvent(new Event("change")); }, ahoraHHMM);
   if (!(await pagina.isVisible("#salidaCard"))) errores.push("La tarjeta de la hora de salida no aparece a la hora configurada");
+  if (!/^Guardado: .* a las /.test(await pagina.textContent("#salidaResumen"))) errores.push("La hora de salida no muestra que quedó guardada con sus días");
   await pagina.fill("#salidaVuelta", "En metro, directo");
   if ((await pagina.evaluate(() => JSON.parse(localStorage.getItem("cd.v1")).salidaPlan.vuelta)) !== "En metro, directo") errores.push("La respuesta de la hora de salida no se guarda");
   await pagina.evaluate(() => document.getElementById("salidaQuitar").click());

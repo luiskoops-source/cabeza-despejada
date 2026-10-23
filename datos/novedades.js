@@ -2,6 +2,12 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-23-contenido", titulo:"Más preguntas, mitos y una frase de la voz", cambios:[
+    "Cinco preguntas nuevas de verdadero o falso: cuánto dura la cocaína, anfetaminas con antidepresivos IMAO, benzodiacepinas y caídas, alcohol con paracetamol y marihuana con alcohol.",
+    "Dos mitos nuevos en la guía: dejar la pasta base no es solo voluntad, y en casa la ketamina tiene el mismo riesgo.",
+    "La voz tiene una frase más: \"Es una ocasión especial, por esta vez no cuenta\", con su respuesta.",
+    "Bajo los días de tu hora de salida ahora se ve que quedaron guardados, con la hora y los días marcados."
+  ]},
   {id:"2026-10-23-mantenimiento", titulo:"Detalles más claros", cambios:[
     "Tu plan de viernes ahora muestra que se guarda mientras escribes, cuántas respuestas te faltan y \"Listo\" al completarlo.",
     "En el Modo ganas, la palabra del círculo (\"Inhala\", \"Exhala\") se lee mejor en modo claro."

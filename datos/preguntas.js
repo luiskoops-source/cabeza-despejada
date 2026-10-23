@@ -130,3 +130,12 @@ window.PREGUNTAS.push(
 {q:"Fumar marihuana no daña los pulmones porque no es tabaco.",v:false,e:"Falso. El humo de marihuana trae muchos de los mismos irritantes que el del tabaco: tos y bronquitis crónica con el uso diario. Y mezclada con tabaco, suma la nicotina.",s:"marihuana"},
 {q:"Si alguien se pone mal después de tomar tusi, hay que decirle al 131 que fue tusi, aunque no se sepa qué traía.",v:true,e:"Verdadero. Justamente porque no se sabe qué trae (suele ser ketamina, MDMA y cafeína), decirlo ayuda a que atiendan tanto el calor extremo del MDMA como el no responder de la ketamina.",s:"tusi"}
 );
+
+/* Preguntas agregadas el 23 de octubre de 2026. Salen de los efectos, las mezclas y los daños de la guía de sustancias. */
+window.PREGUNTAS.push(
+{q:"El efecto de la cocaína aspirada dura varias horas.",v:false,e:"Falso. Dura poco, 20 a 40 minutos, y después viene el bajón que empuja a repetir. Ese ciclo corto es parte de lo que engancha.",s:"cocaina"},
+{q:"Mezclar anfetaminas o metanfetamina con antidepresivos IMAO puede provocar una crisis de presión arterial.",v:true,e:"Verdadero. Es una crisis hipertensiva. Dolor de cabeza muy fuerte o dolor en el pecho después de esa mezcla son para llamar al 131.",s:"anfetaminas"},
+{q:"Las benzodiacepinas (clonazepam, alprazolam) aumentan el riesgo de caídas y accidentes.",v:true,e:"Verdadero. Producen torpeza y sueño, y por eso caídas y accidentes, también manejando. Con alcohol, el riesgo se multiplica.",s:"benzodiacepinas"},
+{q:"Mezclar alcohol con paracetamol en dosis altas puede dañar el hígado.",v:true,e:"Verdadero. Los dos se procesan en el hígado y juntos lo sobrecargan. Quien bebe mucho debería consultar antes de tomar paracetamol seguido.",s:"alcohol"},
+{q:"Mezclar marihuana con alcohol es más suave que cada una por separado.",v:false,e:"Falso. La mezcla suele traer mareo, vómitos y la 'pálida'. Y las dos juntas enlentecen más los reflejos: manejar así es más peligroso que con cualquiera de las dos.",s:"marihuana"}
+);
