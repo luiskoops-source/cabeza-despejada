@@ -2,6 +2,12 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-24-contenido", titulo:"Más preguntas, mitos y una frase de la voz", cambios:[
+    "Cinco preguntas nuevas de verdadero o falso: dependencia sin abstinencia física, dolor de cabeza con MDMA y mucha agua, dejar el tabaco a la vez que otra sustancia, cuánto tarda en mejorar el cuerpo tras la pasta base y el tratamiento de sustitución para opioides.",
+    "Dos mitos nuevos en la guía: la metanfetamina no te hace rendir más, y el tusi no trae lo mismo aunque lo venda alguien de confianza.",
+    "La voz tiene una frase más: \"Con esto soy más yo: más simpático, más suelto\", con su respuesta.",
+    "En las tarjetas de 15 segundos, las preguntas ya no repiten \"Verdadero\" o \"Falso\" dos veces al inicio."
+  ]},
   {id:"2026-10-23-contenido", titulo:"Más preguntas, mitos y una frase de la voz", cambios:[
     "Cinco preguntas nuevas de verdadero o falso: cuánto dura la cocaína, anfetaminas con antidepresivos IMAO, benzodiacepinas y caídas, alcohol con paracetamol y marihuana con alcohol.",
     "Dos mitos nuevos en la guía: dejar la pasta base no es solo voluntad, y en casa la ketamina tiene el mismo riesgo.",

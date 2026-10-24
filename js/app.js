@@ -556,7 +556,8 @@ const RAPIDO_MAX=7;
 function poolRapido(){
   const p=[];
   (window.FACTS||[]).forEach(f=>p.push({k:"h:"+f.t,tipo:"Dato",t:f.t,b:f.b}));
-  (window.PREGUNTAS||[]).forEach(q=>p.push({k:"p:"+q.q,tipo:"¿Verdadero?",t:q.q,b:(q.v?"Verdadero. ":"Falso. ")+q.e}));
+  /* La explicación (q.e) ya empieza con "Verdadero." o "Falso."; solo se antepone si alguna no lo trae, para no repetirlo */
+  (window.PREGUNTAS||[]).forEach(q=>p.push({k:"p:"+q.q,tipo:"¿Verdadero?",t:q.q,b:/^(Verdadero|Falso)\./.test(q.e)?q.e:(q.v?"Verdadero. ":"Falso. ")+q.e}));
   (window.SUSTANCIAS||[]).forEach(s=>s.danos.forEach((d,i)=>p.push({k:"s:"+s.id+i,tipo:s.nombre,t:d.includes(":")?d.split(":")[0]:s.nombre,b:d.includes(":")?d.split(":").slice(1).join(":").trim():d})));
   (window.ACTUALIDAD||[]).forEach(x=>p.push({k:"a:"+x.titulo,tipo:x.fecha,t:x.titulo,b:x.resumen.split(". ").slice(0,2).join(". ")+"."}));
   return p;
@@ -718,7 +719,7 @@ $("buscarOut").addEventListener("click",e=>{
 });
 
 /* ---------- Diagnóstico para reportar problemas (sin datos personales) ---------- */
-const VERSION_APP="2026.10.23";
+const VERSION_APP="2026.10.24";
 $("copiarDiag").onclick=()=>copyText(`Cabeza Despejada ${VERSION_APP} · ${navigator.userAgent} · pantalla ${window.innerWidth}x${window.innerHeight} · modo ${document.documentElement.getAttribute("data-theme")||"auto"} · instalada: ${window.matchMedia("(display-mode: standalone)").matches?"sí":"no"}`);
 
 /* ---------- Compartir ---------- */

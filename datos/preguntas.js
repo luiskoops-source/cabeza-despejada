@@ -139,3 +139,12 @@ window.PREGUNTAS.push(
 {q:"Mezclar alcohol con paracetamol en dosis altas puede dañar el hígado.",v:true,e:"Verdadero. Los dos se procesan en el hígado y juntos lo sobrecargan. Quien bebe mucho debería consultar antes de tomar paracetamol seguido.",s:"alcohol"},
 {q:"Mezclar marihuana con alcohol es más suave que cada una por separado.",v:false,e:"Falso. La mezcla suele traer mareo, vómitos y la 'pálida'. Y las dos juntas enlentecen más los reflejos: manejar así es más peligroso que con cualquiera de las dos.",s:"marihuana"}
 );
+
+/* Preguntas agregadas el 24 de octubre de 2026. Salen de las emergencias, la dependencia y el "dejar" de la guía de sustancias. */
+window.PREGUNTAS.push(
+{q:"Si una sustancia no produce abstinencia física, no puede generar dependencia.",v:false,e:"Falso. La dependencia también es psicológica: el patrón (fiesta = sustancia) y las ganas. Cocaína, ketamina y MDMA enganchan sin una abstinencia física fuerte, y la pasta base engancha en minutos.",s:"general"},
+{q:"Con MDMA, un dolor de cabeza fuerte con vómitos después de tomar mucha agua es una emergencia.",v:true,e:"Verdadero. Puede ser el sodio bajo en la sangre (hiponatremia) por el exceso de agua, y puede matar. Llamar al 131 y decir qué tomó y cuánta agua bebió.",s:"mdma"},
+{q:"Si estás dejando otra sustancia, es obligatorio dejar el tabaco al mismo tiempo.",v:false,e:"Falso. Muchas personas prefieren dejar primero la otra sustancia y después el tabaco, y es una decisión válida. Lo que conviene saber: en recuperación es común fumar más, y dejar el tabaco es seguro en cualquier momento, con parches o chicles si hace falta.",s:"tabaco"},
+{q:"Después de dejar la pasta base, el cuerpo tarda años en mostrar mejoría.",v:false,e:"Falso. Lo peor es la primera semana, las ganas intensas duran 2 a 4 semanas y la mejora clara del cuerpo se nota entre el primer y el segundo mes. Salir del entorno un tiempo y el tratamiento gratuito de SENDA (1412) ayudan a llegar ahí.",s:"pasta-base"},
+{q:"Para la dependencia fuerte a opioides existe tratamiento médico de sustitución que baja el riesgo de sobredosis.",v:true,e:"Verdadero. No es 'cambiar una droga por otra': es un tratamiento con control médico que saca a la persona del ciclo de abstinencia y sobredosis. Se consulta en el consultorio o por el 1412.",s:"opioides"}
+);
