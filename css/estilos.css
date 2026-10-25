@@ -620,3 +620,29 @@ a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;pad
 .salida-extra{border-top:1px dashed var(--line);margin-top:6px;padding-top:10px}
 .salida-extra p{margin:0 0 8px}
 #salidaEstado.ok{color:var(--good);font-weight:600}
+
+/* ---------- Mati por dentro (Saber, js/mati.js) ---------- */
+.mati-sala{position:relative;border-radius:14px;overflow:hidden;background:var(--surface2);border:1.5px solid var(--line)}
+.mati-sala canvas{display:block;width:100%;height:auto;image-rendering:pixelated;image-rendering:crisp-edges}
+.mati-globo{position:absolute;left:50%;top:10px;transform:translateX(-50%);max-width:calc(100% - 28px);margin:0;font-family:var(--mono);font-size:.78rem;line-height:1.35;text-align:center;color:var(--fg);background:var(--surface);border:2px solid var(--fg);border-radius:4px;padding:5px 9px;box-shadow:3px 3px 0 var(--fg)}
+.mati-estado{position:absolute;right:10px;bottom:10px;font-family:var(--mono);font-size:.68rem;color:var(--muted);background:var(--surface);border:1.5px solid var(--line);border-radius:4px;padding:2px 7px}
+.mati-sust{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.mati-sust .chip{flex:0 0 auto}
+.mati-sust .chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:transparent}
+.mati-pasos{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.mati-pasos button{font-size:.78rem;line-height:1.2;color:var(--muted);background:transparent;border:0;border-bottom:3px solid var(--line);border-radius:0;padding:6px 2px 8px;box-shadow:none}
+.mati-pasos button[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--fg)}
+.mati-pasos button[data-paso="emergencia"][aria-selected="true"]{color:var(--bad);border-bottom-color:var(--bad)}
+.mati-lista{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.mati-lista li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mati-lista li button{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;text-align:left;font-weight:500;font-size:.95rem;padding:8px;margin:-8px;border:0;border-radius:10px;width:calc(100% + 16px)}
+.mati-lista li button[aria-pressed="true"]{background:var(--warm-soft)}
+.mati-lista .pill{margin-top:3px;white-space:nowrap}
+.mati-punto{width:8px;height:8px;margin-top:8px;background:var(--muted)}
+.mati-precio{border-top:1.5px dashed var(--line);padding-top:10px;display:grid;gap:8px;justify-items:start}
+.mati-dejar{background:var(--accent-soft);border-radius:12px;padding:10px 12px;display:grid;gap:4px}
+.mati-dejar b{font-family:var(--display);font-size:1.05rem}
+.mati-131{display:flex;flex-wrap:wrap;align-items:center;gap:10px;background:var(--bad-soft);border-radius:12px;padding:10px 12px}
+.mati-131 strong{font:800 1.8rem/1 var(--display);color:var(--bad)}
+.mati-131 .small{flex:1 1 180px}
+.mati-fuentes a{color:var(--muted)}

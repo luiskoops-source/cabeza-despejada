@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-25-mati-por-dentro", titulo:"Mati por dentro", cambios:[
+    "En Saber hay una sección nueva: Mati, el personaje de la historia, en pixeles. Eliges una sustancia y ves lo que se siente por un rato, lo que le cobra al cuerpo (con los órganos marcados), las mezclas y cuándo llamar al 131.",
+    "Si eliges dos sustancias, Mati muestra qué pasa al juntarlas, con el nivel de riesgo de la tabla abierta de TripSit y lo que dicen las fichas de la guía.",
+    "Cada ficha de Mati termina con sus fuentes (NIDA, NIAAA, SENDA, DEA, DanceSafe)."
+  ]},
   {id:"2026-10-25-contenido", titulo:"Más preguntas, mitos y una frase de la voz", cambios:[
     "Cinco preguntas nuevas de verdadero o falso: la pureza de la cocaína y el corazón, quién corre riesgo al dejar el alcohol, qué pasa con el sueño al dejar la marihuana, mantener despierta a una persona con sobredosis de opioides y por qué aislarse no ayuda.",
     "Dos mitos nuevos en la guía: beber solo los fines de semana no quita el riesgo de cada noche, y los cigarros 'light' no dañan menos.",

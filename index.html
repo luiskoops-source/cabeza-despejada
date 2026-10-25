@@ -484,6 +484,27 @@
     <div id="buscarOut" class="stack" hidden></div>
   </div>
 
+  <!-- Mati por dentro: el personaje en pixeles muestra qué pasa con cada sustancia y con las mezclas de a dos
+       (js/mati.js; fuentes y mezclas en datos/mati.js; el resto sale de datos/sustancias.js). No guarda nada. -->
+  <div class="card" id="matiCard">
+    <h2>Mati por dentro</h2>
+    <p class="small muted">Elige una sustancia y mira qué le pasa a Mati. Es un personaje, pero lo que le pasa sale de las fichas de esta guía. Elige dos para ver qué pasa al juntarlas.</p>
+    <div class="mati-sala">
+      <canvas id="matiLienzo" width="112" height="96" aria-label="Mati, el personaje en pixeles"></canvas>
+      <p class="mati-globo" id="matiGlobo">¡Hola! Soy Mati. Elige algo abajo.</p>
+      <span class="mati-estado" id="matiEstado">Mati está bien</span>
+    </div>
+    <div class="mati-sust" id="matiSust" role="group" aria-label="Sustancias"></div>
+    <div class="mati-pasos" id="matiPasos" role="tablist" hidden>
+      <button type="button" role="tab" data-paso="rato" aria-selected="true">Por un rato</button>
+      <button type="button" role="tab" data-paso="cobra" aria-selected="false">Lo que cobra</button>
+      <button type="button" role="tab" data-paso="mezclas" aria-selected="false">Mezclas</button>
+      <button type="button" role="tab" data-paso="emergencia" aria-selected="false">Emergencia</button>
+    </div>
+    <div class="stack" id="matiPanel" aria-live="polite"></div>
+    <p class="small muted">Información para cuidarte, no una invitación a consumir. Sin cantidades, formas de uso ni dónde conseguir.</p>
+  </div>
+
   <!-- Frases para poner límites con la familia: situaciones y frases cortas (datos/limites.js, js/app.js renderLimites) -->
   <div class="card" id="limitesCard">
     <h2>Poner límites con la familia</h2>
@@ -1361,6 +1382,7 @@
 <script src="datos/hechos.js"></script>
 <!-- DATOS: guía de sustancias (reducción de daños) -->
 <script src="datos/sustancias.js"></script>
+<script src="datos/mati.js"></script>
 <!-- DATOS: preguntas de verdadero/falso -->
 <script src="datos/preguntas.js"></script>
 <!-- DATOS: actualidad y comunidades -->
@@ -1402,6 +1424,7 @@
 <script src="js/respira.js"></script>
 <!-- RATO: Un rato contigo, practicar estar a solas (no depende del resto) -->
 <script src="js/rato.js"></script>
+<script src="js/mati.js"></script>
 <!-- PASEO: de vez en cuando el salchicha cruza la pantalla y te pasa la lengua (no depende del resto) -->
 <script src="datos/no-eres-el-unico.js"></script>
 <script src="js/paseo.js"></script>
