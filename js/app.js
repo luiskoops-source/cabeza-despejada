@@ -281,6 +281,25 @@ function renderNoRecaer(){
 }
 renderNoRecaer();
 
+/* Familia (Saber) y Por qué las drogas dan paranoia (Ayuda): temas plegados, cada uno con su idea, sus puntos y, si hay, una frase para decir */
+function temaPlegado(x){
+  return `<details class="etapa"><summary>${esc(x.t)}</summary>${x.b?`<p>${esc(x.b)}</p>`:""}<ul class="small">${x.p.map(p=>`<li>${esc(p)}</li>`).join("")}</ul>${x.f?`<p class="small"><b>Una frase que sirve:</b> "${esc(x.f)}"</p>`:""}</details>`;
+}
+function renderFamilia(){
+  const F=window.FAMILIA; $("familiaCard").hidden=!F; if(!F) return;
+  $("familiaIntro").textContent=F.intro;
+  $("familiaTemas").innerHTML=F.temas.map(temaPlegado).join("");
+}
+renderFamilia();
+$("familiaDiscusion").onclick=()=>$("openDiscusion").click();
+function renderParanoia(){
+  const P=window.PARANOIA; $("paranoiaCard").hidden=!P; if(!P) return;
+  $("paranoiaIntro").textContent=P.intro;
+  $("paranoiaTemas").innerHTML=P.temas.map(temaPlegado).join("");
+}
+renderParanoia();
+$("paranoiaCalma").onclick=()=>$("openCalma").click();
+
 function renderOtrasHistorias(parrafos){
   const O=window.OTRAS_HISTORIAS||[];
   $("otrasHistorias").hidden=!O.length;
@@ -689,6 +708,8 @@ function indice(){
   (window.VOZ||[]).forEach(v=>it.push({tipo:"La voz de la adicción",t:"\""+v.f+"\"",b:v.r}));
   (window.LIMITES||[]).forEach(l=>it.push({tipo:"Poner límites",t:l.s,b:l.f.map(f=>"\""+f+"\"").join(" ")+" "+l.por}));
   (window.DISCUSION_SENTIR||[]).forEach(d=>it.push({tipo:"Después de una discusión",t:d.t,b:d.d,abrir:"openDiscusion"}));
+  ((window.FAMILIA||{}).temas||[]).forEach(x=>it.push({tipo:"Familia",t:x.t,b:[x.b||""].concat(x.p).join(" ")+(x.f?" \""+x.f+"\"":"")}));
+  ((window.PARANOIA||{}).temas||[]).forEach(x=>it.push({tipo:"Paranoia",t:x.t,b:[x.b||""].concat(x.p).join(" ").trim()}));
   /* Las herramientas: al buscarlas aparece un botón que las abre */
   [{t:"Respirar 4-7-8",b:"Respiración para la ansiedad, las ganas, la tos nerviosa y para dormir.",abrir:"openRespira"},
    {t:"Un rato contigo",b:"Practicar estar a solas con el aburrimiento y la soledad, sin celular ni nada que hacer. Para los tiempos muertos.",abrir:"openRato"},

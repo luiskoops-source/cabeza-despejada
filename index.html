@@ -491,6 +491,16 @@
     <div class="stack limites-lista"></div>
   </div>
 
+  <!-- Familia: lo que nadie te explica. Temas plegados, generales y anónimos (datos/familia.js, js/app.js renderFamilia) -->
+  <div class="card" id="familiaCard">
+    <h2>Familia: lo que nadie te explica</h2>
+    <p class="small muted" id="familiaIntro"></p>
+    <div class="stack" id="familiaTemas"></div>
+    <div class="row">
+      <button class="ghost" type="button" id="familiaDiscusion">Acabo de discutir: abrir Después de una discusión</button>
+    </div>
+  </div>
+
   <!-- Cuenta tu historia: la gente cuenta o celebra algo en un formulario anónimo; se revisa y se publica aquí.
        Sin foro ni chat, a propósito. Historias y link del formulario en datos/cuentan.js -->
   <div class="card" id="cuentanCard">
@@ -891,6 +901,14 @@
         <li>Dormir bien de forma regular es la medida que más protege.</li>
       </ul>
     </details>
+  </div>
+
+  <!-- Por qué las drogas dan paranoia: explicación a fondo, por sustancia (datos/paranoia.js, js/app.js renderParanoia) -->
+  <div class="card" id="paranoiaCard">
+    <h2>¿Por qué las drogas dan paranoia?</h2>
+    <p class="small" id="paranoiaIntro"></p>
+    <div class="stack" id="paranoiaTemas"></div>
+    <button class="ghost" type="button" id="paranoiaCalma" style="width:100%">Me está pasando ahora: abrir Modo calma</button>
   </div>
   <div class="card">
     <h2>Tu privacidad</h2>
@@ -1365,6 +1383,10 @@
 <script src="datos/limites.js"></script>
 <!-- DATOS: lo que dice Después de una discusión según la emoción -->
 <script src="datos/discusion.js"></script>
+<!-- DATOS: Familia, lo que nadie te explica (Saber) -->
+<script src="datos/familia.js"></script>
+<!-- DATOS: por qué las drogas dan paranoia (Ayuda) -->
+<script src="datos/paranoia.js"></script>
 <!-- DATOS: frases de Un rato contigo -->
 <script src="datos/rato.js"></script>
 <!-- DATOS: historias de la gente (Cuenta tu historia) -->
