@@ -68,6 +68,8 @@ function estadoDeEjemplo(ahora) {
   // Martes 20 de octubre de 2026, 19:40: el reloj queda detenido ahí y avanza solo cuando se graba un cuadro
   const ahora = new Date("2026-10-20T19:40:00-03:00").getTime();
   await contexto.clock.install({ time: ahora });
+  // Pausado: sin esto el reloj sigue corriendo solo mientras se graba (y grabar es más lento que ver)
+  await contexto.clock.pauseAt(ahora + 1000);
   await contexto.addInitScript(([estado]) => {
     if (location.pathname.endsWith("/index.html") && !localStorage.getItem("cd.v1")) {
       localStorage.setItem("cd.v1", estado);
