@@ -1,3 +1,6 @@
 .DS_Store
 dist/
 node_modules/
+# La música del video se vuelve a generar con scripts/video/musica.py
+tienda/video/musica.wav
+tienda/video/*-prueba.mp4

@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Estudio de video</title>
+<!-- El estudio del video: pone la app real dentro de un teléfono dibujado, con textos encima.
+     No se abre a mano: lo maneja scripts/video/grabar.js, que llama a cuadro(t) para cada cuadro y le saca una foto.
+     Todo lo que se mueve aquí se calcula a partir del tiempo t (en segundos), así cada cuadro sale igual cada vez. -->
+<style>
+@font-face{font-family:"Bricolage";font-weight:800;src:url(../../fuentes/bricolage-grotesque-latin-800.woff2) format("woff2")}
+@font-face{font-family:"Bricolage";font-weight:700;src:url(../../fuentes/bricolage-grotesque-latin-700.woff2) format("woff2")}
+@font-face{font-family:"Instrument";font-weight:400;src:url(../../fuentes/instrument-sans-latin-400.woff2) format("woff2")}
+@font-face{font-family:"Instrument";font-weight:500;src:url(../../fuentes/instrument-sans-latin-500.woff2) format("woff2")}
+@font-face{font-family:"Instrument";font-weight:600;src:url(../../fuentes/instrument-sans-latin-600.woff2) format("woff2")}
+@font-face{font-family:"Mono";font-weight:500;src:url(../../fuentes/jetbrains-mono-latin-500.woff2) format("woff2")}
+/* Los colores de la app: crema de día, café oscuro, verde del cactus */
+:root{--crema:#f3ecdc;--crema2:#fffaf0;--oscuro:#15120e;--oscuro2:#211c16;--verde:#3f6e1f;--verde-claro:#b9dc8a;--rosa:#f08fa0;--texto:#1f1c17;--suave:#665d4e;--claro:#f4eee1;--claro-suave:#d2c7b1}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--oscuro)}
+body{font-family:"Instrument",sans-serif;-webkit-font-smoothing:antialiased;color:var(--claro)}
+#escenario{position:absolute;inset:0;overflow:hidden}
+/* Fondos: uno oscuro con luz verde, y uno crema que entra con un círculo que crece */
+.fondo{position:absolute;inset:0}
+#fondoOscuro{background:radial-gradient(120% 70% at 50% 62%,#2c4a1a 0%,#1a2410 38%,var(--oscuro) 75%)}
+#luz{position:absolute;width:140%;height:80%;left:-20%;top:30%;background:radial-gradient(closest-side,rgba(185,220,138,.16),transparent);filter:blur(10px)}
+#fondoCrema{background:radial-gradient(90% 60% at 50% 40%,var(--crema2) 0%,var(--crema) 70%,#e9dfc8 100%)}
+/* Textos grandes */
+.titulo{font-family:"Bricolage",sans-serif;font-weight:800;letter-spacing:-.02em;line-height:1.02;margin:0}
+.bajada{font-weight:500;line-height:1.35;margin:0}
+.palabra{display:inline-block;will-change:transform,opacity}
+/* La portada (el salchicha que abraza al cactus) vive en una sombra propia con los estilos de la app */
+#portada{position:absolute;left:50%;top:0;transform:translateX(-50%)}
+#intro,#manifiesto,#privacidad,#final{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+#intro .titulo,#final .titulo{color:var(--texto)}
+#intro .bajada,#final .bajada{color:var(--suave)}
+/* Teléfono: marco oscuro, pantalla con la app real adentro (iframe) */
+#telefono{position:absolute;border-radius:var(--radio);background:linear-gradient(145deg,#3a332a,#0d0b09 60%,#2a241d);padding:var(--marco);box-shadow:0 40px 80px rgba(0,0,0,.55),0 0 0 1.5px #4a4236 inset,0 0 0 1px rgba(255,255,255,.06)}
+#pantalla{position:relative;width:390px;height:var(--alto-app);border-radius:calc(var(--radio) - var(--marco));overflow:hidden;background:var(--crema)}
+#app{width:390px;height:var(--alto-app);border:0;display:block}
+#isla{position:absolute;top:8px;left:50%;width:92px;height:24px;margin-left:-46px;background:#0a0908;border-radius:14px;z-index:3}
+/* El dedo que muestra dónde se toca */
+#dedo{position:absolute;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(255,255,255,.55);border:2.5px solid rgba(31,28,23,.55);box-shadow:0 6px 18px rgba(0,0,0,.25);z-index:5;pointer-events:none;opacity:0}
+#onda{position:absolute;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;border:3px solid rgba(255,255,255,.9);z-index:4;pointer-events:none;opacity:0}
+/* Leyendas de cada pantalla */
+#leyendas{position:absolute}
+.leyenda{position:absolute;left:0;right:0}
+.leyenda .titulo{color:var(--claro)}
+.leyenda .bajada{color:var(--claro-suave)}
+.etiqueta{display:inline-block;font-family:"Mono",monospace;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--verde-claro);border:1.5px solid rgba(185,220,138,.4);border-radius:999px;padding:.35em .9em}
+#privacidad .titulo{color:var(--claro)}
+#privacidad .bajada{color:var(--claro-suave)}
+#kay{position:absolute}
+#final .direccion{font-family:"Mono",monospace;font-weight:500;color:var(--verde);margin:0}
+#final .aviso{color:var(--suave);margin:0;position:absolute;left:0;right:0;text-align:center}
+.icono{border-radius:22%;box-shadow:0 18px 40px rgba(80,60,20,.25),0 0 0 1.5px #d6c9ad}
+.punto{color:var(--rosa)}
+
+/* ---------- Formato vertical (1080 x 1920, historias y reels): 540 x 960 puntos a escala 2 ---------- */
+body.vertical{--radio:54px;--marco:11px;--alto-app:668px}
+.vertical #telefono{left:calc(50% - 206px);top:248px}
+.vertical #leyendas{left:36px;right:36px;top:70px;height:170px;text-align:center}
+.vertical .leyenda .etiqueta{font-size:12px;margin-bottom:14px}
+.vertical .leyenda .titulo{font-size:42px}
+.vertical .leyenda .bajada{font-size:20px;margin-top:10px;padding:0 6px}
+.vertical #intro .titulo{font-size:56px;margin-top:18px}
+.vertical #intro .bajada{font-size:21px;margin-top:14px}
+.vertical #manifiesto .titulo{font-size:54px;padding:0 34px}
+.vertical #manifiesto .bajada{font-size:22px;margin-top:26px;padding:0 40px}
+.vertical #privacidad .titulo{font-size:64px;line-height:1.08}
+.vertical #privacidad .bajada{font-size:22px;margin-top:30px;padding:0 50px}
+.vertical #final .titulo{font-size:50px;margin-top:26px}
+.vertical #final .bajada{font-size:21px;margin-top:12px;padding:0 40px}
+.vertical #final .direccion{font-size:15px;margin-top:30px}
+.vertical #final .aviso{font-size:14px;bottom:52px;padding:0 40px}
+
+/* ---------- Formato horizontal (1920 x 1080, YouTube y Google Play): 1200 x 675 puntos a escala 1,6 ---------- */
+body.horizontal{--radio:50px;--marco:11px;--alto-app:600px}
+.horizontal #telefono{left:calc(70% - 206px);top:26px}
+.horizontal #leyendas{left:96px;width:470px;top:210px;height:280px;text-align:left}
+.horizontal .leyenda .etiqueta{font-size:12px;margin-bottom:18px}
+.horizontal .leyenda .titulo{font-size:58px}
+.horizontal .leyenda .bajada{font-size:22px;margin-top:16px}
+.horizontal #intro .titulo{font-size:60px;margin-top:14px}
+.horizontal #intro .bajada{font-size:22px;margin-top:10px}
+.horizontal #manifiesto .titulo{font-size:64px}
+.horizontal #manifiesto .bajada{font-size:24px;margin-top:22px}
+.horizontal #privacidad .titulo{font-size:68px;line-height:1.08}
+.horizontal #privacidad .bajada{font-size:23px;margin-top:24px}
+.horizontal #final .titulo{font-size:56px;margin-top:18px}
+.horizontal #final .bajada{font-size:22px;margin-top:8px}
+.horizontal #final .direccion{font-size:15px;margin-top:20px}
+.horizontal #final .aviso{font-size:13px;bottom:28px}
+</style>
+</head>
+<body>
+<div id="escenario">
+  <div class="fondo" id="fondoOscuro"><div id="luz"></div></div>
+  <div class="fondo" id="fondoCrema"></div>
+
+  <div id="intro">
+    <div id="portadaLugar"></div>
+    <p class="titulo" id="introTitulo">Cabeza Despejada</p>
+    <p class="bajada" id="introBajada">El cactus pincha. La paciencia abraza.</p>
+  </div>
+
+  <div id="manifiesto">
+    <p class="titulo" id="maniTitulo">Para dejar o reducir el consumo<span class="punto">.</span></p>
+    <p class="bajada" id="maniBajada">A tu ritmo, y sin que nadie te juzgue.</p>
+  </div>
+
+  <div id="leyendas"></div>
+
+  <div id="telefono"><div id="pantalla"><div id="isla"></div><iframe id="app" title="Cabeza Despejada"></iframe><div id="onda"></div><div id="dedo"></div></div></div>
+
+  <div id="privacidad">
+    <p class="titulo" id="privTitulo">Sin nombre<span class="punto">.</span><br>Sin correo<span class="punto">.</span><br>Sin cuenta<span class="punto">.</span></p>
+    <p class="bajada" id="privBajada">Lo que anotas queda solo en tu teléfono. Funciona sin internet.</p>
+    <div id="kay"></div>
+  </div>
+
+  <div id="final">
+    <div id="finalIcono"></div>
+    <p class="titulo" id="finalTitulo">Cabeza Despejada</p>
+    <p class="bajada" id="finalBajada">Gratis para siempre. Sin anuncios, sin compras, sin cuenta.</p>
+    <p class="direccion" id="finalDireccion">luiskoops-source.github.io/cabeza-despejada</p>
+    <p class="aviso" id="finalAviso">No reemplaza a un médico. Si estás en peligro, llama al 131. SENDA 1412: gratis, anónimo, 24 horas.</p>
+  </div>
+</div>
+
+<script>
+"use strict";
+/* ---------- Herramientas de movimiento ---------- */
+const $ = id => document.getElementById(id);
+/* Avance entre 0 y 1 de t dentro del tramo [a, b] */
+const tramo = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+/* Curvas de suavizado: arrancan y frenan suave */
+const suave = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const sale = x => 1 - Math.pow(1 - x, 3);
+const rebote = x => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const mezcla = (a, b, x) => a + (b - a) * x;
+
+/* Parte un texto en palabras para que entren una tras otra. Respeta los <br> y los puntos de color */
+function enPalabras(el) {
+  const partes = el.innerHTML.split(/(<br>|<span class="punto">.<\/span>)/);
+  el.innerHTML = partes.map(p => (p === "<br>" || p.startsWith("<span")) ? p : p.split(/( )/).map(w => w === " " ? " " : w ? `<span class="palabra">${w}</span>` : "").join("")).join("");
+  return [...el.querySelectorAll(".palabra")];
+}
+/* Hace entrar palabras de a una, desde t0, separadas por paso segundos */
+function palabrasEntran(lista, t, t0, paso, dur = .55, sube = 18) {
+  lista.forEach((p, i) => { const x = sale(tramo(t, t0 + i * paso, t0 + i * paso + dur)); p.style.opacity = x; p.style.transform = `translateY(${(1 - x) * sube}px)`; });
+}
+function mostrar(el, opacidad, y = 0, escala = 1) {
+  el.style.opacity = opacidad; el.style.visibility = opacidad <= 0.001 ? "hidden" : "visible";
+  el.style.transform = (el.dataset.base || "") + ` translateY(${y}px) scale(${escala})`;
+}
+
+/* ---------- Las leyendas de cada pantalla de la app ---------- */
+const LEYENDAS = [
+  { id: "hoy", de: 9.6, a: 16.4, etiqueta: "Hoy", titulo: "Cada día cuenta", bajada: "Tu contador, tus hitos y la plata que no gastaste." },
+  { id: "ganas", de: 16.4, a: 24.4, etiqueta: "Modo ganas", titulo: "¿Llegaron las ganas?", bajada: "Quince minutos y una respiración guiada. La ola sube, y también baja." },
+  { id: "respira", de: 24.4, a: 31.4, etiqueta: "Respirar 4-7-8", titulo: "Respira conmigo", bajada: "Para la ansiedad, las ganas o para quedarte dormido." },
+  { id: "saber", de: 31.4, a: 38.4, etiqueta: "Saber", titulo: "Saber, sin sermones", bajada: "Qué hace cada sustancia, mitos y estudios, en tarjetas cortas." },
+  { id: "registro", de: 38.4, a: 44.4, etiqueta: "Registro", titulo: "Mira tu patrón", bajada: "Anota las ganas y descubre cuándo aparecen." },
+  { id: "ayuda", de: 44.4, a: 50.2, etiqueta: "Ayuda", titulo: "Ayuda a un toque", bajada: "SENDA 1412, emergencias 131 y primeros auxilios paso a paso." }
+];
+const leyendasEl = LEYENDAS.map(l => {
+  const d = document.createElement("div"); d.className = "leyenda";
+  d.innerHTML = `<span class="etiqueta">${l.etiqueta}</span><p class="titulo">${l.titulo}</p><p class="bajada">${l.bajada}</p>`;
+  $("leyendas").appendChild(d);
+  return { l, el: d, partes: [d.children[0], ...enPalabras(d.children[1]), d.children[2]] };
+});
+function pintarLeyendas(t) {
+  for (const { l, el, partes } of leyendasEl) {
+    const entra = tramo(t, l.de, l.de + .9), sal = tramo(t, l.a - .45, l.a);
+    if (t < l.de || t > l.a) { el.style.visibility = "hidden"; continue; }
+    el.style.visibility = "visible";
+    partes.forEach((p, i) => {
+      const x = sale(tramo(t, l.de + i * .06, l.de + i * .06 + .6));
+      p.style.opacity = x * (1 - sal); p.style.transform = `translateY(${(1 - x) * 16 - sal * 10}px)`;
+    });
+    el.style.filter = sal > 0 ? `blur(${sal * 4}px)` : "none";
+    void entra;
+  }
+}
+
+/* ---------- La app dentro del teléfono ---------- */
+const app = $("app");
+const ventanaApp = () => app.contentWindow;
+const docApp = () => app.contentDocument;
+const enApp = sel => docApp().querySelector(sel);
+
+/* Toques: el dedo llega, aprieta (ahí se hace el clic de verdad) y se va */
+const TOQUES = [];
+function toque(t, sel) { TOQUES.push({ t, sel, hecho: false }); }
+/* Desplazamientos suaves de la página de la app (o de una pantalla completa como el Modo ganas) */
+const DESPLAZAR = [];
+function desplazar(de, a, hasta, contenedor) { DESPLAZAR.push({ de, a, hasta, contenedor, desde: null }); }
+/* Acciones sueltas en un momento */
+const ACCIONES = [];
+function en(t, hacer) { ACCIONES.push({ t, hacer, hecho: false }); }
+
+function posicionEnPantalla(sel) {
+  const el = enApp(sel); if (!el) return null;
+  const r = el.getBoundingClientRect();
+  return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+}
+function pintarToques(t) {
+  const dedo = $("dedo"), onda = $("onda");
+  let visible = false;
+  for (const q of TOQUES) {
+    if (t >= q.t && !q.hecho) { q.hecho = true; const el = enApp(q.sel); if (el) el.click(); }
+    if (t < q.t - .55 || t > q.t + .55) continue;
+    if (!q.pos || t < q.t) q.pos = posicionEnPantalla(q.sel) || q.pos;
+    if (!q.pos) continue;
+    visible = true;
+    const llega = sale(tramo(t, q.t - .55, q.t - .15));
+    const aprieta = t < q.t ? tramo(t, q.t - .15, q.t) : 1 - tramo(t, q.t, q.t + .15);
+    const vase = tramo(t, q.t + .2, q.t + .55);
+    dedo.style.left = (q.pos.x + (1 - llega) * 40) + "px";
+    dedo.style.top = (q.pos.y + (1 - llega) * 70) + "px";
+    dedo.style.opacity = Math.min(llega, 1 - vase) * .95;
+    dedo.style.transform = `scale(${1 - aprieta * .22})`;
+    const o = tramo(t, q.t, q.t + .5);
+    onda.style.left = q.pos.x + "px"; onda.style.top = q.pos.y + "px";
+    onda.style.opacity = t >= q.t ? (1 - o) * .9 : 0;
+    onda.style.transform = `scale(${1 + o * 1.6})`;
+  }
+  if (!visible) { dedo.style.opacity = 0; onda.style.opacity = 0; }
+}
+function pintarDesplazamientos(t) {
+  for (const d of DESPLAZAR) {
+    if (t < d.de) continue;
+    const cont = d.contenedor ? enApp(d.contenedor) : docApp().scrollingElement;
+    if (!cont) continue;
+    if (d.desde === null) d.desde = cont.scrollTop;
+    if (t > d.a + .1) continue;
+    const hasta = typeof d.hasta === "string" ? Math.max(0, enApp(d.hasta).getBoundingClientRect().top + cont.scrollTop - 90) : d.hasta;
+    cont.scrollTo({ top: mezcla(d.desde, hasta, suave(tramo(t, d.de, d.a))), behavior: "instant" });
+  }
+}
+function pintarAcciones(t) { for (const a of ACCIONES) if (t >= a.t && !a.hecho) { a.hecho = true; a.hacer(); } }
+
+/* ---------- El guion: qué se toca y cuándo (en segundos) ---------- */
+// Hoy: el contador corre; bajamos al compromiso del día y lo tomamos
+desplazar(12.2, 13.4, 300);
+toque(14.0, "#pledgeBtn");
+// Modo ganas: se abre, y bajamos hasta el círculo que respira
+toque(17.4, "#openCrave");
+desplazar(20.4, 21.8, 250, "#crave");
+// Respiración 4-7-8: salir del Modo ganas, abrirla y empezar
+toque(24.9, "#closeCrave");
+toque(26.0, "#openRespira");
+toque(27.1, "#respiraEmpezar");
+// Saber: cerrar la respiración, ir a la pestaña y recorrerla
+toque(31.9, "#respiraCerrar");
+en(32.0, () => { docApp().scrollingElement.scrollTop = 0; });
+toque(32.6, '[data-tab="saber"]');
+desplazar(33.5, 35.9, "#rapidoCard");
+// Registro: los gráficos de 14 y 30 días
+toque(38.9, '[data-tab="registro"]');
+desplazar(40.0, 41.4, 70);
+// Ayuda: los teléfonos y primeros auxilios
+toque(44.9, '[data-tab="ayuda"]');
+desplazar(46.6, 48.2, 70);
+
+/* ---------- Cada escena ---------- */
+let formato = "vertical", ancho = 540, alto = 960;
+const intro = $("intro"), manifiesto = $("manifiesto"), privacidad = $("privacidad"), final = $("final"), telefono = $("telefono");
+let maniPal, privLineas, finalPartes, portadaHecha = false;
+
+function pintarFondos(t) {
+  // Crema al principio (hasta 4,6 s) y al final (desde 55 s). El cambio es un círculo que se cierra o se abre desde el centro
+  const r = Math.hypot(ancho, alto) / 2 + 10;
+  const cierra = suave(tramo(t, 4.5, 5.3)), abre = suave(tramo(t, 55.0, 55.9));
+  const radio = t < 30 ? r * (1 - cierra) : r * abre;
+  $("fondoCrema").style.clipPath = `circle(${radio}px at 50% 50%)`;
+  $("fondoCrema").style.visibility = radio < 1 ? "hidden" : "visible";
+  $("luz").style.transform = `translateY(${Math.sin(t * .35) * 30}px) scale(${1 + Math.sin(t * .23) * .06})`;
+}
+
+function pintarIntro(t) {
+  if (t > 5.4) { intro.style.visibility = "hidden"; return; }
+  intro.style.visibility = "visible";
+  // La portada de la app entra a los 0,3 s: así sus animaciones (el abrazo) parten justo ahí
+  if (t >= .3 && !portadaHecha) { portadaHecha = true; ponerPortada(); }
+  const p = $("portadaLugar"), x = sale(tramo(t, .3, 1.0));
+  const salida = suave(tramo(t, 4.1, 4.9));
+  mostrar(p, x * (1 - salida), (1 - x) * 24 - salida * 30, .92 + .08 * x);
+  mostrar($("introTitulo"), sale(tramo(t, 1.7, 2.4)) * (1 - salida), (1 - sale(tramo(t, 1.7, 2.4))) * 20 - salida * 30);
+  mostrar($("introBajada"), sale(tramo(t, 2.3, 3.0)) * (1 - salida), (1 - sale(tramo(t, 2.3, 3.0))) * 16 - salida * 30);
+}
+
+function pintarManifiesto(t) {
+  if (t < 4.9 || t > 9.3) { manifiesto.style.visibility = "hidden"; return; }
+  manifiesto.style.visibility = "visible";
+  palabrasEntran(maniPal, t, 5.15, .12, .6, 22);
+  const b = sale(tramo(t, 6.4, 7.1));
+  const salida = suave(tramo(t, 8.5, 9.2));
+  $("maniBajada").style.opacity = b; $("maniBajada").style.transform = `translateY(${(1 - b) * 14}px)`;
+  manifiesto.style.opacity = 1 - salida; manifiesto.style.transform = `translateY(${-salida * 40}px)`; manifiesto.style.filter = salida ? `blur(${salida * 6}px)` : "none";
+}
+
+function pintarTelefono(t) {
+  // Sube desde abajo a los 8,7 s y se va hacia abajo a los 50 s
+  const sube = rebote(tramo(t, 8.7, 9.7)), baja = suave(tramo(t, 50.0, 50.9));
+  const y = (1 - sube) * (alto * .9) + baja * (alto * .95);
+  telefono.style.visibility = (t < 8.7 || t > 50.9) ? "hidden" : "visible";
+  telefono.style.transform = `translateY(${y}px) rotate(${(1 - sube) * 4 - baja * 3}deg)`;
+}
+
+function pintarPrivacidad(t) {
+  if (t < 50.3 || t > 55.6) { privacidad.style.visibility = "hidden"; return; }
+  privacidad.style.visibility = "visible";
+  palabrasEntran(privLineas, t, 50.6, .33, .6, 26);
+  const b = sale(tramo(t, 52.2, 52.9));
+  $("privBajada").style.opacity = b; $("privBajada").style.transform = `translateY(${(1 - b) * 14}px)`;
+  const salida = suave(tramo(t, 54.8, 55.5));
+  privacidad.style.opacity = 1 - salida;
+  // Kay, el salchicha negro de la app, cruza caminando por abajo
+  const kay = $("kay"), k = tramo(t, 50.8, 55.4);
+  kay.style.left = mezcla(-170, ancho + 20, k) + "px";
+  kay.style.bottom = (formato === "vertical" ? 120 : 40) + "px";
+  const paso = Math.sin(t * 15);
+  kay.querySelectorAll(".pata-a").forEach(e => e.style.transform = `rotate(${paso * 14}deg)`);
+  kay.querySelectorAll(".pata-b").forEach(e => e.style.transform = `rotate(${-paso * 14}deg)`);
+  kay.querySelectorAll(".cola").forEach(e => e.style.transform = `rotate(${Math.sin(t * 11) * 10}deg)`);
+  kay.style.transform = `translateY(${Math.abs(Math.sin(t * 15)) * -4}px)`;
+}
+
+function pintarFinal(t) {
+  if (t < 55.2) { final.style.visibility = "hidden"; return; }
+  final.style.visibility = "visible";
+  finalPartes.forEach((el, i) => {
+    const a = 55.5 + i * .3, x = sale(tramo(t, a, a + .7));
+    const esc = i === 0 ? .8 + .2 * rebote(tramo(t, a, a + .8)) : 1;
+    mostrar(el, x, (1 - x) * 18, esc);
+  });
+  const fin = tramo(t, 60.2, 61.0);
+  $("escenario").style.filter = fin > 0 ? `brightness(${1 - fin})` : "none";
+}
+
+/* ---------- La portada de la app (el abrazo), con sus estilos reales dentro de una sombra para no mezclarlos ---------- */
+let sombraPortada;
+async function prepararPortada() {
+  const html = await (await fetch("../../index.html")).text();
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  const svg = doc.querySelector(".portada-animada");
+  const dibujo = doc.querySelector("#dibujoSalchicha");
+  const tam = formato === "vertical" ? 270 : 210;
+  svg.setAttribute("width", tam); svg.setAttribute("height", tam);
+  sombraPortada = { svg: svg.outerHTML };
+  // El ícono del final: el mismo dibujo, quieto
+  const tamIcono = formato === "vertical" ? 150 : 120;
+  $("finalIcono").innerHTML = `<svg class="icono" viewBox="0 0 512 512" width="${tamIcono}" height="${tamIcono}"><defs>${dibujo.outerHTML}</defs><rect width="512" height="512" rx="112" fill="#F4EEE1"/><use href="#dibujoSalchicha"/></svg>`;
+}
+function ponerPortada() {
+  const lugar = $("portadaLugar");
+  const raiz = lugar.attachShadow({ mode: "open" });
+  raiz.innerHTML = `<link rel="stylesheet" href="../../css/estilos.css"><style>svg{border-radius:24%;box-shadow:0 22px 50px rgba(80,60,20,.25),0 0 0 1.5px #d6c9ad}</style>${sombraPortada.svg}`;
+}
+
+/* ---------- El tiempo de las animaciones (de la app y de la portada) ----------
+   Las animaciones de CSS no siguen al reloj falso de la grabación, así que se pausan y se adelantan a mano,
+   exactamente lo que dura un cuadro. Así un cuadro siempre sale igual, aunque el computador sea lento. */
+const vistas = new WeakSet();
+function animaciones() {
+  const lista = new Set();
+  const juntar = raiz => { try { raiz.getAnimations().forEach(a => lista.add(a)); } catch (e) {} };
+  juntar(document); if (docApp()) juntar(docApp());
+  const lugar = $("portadaLugar"); if (lugar.shadowRoot) juntar(lugar.shadowRoot);
+  return lista;
+}
+function adelantarAnimaciones(ms) {
+  for (const a of animaciones()) {
+    if (!vistas.has(a)) { vistas.add(a); a.pause(); a.currentTime = 0; }
+    if (a.playState !== "finished") { if (a.playState !== "paused") a.pause(); a.currentTime = (a.currentTime || 0) + ms; }
+  }
+}
+
+/* ---------- Lo que llama grabar.js ---------- */
+window.preparar = async (f) => {
+  formato = f; document.body.className = f;
+  ancho = innerWidth; alto = innerHeight;
+  maniPal = enPalabras($("maniTitulo"));
+  privLineas = enPalabras($("privTitulo"));
+  finalPartes = [$("finalIcono"), $("finalTitulo"), $("finalBajada"), $("finalDireccion"), $("finalAviso")];
+  await prepararPortada();
+  $("kay").innerHTML = "";
+  await new Promise(listo => { app.onload = listo; app.src = "../../index.html"; });
+  // Kay sale del mismo dibujo que usa la app para sus paseos
+  const k = ventanaApp().dibujosSalchichas && ventanaApp().dibujosSalchichas.kay;
+  if (k) { $("kay").innerHTML = k; const s = $("kay").querySelector("svg"); s.setAttribute("width", formato === "vertical" ? 170 : 150); s.removeAttribute("height"); s.querySelectorAll(".pata-a,.pata-b,.cola").forEach(e => { e.style.transformBox = "fill-box"; e.style.transformOrigin = "50% 0%"; }); s.querySelectorAll(".cola").forEach(e => e.style.transformOrigin = "100% 100%"); }
+  await document.fonts.ready; await docApp().fonts.ready;
+  return true;
+};
+let ultimo = -1;
+window.cuadro = (t, msCuadro) => {
+  if (ultimo >= 0) adelantarAnimaciones(msCuadro);
+  ultimo = t;
+  pintarAcciones(t);
+  pintarDesplazamientos(t);
+  pintarFondos(t);
+  pintarIntro(t);
+  pintarManifiesto(t);
+  pintarTelefono(t);
+  pintarLeyendas(t);
+  pintarToques(t);
+  pintarPrivacidad(t);
+  pintarFinal(t);
+  // Las animaciones recién creadas por un toque quedan pausadas desde ya
+  adelantarAnimaciones(0);
+};
+window.DURACION = 61;
+</script>
+</body>
+</html>

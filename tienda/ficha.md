@@ -37,6 +37,10 @@ Cabeza Despejada sigue el enfoque de reducción de daños: no te sermonea ni te 
 
 Esta app no reemplaza a un médico ni a un tratamiento. Si estás en peligro, llama al 131. En Chile, el fono 1412 de SENDA es gratuito, anónimo y atiende las 24 horas.
 
+## Video promocional (opcional)
+
+Google Play pide un enlace de YouTube, no el archivo. Subir `tienda/video/cabeza-despejada-horizontal.mp4` a YouTube (puede quedar "No listado") y pegar ese enlace. El vertical (`cabeza-despejada-vertical.mp4`) sirve para historias y reels. Cómo se hacen: README.md, "Video de presentación".
+
 ## Categoría
 
 Salud y bienestar

@@ -54,6 +54,21 @@ node tests/pruebas.js        # corre las pruebas automáticas
 node scripts/construir.js    # arma dist/cabeza-despejada.html (versión de un solo archivo)
 ```
 
+## Video de presentación
+
+En `tienda/video/` hay dos videos de un minuto hechos con la app real: `cabeza-despejada-vertical.mp4` (1080 x 1920, para historias y reels) y `cabeza-despejada-horizontal.mp4` (1920 x 1080, para YouTube y la ficha de Google Play). Los datos que se ven son de ejemplo, inventados en `scripts/video/grabar.js`, y la música está hecha desde cero en `scripts/video/musica.py`, sin grabaciones de terceros.
+
+Para volver a hacerlos (por ejemplo, después de cambiar una pantalla) se necesita Playwright, ffmpeg y numpy:
+
+```
+python3 scripts/video/musica.py                 # la música (tienda/video/musica.wav)
+node scripts/video/grabar.js vertical 60        # el video vertical, 60 cuadros por segundo
+node scripts/video/grabar.js horizontal 60      # el horizontal
+node scripts/video/grabar.js vertical 30 12     # una prueba rápida de 12 segundos
+```
+
+Qué se toca y cuándo, y los textos de cada escena, están en `scripts/video/estudio.html` (la parte "El guion").
+
 ## Instalar como app en el celular
 
 La app es una PWA. Para instalarla necesita servirse por http(s), no abrirse como archivo:
