@@ -148,3 +148,12 @@ window.PREGUNTAS.push(
 {q:"Después de dejar la pasta base, el cuerpo tarda años en mostrar mejoría.",v:false,e:"Falso. Lo peor es la primera semana, las ganas intensas duran 2 a 4 semanas y la mejora clara del cuerpo se nota entre el primer y el segundo mes. Salir del entorno un tiempo y el tratamiento gratuito de SENDA (1412) ayudan a llegar ahí.",s:"pasta-base"},
 {q:"Para la dependencia fuerte a opioides existe tratamiento médico de sustitución que baja el riesgo de sobredosis.",v:true,e:"Verdadero. No es 'cambiar una droga por otra': es un tratamiento con control médico que saca a la persona del ciclo de abstinencia y sobredosis. Se consulta en el consultorio o por el 1412.",s:"opioides"}
 );
+
+/* Preguntas agregadas el 25 de octubre de 2026. Salen de los mitos, el "dejar" y las emergencias de la guía de sustancias, y de la biblioteca (aislamiento). */
+window.PREGUNTAS.push(
+{q:"Mientras más pura sea la cocaína, menos daña al corazón.",v:false,e:"Falso. La pureza no quita el riesgo: a más pura, más fuerte el golpe sobre la presión y el pulso. Lo que daña es la cocaína en la sangre, aspirada o fumada.",s:"cocaina"},
+{q:"Dejar el alcohol es peligroso para cualquiera, incluso para quien bebe solo los fines de semana.",v:false,e:"Falso. El riesgo de convulsiones al dejar es de quien bebe mucho todos los días: esa persona lo deja con apoyo médico. Si el consumo es de fin de semana o moderado, se puede dejar sin riesgo físico.",s:"alcohol"},
+{q:"Si la marihuana te ayuda a dormir, dejarla no cambia el sueño.",v:false,e:"Falso. Con el uso diario el sueño pasa a depender de ella: al dejarla vuelven el insomnio y los sueños muy vívidos por un tiempo. El sueño normal regresa solo, en 2 a 4 semanas.",s:"marihuana"},
+{q:"Ante una sobredosis de opioides, mientras llega la ayuda conviene mantener a la persona despierta y respirando.",v:true,e:"Verdadero. Lo que mata es que se deje de respirar. Llamar al 131, usar naloxona si hay, y hablarle y moverla para mantenerla despierta hasta que llegue la ayuda. Si no responde, ponerla de lado.",s:"opioides"},
+{q:"Aislarse de todos es la mejor forma de evitar la tentación de consumir.",v:false,e:"Falso. La soledad y el aburrimiento alimentan la adicción. Alejarse de quienes consumen sí ayuda; alejarse de todos no. Conectar con alguien de confianza, un grupo o el 1412 es parte de la recuperación, no un paso para después.",s:"general"}
+);

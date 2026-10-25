@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-25-contenido", titulo:"Más preguntas, mitos y una frase de la voz", cambios:[
+    "Cinco preguntas nuevas de verdadero o falso: la pureza de la cocaína y el corazón, quién corre riesgo al dejar el alcohol, qué pasa con el sueño al dejar la marihuana, mantener despierta a una persona con sobredosis de opioides y por qué aislarse no ayuda.",
+    "Dos mitos nuevos en la guía: beber solo los fines de semana no quita el riesgo de cada noche, y los cigarros 'light' no dañan menos.",
+    "La voz tiene una frase más: \"Estoy demasiado ansioso, necesito algo para calmarme\", con su respuesta."
+  ]},
   {id:"2026-10-24-familia-paranoia", titulo:"Familia y paranoia, explicadas a fondo", cambios:[
     "En Saber hay una sección nueva: \"Familia: lo que nadie te explica\". Ocho temas: el alcohol en la casa también es una droga, cuando te tratan de enfermo, por qué con la familia duele más, responder sin perder, cuando la casa es el gatillante, lo que tu familia ve y lo que no, si alguien de tu casa bebe mucho, y cómo reparar al día siguiente sin humillarte.",
     "En Ayuda hay otra: \"¿Por qué las drogas dan paranoia?\". Explica el detector de lo importante del cerebro y qué hace cada sustancia (cocaína y pasta base, marihuana, alcohol, la mezcla de cocaína con alcohol, sintéticos, tranquilizantes), el papel del sueño y del bajón, por qué a unos les pasa y a otros no, y qué sirve cuando llega.",
