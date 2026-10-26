@@ -157,3 +157,11 @@ window.PREGUNTAS.push(
 {q:"Ante una sobredosis de opioides, mientras llega la ayuda conviene mantener a la persona despierta y respirando.",v:true,e:"Verdadero. Lo que mata es que se deje de respirar. Llamar al 131, usar naloxona si hay, y hablarle y moverla para mantenerla despierta hasta que llegue la ayuda. Si no responde, ponerla de lado.",s:"opioides"},
 {q:"Aislarse de todos es la mejor forma de evitar la tentación de consumir.",v:false,e:"Falso. La soledad y el aburrimiento alimentan la adicción. Alejarse de quienes consumen sí ayuda; alejarse de todos no. Conectar con alguien de confianza, un grupo o el 1412 es parte de la recuperación, no un paso para después.",s:"general"}
 );
+
+/* Preguntas agregadas el 26 de octubre de 2026. Salen de las mezclas, las emergencias y el "dejar" de la guía de sustancias. */
+window.PREGUNTAS.push(
+{q:"La cocaína quita la borrachera y permite manejar seguro.",v:false,e:"Falso. Tapa el sueño y la torpeza, pero el alcohol en la sangre y los reflejos lentos siguen igual: manejar así es tan peligroso como borracho. Y juntos forman cocaetileno, más tóxico para el corazón.",s:"cocaina"},
+{q:"La codeína de los jarabes para la tos es un opioide.",v:true,e:"Verdadero. El cuerpo la convierte en morfina. Con alcohol o benzodiacepinas deprime la respiración, y tomada seguido produce dependencia, igual que el tramadol.",s:"opioides"},
+{q:"Alguien muy borracho que respira muy lento o tiene los labios azulados solo necesita dormir.",v:false,e:"Falso. Respirar menos de 8 veces por minuto o tener los labios azulados es una intoxicación grave: llamar al 131, ponerla de lado y no dejarla sola. Así es como la gente se ahoga 'durmiendo la mona'.",s:"alcohol"},
+{q:"Los parches y chicles de nicotina son tan dañinos como fumar.",v:false,e:"Falso. Entregan nicotina sin el humo, que es lo que más daña. Se compran sin receta y aumentan en alrededor de la mitad las probabilidades de dejar el tabaco.",s:"tabaco"}
+);

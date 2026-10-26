@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-26-contenido", titulo:"Cuatro preguntas, dos mitos y una frase de la voz", cambios:[
+    "Cuatro preguntas nuevas de verdadero o falso: si la cocaína quita la borrachera, qué es la codeína de los jarabes, cuándo alguien muy borracho necesita el 131 y no dormir, y si los parches y chicles de nicotina dañan como fumar.",
+    "Dos mitos nuevos en la guía: la cocaína no quita la borrachera ni permite manejar, y la codeína es un opioide como el tramadol.",
+    "La voz tiene una frase más: \"Estoy con rabia, ya no me importa nada\", con su respuesta."
+  ]},
   {id:"2026-10-25-mati-por-dentro", titulo:"Mati por dentro", cambios:[
     "En Saber hay una sección nueva: Mati, el personaje de la historia, en pixeles. Eliges una sustancia y ves lo que se siente por un rato, lo que le cobra al cuerpo (con los órganos marcados), las mezclas y cuándo llamar al 131.",
     "Si eliges dos sustancias, Mati muestra qué pasa al juntarlas, con el nivel de riesgo de la tabla abierta de TripSit y lo que dicen las fichas de la guía.",
