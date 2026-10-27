@@ -165,3 +165,11 @@ window.PREGUNTAS.push(
 {q:"Alguien muy borracho que respira muy lento o tiene los labios azulados solo necesita dormir.",v:false,e:"Falso. Respirar menos de 8 veces por minuto o tener los labios azulados es una intoxicación grave: llamar al 131, ponerla de lado y no dejarla sola. Así es como la gente se ahoga 'durmiendo la mona'.",s:"alcohol"},
 {q:"Los parches y chicles de nicotina son tan dañinos como fumar.",v:false,e:"Falso. Entregan nicotina sin el humo, que es lo que más daña. Se compran sin receta y aumentan en alrededor de la mitad las probabilidades de dejar el tabaco.",s:"tabaco"}
 );
+
+/* Preguntas agregadas el 27 de octubre de 2026. Salen de las fichas de tusi y ketamina de la guía de sustancias. */
+window.PREGUNTAS.push(
+{q:"Si el tusi te lo vende alguien de confianza, siempre trae lo mismo.",v:false,e:"Falso. Ni quien lo vende sabe qué trae: se mezcla antes de llegar a sus manos, y los análisis muestran proporciones distintas bajo el mismo nombre. La confianza en la persona no dice nada de lo que hay en la bolsa.",s:"tusi"},
+{q:"Con tusi, la misma cantidad puede ser suave una vez y peligrosa la siguiente.",v:true,e:"Verdadero. La mezcla (ketamina, MDMA, cafeína y lo que traiga esa bolsa) cambia de una vez a otra, así que 'conocer tu dosis' no existe. Si alguien se pone mal, 131 y decir que fue tusi.",s:"tusi"},
+{q:"Tomar alcohol con tusi no agrega riesgo, porque el tusi es suave.",v:false,e:"Falso. El tusi suele traer ketamina, y ketamina con alcohol es una de las combinaciones más riesgosas de la noche: deprime la respiración y aumenta el riesgo de ahogarse con el vómito.",s:"tusi"},
+{q:"Usar ketamina a solas en casa quita el riesgo del 'k-hole'.",v:false,e:"Falso. El riesgo del 'k-hole' es no responder: vomitar y ahogarse, quemarse o ahogarse en la tina sin sentir nada. Estar en casa no lo quita; estar a solas o en el agua lo agrava.",s:"ketamina"}
+);

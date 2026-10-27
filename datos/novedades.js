@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-27-contenido", titulo:"Más preguntas sobre tusi y ketamina, dos mitos y una frase de la voz", cambios:[
+    "Cuatro preguntas nuevas de verdadero o falso: si el tusi de alguien de confianza trae siempre lo mismo, por qué la misma cantidad puede ser suave una vez y peligrosa la siguiente, qué pasa al juntarlo con alcohol, y si usar ketamina a solas en casa quita el riesgo del 'k-hole'.",
+    "Dos mitos nuevos en la guía: manejar después de fumar marihuana sí es peligroso, y las benzodiacepinas compradas sin receta pueden ser falsificadas.",
+    "La voz tiene una frase más: \"Me están ofreciendo, queda mal decir que no\", con su respuesta."
+  ]},
   {id:"2026-10-26-contenido", titulo:"Cuatro preguntas, dos mitos y una frase de la voz", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: si la cocaína quita la borrachera, qué es la codeína de los jarabes, cuándo alguien muy borracho necesita el 131 y no dormir, y si los parches y chicles de nicotina dañan como fumar.",
     "Dos mitos nuevos en la guía: la cocaína no quita la borrachera ni permite manejar, y la codeína es un opioide como el tramadol.",

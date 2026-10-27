@@ -26,3 +26,8 @@ window.VOZ=[
  {f:"Estoy demasiado ansioso, necesito algo para calmarme.",r:"Lo que calma ahora cobra el doble después: el bajón trae más ansiedad que la que tapó, y la próxima vez pide más. La ansiedad sube y baja como las ganas. Respira 4-7-8 en el Modo ganas, toma agua, camina diez minutos. Si hace días que no te deja en paz, eso tiene ayuda de verdad: el 1412 o tu consultorio."},
  {f:"Estoy con rabia, ya no me importa nada.",r:"La rabia es de las ganas más traicioneras: consumir con rabia no se la cobra a nadie más que a ti, y mañana el problema sigue ahí, con bajón encima. La rabia también sube y baja sola. Primero el cuerpo: agua, caminar, respirar; no decidas nada en caliente. Si fue por una pelea, abre Después de una discusión."}
 ];
+
+/* Frase agregada el 27 de octubre de 2026: cuando la voz usa la presión social como excusa. */
+window.VOZ.push(
+ {f:"Me están ofreciendo, queda mal decir que no.",r:"Un 'no, gracias' alcanza; no le debes explicaciones a nadie. Quien insiste después de un no no está cuidándote, está cuidando su propia noche. Si tener la respuesta lista te cuesta, decídela antes de salir (en Noche está 'Antes de salir'), y recuerda que siempre puedes irte."}
+);
