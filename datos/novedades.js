@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-04-lo-que-buscaba-afuera", titulo:"Lo que buscabas afuera", cambios:[
+    "La voz tiene una frase más: \"Necesito ver a esa persona, solo ella me entiende\", con su respuesta.",
+    "En Poner límites hay una situación nueva: \"Me busca alguien que me hace mal\", con frases cortas para responder.",
+    "Una historia nueva en Cuenta tu historia: \"Lo que buscaba afuera\"."
+  ]},
   {id:"2026-11-04-botones", titulo:"Botones con más vida", cambios:[
     "En modo oscuro, los botones se distinguen mejor de las tarjetas y se ven más fáciles de tocar.",
     "Los atajos Respirar, Un rato contigo y Después de una discusión llevan el azul de las pantallas que abren.",

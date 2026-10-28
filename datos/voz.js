@@ -61,3 +61,8 @@ window.VOZ.push(
 window.VOZ.push(
  {f:"Esto es otra cosa, no es lo que estoy dejando.",r:"Cambiar una sustancia por otra suele terminar en las dos: el cerebro aprende el mismo atajo (me siento mal, tomo algo) y el lugar y la gente son los mismos. El alcohol, además, baja el freno justo para lo que estás dejando. Lo que necesitas no es otra cosa: es que pase el rato. 15 minutos de reloj, agua, y salir a caminar."}
 );
+
+/* Frase agregada el 4 de noviembre de 2026 (idea del dueño): cuando la voz manda a buscar a alguien que hace mal. */
+window.VOZ.push(
+ {f:"Necesito ver a esa persona, solo ella me entiende.",r:"Las ganas también se disfrazan de personas: alguien con quien siempre terminas consumiendo, o que te deja peor de lo que estabas. Esa persona no te va a dar la calma que buscas; te va a llevar de vuelta al mismo lugar. Lo que te ha sostenido hasta hoy no estaba en ella: estaba en ti. Tu mente es más fuerte de lo que crees: puede aguantar esta ola sin nadie que te tire para abajo. Escríbele a alguien que te haga bien, o escribe lo que le dirías en una carta que no se envía, y deja que la ola baje."}
+);
