@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-28-lo-que-buscaba-afuera", titulo:"Lo que buscabas afuera", cambios:[
+    "La voz tiene una frase más: \"Necesito ver a esa persona, solo ella me entiende\", con su respuesta.",
+    "En Poner límites hay una situación nueva: \"Me busca alguien que me hace mal\", con frases cortas para responder.",
+    "Una historia nueva en Cuenta tu historia: \"Lo que buscaba afuera\"."
+  ]},
   {id:"2026-10-28-contenido", titulo:"Cuatro preguntas, dos mitos y una frase de la voz", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: por qué volver a la cantidad de antes tras semanas sin opioides puede ser mortal, si las bebidas energéticas bajan la borrachera, si los cigarros 'light' dañan menos, y si dejar suele salir al primer intento.",
     "Dos mitos nuevos en la guía: el MDMA 'puro' trae sus propios riesgos, y el daño en la vejiga por ketamina no es solo de quien la usa a diario.",
