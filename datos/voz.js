@@ -31,3 +31,8 @@ window.VOZ=[
 window.VOZ.push(
  {f:"Me están ofreciendo, queda mal decir que no.",r:"Un 'no, gracias' alcanza; no le debes explicaciones a nadie. Quien insiste después de un no no está cuidándote, está cuidando su propia noche. Si tener la respuesta lista te cuesta, decídela antes de salir (en Noche está 'Antes de salir'), y recuerda que siempre puedes irte."}
 );
+
+/* Frase agregada el 28 de octubre de 2026: cuando la voz convence de que hay que poder a solas. */
+window.VOZ.push(
+ {f:"Nadie me puede ayudar con esto, tengo que poder solo.",r:"Hacerlo a solas es justo lo que la adicción prefiere: sin nadie que mire, convence más fácil. Pedir ayuda no es debilidad, es lo que más funciona: una persona de confianza, un grupo o el 1412 (gratis, anónimo, las 24 horas). No tienes que poder solo; tienes que poder acompañado."}
+);

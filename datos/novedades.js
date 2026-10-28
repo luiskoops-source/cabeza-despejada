@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-28-contenido", titulo:"Cuatro preguntas, dos mitos y una frase de la voz", cambios:[
+    "Cuatro preguntas nuevas de verdadero o falso: por qué volver a la cantidad de antes tras semanas sin opioides puede ser mortal, si las bebidas energéticas bajan la borrachera, si los cigarros 'light' dañan menos, y si dejar suele salir al primer intento.",
+    "Dos mitos nuevos en la guía: el MDMA 'puro' trae sus propios riesgos, y el daño en la vejiga por ketamina no es solo de quien la usa a diario.",
+    "La voz tiene una frase más: \"Nadie me puede ayudar con esto, tengo que poder solo\", con su respuesta."
+  ]},
   {id:"2026-10-27-contenido", titulo:"Más preguntas sobre tusi y ketamina, dos mitos y una frase de la voz", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: si el tusi de alguien de confianza trae siempre lo mismo, por qué la misma cantidad puede ser suave una vez y peligrosa la siguiente, qué pasa al juntarlo con alcohol, y si usar ketamina a solas en casa quita el riesgo del 'k-hole'.",
     "Dos mitos nuevos en la guía: manejar después de fumar marihuana sí es peligroso, y las benzodiacepinas compradas sin receta pueden ser falsificadas.",

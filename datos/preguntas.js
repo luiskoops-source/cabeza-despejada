@@ -173,3 +173,11 @@ window.PREGUNTAS.push(
 {q:"Tomar alcohol con tusi no agrega riesgo, porque el tusi es suave.",v:false,e:"Falso. El tusi suele traer ketamina, y ketamina con alcohol es una de las combinaciones más riesgosas de la noche: deprime la respiración y aumenta el riesgo de ahogarse con el vómito.",s:"tusi"},
 {q:"Usar ketamina a solas en casa quita el riesgo del 'k-hole'.",v:false,e:"Falso. El riesgo del 'k-hole' es no responder: vomitar y ahogarse, quemarse o ahogarse en la tina sin sentir nada. Estar en casa no lo quita; estar a solas o en el agua lo agrava.",s:"ketamina"}
 );
+
+/* Preguntas agregadas el 28 de octubre de 2026. Salen de la tolerancia (Señales), de las mezclas y los mitos de la guía, y de lo que se sabe sobre dejar. */
+window.PREGUNTAS.push(
+{q:"Después de semanas sin usar opioides, volver a la cantidad de antes es seguro porque el cuerpo 'se acuerda'.",v:false,e:"Falso. Es al revés: en pocas semanas sin usar, la tolerancia baja, y la cantidad que antes 'no hacía nada' puede detener la respiración. Las semanas después de una desintoxicación o de un tiempo sin consumir son las de más muertes por sobredosis. Si alguien así no despierta o respira muy lento: naloxona si hay y 131.",s:"opioides"},
+{q:"Mezclar alcohol con bebidas energéticas hace que la borrachera sea menor.",v:false,e:"Falso. La cafeína tapa el sueño y la torpeza, pero el alcohol en la sangre es el mismo. La persona se siente menos borracha de lo que está, bebe más y se arriesga más: manejar, peleas, lagunas.",s:"alcohol"},
+{q:"Los cigarros 'light' o 'suaves' dañan menos que los normales.",v:false,e:"Falso. Quien los fuma aspira más hondo o fuma más para conseguir la misma nicotina, y el humo trae los mismos tóxicos. No existe un cigarro seguro. Lo que sí reduce el daño es dejar de fumar, con parches o chicles si hace falta.",s:"tabaco"},
+{q:"La mayoría de las personas deja una sustancia al primer intento.",v:false,e:"Falso. Lo normal son varios intentos, y cada uno enseña qué gatilló la recaída y qué sirvió. Un intento que no resultó no es un fracaso: es información para el siguiente. Por eso la app guarda tu racha más larga y lo que aprendiste.",s:"general"}
+);
