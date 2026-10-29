@@ -40,7 +40,7 @@ window.ACTUALIDAD=[
 
 /* Comunidades y servicios activos. Sin fechas: se revisan cada tanto para confirmar que siguen funcionando. */
 /* Fecha de la última revisión de los enlaces. La tarea nocturna la actualiza cada vez que revisa la lista. */
-window.COMUNIDADES_REVISADO="2026-10-16";
+window.COMUNIDADES_REVISADO="2026-10-29";
 window.COMUNIDADES=[
 {nombre:"Chat 1412 de SENDA",que:"Consejería por chat, gratuita y anónima, también fines de semana de 8:00 a 20:00. Complementa al fono 1412, que atiende 24 horas.",enlace:"https://www.senda.gob.cl"},
 {nombre:"r/StopSpeeding",que:"Comunidad en inglés para dejar estimulantes (cocaína, anfetaminas, metanfetamina). Muy activa: gente contando sus días limpios, recaídas y qué les sirvió.",enlace:"https://www.reddit.com/r/StopSpeeding/"},
@@ -48,6 +48,7 @@ window.COMUNIDADES=[
 {nombre:"r/Adicciones",que:"Comunidad en español, más pequeña, con gente de Chile y Latinoamérica.",enlace:"https://www.reddit.com/r/Adicciones/"},
 {nombre:"Narcóticos Anónimos",que:"Reuniones gratuitas y anónimas, presenciales y por videollamada. El buscador lleva a los grupos de cada país y a las reuniones virtuales. No hay que inscribirse.",enlace:"https://www.na.org/meetingsearch/"},
 {nombre:"Alcohólicos Anónimos",que:"Reuniones gratuitas y anónimas para dejar el alcohol, presenciales y en línea. El buscador oficial en español lleva a los grupos de cada país. No hay que inscribirse ni dar el nombre.",enlace:"https://www.aa.org/es/find-aa/world"},
+{nombre:"Al-Anon en español",que:"Para familiares y amigos de alguien que bebe: si en tu casa hay alguien con problemas de alcohol, esto es para ti, no para quien bebe. Reuniones gratuitas y anónimas, presenciales, por teléfono y en línea; el buscador está en español, y Alateen es la versión para adolescentes.",enlace:"https://al-anon.org/es/reuniones-de-al-anon/"},
 {nombre:"SMART Recovery en español",que:"Alternativa a los 12 pasos, basada en herramientas prácticas. Reuniones por Zoom en español, organizadas desde España.",enlace:"https://smartrecovery.org.es"},
 {nombre:"DanceSafe",que:"Organización de reducción de daños (EE.UU.). Fichas por sustancia y kits de prueba para saber qué contiene algo.",enlace:"https://dancesafe.org/drug-information/"},
 {nombre:"Échele Cabeza (Colombia)",que:"Programa colombiano que analiza sustancias en fiestas y publica alertas sobre lo que realmente contienen (incluido el tusi).",enlace:"https://www.echelecabeza.com"},
