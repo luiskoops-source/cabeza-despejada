@@ -181,3 +181,11 @@ window.PREGUNTAS.push(
 {q:"Los cigarros 'light' o 'suaves' dañan menos que los normales.",v:false,e:"Falso. Quien los fuma aspira más hondo o fuma más para conseguir la misma nicotina, y el humo trae los mismos tóxicos. No existe un cigarro seguro. Lo que sí reduce el daño es dejar de fumar, con parches o chicles si hace falta.",s:"tabaco"},
 {q:"La mayoría de las personas deja una sustancia al primer intento.",v:false,e:"Falso. Lo normal son varios intentos, y cada uno enseña qué gatilló la recaída y qué sirvió. Un intento que no resultó no es un fracaso: es información para el siguiente. Por eso la app guarda tu racha más larga y lo que aprendiste.",s:"general"}
 );
+
+/* Preguntas agregadas el 29 de octubre de 2026. Salen de las mezclas y los daños de la guía de sustancias y de lo que dicen DanceSafe y la OMS sobre los kits de prueba y el alcohol. */
+window.PREGUNTAS.push(
+{q:"Mezclar un opioide (tramadol, heroína) con cocaína equilibra los efectos: una sube y la otra baja.",v:false,e:"Falso. No se anulan: la cocaína tapa la respiración lenta del opioide, y como su efecto se pasa antes, el opioide sigue actuando solo cuando la persona ya se siente 'bien'. Es una de las mezclas con más sobredosis. Si alguien así no despierta o respira muy lento: naloxona si hay y 131.",s:"opioides"},
+{q:"Un kit de reactivos (como los de DanceSafe) dice si una pastilla es segura.",v:false,e:"Falso. Dice si cierta sustancia está presente, no cuánta hay ni todo lo que trae la pastilla. Sirve para descartar lo peor, no para dar por seguro algo. Y los tests rápidos no detectan todas las variantes de opioides sintéticos como los nitazenos.",s:"mdma"},
+{q:"Con la misma cantidad de alcohol, hombres y mujeres llegan al mismo nivel en la sangre.",v:false,e:"Falso. En promedio, con la misma cantidad una mujer llega a un nivel más alto: el cuerpo tiene menos agua para diluirlo y menos de la enzima que lo procesa en el estómago. Por eso el daño al hígado y la dependencia pueden llegar con menos consumo.",s:"alcohol"},
+{q:"La cocaína aumenta el riesgo de un ataque cerebral (ACV), incluso en personas jóvenes.",v:true,e:"Verdadero. Sube la presión de golpe y aprieta las arterias, también las del cerebro. Un lado de la cara caído, un brazo débil o hablar raro después de consumir son para llamar al 131 de inmediato, sin esperar a ver si pasa.",s:"cocaina"}
+);

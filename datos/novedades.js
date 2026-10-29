@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-29-contenido", titulo:"Cuatro preguntas, dos mitos y una frase de la voz", cambios:[
+    "Cuatro preguntas nuevas de verdadero o falso: por qué mezclar un opioide con cocaína no 'equilibra' nada, qué dice y qué no dice un kit de reactivos, por qué la misma cantidad de alcohol no pega igual a hombres y mujeres, y si la cocaína puede causar un ataque cerebral en gente joven.",
+    "Dos mitos nuevos en la guía: la cocaína y los opioides no se compensan, y el miedo a engordar no es razón para seguir fumando.",
+    "La voz tiene una frase más: \"Solo voy a terminar lo que queda, así no lo tengo más en la casa\", con su respuesta."
+  ]},
   {id:"2026-10-28-contenido", titulo:"Cuatro preguntas, dos mitos y una frase de la voz", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: por qué volver a la cantidad de antes tras semanas sin opioides puede ser mortal, si las bebidas energéticas bajan la borrachera, si los cigarros 'light' dañan menos, y si dejar suele salir al primer intento.",
     "Dos mitos nuevos en la guía: el MDMA 'puro' trae sus propios riesgos, y el daño en la vejiga por ketamina no es solo de quien la usa a diario.",

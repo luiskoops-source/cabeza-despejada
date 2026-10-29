@@ -36,3 +36,8 @@ window.VOZ.push(
 window.VOZ.push(
  {f:"Nadie me puede ayudar con esto, tengo que poder solo.",r:"Hacerlo a solas es justo lo que la adicción prefiere: sin nadie que mire, convence más fácil. Pedir ayuda no es debilidad, es lo que más funciona: una persona de confianza, un grupo o el 1412 (gratis, anónimo, las 24 horas). No tienes que poder solo; tienes que poder acompañado."}
 );
+
+/* Frase agregada el 29 de octubre de 2026: cuando la voz usa lo que sobra en la casa como excusa. */
+window.VOZ.push(
+ {f:"Solo voy a terminar lo que queda, así no lo tengo más en la casa.",r:"Terminarlo no te libra de la sustancia: te mete una noche más de consumo, y mañana la voz dirá 'ya que no queda, compro'. Lo que sobra se bota ahora, no después de usarlo. Deshacerte de lo que hay en la casa es la decisión que más protege tu próxima semana, y la puedes tomar en el próximo minuto."}
+);
