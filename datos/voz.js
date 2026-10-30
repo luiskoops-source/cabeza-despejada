@@ -41,3 +41,8 @@ window.VOZ.push(
 window.VOZ.push(
  {f:"Solo voy a terminar lo que queda, así no lo tengo más en la casa.",r:"Terminarlo no te libra de la sustancia: te mete una noche más de consumo, y mañana la voz dirá 'ya que no queda, compro'. Lo que sobra se bota ahora, no después de usarlo. Deshacerte de lo que hay en la casa es la decisión que más protege tu próxima semana, y la puedes tomar en el próximo minuto."}
 );
+
+/* Frase agregada el 30 de octubre de 2026: cuando la voz usa el día de pago como excusa. */
+window.VOZ.push(
+ {f:"Hoy me pagaron, tengo plata.",r:"El día de pago es la hora difícil de mucha gente: la plata en la cuenta es una de las señales que el cerebro guardó junto con la sustancia, y se enciende sola. Decide ahora, antes de que la voz suba: paga lo que debes, pasa lo que puedas a donde no la saques fácil y sal con lo justo. La plata que no gastas hoy mañana aparece en tus 'no gastados', y eso también se siente."}
+);

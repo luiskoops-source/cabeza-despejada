@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-30-contenido", titulo:"Cuatro preguntas, dos mitos y una frase de la voz", cambios:[
+    "Cuatro preguntas nuevas de verdadero o falso: si el alcohol calienta en una noche fría, qué pasa con los comestibles de marihuana cuando 'no hacen nada', si las pastillas de farmacia pueden causar una sobredosis de opioides, y si vomitar saca el alcohol de la sangre.",
+    "Dos mitos nuevos en la guía: el trago que 'calienta' en el frío (alcohol) y los comestibles que parecen más suaves (marihuana).",
+    "La voz tiene una frase más: \"Hoy me pagaron, tengo plata\", con su respuesta."
+  ]},
   {id:"2026-10-29-contenido", titulo:"Cuatro preguntas, dos mitos y una frase de la voz", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: por qué mezclar un opioide con cocaína no 'equilibra' nada, qué dice y qué no dice un kit de reactivos, por qué la misma cantidad de alcohol no pega igual a hombres y mujeres, y si la cocaína puede causar un ataque cerebral en gente joven.",
     "Dos mitos nuevos en la guía: la cocaína y los opioides no se compensan, y el miedo a engordar no es razón para seguir fumando.",

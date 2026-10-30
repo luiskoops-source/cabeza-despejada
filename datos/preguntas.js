@@ -189,3 +189,11 @@ window.PREGUNTAS.push(
 {q:"Con la misma cantidad de alcohol, hombres y mujeres llegan al mismo nivel en la sangre.",v:false,e:"Falso. En promedio, con la misma cantidad una mujer llega a un nivel más alto: el cuerpo tiene menos agua para diluirlo y menos de la enzima que lo procesa en el estómago. Por eso el daño al hígado y la dependencia pueden llegar con menos consumo.",s:"alcohol"},
 {q:"La cocaína aumenta el riesgo de un ataque cerebral (ACV), incluso en personas jóvenes.",v:true,e:"Verdadero. Sube la presión de golpe y aprieta las arterias, también las del cerebro. Un lado de la cara caído, un brazo débil o hablar raro después de consumir son para llamar al 131 de inmediato, sin esperar a ver si pasa.",s:"cocaina"}
 );
+
+/* Preguntas agregadas el 30 de octubre de 2026. Salen de las emergencias y los mitos de la guía de sustancias (alcohol, marihuana, opioides). */
+window.PREGUNTAS.push(
+{q:"Tomar alcohol ayuda a mantener el cuerpo caliente en una noche fría.",v:false,e:"Falso. Abre los vasos de la piel y da sensación de calor, pero así el cuerpo pierde calor más rápido y la persona deja de notar el frío. Quedarse dormido afuera después de beber es una de las formas en que la gente muere de hipotermia.",s:"alcohol"},
+{q:"Con marihuana comida (brownies, gomitas), si a los 30 minutos no sientes nada es porque venía floja.",v:false,e:"Falso. Por boca el efecto tarda entre 30 minutos y 2 horas en empezar, y es más fuerte y más largo que fumado. Repetir 'porque no hizo nada' es la causa más común de crisis de pánico y vómitos por comestibles en urgencias.",s:"marihuana"},
+{q:"Las sobredosis de opioides solo pasan con heroína o fentanilo, no con pastillas de farmacia.",v:false,e:"Falso. Tramadol, codeína, morfina y oxicodona bajan la respiración igual, sobre todo con alcohol o benzodiacepinas, o al volver a usar después de semanas sin hacerlo. Respiración muy lenta, labios azulados o no despierta: naloxona si hay y 131.",s:"opioides"},
+{q:"Vomitar después de beber saca el alcohol de la sangre.",v:false,e:"Falso. Solo saca lo que todavía está en el estómago; lo que ya pasó a la sangre sigue ahí y el hígado lo procesa a su ritmo. Provocarse el vómito borracho suma el riesgo de ahogarse. Si alguien vomita y no responde: de lado y 131.",s:"alcohol"}
+);
