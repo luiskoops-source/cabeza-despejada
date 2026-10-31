@@ -197,3 +197,11 @@ window.PREGUNTAS.push(
 {q:"Las sobredosis de opioides solo pasan con heroína o fentanilo, no con pastillas de farmacia.",v:false,e:"Falso. Tramadol, codeína, morfina y oxicodona bajan la respiración igual, sobre todo con alcohol o benzodiacepinas, o al volver a usar después de semanas sin hacerlo. Respiración muy lenta, labios azulados o no despierta: naloxona si hay y 131.",s:"opioides"},
 {q:"Vomitar después de beber saca el alcohol de la sangre.",v:false,e:"Falso. Solo saca lo que todavía está en el estómago; lo que ya pasó a la sangre sigue ahí y el hígado lo procesa a su ritmo. Provocarse el vómito borracho suma el riesgo de ahogarse. Si alguien vomita y no responde: de lado y 131.",s:"alcohol"}
 );
+
+/* Preguntas agregadas el 31 de octubre de 2026. Salen de la guía de sustancias (alcohol, pasta base, anfetaminas) y de cómo funcionan las ganas con el tiempo. */
+window.PREGUNTAS.push(
+{q:"El alcohol mejora el sueño porque ayuda a quedarse dormido.",v:false,e:"Falso. Ayuda a dormirse, pero la segunda mitad de la noche es peor: el sueño se corta, hay menos sueño profundo y se despierta más cansado. Por eso quien bebe para dormir termina durmiendo peor y bebiendo más.",s:"alcohol"},
+{q:"Con pasta base, la angustia que aparece a los minutos de fumar es señal de que el cuerpo necesita otra.",v:false,e:"Falso. Esa angustia es el bajón de la pasta base: dura minutos y es justo lo que empuja a repetir. Si no se fuma de nuevo, pasa sola; con otra, vuelve en minutos y más fuerte. Salir del lugar y tomar agua ayudan a que pase.",s:"pasta-base"},
+{q:"La metanfetamina puede provocar un ataque cerebral (ACV) en personas jóvenes.",v:true,e:"Verdadero. Sube la presión de golpe y daña las arterias, también las del cerebro, y el riesgo crece con los días sin dormir. Un lado de la cara caído, un brazo débil o hablar raro después de consumir: 131 de inmediato.",s:"anfetaminas"},
+{q:"Si meses después de dejar aparecen ganas fuertes de repente, es que la recuperación fracasó.",v:false,e:"Falso. Las ganas pueden volver de golpe mucho tiempo después, casi siempre por una señal que el cerebro guardó: un lugar, una fecha, una canción, plata en la cuenta. Es normal y no borra nada. Pasan igual que al principio: suben, llegan a un máximo y bajan en 15 a 30 minutos.",s:"general"}
+);

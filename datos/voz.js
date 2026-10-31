@@ -46,3 +46,8 @@ window.VOZ.push(
 window.VOZ.push(
  {f:"Hoy me pagaron, tengo plata.",r:"El día de pago es la hora difícil de mucha gente: la plata en la cuenta es una de las señales que el cerebro guardó junto con la sustancia, y se enciende sola. Decide ahora, antes de que la voz suba: paga lo que debes, pasa lo que puedas a donde no la saques fácil y sal con lo justo. La plata que no gastas hoy mañana aparece en tus 'no gastados', y eso también se siente."}
 );
+
+/* Frase agregada el 31 de octubre de 2026: cuando la voz usa la pena como excusa. */
+window.VOZ.push(
+ {f:"Estoy bajoneado, necesito algo que me levante.",r:"Lo que levanta ahora es prestado: el bajón de después deja el ánimo más abajo de donde partió, y la próxima vez pide más. La pena también pasa, aunque más lento que las ganas. Escríbele a alguien, sal a caminar, come algo caliente. Si la tristeza lleva semanas y no te suelta, eso tiene ayuda de verdad: el 1412 o tu consultorio. Y si aparecen ideas de hacerte daño, no esperes: llama al 131."}
+);

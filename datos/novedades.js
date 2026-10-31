@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-10-31-contenido", titulo:"Cuatro preguntas, dos mitos y una frase de la voz", cambios:[
+    "Cuatro preguntas nuevas de verdadero o falso: si el alcohol mejora el sueño, qué es la angustia que llega minutos después de fumar pasta base, si la metanfetamina puede causar un ataque cerebral en gente joven, y qué significan las ganas que vuelven de golpe meses después de dejar.",
+    "Dos mitos nuevos en la guía: la paranoia por metanfetamina no siempre se pasa al dejarla (anfetaminas) y el tusi sí engancha aunque sea 'de fiesta'.",
+    "La voz tiene una frase más: \"Estoy bajoneado, necesito algo que me levante\", con su respuesta."
+  ]},
   {id:"2026-10-30-contenido", titulo:"Cuatro preguntas, dos mitos y una frase de la voz", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: si el alcohol calienta en una noche fría, qué pasa con los comestibles de marihuana cuando 'no hacen nada', si las pastillas de farmacia pueden causar una sobredosis de opioides, y si vomitar saca el alcohol de la sangre.",
     "Dos mitos nuevos en la guía: el trago que 'calienta' en el frío (alcohol) y los comestibles que parecen más suaves (marihuana).",
