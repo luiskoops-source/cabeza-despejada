@@ -51,3 +51,8 @@ window.VOZ.push(
 window.VOZ.push(
  {f:"Estoy bajoneado, necesito algo que me levante.",r:"Lo que levanta ahora es prestado: el bajón de después deja el ánimo más abajo de donde partió, y la próxima vez pide más. La pena también pasa, aunque más lento que las ganas. Escríbele a alguien, sal a caminar, come algo caliente. Si la tristeza lleva semanas y no te suelta, eso tiene ayuda de verdad: el 1412 o tu consultorio. Y si aparecen ideas de hacerte daño, no esperes: llama al 131."}
 );
+
+/* Frase agregada el 1 de noviembre de 2026: cuando la voz usa el trabajo o el estudio como excusa. */
+window.VOZ.push(
+ {f:"Tengo que terminar esto y sin algo no me concentro.",r:"La concentración que da la sustancia es una sensación, no rendimiento: lo que se hace bajo efecto se revisa mal y al otro día suele haber que rehacerlo, con bajón encima. Parte por lo más chico que puedas terminar en 20 minutos, con el celular fuera de la vista, y después otro bloque. Si llevas noches durmiendo poco, lo que te falta no es foco: es sueño, y eso ninguna sustancia lo reemplaza."}
+);

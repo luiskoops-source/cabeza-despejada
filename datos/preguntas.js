@@ -205,3 +205,11 @@ window.PREGUNTAS.push(
 {q:"La metanfetamina puede provocar un ataque cerebral (ACV) en personas jóvenes.",v:true,e:"Verdadero. Sube la presión de golpe y daña las arterias, también las del cerebro, y el riesgo crece con los días sin dormir. Un lado de la cara caído, un brazo débil o hablar raro después de consumir: 131 de inmediato.",s:"anfetaminas"},
 {q:"Si meses después de dejar aparecen ganas fuertes de repente, es que la recuperación fracasó.",v:false,e:"Falso. Las ganas pueden volver de golpe mucho tiempo después, casi siempre por una señal que el cerebro guardó: un lugar, una fecha, una canción, plata en la cuenta. Es normal y no borra nada. Pasan igual que al principio: suben, llegan a un máximo y bajan en 15 a 30 minutos.",s:"general"}
 );
+
+/* Preguntas agregadas el 1 de noviembre de 2026. Salen de la guía de sustancias (MDMA, tusi, pasta base, anfetaminas). */
+window.PREGUNTAS.push(
+{q:"Mezclar MDMA con tramadol aumenta el riesgo de un síndrome serotoninérgico, igual que con los antidepresivos.",v:true,e:"Verdadero. El tramadol también sube la serotonina. Juntos pueden provocar temperatura muy alta, rigidez, confusión y convulsiones: es una emergencia, 131. Vale para el MDMA y para el tusi, que suele traerlo.",s:"mdma"},
+{q:"Como el tusi se usa de vez en cuando, no puede dañar la vejiga.",v:false,e:"Falso. Lo que se vende como tusi suele traer ketamina, y el daño a la vejiga aparece con el uso repetido aunque sea de fin de semana. Orinar muy seguido o con urgencia es la primera señal: parar y consultar a tiempo permite recuperarla.",s:"tusi"},
+{q:"Dejar la pasta base de golpe es tan peligroso para el cuerpo como dejar el alcohol de golpe.",v:false,e:"Falso. La abstinencia de pasta base es muy dura en lo psicológico (angustia, ganas, sueño desordenado), pero no causa convulsiones ni requiere desintoxicación médica como el alcohol. Lo que sí ayuda es no pasarla a solas: el 1412 y el tratamiento gratuito de SENDA.",s:"pasta-base"},
+{q:"Después de dejar la metanfetamina, dormir muchas horas y tener mucha hambre la primera semana es señal de que algo anda mal.",v:false,e:"Falso. Es lo esperable: el cuerpo recupera el sueño y la comida que la sustancia le quitó. Dormir y comer son el tratamiento de esa semana. Lo que sí pide ayuda es un ánimo muy bajo que no mejora o ideas de hacerse daño: 1412 o 131.",s:"anfetaminas"}
+);

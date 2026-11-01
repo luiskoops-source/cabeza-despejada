@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-01-contenido", titulo:"Cuatro preguntas, un mito y una frase de la voz", cambios:[
+    "Cuatro preguntas nuevas de verdadero o falso: el tramadol con MDMA, si el tusi de vez en cuando puede dañar la vejiga, si dejar la pasta base de golpe es peligroso como dejar el alcohol, y qué significa dormir y comer mucho la primera semana sin metanfetamina.",
+    "Un mito nuevo en la guía de pasta base: 'solo los fines de semana no engancha'.",
+    "La voz tiene una frase más: \"Tengo que terminar esto y sin algo no me concentro\", con su respuesta."
+  ]},
   {id:"2026-10-31-contenido", titulo:"Cuatro preguntas, dos mitos y una frase de la voz", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: si el alcohol mejora el sueño, qué es la angustia que llega minutos después de fumar pasta base, si la metanfetamina puede causar un ataque cerebral en gente joven, y qué significan las ganas que vuelven de golpe meses después de dejar.",
     "Dos mitos nuevos en la guía: la paranoia por metanfetamina no siempre se pasa al dejarla (anfetaminas) y el tusi sí engancha aunque sea 'de fiesta'.",
