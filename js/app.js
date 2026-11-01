@@ -198,8 +198,9 @@ const VOLVER=[
   {id:"comer",t:"Comer algo y tomar agua",por:"Después de consumir el cuerpo queda deshidratado y con el azúcar baja."},
   {id:"noseguir",t:"No seguir ni mezclar con alcohol",por:"Las primeras horas son cuando la cabeza más empuja a terminar lo que queda."},
   {id:"contacto",t:"Borrar o bloquear el contacto",por:"Alejar la señal es lo que más ayuda los días siguientes."},
-  {id:"hablar",t:"Hablar con alguien o llamar al 1412",por:"Es gratis y anónimo. Contarlo le quita fuerza a la culpa."},
+  {id:"hablar",t:"Hablar con alguien o llamar al 1412",por:"Es gratis y anónimo. Contarlo le quita fuerza a la culpa. Si aparecen ideas de hacerte daño, el *4141 atiende a toda hora."},
   {id:"separar",t:"Si hiciste algo que te avergüenza, separar lo que hiciste de quién eres",por:"La vergüenza a solas empuja a volver a consumir. Mira el hecho y qué puedes reparar, sin convertirlo en una sentencia sobre ti."},
+  {id:"bajon",t:"Si sientes que nunca vas a salir, recordar que es el bajón",por:"Después de días sin dormir, la cabeza queda sin lo que necesita para sentirse bien y todo se ve definitivo. No es la verdad sobre ti. Si antes estuviste limpio, eso sigue siendo tuyo."},
   {id:"anotar",t:"Anotar en Registro qué pasó antes",por:"No para culparte: para reconocer la señal la próxima vez."}
 ];
 function renderVolver(d){
