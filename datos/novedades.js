@@ -2,6 +2,10 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-02-buena-del-dia", titulo:"Mensaje del día y buenas noticias", cambios:[
+    "En Hoy hay una tarjeta nueva con la fecha, un mensaje lindo según el día de la semana y una buena noticia de la ciencia: \"¿Sabías que?\".",
+    "Las buenas noticias hablan de cómo el cuerpo y el cerebro se recuperan, cada una con su fuente. Cambian todos los días."
+  ]},
   {id:"2026-11-02-contenido", titulo:"Cuatro preguntas, un mito y una frase de la voz", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: pastillas falsificadas sin receta, ketamina con opioides, marihuana y psicosis en quien tiene predisposición, y qué hacer si alguien convulsiona.",
     "Un mito nuevo en la guía de ketamina: 'si tomo mucha agua no me daña la vejiga'.",

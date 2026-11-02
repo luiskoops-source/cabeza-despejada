@@ -646,3 +646,8 @@ a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;pad
 .mati-131 strong{font:800 1.8rem/1 var(--display);color:var(--bad)}
 .mati-131 .small{flex:1 1 180px}
 .mati-fuentes a{color:var(--muted)}
+
+/* Mensaje y buena noticia del día (Hoy) */
+.buena-dia .buena-mensaje{font-family:var(--display);font-size:1.15rem;font-weight:700;line-height:1.3}
+.buena-dia .buena-sabias{border-top:1px solid var(--line);padding-top:10px}
+.buena-dia .buena-titulo{font-weight:700;margin:2px 0 4px}

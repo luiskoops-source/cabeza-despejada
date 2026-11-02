@@ -136,7 +136,7 @@ function renderHoy(){
   renderHitos(d);
   renderLoQueViene(d);
   renderHistoria();
-  renderLive(); renderPledge(); renderSolo(); renderVolver(d);
+  renderLive(); renderPledge(); renderSolo(); renderBuenaDelDia(); renderVolver(d);
   checkCelebra(d);
   renderQuiz();
   renderReduccion();
@@ -144,6 +144,24 @@ function renderHoy(){
   $("welcome").hidden=!!S.day0;
   renderTour();
   $("sustName").textContent=sustActual().nombre;
+}
+
+/* ---------- Mensaje y buena noticia del día ---------- */
+/* La fecha se escribe como "Lunes 2 de noviembre". El mensaje depende del día de la semana y cambia cada semana;
+   la buena noticia avanza una por día. Todo cambia a medianoche, hora local (datos/buenas.js) */
+function renderBuenaDelDia(){
+  const ahora=new Date();
+  const dia=daysSince("2020-01-01");              /* número de días desde una fecha fija: sirve para rotar */
+  const fecha=ahora.toLocaleDateString("es-CL",{weekday:"long",day:"numeric",month:"long"}).replace(",","");
+  $("buenaFecha").textContent=fecha.charAt(0).toUpperCase()+fecha.slice(1);
+  const lista=(window.MENSAJES_DIA||{})[ahora.getDay()]||[];
+  $("buenaMensaje").textContent=lista.length?lista[Math.floor(dia/7)%lista.length]:"";
+  const B=window.BUENAS||[];
+  if(!B.length){ $("buenaDia").hidden=true; return; }
+  const b=B[dia%B.length];
+  $("buenaTitulo").textContent=b.t;
+  $("buenaTexto").textContent=b.b;
+  $("buenaFuentes").innerHTML=(b.f||[]).length?"Fuente: "+b.f.map(x=>`<a href="${esc(x.u)}" target="_blank" rel="noopener">${esc(x.n)}</a>`).join(" · "):"";
 }
 
 /* ---------- Contador en vivo (horas:minutos:segundos desde el Día 0) ---------- */

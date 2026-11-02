@@ -172,6 +172,16 @@
     </div>
   </div>
 
+  <!-- Mensaje y buena noticia del día: cambian a medianoche (datos/buenas.js, js/app.js renderBuenaDelDia) -->
+  <div class="card buena-dia" id="buenaDia">
+    <p class="eyebrow" id="buenaFecha"></p>
+    <p class="buena-mensaje" id="buenaMensaje"></p>
+    <p class="eyebrow buena-sabias">¿Sabías que?</p>
+    <p class="buena-titulo" id="buenaTitulo"></p>
+    <p class="small" id="buenaTexto"></p>
+    <p class="small muted" id="buenaFuentes"></p>
+  </div>
+
   <!-- Volver a empezar: aparece solo los 2 primeros días después de registrar un consumo -->
   <div class="card volver" id="volver" hidden>
     <!-- El mismo dibujo de la portada, reutilizado con <use> (no se copia de nuevo) -->
@@ -1381,6 +1391,7 @@
 </div>
 <!-- DATOS: la biblioteca de hechos, separada para editarla sin tocar la lógica -->
 <script src="datos/hechos.js"></script>
+<script src="datos/buenas.js"></script>
 <!-- DATOS: guía de sustancias (reducción de daños) -->
 <script src="datos/sustancias.js"></script>
 <script src="datos/mati.js"></script>
