@@ -1,5 +1,18 @@
 # Video piloto de Cabeza Despejada (para armar en EffectCraft)
 
+## Ya hay un comercial listo: `comercial.mp4`
+
+Un comercial de 25 segundos (1080 x 1920) con efecto de televisor antiguo: la imagen se enciende como una tele de tubo,
+tiene líneas y grano de pantalla, y al final se apaga en un punto de luz. Entra una forma verde con desenfoque de movimiento,
+que se convierte en el ícono, y después el teléfono muestra el contador, el Modo ganas, Lo que viene y Ayuda. Cierra en verde.
+No tiene sonido: la música es más fácil sumarla en TikTok o Instagram.
+
+- `comercial.html` dibuja el comercial. Los textos y los tiempos de cada escena están arriba del código, en `ESCENAS`.
+- `grabar.js` lo convierte en video: `node tienda/video-piloto/grabar.js` (necesita Playwright y ffmpeg; tarda unos 4 minutos).
+- Para mirar solo algunos segundos sin grabar todo: `node tienda/video-piloto/grabar.js 2 10 22`.
+
+Si prefieres armarlo a mano en EffectCraft, sigue el guion de abajo.
+
 Un video vertical corto (24 segundos) para TikTok, Reels o Shorts que muestra qué hace la app.
 Las capturas de esta carpeta son de la app actual, de 1080 x 1920 (el tamaño exacto del video vertical).
 Cada una existe en modo claro y en modo oscuro (`-oscuro`). Elige un modo y úsalo en todo el video.

@@ -1,0 +1,273 @@
+<!doctype html>
+<!-- Comercial de Cabeza Despejada (25 segundos, vertical, con efecto de televisor antiguo).
+     No es parte de la app: es una página que dibuja un cuadro del video según el segundo que se le pida.
+     grabar.js la abre, llama a dibujar(segundo) 30 veces por cada segundo, saca una foto de cada cuadro
+     y ffmpeg junta las fotos en comercial.mp4.
+     Para ver un momento a mano: abre este archivo y escribe en la consola dibujar(5). -->
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=540">
+<title>Comercial Cabeza Despejada</title>
+<style>
+  @font-face{font-family:"Bricolage Grotesque";font-weight:800;src:url("../../fuentes/bricolage-grotesque-latin-800.woff2") format("woff2")}
+  @font-face{font-family:"Instrument Sans";font-weight:500;src:url("../../fuentes/instrument-sans-latin-500.woff2") format("woff2")}
+  @font-face{font-family:"Instrument Sans";font-weight:600;src:url("../../fuentes/instrument-sans-latin-600.woff2") format("woff2")}
+  /* Los colores son los de la app (css/estilos.css, modo claro) */
+  :root{ --crema:#f3ecdc; --crema-clara:#fffaf0; --tinta:#1f1c17; --gris:#665d4e; --verde:#44701a; --naranjo:#a3561d; --naranjo-suave:#f5e3cc }
+  html,body{margin:0;width:540px;height:960px;background:#000;overflow:hidden}
+  /* La "pantalla del televisor": todo lo que se ve vive aquí adentro, así al encender y apagar se aplasta todo junto */
+  #pantalla{position:absolute;inset:0;overflow:hidden;background:var(--crema);transform-origin:50% 50%}
+  #contenido{position:absolute;inset:0}
+  .capa{position:absolute;left:0;top:0;will-change:transform,opacity}
+  /* La forma verde del inicio: un cuadrado redondeado que entra rápido, con desenfoque de movimiento */
+  #forma{width:200px;height:200px;border-radius:56px;background:var(--verde);left:170px;top:250px}
+  #icono{width:200px;height:200px;left:170px;top:250px;border-radius:48px;box-shadow:0 10px 0 rgba(31,28,23,.12)}
+  #marca{width:540px;top:480px;text-align:center;font:800 40px/1.1 "Bricolage Grotesque",sans-serif;color:var(--tinta)}
+  /* Títulos de cada escena: cada palabra entra por separado */
+  #titulo{width:460px;left:40px;top:70px;font:800 46px/1.05 "Bricolage Grotesque",sans-serif;color:var(--tinta);letter-spacing:-.5px}
+  #bajada{width:460px;left:40px;top:0;font:500 22px/1.3 "Instrument Sans",sans-serif;color:var(--gris)}
+  .palabra{display:inline-block;will-change:transform,opacity,filter}
+  /* El teléfono: un marco oscuro con las capturas reales de la app adentro */
+  #telefono{left:122px;top:300px;width:296px;height:514px;border-radius:44px;background:var(--tinta);padding:8px;box-sizing:border-box;box-shadow:0 18px 0 rgba(31,28,23,.14)}
+  #vidrio{width:280px;height:498px;border-radius:36px;overflow:hidden;position:relative;background:#fff}
+  #tira{position:absolute;left:0;top:0;height:498px;display:flex}
+  #tira img{width:280px;height:498px;display:block;flex:none;object-fit:cover;object-position:top}
+  #halo{width:420px;height:420px;left:60px;top:350px;border-radius:50%;border:10px solid var(--naranjo);opacity:0;box-sizing:border-box}
+  #numero{left:300px;top:690px;background:var(--verde);color:var(--crema-clara);font:800 44px/1 "Bricolage Grotesque",sans-serif;padding:14px 22px;border-radius:22px;box-shadow:0 8px 0 #33540d;opacity:0}
+  /* El cierre: un círculo verde que crece hasta llenar la pantalla */
+  #verde{position:absolute;inset:0;background:var(--verde);clip-path:circle(0 at 50% 60%)}
+  #cierre{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--crema-clara);opacity:0}
+  #cierre img{width:170px;height:170px;border-radius:40px;margin-bottom:22px}
+  #cierre .nombre{font:800 46px/1.05 "Bricolage Grotesque",sans-serif;margin:0 0 18px}
+  #cierre .linea{font:600 25px/1.35 "Instrument Sans",sans-serif;margin:0}
+  #cierre .chica{font:500 17px/1.3 "Instrument Sans",sans-serif;margin:30px 0 0;opacity:.85}
+  /* El efecto de televisor: líneas horizontales, bordes oscuros, una franja de luz que baja y grano */
+  #lineas{position:absolute;inset:0;background:repeating-linear-gradient(to bottom,rgba(0,0,0,.09) 0 1px,transparent 1px 3px);pointer-events:none}
+  #vineta{position:absolute;inset:0;background:radial-gradient(ellipse 75% 65% at 50% 50%,transparent 55%,rgba(0,0,0,.30) 100%);pointer-events:none}
+  #franja{position:absolute;left:0;width:540px;height:140px;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.10),transparent);pointer-events:none}
+  #grano{position:absolute;inset:0;width:540px;height:960px;opacity:.10;mix-blend-mode:overlay;pointer-events:none;image-rendering:pixelated}
+  /* El punto de luz que queda al apagar (y que aparece al encender) */
+  #punto{position:absolute;left:270px;top:480px;width:24px;height:24px;margin:-12px 0 0 -12px;border-radius:50%;background:#fff;box-shadow:0 0 30px 12px rgba(255,255,255,.8);opacity:0}
+</style>
+</head>
+<body>
+<!-- Desenfoque de movimiento: un desenfoque solo hacia los lados (X) o solo hacia arriba y abajo (Y) -->
+<svg width="0" height="0" style="position:absolute">
+  <filter id="movX" x="-50%" y="-10%" width="200%" height="120%"><feGaussianBlur id="movXv" stdDeviation="0 0"/></filter>
+  <filter id="movY" x="-10%" y="-50%" width="120%" height="200%"><feGaussianBlur id="movYv" stdDeviation="0 0"/></filter>
+  <filter id="movTira" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur id="movTirav" stdDeviation="0 0"/></filter>
+</svg>
+
+<div id="pantalla">
+  <div id="contenido">
+    <div class="capa" id="halo"></div>
+    <div class="capa" id="forma"></div>
+    <img class="capa" id="icono" src="../../iconos/icono.svg" alt="">
+    <div class="capa" id="marca">Cabeza Despejada</div>
+    <div class="capa" id="titulo"></div>
+    <div class="capa" id="bajada"></div>
+    <div class="capa" id="telefono"><div id="vidrio"><div id="tira">
+      <img src="1-hoy.png" alt=""><img src="3-modo-ganas.png" alt=""><img src="2-lo-que-viene.png" alt=""><img src="5-ayuda.png" alt="">
+    </div></div></div>
+    <div class="capa" id="numero">1412</div>
+    <div id="verde"></div>
+    <div id="cierre">
+      <img src="../../iconos/icono.svg" alt="">
+      <p class="nombre">Cabeza Despejada</p>
+      <p class="linea">Gratis. Sin cuenta. Sin anuncios.</p>
+      <p class="linea">Tus datos no salen de tu teléfono.</p>
+      <p class="chica">Si estás en peligro, llama al 131.<br>SENDA 1412, gratis y anónimo.</p>
+    </div>
+  </div>
+  <div id="franja"></div>
+  <canvas id="grano" width="270" height="480"></canvas>
+  <div id="lineas"></div>
+  <div id="vineta"></div>
+</div>
+<div id="punto"></div>
+
+<script>
+/* ===== Ajustes del comercial ===== */
+const DURACION = 25;     // segundos en total
+const CUADROS = 30;      // cuadros por segundo
+
+/* Las escenas con teléfono: desde qué segundo, qué captura (0 a 3, en el orden de la tira) y qué texto */
+const ESCENAS = [
+  { desde: 4.2,  captura: 0, titulo: "Cuenta tus días.",        bajada: "Si vuelves a empezar, lo avanzado no se borra." },
+  { desde: 8.2,  captura: 1, titulo: "¿Ganas fuertes?",         bajada: "Suben y bajan solas. La app te acompaña mientras pasa la ola." },
+  { desde: 12.2, captura: 2, titulo: "Qué esperar cada semana.", bajada: "Y qué ayuda en cada etapa." },
+  { desde: 16.2, captura: 3, titulo: "Ayuda a un toque.",       bajada: "SENDA 1412: gratis, anónimo, las 24 horas." }
+];
+const FIN_TELEFONO = 20.2;   // aquí crece el círculo verde del cierre
+
+/* ===== Herramientas ===== */
+const $ = id => document.getElementById(id);
+const limitar = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+// avance(t, desde, hasta): 0 antes de "desde", 1 después de "hasta", y en medio sube de a poco
+const avance = (t, desde, hasta) => limitar((t - desde) / (hasta - desde));
+// Curvas de movimiento: empiezan o terminan suave, como en los programas de animación
+const suave = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const frena = x => 1 - Math.pow(1 - x, 3);
+const acelera = x => x * x * x;
+const rebota = x => { const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const mezclar = (a, b, x) => a + (b - a) * x;
+function poner(el, { x = 0, y = 0, escala = 1, ex, ey, giro = 0, opacidad = 1 } = {}) {
+  el.style.transform = `translate(${x}px,${y}px) rotate(${giro}deg) scale(${ex ?? escala},${ey ?? escala})`;
+  el.style.opacity = opacidad;
+}
+// Desenfoque de movimiento: más rápido se mueve algo, más se estira el desenfoque en esa dirección
+function desenfocar(el, filtro, eje, cantidad) {
+  const c = Math.min(40, Math.abs(cantidad));
+  if (c < 0.4) { el.style.filter = "none"; return; }
+  $(filtro + "v").setAttribute("stdDeviation", eje === "x" ? `${c} 0` : `0 ${c}`);
+  el.style.filter = `url(#${filtro})`;
+}
+
+/* Cada palabra del título entra un poco después de la anterior, subiendo y dejando de estar borrosa */
+function palabras(el, texto) {
+  if (el.dataset.texto === texto) return;
+  el.dataset.texto = texto;
+  el.innerHTML = texto.split(" ").map(p => `<span class="palabra">${p}</span>`).join(" ");
+}
+function animarPalabras(el, t, entra, sale, paso) {
+  [...el.children].forEach((p, i) => {
+    const e = frena(avance(t, entra + i * paso, entra + i * paso + .45));
+    const s = acelera(avance(t, sale, sale + .3));
+    poner(p, { y: (1 - e) * 34 - s * 40, opacidad: e * (1 - s) });
+    const borroso = (1 - e) * 8 + s * 6;
+    p.style.filter = borroso > .3 ? `blur(${borroso}px)` : "none";
+  });
+}
+
+/* Grano de televisor: puntos al azar, pero siempre los mismos para el mismo cuadro (así el video sale igual cada vez) */
+const lienzo = $("grano").getContext("2d"), granos = lienzo.createImageData(270, 480);
+function grano(cuadro) {
+  let semilla = (cuadro * 9301 + 49297) % 233280;
+  for (let i = 0; i < granos.data.length; i += 4) {
+    semilla = (semilla * 9301 + 49297) % 233280;
+    const v = semilla / 233280 * 255;
+    granos.data[i] = granos.data[i + 1] = granos.data[i + 2] = v; granos.data[i + 3] = 255;
+  }
+  lienzo.putImageData(granos, 0, 0);
+}
+
+/* ===== El dibujo de un instante ===== */
+function dibujar(t) {
+  const cuadro = Math.round(t * CUADROS);
+
+  /* 1. Encender y apagar el televisor: la imagen nace como una línea de luz y se abre; al final se cierra en un punto */
+  const pantalla = $("pantalla"), punto = $("punto");
+  let ex = 1, ey = 1, brillo = 1, puntoVisible = 0;
+  if (t < 1) {
+    puntoVisible = avance(t, 0, .12) * (1 - avance(t, .12, .2));
+    ex = t < .12 ? 0 : mezclar(.02, 1, frena(avance(t, .12, .38)));
+    ey = mezclar(.006, 1, frena(avance(t, .38, .72)));
+    brillo = mezclar(4, 1, avance(t, .3, .8));
+    if (t > .72 && t < 1) brillo *= [1.12, .94, 1.06, .98, 1.03, 1, 1, 1, 1][cuadro % 9];   // parpadeo al estabilizarse
+  }
+  const apagado = DURACION - 1.3;
+  if (t > apagado) {
+    const u = t - apagado;
+    ey = mezclar(1, .006, acelera(avance(u, 0, .3)));
+    ex = mezclar(1, 0, acelera(avance(u, .3, .55)));
+    brillo = mezclar(1, 4, avance(u, 0, .3));
+    puntoVisible = avance(u, .45, .55) * (1 - avance(u, .6, 1.05));
+  }
+  pantalla.style.transform = `scale(${ex},${ey})`;
+  pantalla.style.filter = brillo !== 1 ? `brightness(${brillo})` : "none";
+  pantalla.style.visibility = ex <= 0 ? "hidden" : "visible";
+  punto.style.opacity = puntoVisible;
+
+  /* 2. Inicio: la forma verde entra rápido desde la izquierda, se aplasta al frenar y se convierte en el ícono */
+  const forma = $("forma"), icono = $("icono"), marca = $("marca");
+  const xForma = t => mezclar(-560, 0, frena(avance(t, .55, 1.15)));
+  const velocidad = (xForma(t) - xForma(t - 1 / CUADROS));
+  const rebote = Math.exp(-(t - 1.15) * 6) * Math.sin((t - 1.15) * 22);   // vibración que se apaga sola
+  const aplasta = t > 1.15 ? rebote * .22 : 0;
+  const haciaIcono = suave(avance(t, 1.7, 2.1));
+  poner(forma, { x: xForma(t), ex: 1 + Math.abs(velocidad) / 120 + aplasta, ey: 1 - aplasta * .8, giro: (1 - frena(avance(t, .55, 1.3))) * -25, opacidad: t < .55 ? 0 : 1 - haciaIcono });
+  desenfocar(forma, "movX", "x", velocidad * .9);
+
+  // Al final del inicio, todo sale hacia arriba rápido (con desenfoque vertical) y entra el teléfono desde abajo
+  const sube = t => -900 * acelera(avance(t, 3.75, 4.25));
+  const velSube = sube(t) - sube(t - 1 / CUADROS);
+  poner(icono, { y: sube(t), escala: mezclar(.4, 1, rebota(avance(t, 1.8, 2.25))), opacidad: avance(t, 1.75, 1.9) });
+  desenfocar(icono, "movY", "y", velSube * .6);
+  poner(marca, { y: sube(t) + (1 - frena(avance(t, 2.1, 2.5))) * 30, opacidad: avance(t, 2.1, 2.4) });
+  // La frase del inicio usa el mismo título de las escenas
+  const titulo = $("titulo"), bajada = $("bajada");
+
+  /* 3. Escenas con teléfono */
+  const telefono = $("telefono"), tira = $("tira");
+  const yTel = t => 900 * (1 - frena(avance(t, 3.85, 4.5)));
+  const velTel = yTel(t) - yTel(t - 1 / CUADROS);
+  let escena = -1;
+  ESCENAS.forEach((e, i) => { if (t >= e.desde - .4) escena = i; });
+
+  if (t < 3.9) {
+    titulo.style.top = "560px"; bajada.style.top = "690px";
+    palabras(titulo, "Para dejar o bajar el consumo.");
+    palabras(bajada, "A tu ritmo.");
+    animarPalabras(titulo, t, 2.45, 3.6, .07);
+    animarPalabras(bajada, t, 2.95, 3.6, .07);
+  } else if (escena >= 0) {
+    const e = ESCENAS[escena], fin = escena + 1 < ESCENAS.length ? ESCENAS[escena + 1].desde - .45 : FIN_TELEFONO - .3;
+    titulo.style.top = "60px";
+    palabras(titulo, e.titulo); palabras(bajada, e.bajada);
+    bajada.style.top = (60 + titulo.offsetHeight + 12) + "px";
+    animarPalabras(titulo, t, e.desde + .05, fin, .07);
+    animarPalabras(bajada, t, e.desde + .3, fin, .03);
+  }
+
+  // La tira de capturas se desliza de una a la siguiente, con desenfoque de movimiento hacia el lado
+  const xTira = t => { let x = 0; ESCENAS.forEach((e, i) => { if (i) x = mezclar(x, -280 * i, suave(avance(t, e.desde - .45, e.desde))); }); return x; };
+  tira.style.transform = `translateX(${xTira(t)}px)`;
+  desenfocar(tira, "movTira", "x", (xTira(t) - xTira(t - 1 / CUADROS)) * .5);
+
+  // El teléfono se acerca de a poco en cada escena; en la de las ganas "respira" (como el círculo de la app)
+  let escalaTel = 1;
+  if (escena >= 0) escalaTel = 1 + .04 * avance(t, ESCENAS[escena].desde - .2, ESCENAS[escena].desde + 3.6);
+  const enGanas = avance(t, 8.0, 8.6) * (1 - avance(t, 11.6, 12.0));
+  const respiro = (1 - Math.cos((t - 8.2) / 4 * 2 * Math.PI)) / 2;   // sube 2 segundos, baja 2 segundos
+  escalaTel += enGanas * respiro * .035;
+  const saleTel = suave(avance(t, FIN_TELEFONO - .2, FIN_TELEFONO + .4));
+  poner(telefono, { y: yTel(t) + saleTel * 40, escala: escalaTel * (1 - saleTel * .1), opacidad: t < 3.8 ? 0 : 1 });
+  desenfocar(telefono, "movY", "y", velTel * .5);
+  // El halo naranjo crece y se achica con la respiración, detrás del teléfono
+  poner($("halo"), { escala: .9 + respiro * .25, opacidad: enGanas * (.15 + respiro * .35) });
+  // En la escena de ayuda, el 1412 salta al frente
+  const numero = $("numero");
+  poner(numero, { escala: rebota(avance(t, 17.1, 17.5)) || .01, giro: -6, opacidad: avance(t, 17.1, 17.2) * (1 - avance(t, FIN_TELEFONO - .3, FIN_TELEFONO)) });
+
+  // El fondo pasa a un tono cálido en la escena de las ganas
+  pantalla.style.background = enGanas > 0 ? `color-mix(in srgb, var(--naranjo-suave) ${enGanas * 100}%, var(--crema))` : "var(--crema)";
+
+  /* 4. Cierre: un círculo verde crece desde el teléfono y aparece el mensaje final */
+  const radio = suave(avance(t, FIN_TELEFONO, FIN_TELEFONO + .6)) * 125;
+  $("verde").style.clipPath = `circle(${radio}% at 50% 62%)`;
+  const cierre = $("cierre");
+  cierre.style.opacity = 1;
+  [...cierre.children].forEach((h, i) => {
+    const e = frena(avance(t, FIN_TELEFONO + .45 + i * .22, FIN_TELEFONO + .9 + i * .22));
+    poner(h, { y: (1 - e) * 30, escala: i === 0 ? mezclar(.6, 1, rebota(e)) : 1, opacidad: e });
+  });
+
+  /* 5. Efecto televisor que acompaña todo el video */
+  // Un pequeño salto de imagen y colores separados (rojo y celeste) justo en cada cambio de escena
+  const cortes = [4.0, ...ESCENAS.slice(1).map(e => e.desde - .2), FIN_TELEFONO + .1];
+  const golpe = Math.max(0, ...cortes.map(c => 1 - Math.abs(t - c) / .1));
+  const temblor = golpe > 0 ? [3, -4, 2, -2, 4][cuadro % 5] * golpe : 0;
+  $("contenido").style.transform = `translateX(${temblor}px)`;
+  const sombra = golpe > 0 ? `${-3 * golpe}px 0 rgba(255,0,70,.55), ${3 * golpe}px 0 rgba(0,190,255,.55)` : "none";
+  titulo.style.textShadow = bajada.style.textShadow = sombra;
+  // La franja de luz que baja lentamente, como en las teles de tubo
+  $("franja").style.top = ((t * 260) % 1100 - 140) + "px";
+  grano(cuadro);
+}
+
+/* Avisa cuando las imágenes y las letras están listas, para que grabar.js no empiece antes */
+window.listo = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => {}))]).then(() => { dibujar(0); return true; });
+</script>
+</body>
+</html>
