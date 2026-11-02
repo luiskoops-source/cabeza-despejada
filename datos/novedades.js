@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-02-contenido", titulo:"Cuatro preguntas, un mito y una frase de la voz", cambios:[
+    "Cuatro preguntas nuevas de verdadero o falso: pastillas falsificadas sin receta, ketamina con opioides, marihuana y psicosis en quien tiene predisposición, y qué hacer si alguien convulsiona.",
+    "Un mito nuevo en la guía de ketamina: 'si tomo mucha agua no me daña la vejiga'.",
+    "La voz tiene una frase nueva: cuando propone cambiar una sustancia por otra."
+  ]},
   {id:"2026-11-01-bajon", titulo:"Línea *4141 y ayuda para el bajón", cambios:[
     "En Ayuda está la Línea de Prevención del Suicidio *4141, gratis y a toda hora, con botón para copiar.",
     "\"Volver a empezar\" tiene un cuidado nuevo para cuando sientes que nunca vas a salir: es el bajón, no la verdad sobre ti.",

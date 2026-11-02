@@ -56,3 +56,8 @@ window.VOZ.push(
 window.VOZ.push(
  {f:"Tengo que terminar esto y sin algo no me concentro.",r:"La concentración que da la sustancia es una sensación, no rendimiento: lo que se hace bajo efecto se revisa mal y al otro día suele haber que rehacerlo, con bajón encima. Parte por lo más chico que puedas terminar en 20 minutos, con el celular fuera de la vista, y después otro bloque. Si llevas noches durmiendo poco, lo que te falta no es foco: es sueño, y eso ninguna sustancia lo reemplaza."}
 );
+
+/* Frase agregada el 2 de noviembre de 2026: cuando la voz propone cambiar una sustancia por otra. */
+window.VOZ.push(
+ {f:"Esto es otra cosa, no es lo que estoy dejando.",r:"Cambiar una sustancia por otra suele terminar en las dos: el cerebro aprende el mismo atajo (me siento mal, tomo algo) y el lugar y la gente son los mismos. El alcohol, además, baja el freno justo para lo que estás dejando. Lo que necesitas no es otra cosa: es que pase el rato. 15 minutos de reloj, agua, y salir a caminar."}
+);
