@@ -651,3 +651,8 @@ a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;pad
 .buena-dia .buena-mensaje{font-family:var(--display);font-size:1.15rem;font-weight:700;line-height:1.3}
 .buena-dia .buena-sabias{border-top:1px solid var(--line);padding-top:10px}
 .buena-dia .buena-titulo{font-weight:700;margin:2px 0 4px}
+
+/* Si recaíste (Saber): frases cortas como notitas y un aviso de cuidado con el borde cálido */
+.si-frases{list-style:none;padding:0;margin:4px 0 12px;display:flex;flex-direction:column;gap:6px}
+.si-frases li{background:var(--surface2);border-left:3px solid var(--accent);border-radius:8px;padding:6px 10px;font-weight:600}
+.si-cuidado{border:1.5px solid var(--warm);border-radius:12px;padding:8px 12px;margin-top:12px}

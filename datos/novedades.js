@@ -2,6 +2,12 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-02-si-recaiste", titulo:"Si recaíste: sin culpa", cambios:[
+    "En Saber hay una sección nueva, \"Si recaíste\": frases para decirte en el momento, por qué recaer no te hace una mala persona, la trampa del \"ya da igual\" y por qué varios intentos es lo normal, cada idea con su fuente.",
+    "Incluye un aviso de cuidado: después de días sin consumir el cuerpo tolera menos, y lo de antes puede causar una sobredosis.",
+    "La tarjeta \"Volver a empezar\" tiene un botón para leerla.",
+    "En la portada, \"reinicios\" ahora se llama \"vueltas a empezar\"."
+  ]},
   {id:"2026-11-02-buena-del-dia", titulo:"Mensaje del día y buenas noticias", cambios:[
     "En Hoy hay una tarjeta nueva con la fecha, un mensaje lindo según el día de la semana y una buena noticia de la ciencia: \"¿Sabías que?\".",
     "Las buenas noticias hablan de cómo el cuerpo y el cerebro se recuperan, cada una con su fuente. Cambian todos los días."

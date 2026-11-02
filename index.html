@@ -167,7 +167,7 @@
     </div>
     <div class="row hero-stats">
       <span><b class="num" id="bestStreak">0</b> racha más larga</span>
-      <span><b class="num" id="resets">0</b> reinicios</span>
+      <span><b class="num" id="resets">0</b> vueltas a empezar</span>
       <span><b class="num" id="heroSaved">$0</b> no gastados</span>
     </div>
   </div>
@@ -201,6 +201,7 @@
     <p class="small">La voz que dice "ya da igual, sigue" es la adicción hablando con tu voz. Un consumo no borra los días anteriores: tu cerebro los vivió igual.</p>
     <p class="eyebrow">Las próximas 48 horas <span class="pill" id="volverCount"></span></p>
     <div class="stack" id="volverList"></div>
+    <button class="ghost" id="volverLeer">Leer "Si recaíste": sin culpa, con calma</button>
     <button class="ghost" id="volverCalma">Me siento paranoico o raro: abrir Modo calma</button>
   </div>
 
@@ -653,6 +654,17 @@
       <div class="study"><span class="pill">OMS</span><h3>Trastornos por consumo de sustancias</h3><p class="small">Marco general de la Organización Mundial de la Salud: la adicción como condición de salud tratable, no como falla moral.</p><a href="https://www.who.int/health-topics/drugs-psychoactive" target="_blank" rel="noopener">who.int → drogas psicoactivas</a></div>
       <div class="study"><span class="pill">PubMed</span><h3>Buscar estudios tú mismo</h3><p class="small">La base de datos médica más grande. Busca en inglés el nombre de lo que consumes y una palabra como "withdrawal" (abstinencia) o "recovery" (recuperación).</p><a href="https://pubmed.ncbi.nlm.nih.gov/?term=substance+use+disorder+recovery" target="_blank" rel="noopener">pubmed.ncbi.nlm.nih.gov</a></div>
     </div>
+  </div>
+
+  <!-- Si recaíste: para leer sin culpa después de una recaída (datos/si-recaiste.js, js/app.js renderSiRecaiste) -->
+  <div class="card si-recaiste" id="siRecaisteCard">
+    <h2>Si recaíste</h2>
+    <p class="small muted">Para leer sin apuro. Nada de esto es un reto: es lo que la ciencia y miles de personas saben sobre volver a levantarse.</p>
+    <p class="eyebrow">Para decirte ahora</p>
+    <ul class="si-frases" id="siRecaisteFrases"></ul>
+    <div class="stack" id="siRecaisteIdeas"></div>
+    <p class="small si-cuidado" id="siRecaisteCuidado"></p>
+    <p class="small muted">Para las próximas 48 horas, la tarjeta "Volver a empezar" en Hoy tiene cuidados que puedes ir marcando.</p>
   </div>
 
   <!-- Aprender a no recaer: etapas de una recaída y lecciones de las comunidades (datos/no-recaer.js, js/app.js renderNoRecaer) -->
@@ -1403,6 +1415,7 @@
 <script src="datos/historia.js"></script>
 <script src="datos/otras-historias.js"></script>
 <script src="datos/no-recaer.js"></script>
+<script src="datos/si-recaiste.js"></script>
 <!-- DATOS: identificador "¿qué me ofrecieron?" -->
 <script src="datos/ofrecieron.js"></script>
 <!-- DATOS: primeros auxilios -->

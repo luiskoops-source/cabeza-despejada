@@ -121,7 +121,7 @@ function renderHoy(){
   $("savedYear").textContent=clp(dinero.anio);
   const horas=C.horasTrabajo(dinero.total,S.salary);
   $("savedHours").textContent=horas==null?"—":horas+" h";
-  /* Racha más larga y cantidad de reinicios */
+  /* Racha más larga y cuántas veces volvió a empezar */
   const mejor=C.rachaMasLarga(S.events,S.day0);
   $("bestStreak").textContent=mejor;
   $("resets").textContent=S.events.filter(e=>e.type==="relapse").length;
@@ -299,6 +299,18 @@ function renderNoRecaer(){
   $("noRecaerFuente").innerHTML=N.fuente?`Etapas según <a href="${esc(N.fuente.u)}" target="_blank" rel="noopener">${esc(N.fuente.n)}</a>.`:"";
 }
 renderNoRecaer();
+
+/* ---------- Si recaíste ---------- */
+/* Frases para leer en el momento, ideas que se abren de a una (con su fuente) y el aviso de cuidado. Datos en datos/si-recaiste.js */
+function renderSiRecaiste(){
+  const R=window.SI_RECAISTE; $("siRecaisteCard").hidden=!R; if(!R) return;
+  $("siRecaisteFrases").innerHTML=R.frases.map(f=>`<li>${esc(f)}</li>`).join("");
+  $("siRecaisteIdeas").innerHTML=R.ideas.map(i=>`<details class="etapa"><summary>${esc(i.t)}</summary><p class="small">${esc(i.b)}</p>${i.f?`<p class="small muted">Fuente: <a href="${esc(i.f.u)}" target="_blank" rel="noopener">${esc(i.f.n)}</a></p>`:""}</details>`).join("");
+  $("siRecaisteCuidado").innerHTML=`<b>Un cuidado importante:</b> ${esc(R.cuidado)}`;
+}
+renderSiRecaiste();
+/* Desde "Volver a empezar" en Hoy: abre Saber y baja hasta "Si recaíste" */
+$("volverLeer").onclick=()=>{ irA("saber"); setTimeout(()=>{ $("siRecaisteCard").scrollIntoView({behavior:"smooth",block:"start"}); },150); };
 
 /* Familia (Saber) y Por qué las drogas dan paranoia (Ayuda): temas plegados, cada uno con su idea, sus puntos y, si hay, una frase para decir */
 function temaPlegado(x){
