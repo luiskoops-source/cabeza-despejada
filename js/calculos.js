@@ -282,17 +282,25 @@ function enlaceGoogleCalendar(hora, minuto, desde, tipo){
    Recibe los segundos desde que empezó y cuántas vueltas se harán. Devuelve en qué vuelta y fase va,
    y cuántos segundos le quedan a esa fase (para mostrar la cuenta regresiva). */
 const FASES_478=[{fase:"inhala",dura:4},{fase:"sosten",dura:7},{fase:"exhala",dura:8}];
-function fase478(segundos, vueltas){
-  const largo=19, total=largo*vueltas;
+/* Cortar la tos: tragar saliva, aguantar el aire y soltarlo lento por la nariz. Es la técnica que enseñan
+   fonoaudiólogos y kinesiólogos para la tos nerviosa: sin aire saliendo de golpe, no hay tos. */
+const FASES_TOS=[{fase:"traga",dura:2},{fase:"aguanta",dura:5},{fase:"suelta",dura:6}];
+
+/* Dice en qué fase va un ejercicio de respiración según los segundos que pasaron.
+   fases: la lista de fases de una vuelta. Devuelve la vuelta, la fase, cuánto dura y cuántos segundos le quedan. */
+function faseRitmo(fases, segundos, vueltas){
+  const largo=fases.reduce((suma,f)=>suma+f.dura,0), total=largo*vueltas;
   if(!(segundos>=0)) segundos=0;
   if(segundos>=total) return { terminado:true, vuelta:vueltas };
   const vuelta=Math.floor(segundos/largo)+1;
   let t=segundos%largo;
-  for(const f of FASES_478){
+  for(const f of fases){
     if(t<f.dura) return { terminado:false, vuelta, fase:f.fase, dura:f.dura, quedan:Math.ceil(f.dura-t) };
     t-=f.dura;
   }
 }
+function fase478(segundos, vueltas){ return faseRitmo(FASES_478, segundos, vueltas); }
+function faseTos(segundos, vueltas){ return faseRitmo(FASES_TOS, segundos, vueltas); }
 
 /* Hora sugerida para el recordatorio: media hora antes de la hora difícil, para alcanzar a prepararse.
    Sin hora difícil todavía (menos de 3 registros), propone las 20:00. Devuelve texto "HH:MM". */
@@ -381,7 +389,7 @@ function consumosTrasDiscusion(eventos, horas){
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diaDe, diaPico, diasDesde, diasDesdeHora, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, siguienteCapitulo, enlaceCodigoPastilla, recordatorioICS, enlaceGoogleCalendar, proximoDiaSemana, horaRecordatorio, fase478, tamanoCactus, esMadrugada, minutosRato, momentoSalida, momentoViernes, mananaSabado, novedadesPendientes, consumosTrasDiscusion, HITOS, pesos };
+const Calculos={ fechaTexto, diaDe, diaPico, diasDesde, diasDesdeHora, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, siguienteCapitulo, enlaceCodigoPastilla, recordatorioICS, enlaceGoogleCalendar, proximoDiaSemana, horaRecordatorio, fase478, faseTos, tamanoCactus, esMadrugada, minutosRato, momentoSalida, momentoViernes, mananaSabado, novedadesPendientes, consumosTrasDiscusion, HITOS, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);

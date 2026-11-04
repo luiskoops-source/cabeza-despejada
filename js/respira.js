@@ -1,4 +1,5 @@
 /* Respiración 4-7-8: inhalar 4, sostener 7, botar el aire en 8. Pantalla completa (#respira en index.html).
+   Tiene un segundo ejercicio, "Cortar la tos": traga 2, aguanta 5, suelta lento 6 (Calculos.faseTos).
    Separado de app.js porque no depende del resto: solo de Calculos.fase478 (js/calculos.js) y de su pantalla.
    Cualquier botón con el atributo data-respira la abre. Las preferencias (vueltas, vibrar, voz) quedan en este teléfono. */
 "use strict";
@@ -6,12 +7,31 @@
   const $=id=>document.getElementById(id);
   const C=window.Calculos;
   const PREF="cd.respira";
-  const TEXTO={ inhala:"Inhala", sosten:"Sostén", exhala:"Bota el aire" };
-  const ESCALA={ inhala:1.18, sosten:1.18, exhala:0.82 };
+  const TEXTO={ inhala:"Inhala", sosten:"Sostén", exhala:"Bota el aire", traga:"Traga", aguanta:"Aguanta", suelta:"Suelta lento" };
+  const ESCALA={ inhala:1.18, sosten:1.18, exhala:0.82, traga:1, aguanta:1, suelta:0.82 };
+  /* Para el dibujo del perrito, las fases de la tos se parecen a las del 4-7-8: tragar y aguantar es quedarse quieto, soltar es botar el aire */
+  const DIBUJO={ inhala:"inhala", sosten:"sosten", exhala:"exhala", traga:"sosten", aguanta:"sosten", suelta:"exhala" };
+  /* Los dos ejercicios: qué función dice la fase, cuánto toman 4 u 8 vueltas, el título y la explicación de arriba */
+  const EJERCICIOS={
+    "478":{ fase:s=>C.fase478(s,pref.vueltas), pill:"Respiración 4\u20117\u20118",
+      intro:'Inhala por la nariz en <b>4</b>, sostén el aire <b>7</b> y bótalo lento por la boca en <b>8</b>. Botar el aire más lento de lo que entra es lo que calma: le avisa al cuerpo que puede bajar la guardia.',
+      duracion:v=>v===4?"Cuatro vueltas toman poco más de un minuto.":"Ocho vueltas toman unos dos minutos y medio." },
+    "tos":{ fase:s=>C.faseTos(s,pref.vueltas), pill:"Cortar la tos",
+      intro:'Apenas sientas el picor: <b>traga</b> saliva, <b>aguanta</b> el aire 5 segundos con la boca cerrada y <b>suéltalo lento por la nariz</b>. Sin aire saliendo de golpe no hay tos, y el picor baja solo.',
+      duracion:v=>v===4?"Cuatro vueltas toman menos de un minuto.":"Ocho vueltas toman casi dos minutos." }
+  };
   /* Lo que dice la voz: más suave y con más palabras que lo que se lee en el círculo */
-  const HABLA={ inhala:"Inhala suave, por la nariz", sosten:"Sostén", exhala:"Suelta el aire, despacio", fin:"Bien hecho. Nota cómo está tu cuerpo." };
-  let pref={ vueltas:4, vibrar:true, voz:false, vozNombre:"" };
+  const HABLA={ inhala:"Inhala suave, por la nariz", sosten:"Sostén", exhala:"Suelta el aire, despacio", traga:"Traga", aguanta:"Aguanta, boca cerrada", suelta:"Suelta lento, por la nariz", fin:"Bien hecho. Nota cómo está tu cuerpo." };
+  let pref={ vueltas:4, vibrar:true, voz:false, vozNombre:"", ejercicio:"478" };
   try{ pref=Object.assign(pref,JSON.parse(localStorage.getItem(PREF)||"{}")); }catch(e){}
+  if(!EJERCICIOS[pref.ejercicio]) pref.ejercicio="478";
+  const ej=()=>EJERCICIOS[pref.ejercicio];
+  /* Muestra el título y la explicación del ejercicio elegido */
+  function mostrarEjercicio(){
+    $("respiraEjercicio").value=pref.ejercicio;
+    $("respiraPill").textContent=ej().pill;
+    $("respiraIntro").innerHTML=ej().intro;
+  }
   const guardar=()=>{ try{ localStorage.setItem(PREF,JSON.stringify(pref)); }catch(e){} };
 
   let reloj=null, inicio=0, faseAnterior="", pantallaEncendida=null;
@@ -58,16 +78,16 @@
   /* El círculo crece o se achica durante lo que dura la fase */
   function mover(fase, dura){
     const c=$("respiraCirculo");
-    c.style.transitionDuration=(fase==="sosten"?0.3:dura)+"s";
+    c.style.transitionDuration=(DIBUJO[fase]==="sosten"?0.3:dura)+"s";
     c.style.transform="scale("+ESCALA[fase]+")";
     /* La clase de la fase hace que el salchicha infle el pecho, lo sostenga o bote el aire por la nariz */
-    c.classList.remove("fase-inhala","fase-sosten","fase-exhala"); c.classList.add("fase-"+fase);
+    c.classList.remove("fase-inhala","fase-sosten","fase-exhala"); c.classList.add("fase-"+DIBUJO[fase]);
     /* Kay y Floy caminan al inhalar y al botar el aire, y se detienen en "Sostén" (css/estilos.css, .respira-paseo) */
-    $("respira").dataset.fase=fase;
+    $("respira").dataset.fase=DIBUJO[fase];
   }
 
   function tic(){
-    const f=C.fase478((performance.now()-inicio)/1000, pref.vueltas);
+    const f=ej().fase((performance.now()-inicio)/1000);
     if(f.terminado){ terminar(); return; }
     if(f.fase!==faseAnterior){ faseAnterior=f.fase; $("respiraFase").textContent=TEXTO[f.fase]; mover(f.fase,f.dura); vibrar(); decir(HABLA[f.fase]); }
     $("respiraNum").textContent=f.quedan;
@@ -77,7 +97,7 @@
   function empezar(){
     detener();
     /* Seguro: si los archivos de la app quedaron de versiones distintas, avisar en vez de quedarse pegado */
-    if(!C||typeof C.fase478!=="function"){ $("respiraVuelta").textContent="Falta actualizar la app: ciérrala del todo y vuelve a abrirla."; return; }
+    if(!C||typeof C.fase478!=="function"||typeof C.faseTos!=="function"){ $("respiraVuelta").textContent="Falta actualizar la app: ciérrala del todo y vuelve a abrirla."; return; }
     inicio=performance.now(); faseAnterior="";
     $("respiraEmpezar").textContent="Detener";
     /* Que la pantalla no se apague a mitad del ejercicio (si el teléfono lo permite) */
@@ -90,7 +110,7 @@
     try{ pantallaEncendida&&pantallaEncendida.release(); }catch(e){} pantallaEncendida=null;
     $("respiraEmpezar").textContent="Empezar";
     $("respiraFase").textContent="Listo"; $("respiraNum").textContent="";
-    $("respiraVuelta").textContent=pref.vueltas===4?"Cuatro vueltas toman poco más de un minuto.":"Ocho vueltas toman unos dos minutos y medio.";
+    $("respiraVuelta").textContent=ej().duracion(pref.vueltas);
     const c=$("respiraCirculo"); c.style.transitionDuration="0.6s"; c.style.transform="scale(1)";
     c.classList.remove("fase-inhala","fase-sosten","fase-exhala");
     delete $("respira").dataset.fase; /* sin ejercicio, Kay y Floy esperan quietos */
@@ -105,12 +125,12 @@
   }
 
   function abrir(){
-    $("respiraVueltas").value=String(pref.vueltas);
+    $("respiraVueltas").value=String(pref.vueltas); mostrarEjercicio();
     $("respiraVibrar").checked=!!pref.vibrar; $("respiraVoz").checked=!!pref.voz;
     llenarVoces(); $("respiraVozOpciones").hidden=!pref.voz||!("speechSynthesis" in window);
     $("respiraVibrar").closest("label").hidden=!navigator.vibrate; /* Si el teléfono no vibra, no se ofrece */
     $("respiraVoz").closest("label").hidden=!("speechSynthesis" in window);
-    $("respiraVuelta").textContent=pref.vueltas===4?"Cuatro vueltas toman poco más de un minuto.":"Ocho vueltas toman unos dos minutos y medio.";
+    $("respiraVuelta").textContent=ej().duracion(pref.vueltas);
     /* Kay y Floy abajo: se dibujan la primera vez que se abre (los dibujos vienen de js/paseo.js) */
     const D=window.dibujosSalchichas;
     if(D&&!$("respiraPaseo").childElementCount) $("respiraPaseo").innerHTML='<div class="respira-pareja"><span class="respira-floy">'+D.floy+'</span><span class="respira-kay">'+D.kay+'</span></div>';
@@ -127,6 +147,8 @@
   $("respiraCerrar").onclick=cerrar;
   $("respiraEmpezar").onclick=()=>{ reloj?detener():empezar(); };
   $("respiraVueltas").onchange=()=>{ pref.vueltas=Number($("respiraVueltas").value)===8?8:4; guardar(); if(reloj) empezar(); };
+  /* Cambiar de ejercicio: si estaba corriendo, parte de nuevo con el ritmo nuevo */
+  $("respiraEjercicio").onchange=()=>{ pref.ejercicio=EJERCICIOS[$("respiraEjercicio").value]?$("respiraEjercicio").value:"478"; guardar(); mostrarEjercicio(); if(reloj) empezar(); else $("respiraVuelta").textContent=ej().duracion(pref.vueltas); };
   $("respiraVibrar").onchange=()=>{ pref.vibrar=$("respiraVibrar").checked; guardar(); };
   $("respiraVoz").onchange=()=>{ pref.voz=$("respiraVoz").checked; guardar(); $("respiraVozOpciones").hidden=!pref.voz; };
   /* Elegir y probar la voz */

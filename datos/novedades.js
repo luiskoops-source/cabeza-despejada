@@ -2,6 +2,10 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-04-cortar-la-tos", titulo:"Cortar la tos", cambios:[
+    "En Respira conmigo puedes elegir un segundo ejercicio: Cortar la tos. Traga, aguanta el aire 5 segundos y suéltalo lento por la nariz, con el perrito, la vibración y la voz marcando cada paso.",
+    "La sección \"Para la tos nerviosa\" explica cuándo usarlo, que conviene practicarlo varias veces al día y cuándo sí hay que toser."
+  ]},
   {id:"2026-11-04-lo-que-buscaba-afuera", titulo:"Lo que buscabas afuera", cambios:[
     "La voz tiene una frase más: \"Necesito ver a esa persona, solo ella me entiende\", con su respuesta.",
     "En Poner límites hay una situación nueva: \"Me busca alguien que me hace mal\", con frases cortas para responder.",

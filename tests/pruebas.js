@@ -247,6 +247,12 @@ prueba("a los 11 segundos se bota el aire en 8",()=>{ const f=C.fase478(11,4); a
 prueba("la cuenta regresiva baja de a un segundo",()=>assert.strictEqual(C.fase478(12.3,4).quedan,7));
 prueba("a los 19 segundos empieza la vuelta 2",()=>{ const f=C.fase478(19,4); assert.strictEqual(f.vuelta,2); assert.strictEqual(f.fase,"inhala"); });
 prueba("4 vueltas terminan a los 76 segundos",()=>{ assert.ok(!C.fase478(75.9,4).terminado); assert.ok(C.fase478(76,4).terminado); });
+console.log("cortar la tos");
+prueba("empieza tragando 2 segundos",()=>assert.deepStrictEqual(C.faseTos(0,4),{terminado:false,vuelta:1,fase:"traga",dura:2,quedan:2}));
+prueba("a los 2 segundos se aguanta el aire 5",()=>{ const f=C.faseTos(2,4); assert.strictEqual(f.fase,"aguanta"); assert.strictEqual(f.quedan,5); });
+prueba("a los 7 segundos se suelta lento en 6",()=>{ const f=C.faseTos(7,4); assert.strictEqual(f.fase,"suelta"); assert.strictEqual(f.quedan,6); });
+prueba("a los 13 segundos empieza la vuelta 2",()=>{ const f=C.faseTos(13,4); assert.strictEqual(f.vuelta,2); assert.strictEqual(f.fase,"traga"); });
+prueba("4 vueltas terminan a los 52 segundos",()=>{ assert.ok(!C.faseTos(51.9,4).terminado); assert.ok(C.faseTos(52,4).terminado); });
 
 console.log("plan de viernes");
 prueba("el jueves en la mañana es momento de armar el plan",()=>assert.strictEqual(C.momentoViernes(new Date(2026,9,15,9,0)),"armar"));

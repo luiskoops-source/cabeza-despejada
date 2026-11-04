@@ -1291,11 +1291,15 @@
   <div class="respira-paseo" id="respiraPaseo" aria-hidden="true"></div>
   <div class="inner">
     <div class="row" style="justify-content:space-between">
-      <span class="pill good">Respiración 4&#8209;7&#8209;8</span>
+      <span class="pill good" id="respiraPill">Respiración 4&#8209;7&#8209;8</span>
       <button class="ghost" id="respiraCerrar" type="button">Salir</button>
     </div>
     <h1 id="respiraTitulo">Respira conmigo</h1>
-    <p class="muted">Inhala por la nariz en <b>4</b>, sostén el aire <b>7</b> y bótalo lento por la boca en <b>8</b>. Botar el aire más lento de lo que entra es lo que calma: le avisa al cuerpo que puede bajar la guardia.</p>
+    <!-- Dos ejercicios: 4-7-8 y Cortar la tos. El título de arriba y este texto cambian según el elegido (js/respira.js) -->
+    <label class="small" style="display:flex;gap:6px;align-items:center">Ejercicio
+      <select id="respiraEjercicio" style="width:auto"><option value="478">Respiración 4-7-8</option><option value="tos">Cortar la tos</option></select>
+    </label>
+    <p class="muted" id="respiraIntro">Inhala por la nariz en <b>4</b>, sostén el aire <b>7</b> y bótalo lento por la boca en <b>8</b>. Botar el aire más lento de lo que entra es lo que calma: le avisa al cuerpo que puede bajar la guardia.</p>
     <!-- El círculo crece al inhalar, se queda quieto al sostener y se achica al botar el aire; adentro, el salchicha respira contigo -->
     <div class="respira-circulo" id="respiraCirculo" aria-hidden="true">
       <!-- Salchicha negro con café que respira: al inhalar entra aire por la nariz y se infla el pecho, al sostener
@@ -1376,7 +1380,9 @@
         <summary><b>Para la tos nerviosa</b></summary>
         <ul class="small">
           <li>La tos o el carraspeo que aparecen con los nervios suelen empeorar con la tensión. Respirar lento baja esa tensión.</li>
-          <li>Cuando sientas que viene la tos: cierra la boca, traga saliva y haz una vuelta de 4-7-8 respirando por la nariz. Los fonoaudiólogos enseñan algo parecido para cortar el ciclo de la tos.</li>
+          <li>Cuando sientas que viene la tos, elige arriba <b>Cortar la tos</b>: traga, aguanta el aire con la boca cerrada y suéltalo lento por la nariz. Es lo que enseñan fonoaudiólogos y kinesiólogos para cortar el ciclo de la tos; así el aire no sale de golpe.</li>
+          <li>Practícalo también sin ganas de toser, cortito y varias veces al día. Así el reflejo aprende a calmarse solo.</li>
+          <li>Si estás resfriado o sientes flema en el pecho, sí tose para sacarla. Esto es para la tos seca, la del picor y los nervios.</li>
           <li>Tomar agua a sorbos chicos también ayuda a calmar la garganta.</li>
           <li><b>Consulta a un médico</b> si la tos dura más de tres semanas, o si viene con fiebre, sangre, falta de aire o dolor en el pecho. Si fumas o fumaste (tabaco, marihuana, pasta base), cuéntaselo: puede ser la causa.</li>
         </ul>

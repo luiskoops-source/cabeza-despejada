@@ -88,6 +88,11 @@ const path = require("path");
   if (!(await pagina.isVisible("#respira"))) errores.push("La respiración 4-7-8 no abre");
   await pagina.click("#respiraEmpezar"); await pagina.waitForTimeout(500);
   if ((await pagina.textContent("#respiraFase")) !== "Inhala") errores.push("La respiración no empieza inhalando");
+  /* Cortar la tos: al elegirlo, parte tragando; después se vuelve al 4-7-8 para no cambiar lo que viene */
+  await pagina.selectOption("#respiraEjercicio","tos"); await pagina.waitForTimeout(500);
+  if ((await pagina.textContent("#respiraFase")) !== "Traga") errores.push("Cortar la tos no empieza tragando");
+  if ((await pagina.textContent("#respiraPill")) !== "Cortar la tos") errores.push("El título no cambia a Cortar la tos");
+  await pagina.selectOption("#respiraEjercicio","478");
   await pagina.click("#respiraCerrar");
   if (await pagina.isVisible("#respira")) errores.push("La respiración no se cierra");
   /* 6-a00. Después de una discusión: se abre desde Hoy, al elegir lo que se siente responde, y queda en el historial con su nombre */
