@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-04-botones", titulo:"Botones con más vida", cambios:[
+    "En modo oscuro, los botones se distinguen mejor de las tarjetas y se ven más fáciles de tocar.",
+    "Los atajos Respirar, Un rato contigo y Después de una discusión llevan el azul de las pantallas que abren.",
+    "En las pantallas azules, los botones también son azules, y en el computador se marcan al pasar el mouse."
+  ]},
   {id:"2026-11-02-si-recaiste", titulo:"Si recaíste: sin culpa", cambios:[
     "En Saber hay una sección nueva, \"Si recaíste\": frases para decirte en el momento, por qué recaer no te hace una mala persona, la trampa del \"ya da igual\" y por qué varios intentos es lo normal, cada idea con su fuente.",
     "Incluye un aviso de cuidado: después de días sin consumir el cuerpo tolera menos, y lo de antes puede causar una sobredosis.",
