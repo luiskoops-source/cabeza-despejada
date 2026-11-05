@@ -66,3 +66,7 @@ window.VOZ.push(
 window.VOZ.push(
  {f:"Necesito ver a esa persona, solo ella me entiende.",r:"Las ganas también se disfrazan de personas: alguien con quien siempre terminas consumiendo, o que te deja peor de lo que estabas. Esa persona no te va a dar la calma que buscas; te va a llevar de vuelta al mismo lugar. Lo que te ha sostenido hasta hoy no estaba en ella: estaba en ti. Tu mente es más fuerte de lo que crees: puede aguantar esta ola sin nadie que te tire para abajo. Escríbele a alguien que te haga bien, o escribe lo que le dirías en una carta que no se envía, y deja que la ola baje."}
 );
+/* Frase agregada el 5 de noviembre de 2026: la culpa de después también empuja a consumir. */
+window.VOZ.push(
+ {f:"Me siento culpable por lo de ayer, con esto se me pasa.",r:"La culpa es parte del bajón, y taparla con lo mismo que la causó la trae de vuelta mañana, más grande. La culpa baja sola cuando haces algo que te deje tranquilo: comer algo, dormir, caminar, contarle a alguien. No hace falta castigarte ni consumir para que pase. Lo de ayer ya pasó; lo que decides ahora es lo único que sigue abierto."}
+);

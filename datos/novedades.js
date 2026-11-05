@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-05-contenido", titulo:"Cuatro preguntas, un mito y una frase de la voz", cambios:[
+    "Cuatro preguntas nuevas de verdadero o falso: el humo del cigarro y quienes están cerca, el ronquido o gorgoteo después de opioides, el bajón de los días siguientes al MDMA y cuánto THC trae la marihuana de hoy.",
+    "En la guía del alcohol hay un mito más: que la cerveza y el vino no son alcohol de verdad.",
+    "La voz tiene una frase más: \"Me siento culpable por lo de ayer, con esto se me pasa\", con su respuesta."
+  ]},
   {id:"2026-11-04-cortar-la-tos", titulo:"Cortar la tos", cambios:[
     "En Respira conmigo puedes elegir un segundo ejercicio: Cortar la tos. Traga, aguanta el aire 5 segundos y suéltalo lento por la nariz, con el perrito, la vibración y la voz marcando cada paso.",
     "La sección \"Para la tos nerviosa\" explica cuándo usarlo, que conviene practicarlo varias veces al día y cuándo sí hay que toser."
