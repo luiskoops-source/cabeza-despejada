@@ -253,6 +253,13 @@ prueba("a los 2 segundos se aguanta el aire 5",()=>{ const f=C.faseTos(2,4); ass
 prueba("a los 7 segundos se suelta lento en 6",()=>{ const f=C.faseTos(7,4); assert.strictEqual(f.fase,"suelta"); assert.strictEqual(f.quedan,6); });
 prueba("a los 13 segundos empieza la vuelta 2",()=>{ const f=C.faseTos(13,4); assert.strictEqual(f.vuelta,2); assert.strictEqual(f.fase,"traga"); });
 prueba("4 vueltas terminan a los 52 segundos",()=>{ assert.ok(!C.faseTos(51.9,4).terminado); assert.ok(C.faseTos(52,4).terminado); });
+console.log("ejercicios de tos en pausa");
+prueba("olfatea y sopla empieza olfateando",()=>assert.strictEqual(C.faseOlfatea(0,4).fase,"olfatea"));
+prueba("olfatea y sopla: 4 vueltas terminan a los 44 segundos",()=>{ assert.ok(!C.faseOlfatea(43.9,4).terminado); assert.ok(C.faseOlfatea(44,4).terminado); });
+prueba("antes de hablar empieza con un sorbo y dura 32 segundos",()=>{ assert.strictEqual(C.faseHablar(0).fase,"sorbo"); assert.strictEqual(C.duracionHablar(),32); assert.ok(C.faseHablar(32).terminado); });
+prueba("bajar los nervios dura entre 5 y 6 minutos",()=>{ const d=C.duracionNervios(); assert.ok(d>=300&&d<=360); assert.ok(!C.faseNervios(d-0.1).terminado); assert.ok(C.faseNervios(d).terminado); });
+prueba("bajar los nervios empieza diciendo la parte 1",()=>assert.strictEqual(C.faseNervios(0).fase,"parte1"));
+prueba("bajar los nervios llega a la parte 5",()=>{ let vista=false; for(let s=0;s<C.duracionNervios();s++) if(C.faseNervios(s).fase==="parte5") vista=true; assert.ok(vista); });
 
 console.log("plan de viernes");
 prueba("el jueves en la mañana es momento de armar el plan",()=>assert.strictEqual(C.momentoViernes(new Date(2026,9,15,9,0)),"armar"));

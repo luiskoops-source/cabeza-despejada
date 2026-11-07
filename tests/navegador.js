@@ -92,6 +92,15 @@ const path = require("path");
   await pagina.selectOption("#respiraEjercicio","tos"); await pagina.waitForTimeout(500);
   if ((await pagina.textContent("#respiraFase")) !== "Traga") errores.push("Cortar la tos no empieza tragando");
   if ((await pagina.textContent("#respiraPill")) !== "Cortar la tos") errores.push("El título no cambia a Cortar la tos");
+  /* Los ejercicios de tos en pausa: Bajar los nervios parte diciendo la parte 1 y no deja elegir vueltas */
+  await pagina.selectOption("#respiraEjercicio","nervios"); await pagina.waitForTimeout(500);
+  if ((await pagina.textContent("#respiraFase")) !== "Respira 4 y 6") errores.push("Bajar los nervios no empieza en la parte 1");
+  if (await pagina.isVisible("#respiraVueltas")) errores.push("Bajar los nervios no debería mostrar vueltas");
+  await pagina.selectOption("#respiraEjercicio","hablar"); await pagina.waitForTimeout(500);
+  if ((await pagina.textContent("#respiraFase")) !== "Un sorbo") errores.push("Antes de hablar no empieza con un sorbo");
+  await pagina.selectOption("#respiraEjercicio","olfatea"); await pagina.waitForTimeout(500);
+  if ((await pagina.textContent("#respiraFase")) !== "Olfatea") errores.push("Olfatea y sopla no empieza olfateando");
+  if (!(await pagina.isVisible("#respiraVueltas"))) errores.push("Olfatea y sopla debería mostrar vueltas");
   await pagina.selectOption("#respiraEjercicio","478");
   await pagina.click("#respiraCerrar");
   if (await pagina.isVisible("#respira")) errores.push("La respiración no se cierra");

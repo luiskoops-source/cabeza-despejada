@@ -2,6 +2,10 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-06-tos-en-pausa", titulo:"Más ejercicios para la tos", cambios:[
+    "En Respira conmigo hay tres ejercicios nuevos para la tos nerviosa: Olfatea y sopla, Antes de hablar (unos 30 segundos antes de una llamada) y Bajar los nervios, de unos 5 minutos en cinco partes distintas para que no se haga repetitivo.",
+    "Bajo el círculo dice qué hacer en cada paso y cuánto falta."
+  ]},
   {id:"2026-11-05-contenido", titulo:"Cuatro preguntas, un mito y una frase de la voz", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: el humo del cigarro y quienes están cerca, el ronquido o gorgoteo después de opioides, el bajón de los días siguientes al MDMA y cuánto THC trae la marihuana de hoy.",
     "En la guía del alcohol hay un mito más: que la cerveza y el vino no son alcohol de verdad.",

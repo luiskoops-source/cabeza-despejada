@@ -302,6 +302,29 @@ function faseRitmo(fases, segundos, vueltas){
 function fase478(segundos, vueltas){ return faseRitmo(FASES_478, segundos, vueltas); }
 function faseTos(segundos, vueltas){ return faseRitmo(FASES_TOS, segundos, vueltas); }
 
+/* Ejercicios que vienen de la terapia de supresión de tos (los mismos de la app "Tos en pausa"):
+   Olfatea y sopla: una olfateada corta, un soplido corto y otro largo con labios fruncidos. Abre la garganta. 11 segundos por vuelta. */
+const FASES_OLFATEA=[{fase:"olfatea",dura:2},{fase:"sopla",dura:2},{fase:"soplaLargo",dura:4},{fase:"descansa",dura:3}];
+/* Antes de hablar: 32 segundos para soltar la garganta antes de una llamada o una conversación. Se hace una sola vez. */
+const FASES_HABLAR=[{fase:"sorbo",dura:5},{fase:"bosteza",dura:6},{fase:"hombros",dura:5},{fase:"tararea",dura:6},{fase:"inhala",dura:4},{fase:"exhala",dura:6}];
+/* Bajar los nervios: unos 5 minutos en cinco partes distintas, para que no se haga repetitivo.
+   Cada parte empieza con 3 segundos que dicen su nombre (fases "parte1" a "parte5") y repite su ritmo unas veces. */
+const repetir=(lista,veces)=>Array.from({length:veces},()=>lista).flat();
+const FASES_NERVIOS=[].concat(
+  [{fase:"parte1",dura:3}], repetir([{fase:"inhala",dura:4},{fase:"exhala",dura:6}],6),
+  [{fase:"parte2",dura:3}], repetir([{fase:"inhala",dura:4},{fase:"soplaLento",dura:8}],5),
+  [{fase:"parte3",dura:3}], repetir([{fase:"inhala",dura:3},{fase:"otroPoco",dura:1},{fase:"sueltaTodo",dura:7},{fase:"descansa",dura:3}],4),
+  [{fase:"parte4",dura:3}], repetir([{fase:"hombrosArriba",dura:4},{fase:"hombrosCaen",dura:4},{fase:"aprietaManos",dura:4},{fase:"abreManos",dura:4},{fase:"mandibula",dura:4},{fase:"traga",dura:3}],3),
+  [{fase:"parte5",dura:3}], repetir([{fase:"inhala",dura:4},{fase:"cuenta",dura:6}],6)
+);
+function faseOlfatea(segundos, vueltas){ return faseRitmo(FASES_OLFATEA, segundos, vueltas); }
+/* Estos dos se hacen una vez completa: no usan el número de vueltas que se elige abajo */
+function faseHablar(segundos){ return faseRitmo(FASES_HABLAR, segundos, 1); }
+function faseNervios(segundos){ return faseRitmo(FASES_NERVIOS, segundos, 1); }
+/* Cuántos segundos dura un ejercicio completo (para mostrar cuánto queda) */
+function duracionNervios(){ return FASES_NERVIOS.reduce((s,f)=>s+f.dura,0); }
+function duracionHablar(){ return FASES_HABLAR.reduce((s,f)=>s+f.dura,0); }
+
 /* Hora sugerida para el recordatorio: media hora antes de la hora difícil, para alcanzar a prepararse.
    Sin hora difícil todavía (menos de 3 registros), propone las 20:00. Devuelve texto "HH:MM". */
 function horaRecordatorio(horaDificil){
@@ -389,7 +412,7 @@ function consumosTrasDiscusion(eventos, horas){
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diaDe, diaPico, diasDesde, diasDesdeHora, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, siguienteCapitulo, enlaceCodigoPastilla, recordatorioICS, enlaceGoogleCalendar, proximoDiaSemana, horaRecordatorio, fase478, faseTos, tamanoCactus, esMadrugada, minutosRato, momentoSalida, momentoViernes, mananaSabado, novedadesPendientes, consumosTrasDiscusion, HITOS, pesos };
+const Calculos={ fechaTexto, diaDe, diaPico, diasDesde, diasDesdeHora, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, siguienteCapitulo, enlaceCodigoPastilla, recordatorioICS, enlaceGoogleCalendar, proximoDiaSemana, horaRecordatorio, fase478, faseTos, faseOlfatea, faseHablar, faseNervios, duracionNervios, duracionHablar, tamanoCactus, esMadrugada, minutosRato, momentoSalida, momentoViernes, mananaSabado, novedadesPendientes, consumosTrasDiscusion, HITOS, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);
