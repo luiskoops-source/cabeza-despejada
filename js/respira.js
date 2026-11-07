@@ -33,8 +33,9 @@
     soplaLento:"Por labios fruncidos, como enfriando una sopa.", otroPoco:"Sin soltar, otro sorbito de aire por la nariz.", sueltaTodo:"Lento por la boca, hasta vaciarte.",
     hombrosArriba:"Súbelos a las orejas y aprieta.", hombrosCaen:"Suéltalos de golpe. Siente el peso.", aprietaManos:"Puños firmes.", abreManos:"Dedos sueltos.", mandibula:"Dientes separados, lengua abajo.",
     cuenta:"Lento. Cuenta cada soltada, de una hasta diez." };
-  /* Cuánto falta, en minutos redondos: así el texto cambia poco y no interrumpe a quien usa lector de pantalla */
-  const quedanTexto=s=>s>=90?"Quedan unos "+Math.round(s/60)+" minutos":s>45?"Queda cerca de un minuto":"Ya casi terminas";
+  /* Cuánto falta, en minutos redondos (o de a 10 segundos en los ejercicios cortos, como Antes de hablar):
+     así el texto cambia poco y no interrumpe a quien usa lector de pantalla */
+  const quedanTexto=s=>s>=90?"Quedan unos "+Math.round(s/60)+" minutos":s>45?"Queda cerca de un minuto":s>15?"Quedan unos "+Math.round(s/10)*10+" segundos":"Ya casi terminas";
   /* Los dos ejercicios: qué función dice la fase, cuánto toman 4 u 8 vueltas, el título y la explicación de arriba */
   const EJERCICIOS={
     "478":{ fase:s=>C.fase478(s,pref.vueltas), pill:"Respiración 4\u20117\u20118",

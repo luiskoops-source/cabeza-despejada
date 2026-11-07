@@ -2,6 +2,9 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-07-antes-de-hablar", titulo:"Antes de hablar, con el tiempo justo", cambios:[
+    "En Respira conmigo, Antes de hablar ya no dice \"Ya casi terminas\" apenas empieza: ahora muestra cuántos segundos quedan."
+  ]},
   {id:"2026-11-06-tos-en-pausa", titulo:"Más ejercicios para la tos", cambios:[
     "En Respira conmigo hay tres ejercicios nuevos para la tos nerviosa: Olfatea y sopla, Antes de hablar (unos 30 segundos antes de una llamada) y Bajar los nervios, de unos 5 minutos en cinco partes distintas para que no se haga repetitivo.",
     "Bajo el círculo dice qué hacer en cada paso y cuánto falta."
