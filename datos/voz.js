@@ -70,3 +70,7 @@ window.VOZ.push(
 window.VOZ.push(
  {f:"Me siento culpable por lo de ayer, con esto se me pasa.",r:"La culpa es parte del bajón, y taparla con lo mismo que la causó la trae de vuelta mañana, más grande. La culpa baja sola cuando haces algo que te deje tranquilo: comer algo, dormir, caminar, contarle a alguien. No hace falta castigarte ni consumir para que pase. Lo de ayer ya pasó; lo que decides ahora es lo único que sigue abierto."}
 );
+/* Frase agregada el 8 de noviembre de 2026: cuando la voz da la pelea por perdida antes de empezarla. */
+window.VOZ.push(
+ {f:"Igual voy a terminar consumiendo, mejor ahora y me ahorro la pelea.",r:"Eso no es una decisión, es la voz dándola por tomada. Las ganas suben, llegan a un máximo y bajan solas en 15 a 30 minutos, aunque no hagas nada. Pon el reloj y decide cuando bajen, no ahora: muchas veces, del otro lado, ya no quieres."}
+);

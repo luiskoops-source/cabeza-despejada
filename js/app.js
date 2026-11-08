@@ -124,6 +124,8 @@ function renderHoy(){
   $("savedYear").textContent=clp(dinero.anio);
   const horas=C.horasTrabajo(dinero.total,S.salary);
   $("savedHours").textContent=horas==null?"—":horas+" h";
+  /* Sin sueldo no hay horas que mostrar: la etiqueta explica qué falta en vez de dejar un guion suelto */
+  $("savedHoursL").textContent=horas==null?"horas de trabajo: agrega tu sueldo abajo (opcional)":"de trabajo que no se perdieron";
   /* Racha más larga y cuántas veces volvió a empezar */
   const mejor=C.rachaMasLarga(S.events,S.day0);
   $("bestStreak").textContent=mejor;
@@ -775,7 +777,7 @@ $("buscarOut").addEventListener("click",e=>{
 });
 
 /* ---------- Diagnóstico para reportar problemas (sin datos personales) ---------- */
-const VERSION_APP="2026.11.05";
+const VERSION_APP="2026.11.08";
 $("copiarDiag").onclick=()=>copyText(`Cabeza Despejada ${VERSION_APP} · ${navigator.userAgent} · pantalla ${window.innerWidth}x${window.innerHeight} · modo ${document.documentElement.getAttribute("data-theme")||"auto"} · instalada: ${window.matchMedia("(display-mode: standalone)").matches?"sí":"no"}`);
 
 /* ---------- Compartir ---------- */

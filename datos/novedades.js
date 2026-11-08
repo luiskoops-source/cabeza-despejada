@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-08-mantenimiento", titulo:"Cinco preguntas nuevas y una frase más de la voz", cambios:[
+    "La Pregunta del día tiene cinco preguntas nuevas, sacadas de los mitos de la guía: comestibles de marihuana y niños, la naloxona cuando se consume a solas, el peso al dejar el tabaco, el agua y la vejiga con ketamina, y la tolerancia a las benzodiacepinas.",
+    "La voz de la adicción tiene una frase más, para cuando da la pelea por perdida antes de empezarla.",
+    "En Mi dinero, si no pusiste tu sueldo, la casilla de horas ahora dice qué falta en vez de mostrar un guion suelto."
+  ]},
   {id:"2026-11-08-botones-respira", titulo:"Kay y Floy ya no tapan los botones", cambios:[
     "En Respira conmigo, con textos largos como el del Pranayama, los botones Empezar y Detener quedaban debajo del camino de Kay y Floy. Ahora se ven completos y la pareja pasa por detrás."
   ]},

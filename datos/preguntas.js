@@ -228,3 +228,12 @@ window.PREGUNTAS.push(
 {q:"Sentirse triste y sin energía dos o tres días después de tomar MDMA es esperable y pasa solo.",v:true,e:"Verdadero. Es el bajón de los días siguientes, cuando al cerebro le falta serotonina. Pasa en pocos días; lo que lo empeora es volver a tomar para taparlo. Si el ánimo bajo dura semanas, consulta.",s:"mdma"},
 {q:"La marihuana de hoy tiene la misma cantidad de THC que la de hace 30 años.",v:false,e:"Falso. Las variedades actuales tienen varias veces más THC que las de los años 90, y por eso son más comunes la ansiedad, la paranoia y, en quien tiene predisposición, la psicosis. Que alguien 'fumara sin problemas' hace décadas no dice nada de la de ahora.",s:"marihuana"}
 );
+
+/* Preguntas agregadas el 8 de noviembre de 2026. Salen de los mitos de la guía de sustancias (marihuana, opioides, tabaco, ketamina, benzodiacepinas). */
+window.PREGUNTAS.push(
+{q:"Si un niño se come un comestible de marihuana (brownie, gomita), basta con esperar a que se le pase.",v:false,e:"Falso. En un niño es una emergencia: llamar al 131. Por boca el efecto tarda en empezar y es más fuerte y más largo que fumado, y en un cuerpo pequeño puede ser grave.",s:"marihuana"},
+{q:"Quien consume opioides a solas puede ponerse la naloxona a sí mismo si nota que se le pasó la mano.",v:false,e:"Falso. En una sobredosis la persona está inconsciente y no puede usarla. La naloxona solo sirve si hay otra persona despierta que la ponga y llame al 131; consumir a solas quita esa red.",s:"opioides"},
+{q:"Dejar el tabaco hace subir tanto de peso que conviene seguir fumando.",v:false,e:"Falso. Mucha gente sube unos pocos kilos al dejar, y eso se puede trabajar después con comida a sus horas y movimiento. Fumar daña el corazón y los pulmones mucho más que esos kilos, y el daño se acumula cada día que sigue.",s:"tabaco"},
+{q:"Tomar mucha agua protege la vejiga del daño de la ketamina.",v:false,e:"Falso. No hay evidencia de que el agua proteja: el daño lo causan la ketamina y sus restos al pasar por la vejiga, y lo único que lo frena es dejar de usarla. Orinar muy seguido o con urgencia es la señal para parar y consultar.",s:"ketamina"},
+{q:"Si una benzodiacepina (clonazepam, alprazolam) ya no calma como al principio, lo que corresponde es tomar más por cuenta propia.",v:false,e:"Falso. Eso es tolerancia: el cuerpo ya se acostumbró y pide más para el mismo efecto, que es el camino a la dependencia. Lo que corresponde es hablarlo con el médico, que es quien ajusta o baja de a poco.",s:"benzodiacepinas"}
+);
