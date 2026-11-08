@@ -317,6 +317,16 @@ const FASES_NERVIOS=[].concat(
   [{fase:"parte4",dura:3}], repetir([{fase:"hombrosArriba",dura:4},{fase:"hombrosCaen",dura:4},{fase:"aprietaManos",dura:4},{fase:"abreManos",dura:4},{fase:"mandibula",dura:4},{fase:"traga",dura:3}],3),
   [{fase:"parte5",dura:3}], repetir([{fase:"inhala",dura:4},{fase:"cuenta",dura:6}],6)
 );
+/* Pranayama suave: unos 5 minutos en tres partes, sin aguantar el aire ni soplar con fuerza (las respiraciones rápidas pueden gatillar la tos).
+   Parte A, nariz alterna (nadi shodhana): entra por un lado de la nariz y sale por el otro. Parte B, abeja (bhramari): sale el aire tarareando.
+   Parte C, cierre: entra en 4 y sale en 6. Cada parte empieza con 3 segundos que dicen su nombre. */
+const FASES_PRANAYAMA=[].concat(
+  [{fase:"pranaA",dura:3}], repetir([{fase:"izqInhala",dura:4},{fase:"derSuelta",dura:6},{fase:"derInhala",dura:4},{fase:"izqSuelta",dura:6}],6),
+  [{fase:"pranaB",dura:3}], repetir([{fase:"inhala",dura:4},{fase:"zumba",dura:8},{fase:"descansa",dura:3}],8),
+  [{fase:"pranaC",dura:3}], repetir([{fase:"inhala",dura:4},{fase:"exhala",dura:6}],5)
+);
+function fasePranayama(segundos){ return faseRitmo(FASES_PRANAYAMA, segundos, 1); }
+function duracionPranayama(){ return FASES_PRANAYAMA.reduce((s,f)=>s+f.dura,0); }
 function faseOlfatea(segundos, vueltas){ return faseRitmo(FASES_OLFATEA, segundos, vueltas); }
 /* Estos dos se hacen una vez completa: no usan el número de vueltas que se elige abajo */
 function faseHablar(segundos){ return faseRitmo(FASES_HABLAR, segundos, 1); }
@@ -412,7 +422,7 @@ function consumosTrasDiscusion(eventos, horas){
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diaDe, diaPico, diasDesde, diasDesdeHora, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, siguienteCapitulo, enlaceCodigoPastilla, recordatorioICS, enlaceGoogleCalendar, proximoDiaSemana, horaRecordatorio, fase478, faseTos, faseOlfatea, faseHablar, faseNervios, duracionNervios, duracionHablar, tamanoCactus, esMadrugada, minutosRato, momentoSalida, momentoViernes, mananaSabado, novedadesPendientes, consumosTrasDiscusion, HITOS, pesos };
+const Calculos={ fechaTexto, diaDe, diaPico, diasDesde, diasDesdeHora, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, siguienteCapitulo, enlaceCodigoPastilla, recordatorioICS, enlaceGoogleCalendar, proximoDiaSemana, horaRecordatorio, fase478, faseTos, faseOlfatea, faseHablar, faseNervios, duracionNervios, fasePranayama, duracionPranayama, duracionHablar, tamanoCactus, esMadrugada, minutosRato, momentoSalida, momentoViernes, mananaSabado, novedadesPendientes, consumosTrasDiscusion, HITOS, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);

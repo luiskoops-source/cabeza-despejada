@@ -15,24 +15,32 @@
     parte1:"Respira 4 y 6", parte2:"Sopla largo", parte3:"Suspiro doble", parte4:"Suelta el cuerpo", parte5:"Cuenta tus soltadas",
     soplaLento:"Sopla lento", otroPoco:"Un poquito más", sueltaTodo:"Suelta todo",
     hombrosArriba:"Hombros arriba", hombrosCaen:"Déjalos caer", aprietaManos:"Aprieta las manos", abreManos:"Ábrelas", mandibula:"Mandíbula floja",
-    cuenta:"Suelta y cuenta" };
+    cuenta:"Suelta y cuenta",
+    pranaA:"Nariz alterna", pranaB:"Abeja", pranaC:"Cierre suave",
+    izqInhala:"Inhala izquierda", derSuelta:"Suelta derecha", derInhala:"Inhala derecha", izqSuelta:"Suelta izquierda", zumba:"Mmm" };
   /* Qué tan grande queda el círculo: más grande al tomar aire, más chico al botarlo */
   const ESCALA={ inhala:1.18, sosten:1.18, exhala:0.82, traga:1, aguanta:1, suelta:0.82,
     olfatea:1.12, sopla:1, soplaLargo:0.8, descansa:0.92, sorbo:0.95, bosteza:1.18, hombros:0.95, tararea:1.05,
     parte1:1, parte2:1, parte3:1, parte4:1, parte5:1, soplaLento:0.8, otroPoco:1.24, sueltaTodo:0.8,
-    hombrosArriba:1.1, hombrosCaen:0.88, aprietaManos:1.1, abreManos:0.88, mandibula:0.92, cuenta:0.82 };
+    hombrosArriba:1.1, hombrosCaen:0.88, aprietaManos:1.1, abreManos:0.88, mandibula:0.92, cuenta:0.82,
+    pranaA:1, pranaB:1, pranaC:1, izqInhala:1.18, derSuelta:0.82, derInhala:1.18, izqSuelta:0.82, zumba:0.82 };
   /* Para el dibujo del perrito, las fases de la tos se parecen a las del 4-7-8: tragar y aguantar es quedarse quieto, soltar es botar el aire */
   const DIBUJO={ inhala:"inhala", sosten:"sosten", exhala:"exhala", traga:"sosten", aguanta:"sosten", suelta:"exhala",
     olfatea:"inhala", sopla:"exhala", soplaLargo:"exhala", descansa:"sosten", sorbo:"sosten", bosteza:"inhala", hombros:"exhala", tararea:"exhala",
     parte1:"sosten", parte2:"sosten", parte3:"sosten", parte4:"sosten", parte5:"sosten", soplaLento:"exhala", otroPoco:"inhala", sueltaTodo:"exhala",
-    hombrosArriba:"inhala", hombrosCaen:"exhala", aprietaManos:"sosten", abreManos:"exhala", mandibula:"sosten", cuenta:"exhala" };
+    hombrosArriba:"inhala", hombrosCaen:"exhala", aprietaManos:"sosten", abreManos:"exhala", mandibula:"sosten", cuenta:"exhala",
+    pranaA:"sosten", pranaB:"sosten", pranaC:"sosten", izqInhala:"inhala", derSuelta:"exhala", derInhala:"inhala", izqSuelta:"exhala", zumba:"exhala" };
   /* Bajo el círculo, qué hacer en cada paso de los ejercicios nuevos (los de 4-7-8 y tos se explican arriba) */
   const AYUDA={ olfatea:"Una olfateada corta por la nariz.", sopla:"Labios fruncidos, un soplido corto.", soplaLargo:"Otro soplido, más largo.", descansa:"Respira normal por la nariz.",
     sorbo:"Toma un sorbo de agua. Si no tienes, traga en seco.", bosteza:"Bostezo con la boca cerrada: la garganta se abre.", hombros:"Súbelos a las orejas y déjalos caer.", tararea:"Tararea suave con los labios juntos.",
     parte1:"Parte 1 de 5", parte2:"Parte 2 de 5", parte3:"Parte 3 de 5", parte4:"Parte 4 de 5", parte5:"Parte 5 de 5",
     soplaLento:"Por labios fruncidos, como enfriando una sopa.", otroPoco:"Sin soltar, otro sorbito de aire por la nariz.", sueltaTodo:"Lento por la boca, hasta vaciarte.",
     hombrosArriba:"Súbelos a las orejas y aprieta.", hombrosCaen:"Suéltalos de golpe. Siente el peso.", aprietaManos:"Puños firmes.", abreManos:"Dedos sueltos.", mandibula:"Dientes separados, lengua abajo.",
-    cuenta:"Lento. Cuenta cada soltada, de una hasta diez." };
+    cuenta:"Lento. Cuenta cada soltada, de una hasta diez.",
+    pranaA:"Parte 1 de 3", pranaB:"Parte 2 de 3", pranaC:"Parte 3 de 3",
+    izqInhala:"Tapa la nariz derecha con el pulgar. Entra suave.", derSuelta:"Tapa la izquierda y suelta lento por la derecha.",
+    derInhala:"Sin cambiar de dedo, entra por la derecha.", izqSuelta:"Tapa la derecha y suelta lento por la izquierda.",
+    zumba:"Suelta el aire tarareando grave, boca cerrada, como una abeja." };
   /* Cuánto falta, en minutos redondos (o de a 10 segundos en los ejercicios cortos, como Antes de hablar):
      así el texto cambia poco y no interrumpe a quien usa lector de pantalla */
   const quedanTexto=s=>s>=90?"Quedan unos "+Math.round(s/60)+" minutos":s>45?"Queda cerca de un minuto":s>15?"Quedan unos "+Math.round(s/10)*10+" segundos":"Ya casi terminas";
@@ -53,6 +61,10 @@
       duracion:()=>"Toma unos 30 segundos." },
     "nervios":{ fase:s=>C.faseNervios(s), unaVez:true, total:()=>C.duracionNervios(), pill:"Bajar los nervios",
       intro:'Unos <b>5 minutos</b> en cinco partes distintas, para que no se haga repetitivo: respirar 4 y 6, soplar largo, suspiro doble, soltar el cuerpo y contar tus soltadas. Cuando los nervios bajan, la tos nerviosa también.',
+      duracion:()=>"Toma unos 5 minutos." },
+    /* Pranayama: respiraciones suaves del yoga, sin aguantar el aire ni soplar con fuerza */
+    "pranayama":{ fase:s=>C.fasePranayama(s), unaVez:true, total:()=>C.duracionPranayama(), pill:"Pranayama suave",
+      intro:'Respiraciones del yoga, lentas y por la nariz, en tres partes: <b>nariz alterna</b> (entra por un lado y sale por el otro), <b>abeja</b> (sueltas el aire tarareando con la boca cerrada) y un <b>cierre</b> de 4 y 6. Sirve para las ganas, la ansiedad y la tos nerviosa. Sin aguantar el aire. Con la nariz tapada, salta la primera parte; con dolor de oído, no hagas la abeja; si te mareas, para y respira normal.',
       duracion:()=>"Toma unos 5 minutos." }
   };
   /* Lo que dice la voz: más suave y con más palabras que lo que se lee en el círculo */
@@ -61,7 +73,9 @@
     sorbo:"Toma un sorbo de agua", bosteza:"Bosteza con la boca cerrada", hombros:"Sube los hombros, y déjalos caer", tararea:"Tararea suave",
     parte1:"Respira cuatro, y suelta en seis", parte2:"Ahora, sopla largo", parte3:"Ahora, suspiro doble", parte4:"Ahora, suelta el cuerpo", parte5:"Por último, cuenta tus soltadas",
     soplaLento:"Sopla lento", otroPoco:"Un poquito más", sueltaTodo:"Suelta todo",
-    hombrosArriba:"Hombros arriba", hombrosCaen:"Déjalos caer", aprietaManos:"Aprieta las manos", abreManos:"Ábrelas", mandibula:"Mandíbula floja", cuenta:"Suelta, y cuenta" };
+    hombrosArriba:"Hombros arriba", hombrosCaen:"Déjalos caer", aprietaManos:"Aprieta las manos", abreManos:"Ábrelas", mandibula:"Mandíbula floja", cuenta:"Suelta, y cuenta",
+    pranaA:"Nariz alterna", pranaB:"Ahora, la abeja", pranaC:"Para cerrar, entra en cuatro y sale en seis",
+    izqInhala:"Inhala por la izquierda", derSuelta:"Cambia, y suelta por la derecha", derInhala:"Inhala por la derecha", izqSuelta:"Cambia, y suelta por la izquierda", zumba:"Zumba, como abeja" };
   let pref={ vueltas:4, vibrar:true, voz:false, vozNombre:"", ejercicio:"478" };
   try{ pref=Object.assign(pref,JSON.parse(localStorage.getItem(PREF)||"{}")); }catch(e){}
   if(!EJERCICIOS[pref.ejercicio]) pref.ejercicio="478";
@@ -143,7 +157,7 @@
   function empezar(){
     detener();
     /* Seguro: si los archivos de la app quedaron de versiones distintas, avisar en vez de quedarse pegado */
-    if(!C||typeof C.fase478!=="function"||typeof C.faseTos!=="function"||typeof C.faseNervios!=="function"){ $("respiraVuelta").textContent="Falta actualizar la app: ciérrala del todo y vuelve a abrirla."; return; }
+    if(!C||typeof C.fase478!=="function"||typeof C.faseTos!=="function"||typeof C.faseNervios!=="function"||typeof C.fasePranayama!=="function"){ $("respiraVuelta").textContent="Falta actualizar la app: ciérrala del todo y vuelve a abrirla."; return; }
     inicio=performance.now(); faseAnterior="";
     $("respiraEmpezar").textContent="Detener";
     /* Que la pantalla no se apague a mitad del ejercicio (si el teléfono lo permite) */

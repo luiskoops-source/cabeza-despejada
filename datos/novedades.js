@@ -2,6 +2,10 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-07-pranayama", titulo:"Pranayama suave", cambios:[
+    "En Respira conmigo hay un ejercicio nuevo de unos 5 minutos: Pranayama suave. Tiene tres partes: nariz alterna, abeja (soltar el aire tarareando) y un cierre de 4 y 6.",
+    "Es lento y sin aguantar el aire, así que sirve también con tos nerviosa. Dice qué hacer si tienes la nariz tapada, dolor de oído o te mareas."
+  ]},
   {id:"2026-11-07-antes-de-hablar", titulo:"Antes de hablar, con el tiempo justo", cambios:[
     "En Respira conmigo, Antes de hablar ya no dice \"Ya casi terminas\" apenas empieza: ahora muestra cuántos segundos quedan."
   ]},

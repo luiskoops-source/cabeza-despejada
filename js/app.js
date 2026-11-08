@@ -742,7 +742,7 @@ function indice(){
   ((window.FAMILIA||{}).temas||[]).forEach(x=>it.push({tipo:"Familia",t:x.t,b:[x.b||""].concat(x.p).join(" ")+(x.f?" \""+x.f+"\"":"")}));
   ((window.PARANOIA||{}).temas||[]).forEach(x=>it.push({tipo:"Paranoia",t:x.t,b:[x.b||""].concat(x.p).join(" ").trim()}));
   /* Las herramientas: al buscarlas aparece un botón que las abre */
-  [{t:"Respirar 4-7-8",b:"Respiración para la ansiedad, las ganas, la tos nerviosa y para dormir.",abrir:"openRespira"},
+  [{t:"Respirar 4-7-8",b:"Respiración para la ansiedad, las ganas, la tos nerviosa y para dormir. Incluye pranayama suave.",abrir:"openRespira"},
    {t:"Un rato contigo",b:"Practicar estar a solas con el aburrimiento y la soledad, sin celular ni nada que hacer. Para los tiempos muertos.",abrir:"openRato"},
    {t:"Después de una discusión",b:"Para el rato después de una pelea con la familia, la pareja o alguien cercano. Si hubo violencia: 133, 149 y 1455.",abrir:"openDiscusion"},
    {t:"Modo ganas",b:"Cuando tienes ganas de consumir: un reloj para que la ola baje, tus razones y qué hacer mientras.",abrir:"openCrave"},

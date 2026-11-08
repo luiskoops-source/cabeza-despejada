@@ -259,6 +259,8 @@ prueba("olfatea y sopla: 4 vueltas terminan a los 44 segundos",()=>{ assert.ok(!
 prueba("antes de hablar empieza con un sorbo y dura 32 segundos",()=>{ assert.strictEqual(C.faseHablar(0).fase,"sorbo"); assert.strictEqual(C.duracionHablar(),32); assert.ok(C.faseHablar(32).terminado); });
 prueba("bajar los nervios dura entre 5 y 6 minutos",()=>{ const d=C.duracionNervios(); assert.ok(d>=300&&d<=360); assert.ok(!C.faseNervios(d-0.1).terminado); assert.ok(C.faseNervios(d).terminado); });
 prueba("bajar los nervios empieza diciendo la parte 1",()=>assert.strictEqual(C.faseNervios(0).fase,"parte1"));
+prueba("pranayama dura unos 5 minutos y empieza por la nariz alterna",()=>{ const d=C.duracionPranayama(); assert.ok(d>=280&&d<=330); assert.strictEqual(C.fasePranayama(0).fase,"pranaA"); assert.strictEqual(C.fasePranayama(3).fase,"izqInhala"); assert.ok(C.fasePranayama(d).terminado); });
+prueba("pranayama pasa por la abeja y el cierre",()=>{ const vistas=new Set(); for(let s=0;s<C.duracionPranayama();s++) vistas.add(C.fasePranayama(s).fase); ["zumba","pranaB","pranaC"].forEach(f=>assert.ok(vistas.has(f),f)); });
 prueba("bajar los nervios llega a la parte 5",()=>{ let vista=false; for(let s=0;s<C.duracionNervios();s++) if(C.faseNervios(s).fase==="parte5") vista=true; assert.ok(vista); });
 
 console.log("plan de viernes");
