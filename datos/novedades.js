@@ -2,6 +2,10 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-08-respirar-478", titulo:"Cada botón abre lo que dice", cambios:[
+    "Los botones \"Respirar 4-7-8\" abren siempre la respiración 4-7-8, aunque la última vez hayas usado otro ejercicio, como Cortar la tos o Pranayama.",
+    "En Un día en calma, la línea opcional \"Qué hiciste\" quedó aparte, separada con una línea."
+  ]},
   {id:"2026-11-08-mantenimiento", titulo:"Cinco preguntas nuevas y una frase más de la voz", cambios:[
     "La Pregunta del día tiene cinco preguntas nuevas, sacadas de los mitos de la guía: comestibles de marihuana y niños, la naloxona cuando se consume a solas, el peso al dejar el tabaco, el agua y la vejiga con ketamina, y la tolerancia a las benzodiacepinas.",
     "La voz de la adicción tiene una frase más, para cuando da la pelea por perdida antes de empezarla.",

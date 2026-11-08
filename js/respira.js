@@ -2,7 +2,7 @@
    Tiene más ejercicios: "Cortar la tos" (traga 2, aguanta 5, suelta lento 6) y los de la terapia de tos:
    "Olfatea y sopla", "Antes de hablar" y "Bajar los nervios" de 5 minutos (sus ritmos están en js/calculos.js).
    Separado de app.js porque no depende del resto: solo de Calculos.fase478 (js/calculos.js) y de su pantalla.
-   Cualquier botón con el atributo data-respira la abre. Las preferencias (vueltas, vibrar, voz) quedan en este teléfono. */
+   Cualquier botón con el atributo data-respira la abre (con un valor, como data-respira="478", abre ese ejercicio). Las preferencias (vueltas, vibrar, voz) quedan en este teléfono. */
 "use strict";
 (function(){
   const $=id=>document.getElementById(id);
@@ -184,7 +184,10 @@
     setTimeout(()=>{ if(window.paseoSalchicha) window.paseoSalchicha("juntos"); },900);
   }
 
-  function abrir(){
+  /* Si el botón pide un ejercicio (data-respira="478"), se abre en ese: un botón que dice 4-7-8 no abre la tos */
+  function abrir(e){
+    const pedido=e&&e.currentTarget&&e.currentTarget.dataset?e.currentTarget.dataset.respira:"";
+    if(pedido&&EJERCICIOS[pedido]&&pedido!==pref.ejercicio){ pref.ejercicio=pedido; guardar(); }
     $("respiraVueltas").value=String(pref.vueltas); mostrarEjercicio();
     $("respiraVibrar").checked=!!pref.vibrar; $("respiraVoz").checked=!!pref.voz;
     llenarVoces(); $("respiraVozOpciones").hidden=!pref.voz||!("speechSynthesis" in window);
