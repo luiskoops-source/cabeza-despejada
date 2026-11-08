@@ -22,6 +22,8 @@ const defaults={
   cartas:[], cartaBorrador:{para:"",texto:""},
   /* Lo que aprendí: una línea por día { fecha:"AAAA-MM-DD", texto }, la más reciente primero */
   aprendizajes:[],
+  /* Un día en calma: { fecha:"AAAA-MM-DD", cosas:[ids de CALMA], texto }, el más reciente primero */
+  diasCalma:[],
   /* Configuración: sustancia principal, modo ("dejar" o "reducir"), meta semanal en modo reducir, PIN opcional */
   sustancia:"cocaina", modo:"dejar", metaSemana:2, pin:"", tema:"auto", tourVisto:false, novedadVista:null, inicio:null, ganasMin:15,
   celebrado:0, celebradoDia0:null, pledgeDate:null, salirDate:null, salirOk:[], rapidoDate:null, rapidoCount:0, rapidoSeen:[], quizDate:null, quizIdx:null, quizDone:false, quizStreak:0, quizBest:0, volverDia:null, volverOk:[],
@@ -43,6 +45,7 @@ function armarEstado(datos){
   }
   s.events=s.events.filter(e=>e&&typeof e==="object"&&typeof e.ts==="string");
   s.aprendizajes=s.aprendizajes.filter(a=>a&&typeof a.fecha==="string"&&typeof a.texto==="string");
+  s.diasCalma=s.diasCalma.filter(d=>d&&typeof d.fecha==="string"&&Array.isArray(d.cosas));
   return s;
 }
 function load(){ try{ const r=localStorage.getItem(KEY); if(r){ return armarEstado(JSON.parse(r)); } }catch(e){} return nuevoEstado(); }
@@ -127,6 +130,7 @@ function renderHoy(){
   $("resets").textContent=S.events.filter(e=>e.type==="relapse").length;
   renderReasons();
   renderAprendi();
+  renderCalma();
   renderCheckin();
   renderSemana();
   renderPlan();
@@ -1088,6 +1092,60 @@ function renderCraveAprendi(){
   $("craveAprendi").innerHTML=A.map(a=>`<li><span>${esc(a.texto)}</span></li>`).join("");
 }
 
+/* ---------- Un día en calma ---------- */
+/* Lo que se puede marcar. Solo sensaciones buenas y simples: nada de consumo ni de culpa */
+const CALMA=[
+  {id:"descanse",t:"Descansé"},
+  {id:"dormi",t:"Dormí bien"},
+  {id:"corazon",t:"Corazón tranquilo"},
+  {id:"cabeza",t:"Cabeza despejada"},
+  {id:"comi",t:"Comí bien"},
+  {id:"sinculpa",t:"Sin culpa"}
+];
+let calmaElegidas=[];
+/* "Sábado 7 de noviembre": con mayúscula y sin la coma que pone el navegador después del día de la semana */
+const fechaLarga=f=>{ const t=new Date(f+"T12:00:00").toLocaleDateString("es-CL",{weekday:"long",day:"numeric",month:"long"}).replace(",",""); return t.charAt(0).toUpperCase()+t.slice(1); };
+/* Agrega un punto final si la persona no lo puso */
+const conPunto=t=>/[.!?…]$/.test(t)?t:t+".";
+/* Los botones se dibujan una vez; al tocarlos se marcan o desmarcan (aria-pressed para el lector de pantalla) */
+$("calmaCosas").innerHTML=CALMA.map(c=>`<button type="button" class="chip" data-calma="${c.id}" aria-pressed="false">${esc(c.t)}</button>`).join("");
+$("calmaCosas").querySelectorAll("[data-calma]").forEach(b=>b.onclick=()=>{
+  const id=b.dataset.calma;
+  calmaElegidas=calmaElegidas.includes(id)?calmaElegidas.filter(x=>x!==id):calmaElegidas.concat(id);
+  pintarCalmaCosas();
+});
+function pintarCalmaCosas(){
+  $("calmaCosas").querySelectorAll("[data-calma]").forEach(b=>{ const on=calmaElegidas.includes(b.dataset.calma); b.classList.toggle("on",on); b.setAttribute("aria-pressed",String(on)); });
+}
+/* Si ya guardaste hoy, la tarjeta trae lo de hoy y guardar lo reemplaza (un día en calma por fecha) */
+function renderCalma(){
+  const D=S.diasCalma, hoy=todayStr(), deHoy=D.find(d=>d.fecha===hoy);
+  if(!$("calmaCard").contains(document.activeElement)){
+    calmaElegidas=deHoy?deHoy.cosas.slice():[];
+    $("calmaTexto").value=deHoy?(deHoy.texto||""):"";
+  }
+  pintarCalmaCosas();
+  $("calmaGuardar").textContent=deHoy?"Cambiar lo de hoy":"Guardar este día";
+  $("calmaGuardados").hidden=!D.length;
+  $("calmaCuenta").textContent=D.length;
+  $("calmaLista").innerHTML=D.map(d=>`<div class="mito small"><span><b>${esc(fechaLarga(d.fecha))}.</b> ${esc(C.resumenCalma(d.cosas,CALMA))}.${d.texto?" "+esc(conPunto(d.texto)):""}</span></div>`).join("");
+}
+$("calmaGuardar").onclick=()=>{
+  if(!calmaElegidas.length){ mensaje("calmaMsg","Marca al menos una cosa de cómo estuviste hoy."); return; }
+  const hoy=todayStr(), texto=$("calmaTexto").value.trim();
+  /* Se guardan en el orden de la lista, no en el que se tocaron */
+  const cosas=CALMA.map(c=>c.id).filter(id=>calmaElegidas.includes(id));
+  S.diasCalma=[{fecha:hoy,cosas,texto}].concat(S.diasCalma.filter(d=>d.fecha!==hoy));
+  save(); $("calmaGuardar").blur(); $("calmaTexto").blur(); renderCalma();
+  mensaje("calmaMsg",S.diasCalma.length===1?"Guardado. Tu primer día en calma.":"Guardado. Ya son "+S.diasCalma.length+" días en calma.","ok");
+};
+/* En el Modo ganas: uno de tus días en calma, al azar */
+function renderCraveCalma(){
+  const D=S.diasCalma, d=D.length?D[Math.floor(Math.random()*D.length)]:null;
+  $("craveCalmaCard").hidden=!d;
+  if(d) $("craveCalma").innerHTML=`<b>${esc(fechaLarga(d.fecha))}:</b> ${esc(C.resumenCalma(d.cosas,CALMA).toLowerCase())}.${d.texto?" "+esc(conPunto(d.texto)):""}`;
+}
+
 function renderReasons(){
   const html=S.reasons.map((r,i)=>`<li><span>${esc(r)}</span><button data-del="${i}" aria-label="Quitar">×</button></li>`).join("");
   $("reasons").innerHTML=html;
@@ -1280,6 +1338,7 @@ function openCrave(){
   let inhale=false; clearInterval(bInt); const breathe=()=>{ inhale=!inhale; $("breath").classList.toggle("in",inhale); $("breathTxt").textContent=inhale?"Inhala":"Exhala"; }; breathe(); bInt=setInterval(breathe,4000);
   craveTurns=[]; $("craveReply").textContent="";
   renderCraveAprendi();
+  renderCraveCalma();
   pedirPantalla();
 }
 function tick(){ const m=String(Math.floor(left/60)).padStart(2,"0"), s=String(left%60).padStart(2,"0"); $("timer").textContent=m+":"+s; $("barFill").style.width=((TOTAL-left)/TOTAL*100)+"%";

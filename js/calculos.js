@@ -419,10 +419,21 @@ function consumosTrasDiscusion(eventos, horas){
   return { discusiones:momentos.length, consumos:consumos.length, tras };
 }
 
+/* Un día en calma: arma la frase corta de un día guardado, con lo que la persona marcó.
+   "cosas" son ids (ej. ["descanse","corazon"]) y "catalogo" la lista { id, t } con sus textos.
+   Une con comas y una "y" al final: "Descansé, dormí bien y corazón tranquilo". Ignora ids que no existen. */
+function resumenCalma(cosas, catalogo){
+  const lista=Array.isArray(catalogo)?catalogo:[];
+  const textos=(Array.isArray(cosas)?cosas:[]).map(id=>{ const c=lista.find(x=>x&&x.id===id); return c?c.t:null; }).filter(Boolean);
+  if(!textos.length) return "";
+  const minus=textos.map((t,i)=>i===0?t:t.charAt(0).toLowerCase()+t.slice(1));
+  return minus.length===1?minus[0]:minus.slice(0,-1).join(", ")+" y "+minus[minus.length-1];
+}
+
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diaDe, diaPico, diasDesde, diasDesdeHora, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, siguienteCapitulo, enlaceCodigoPastilla, recordatorioICS, enlaceGoogleCalendar, proximoDiaSemana, horaRecordatorio, fase478, faseTos, faseOlfatea, faseHablar, faseNervios, duracionNervios, fasePranayama, duracionPranayama, duracionHablar, tamanoCactus, esMadrugada, minutosRato, momentoSalida, momentoViernes, mananaSabado, novedadesPendientes, consumosTrasDiscusion, HITOS, pesos };
+const Calculos={ fechaTexto, diaDe, diaPico, diasDesde, diasDesdeHora, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, siguienteCapitulo, enlaceCodigoPastilla, recordatorioICS, enlaceGoogleCalendar, proximoDiaSemana, horaRecordatorio, fase478, faseTos, faseOlfatea, faseHablar, faseNervios, duracionNervios, fasePranayama, duracionPranayama, duracionHablar, tamanoCactus, esMadrugada, minutosRato, momentoSalida, momentoViernes, mananaSabado, novedadesPendientes, consumosTrasDiscusion, resumenCalma, HITOS, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);

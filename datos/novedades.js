@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-07-dia-en-calma", titulo:"Un día en calma", cambios:[
+    "En Hoy hay una tarjeta nueva, Un día en calma: si tuviste un día tranquilo, marca cómo estuviste (descansé, dormí bien, corazón tranquilo, cabeza despejada, comí bien, sin culpa) y, si quieres, qué hiciste.",
+    "Cuando abras el Modo ganas, la app te muestra uno de esos días, para recordarte que la calma existe y que la viviste tú.",
+    "Se guarda solo en tu teléfono y viaja en tu copia de seguridad."
+  ]},
   {id:"2026-11-07-pranayama", titulo:"Pranayama suave", cambios:[
     "En Respira conmigo hay un ejercicio nuevo de unos 5 minutos: Pranayama suave. Tiene tres partes: nariz alterna, abeja (soltar el aire tarareando) y un cierre de 4 y 6.",
     "Es lento y sin aguantar el aire, así que sirve también con tos nerviosa. Dice qué hacer si tienes la nariz tapada, dolor de oído o te mareas."

@@ -264,6 +264,19 @@
     <div class="stack" id="aprendiLista"></div>
   </div>
 
+  <!-- Un día en calma: guardar cómo se sintió un día tranquilo, para recordarlo cuando lleguen las ganas.
+       Se guarda en el estado (cd.v1, lista diasCalma), viaja en la copia y aparece en el Modo ganas (js/app.js, renderCalma) -->
+  <div class="card" id="calmaCard">
+    <p class="eyebrow">Un día en calma</p>
+    <p class="small muted">¿Hoy fue un día tranquilo? Guárdalo. Cuando vengan las ganas, la app te va a recordar cómo se sentía.</p>
+    <p class="small"><b>¿Cómo estuviste hoy?</b> Marca lo que sea verdad.</p>
+    <div class="row" id="calmaCosas" role="group" aria-label="Cómo estuviste hoy"></div>
+    <label class="f ancho">Qué hiciste (opcional)<textarea id="calmaTexto" maxlength="160" rows="2" placeholder="Ej: me quedé en la cama viendo series y no me faltó nada"></textarea></label>
+    <div class="row"><button class="primary" id="calmaGuardar" type="button">Guardar este día</button></div>
+    <p class="small" id="calmaMsg" role="status" aria-live="polite"></p>
+    <details class="etapa" id="calmaGuardados" hidden><summary>Mis días en calma <span class="pill" id="calmaCuenta"></span></summary><div class="stack" id="calmaLista"></div></details>
+  </div>
+
   <!-- Lo de todos los días, plegado -->
   <details class="fold" open>
     <summary>Cómo amanecí</summary>
@@ -1118,6 +1131,12 @@
       <p class="eyebrow">Lo que dice la voz</p>
       <p class="small muted">Las ganas hablan con tu voz. Toca la frase que estás escuchando ahora.</p>
       <div class="stack" id="vozList"></div>
+    </div>
+    <!-- Un día en calma que la persona guardó: prueba de que la calma existe y vuelve (js/app.js, renderCraveCalma) -->
+    <div class="card" id="craveCalmaCard" hidden>
+      <p class="eyebrow">Así se siente un día en calma</p>
+      <p id="craveCalma"></p>
+      <p class="small muted">Lo viviste tú. Ese día existe, y va a volver.</p>
     </div>
     <div class="card" id="craveAprendiCard" hidden>
       <p class="eyebrow">Lo que tú mismo aprendiste</p>

@@ -53,6 +53,13 @@ prueba("el sábado a las 5:59 y a las 14:00 no",()=>{ assert.strictEqual(C.manan
 prueba("el viernes o el domingo no",()=>{ assert.strictEqual(C.mananaSabado(new Date(2026,9,16,9,0)),false); assert.strictEqual(C.mananaSabado(new Date(2026,9,18,9,0)),false); });
 prueba("algo que no es una fecha no",()=>{ assert.strictEqual(C.mananaSabado("sábado"),false); assert.strictEqual(C.mananaSabado(undefined),false); });
 
+console.log("resumenCalma");
+const CAT=[{id:"a",t:"Descansé"},{id:"b",t:"Dormí bien"},{id:"c",t:"Corazón tranquilo"}];
+prueba("una sola cosa queda tal cual",()=>assert.strictEqual(C.resumenCalma(["c"],CAT),"Corazón tranquilo"));
+prueba("dos cosas se unen con y",()=>assert.strictEqual(C.resumenCalma(["a","c"],CAT),"Descansé y corazón tranquilo"));
+prueba("tres cosas: comas y una y al final",()=>assert.strictEqual(C.resumenCalma(["a","b","c"],CAT),"Descansé, dormí bien y corazón tranquilo"));
+prueba("lo que no existe o viene vacío no rompe",()=>{ assert.strictEqual(C.resumenCalma(["x"],CAT),""); assert.strictEqual(C.resumenCalma(undefined,CAT),""); assert.strictEqual(C.resumenCalma(["a"],null),""); });
+
 console.log("novedadesPendientes");
 const NOV=[{id:"d"},{id:"c"},{id:"b"},{id:"a"}];
 prueba("si ya vio la más nueva, no hay nada",()=>assert.deepStrictEqual(C.novedadesPendientes(NOV,"d",4),[]));

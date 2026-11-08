@@ -37,6 +37,19 @@ const path = require("path");
   await pagina.click("#aprendiGuardar");
   if (!(await pagina.textContent("#aprendiLista")).includes("domingos en la tarde")) errores.push("Lo que aprendí no queda en la lista");
   if (!(await pagina.evaluate(() => JSON.parse(localStorage.getItem("cd.v1")).aprendizajes.length === 1))) errores.push("Lo que aprendí no se guarda en cd.v1");
+  /* 1e1. Un día en calma: sin marcar nada no guarda; con algo marcado se guarda en cd.v1 y aparece en el Modo ganas */
+  await pagina.click("#calmaGuardar");
+  if (await pagina.evaluate(() => (JSON.parse(localStorage.getItem("cd.v1")).diasCalma || []).length !== 0)) errores.push("Un día en calma se guardó sin marcar nada");
+  await pagina.click('[data-calma="descanse"]');
+  await pagina.click('[data-calma="corazon"]');
+  if ((await pagina.getAttribute('[data-calma="corazon"]', "aria-pressed")) !== "true") errores.push("Un día en calma no marca el botón elegido");
+  await pagina.fill("#calmaTexto", "Me quedé en la cama viendo series");
+  await pagina.click("#calmaGuardar");
+  if (!/Guardado/.test(await pagina.textContent("#calmaMsg"))) errores.push("Un día en calma no dice que quedó guardado");
+  if (!(await pagina.evaluate(() => { const d = JSON.parse(localStorage.getItem("cd.v1")).diasCalma; return d.length === 1 && d[0].cosas.join() === "descanse,corazon"; }))) errores.push("Un día en calma no se guarda bien en cd.v1");
+  await pagina.click("#openCrave");
+  if (!(await pagina.isVisible("#craveCalmaCard")) || !/descansé y corazón tranquilo/.test(await pagina.textContent("#craveCalma"))) errores.push("El Modo ganas no muestra el día en calma");
+  await pagina.click("#closeCrave");
   /* 1e2. Código de pastilla: nada se abre antes de "Sí, abrir" */
   await pagina.evaluate(() => { window.__abiertos = []; window.open = u => { window.__abiertos.push(u); return null; }; });
   await pagina.evaluate(() => { document.getElementById("pastillaCard").open = true; document.getElementById("pastillaCodigo").value = "M 367"; document.getElementById("pastillaBuscar").click(); });
