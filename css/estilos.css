@@ -580,6 +580,8 @@ a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;pad
 @keyframes respira-camina{from{transform:translateX(-210px)}to{transform:translateX(100vw)}}
 /* Espacio abajo para que la pareja no tape los botones del final */
 #respira .inner{padding-bottom:90px}
+/* Si un texto largo baja los botones hasta el camino de la pareja (Pranayama), los botones quedan encima: Kay y Floy pasan por detrás */
+#respira .inner button,#respira .inner select{position:relative;z-index:1}
 @media (prefers-reduced-motion:reduce){ .respira-pareja{animation:none;transform:translateX(18vw)} .respira-pareja .pata,.respira-pareja .cola{animation:none} }
 #respira .respira-circulo{border-width:2px;box-shadow:0 0 0 14px var(--halo)}
 #respira .aire-entra{stroke:var(--aire)}

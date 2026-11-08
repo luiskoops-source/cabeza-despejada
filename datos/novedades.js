@@ -2,6 +2,9 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-08-botones-respira", titulo:"Kay y Floy ya no tapan los botones", cambios:[
+    "En Respira conmigo, con textos largos como el del Pranayama, los botones Empezar y Detener quedaban debajo del camino de Kay y Floy. Ahora se ven completos y la pareja pasa por detrás."
+  ]},
   {id:"2026-11-07-dia-en-calma", titulo:"Un día en calma", cambios:[
     "En Hoy hay una tarjeta nueva, Un día en calma: si tuviste un día tranquilo, marca cómo estuviste (descansé, dormí bien, corazón tranquilo, cabeza despejada, comí bien, sin culpa) y, si quieres, qué hiciste.",
     "Cuando abras el Modo ganas, la app te muestra uno de esos días, para recordarte que la calma existe y que la viviste tú.",
