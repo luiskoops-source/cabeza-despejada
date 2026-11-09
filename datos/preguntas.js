@@ -237,3 +237,11 @@ window.PREGUNTAS.push(
 {q:"Tomar mucha agua protege la vejiga del daño de la ketamina.",v:false,e:"Falso. No hay evidencia de que el agua proteja: el daño lo causan la ketamina y sus restos al pasar por la vejiga, y lo único que lo frena es dejar de usarla. Orinar muy seguido o con urgencia es la señal para parar y consultar.",s:"ketamina"},
 {q:"Si una benzodiacepina (clonazepam, alprazolam) ya no calma como al principio, lo que corresponde es tomar más por cuenta propia.",v:false,e:"Falso. Eso es tolerancia: el cuerpo ya se acostumbró y pide más para el mismo efecto, que es el camino a la dependencia. Lo que corresponde es hablarlo con el médico, que es quien ajusta o baja de a poco.",s:"benzodiacepinas"}
 );
+
+/* Preguntas agregadas el 9 de noviembre de 2026. Salen de la guía de sustancias (alcohol, tabaco, marihuana) y de primeros auxilios (persona inconsciente). */
+window.PREGUNTAS.push(
+{q:"Despertar sin recordar partes de la noche (un 'apagón') es solo una anécdota de la fiesta, no una señal de riesgo.",v:false,e:"Falso. El apagón pasa cuando el alcohol en la sangre sube rápido o muy alto: el cerebro deja de guardar recuerdos. Quien los tiene seguido está bebiendo a un nivel peligroso, y esa misma noche pudo no despertar.",s:"alcohol"},
+{q:"La abstinencia de la nicotina (irritabilidad, ansiedad, falta de concentración) es más fuerte los primeros días y la mayor parte baja en 2 a 4 semanas.",v:true,e:"Verdadero. Lo peor son los días 2 y 3. Saber que tiene fecha de término ayuda a pasarla; los parches y chicles de nicotina la suavizan y se compran sin receta.",s:"tabaco"},
+{q:"La marihuana acelera el pulso durante las horas siguientes a fumarla, y eso importa en personas con problemas al corazón.",v:true,e:"Verdadero. El THC sube la frecuencia cardíaca, y en quien ya tiene una enfermedad del corazón eso aumenta el riesgo de un evento cardíaco. Dolor en el pecho después de fumar es para llamar al 131, con marihuana también.",s:"marihuana"},
+{q:"Si alguien está inconsciente pero respira, conviene darle agua o café para que reaccione.",v:false,e:"Falso. A una persona inconsciente nunca se le da nada por la boca: puede ahogarse. Se la pone de lado, se vigila que siga respirando y se llama al 131 si no despierta con estímulos fuertes.",s:"general"}
+);

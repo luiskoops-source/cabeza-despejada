@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-09-contenido", titulo:"Más preguntas, una frase y un mito", cambios:[
+    "Cuatro preguntas nuevas de verdadero o falso: los apagones por alcohol, cuánto dura la abstinencia de la nicotina, la marihuana y el pulso, y qué no hacer con una persona inconsciente.",
+    "En Lo que dice la voz: la excusa de consumir \"un poco más\" para pasar el malestar del día anterior.",
+    "En la guía de benzodiacepinas, el mito de que tomarlas solo para dormir no produce dependencia."
+  ]},
   {id:"2026-11-09-foros-redaccion", titulo:"Un detalle en los foros", cambios:[
     "En Lo que cuentan en los foros, el origen de cada relato ahora dice bien \"una publicación y un comentario\"."
   ]},

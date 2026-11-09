@@ -74,3 +74,8 @@ window.VOZ.push(
 window.VOZ.push(
  {f:"Igual voy a terminar consumiendo, mejor ahora y me ahorro la pelea.",r:"Eso no es una decisión, es la voz dándola por tomada. Las ganas suben, llegan a un máximo y bajan solas en 15 a 30 minutos, aunque no hagas nada. Pon el reloj y decide cuando bajen, no ahora: muchas veces, del otro lado, ya no quieres."}
 );
+
+/* Frase agregada el 9 de noviembre de 2026: cuando la voz ofrece la misma sustancia como remedio para el malestar que dejó. */
+window.VOZ.push(
+ {f:"Con un poco más se me pasa el malestar de ayer.",r:"Lo que alivia es que el cuerpo deja de pedir, y eso no es cura: es abstinencia. El malestar se corre un día más y el cuerpo aprende que para sentirse normal necesita la sustancia; así empieza la dependencia. Agua, comida y dormir lo pasan de verdad. Si al no consumir tiemblas o sudas, eso es para el 1412 o un médico."}
+);
