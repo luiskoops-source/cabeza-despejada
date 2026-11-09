@@ -19,7 +19,11 @@
   const escribiendo=()=>{ const a=document.activeElement; return !!a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName); };
   /* De madrugada no hay sorpresas: es hora de dormir, no de paracaídas (usa Calculos.esMadrugada si está cargado) */
   const deMadrugada=()=>!!(window.Calculos&&window.Calculos.esMadrugada(new Date().getHours()));
-  function momentoTranquilo(){ return !escribiendo()&&!deMadrugada()&&["calma","crave","lock","respira","rato","discusion","welcome","avisoVersion"].every(id=>{ const el=document.getElementById(id); return !el||el.hidden; }); }
+  /* Kay y Floy aparecen en la franja de abajo de la pantalla (unos 360 px, con su globo). Si ahí se ve un botón importante
+     (Tengo ganas, el compromiso, los de "Ahora mismo" en Noche o un Llamar), esperan a otro momento: nada tapa un botón */
+  const FRANJA=360, IMPORTANTES="#openCrave,#pledgeBtn,#nocheCalma,#nocheGanas,#nocheAuxilios,a.llamar";
+  const botonImportanteAbajo=()=>[...document.querySelectorAll(IMPORTANTES)].some(b=>{ if(!b.offsetParent) return false; const r=b.getBoundingClientRect(); return r.bottom>innerHeight-FRANJA&&r.top<innerHeight; });
+  function momentoTranquilo(){ return !escribiendo()&&!deMadrugada()&&!botonImportanteAbajo()&&["calma","crave","lock","respira","rato","discusion","welcome","avisoVersion"].every(id=>{ const el=document.getElementById(id); return !el||el.hidden; }); }
 
   /* El dibujo: el mismo salchicha negro con café de la respiración, caminando hacia la derecha */
   const DIBUJO='<svg class="paseo-perro" viewBox="0 0 220 130" width="150" height="89" aria-hidden="true">'+
