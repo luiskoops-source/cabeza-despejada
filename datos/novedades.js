@@ -2,6 +2,9 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-08-compromiso", titulo:"El botón de compromiso siempre responde", cambios:[
+    "Después de comprometerte, el botón verde \"Hoy me comprometí\" ya no queda mudo: al tocarlo late y te muestra una frase de ánimo."
+  ]},
   {id:"2026-11-08-respirar-478", titulo:"Cada botón abre lo que dice", cambios:[
     "Los botones \"Respirar 4-7-8\" abren siempre la respiración 4-7-8, aunque la última vez hayas usado otro ejercicio, como Cortar la tos o Pranayama.",
     "En Un día en calma, la línea opcional \"Qué hiciste\" quedó aparte, separada con una línea."

@@ -190,7 +190,17 @@ function renderPledge(){
   $("pledgeBtn").classList.toggle("done",done);
   $("pledgeTxt").textContent=done?"Hoy me comprometí. Un día a la vez.":(S.modo==="reducir"?"Hoy me comprometo a respetar mi meta":"Hoy me comprometo a no consumir");
 }
-$("pledgeBtn").onclick=()=>{ if(S.pledgeDate===todayStr()) return; S.pledgeDate=todayStr(); save(); renderPledge(); toast("Compromiso guardado. Nos vemos mañana."); };
+/* Si ya te comprometiste hoy, el botón igual responde: un pequeño latido y una frase de ánimo (antes no hacía nada y parecía roto) */
+const frasesCompromisoHecho=["Ya está guardado. Hoy sigue contando.","Tu compromiso de hoy sigue en pie.","Un día a la vez. Este ya lo estás haciendo.","Mañana se renueva. Por hoy, ya está."];
+$("pledgeBtn").onclick=()=>{
+  const b=$("pledgeBtn");
+  if(S.pledgeDate===todayStr()){
+    b.classList.remove("latido"); void b.offsetWidth; b.classList.add("latido");
+    toast(frasesCompromisoHecho[Math.floor(Math.random()*frasesCompromisoHecho.length)]);
+    return;
+  }
+  S.pledgeDate=todayStr(); save(); renderPledge(); toast("Compromiso guardado. Nos vemos mañana.");
+};
 
 /* ---------- Reiniciar el Día 0 desde Hoy ---------- */
 /* Pide un segundo toque para confirmar, igual que "Registrar consumo" en Registro, y luego usa la misma función */

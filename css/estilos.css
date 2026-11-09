@@ -268,6 +268,9 @@ details summary{cursor:pointer;font-weight:600}
 .pledge{width:100%;padding:11px 14px;border-radius:13px;font-family:var(--display);font-size:1rem;border:2px solid var(--accent);background:var(--surface);color:var(--accent);box-shadow:0 3px 0 var(--accent-sombra)}
 .reiniciar{width:100%;font-size:.85rem;padding:6px 10px;border:none;color:var(--muted);text-decoration:underline;box-shadow:none}
 .pledge.done{background:var(--accent);color:var(--accent-ink);border-color:transparent}
+.pledge.latido{animation:latido .35s ease}
+@keyframes latido{50%{transform:scale(1.03)}}
+@media (prefers-reduced-motion:reduce){.pledge.latido{animation:none}}
 /* No estás solo */
 .solo{border-color:var(--warm);background:linear-gradient(180deg,var(--surface),var(--warm-soft))}
 .solo #soloLine{font-family:var(--display);font-size:1.15rem;font-weight:700;line-height:1.3}
