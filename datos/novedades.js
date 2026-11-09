@@ -2,6 +2,9 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-09-foros-redaccion", titulo:"Un detalle en los foros", cambios:[
+    "En Lo que cuentan en los foros, el origen de cada relato ahora dice bien \"una publicación y un comentario\"."
+  ]},
   {id:"2026-11-08-foros-sin-suavizar", titulo:"Los relatos de los foros, sin suavizar", cambios:[
     "Las seis historias de Lo que cuentan en los foros ahora cuentan también lo difícil, tal como lo contaron sus autores: el vacío después de dejar, las recaídas que llegan peor y el tiempo real que tarda el cerebro en sanar.",
     "Donde un relato habla de pensamientos de quitarse la vida, aparece la línea *4141 del Ministerio de Salud."
