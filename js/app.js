@@ -1482,6 +1482,15 @@ function renderCuentan(){
   $("cuentanLista").innerHTML=(d.historias||[]).map(h=>`<details class="historia"><summary><b>${esc(h.titulo)}</b><span class="pill${h.tema==="celebrar"?" good":""}">${h.tipo==="real"?"Historia real, enviada de forma anónima":"Ficción inspirada en situaciones comunes"}</span></summary><p class="small">${esc(h.texto).replace(/\n\n/g,"</p><p class=\"small\">")}</p></details>`).join("");
 }
 
+/* ---------- Lo que cuentan en los foros ---------- */
+/* Relatos reales de foros de recuperación, resumidos con palabras propias (datos/foros.js).
+   Cada uno se abre al tocarlo y termina con el foro de donde viene y un enlace al hilo original. */
+function renderForos(){
+  const F=window.FOROS||[];
+  $("forosCard").hidden=!F.length;
+  $("forosLista").innerHTML=F.map(h=>`<details class="historia"><summary><b>${esc(h.titulo)}</b><span class="pill">Relato real</span></summary><p class="small">${esc(h.texto).replace(/\n\n/g,"</p><p class=\"small\">")}</p><p class="small muted">Basado en ${h.en==="comentario"?"un comentario":"una publicación"} de r/${esc(h.foro)}, ${esc(h.fecha)}. <a href="${esc(h.url)}" target="_blank" rel="noopener noreferrer">Leer el original</a></p></details>`).join("");
+}
+
 /* ---------- Atajos del ícono ---------- */
 /* Al dejar el dedo apretado sobre el ícono aparecen "Tengo ganas", "Respirar 4-7-8" y "Modo calma" (ver "shortcuts" en manifest.json).
    Abren la app con ?ir=ganas o ?ir=calma en la dirección. Si hay PIN, la pantalla se abre después de desbloquear. */
@@ -1509,7 +1518,7 @@ document.querySelectorAll(".crave").forEach(pantalla=>{
 });
 
 /* ---------- Boot ---------- */
-fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderSenales(); renderSalir(); renderRapido(); renderOfChips(); renderNovedades(); renderCuentan(); lockIfNeeded();
+fillConfig(); renderHoy(); pickDaily(); renderFacts(); renderRegistro(); renderSust(); renderActualidad(); renderPA(); renderSenales(); renderSalir(); renderRapido(); renderOfChips(); renderNovedades(); renderCuentan(); renderForos(); lockIfNeeded();
 /* Portada: al cactus le sale una flor con los hitos (7 días: brote, 30: abierta, 90: florecido) */
 try{ const dias=S.day0?diasSobrio():0, fl=dias>=90?3:dias>=30?2:dias>=7?1:0; if(fl) document.querySelector(".portada").dataset.flor=fl; }catch(e){}
 /* Portada: el cactus crece con todos los días que llevas en esto (desde S.inicio, el primer Día 0). Una recaída no lo achica.

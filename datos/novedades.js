@@ -2,6 +2,10 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-08-foros", titulo:"Lo que cuentan en los foros", cambios:[
+    "En Saber hay una tarjeta nueva con seis historias reales de foros de recuperación: la casa a medio arreglar, doce años a una cuadra, volver a empezar después de casi tres años y otras.",
+    "Están contadas con nuestras palabras y sin nombres de usuario, para cuidar a quien las escribió. Cada una tiene un enlace al hilo original."
+  ]},
   {id:"2026-11-08-compromiso", titulo:"El botón de compromiso siempre responde", cambios:[
     "Después de comprometerte, el botón verde \"Hoy me comprometí\" ya no queda mudo: al tocarlo late y te muestra una frase de ánimo."
   ]},
