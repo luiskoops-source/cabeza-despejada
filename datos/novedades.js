@@ -2,6 +2,10 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-08-foros-sin-suavizar", titulo:"Los relatos de los foros, sin suavizar", cambios:[
+    "Las seis historias de Lo que cuentan en los foros ahora cuentan también lo difícil, tal como lo contaron sus autores: el vacío después de dejar, las recaídas que llegan peor y el tiempo real que tarda el cerebro en sanar.",
+    "Donde un relato habla de pensamientos de quitarse la vida, aparece la línea *4141 del Ministerio de Salud."
+  ]},
   {id:"2026-11-08-foros", titulo:"Lo que cuentan en los foros", cambios:[
     "En Saber hay una tarjeta nueva con seis historias reales de foros de recuperación: la casa a medio arreglar, doce años a una cuadra, volver a empezar después de casi tres años y otras.",
     "Están contadas con nuestras palabras y sin nombres de usuario, para cuidar a quien las escribió. Cada una tiene un enlace al hilo original."

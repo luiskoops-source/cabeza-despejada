@@ -1488,7 +1488,7 @@ function renderCuentan(){
 function renderForos(){
   const F=window.FOROS||[];
   $("forosCard").hidden=!F.length;
-  $("forosLista").innerHTML=F.map(h=>`<details class="historia"><summary><b>${esc(h.titulo)}</b><span class="pill">Relato real</span></summary><p class="small">${esc(h.texto).replace(/\n\n/g,"</p><p class=\"small\">")}</p><p class="small muted">Basado en ${h.en==="comentario"?"un comentario":"una publicación"} de r/${esc(h.foro)}, ${esc(h.fecha)}. <a href="${esc(h.url)}" target="_blank" rel="noopener noreferrer">Leer el original</a></p></details>`).join("");
+  $("forosLista").innerHTML=F.map(h=>`<details class="historia"><summary><b>${esc(h.titulo)}</b><span class="pill">Relato real</span></summary><p class="small">${esc(h.texto).replace(/\n\n/g,"</p><p class=\"small\">")}</p><p class="small muted">Basado en ${h.en==="comentario"?"un comentario":(h.en==="publicación"?"una publicación":esc(h.en))} de r/${esc(h.foro)}, ${esc(h.fecha)}. <a href="${esc(h.url)}" target="_blank" rel="noopener noreferrer">Leer el original</a></p></details>`).join("");
 }
 
 /* ---------- Atajos del ícono ---------- */
