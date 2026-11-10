@@ -79,3 +79,8 @@ window.VOZ.push(
 window.VOZ.push(
  {f:"Con un poco más se me pasa el malestar de ayer.",r:"Lo que alivia es que el cuerpo deja de pedir, y eso no es cura: es abstinencia. El malestar se corre un día más y el cuerpo aprende que para sentirse normal necesita la sustancia; así empieza la dependencia. Agua, comida y dormir lo pasan de verdad. Si al no consumir tiemblas o sudas, eso es para el 1412 o un médico."}
 );
+
+/* Frase agregada el 10 de noviembre de 2026: cuando la voz usa a la familia como excusa. */
+window.VOZ.push(
+ {f:"Si no consumo voy a estar insoportable con mi familia.",r:"La irritabilidad de los primeros días es abstinencia, y pasa: lo peor suele ser la primera semana. Avisarles que estás en eso (\"ando corto de paciencia estos días, no es con ustedes\") protege más que consumir para parecer tranquilo. Lo que de verdad los aleja no es tu mal humor de esta semana: es la sustancia."}
+);

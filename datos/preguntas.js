@@ -245,3 +245,11 @@ window.PREGUNTAS.push(
 {q:"La marihuana acelera el pulso durante las horas siguientes a fumarla, y eso importa en personas con problemas al corazón.",v:true,e:"Verdadero. El THC sube la frecuencia cardíaca, y en quien ya tiene una enfermedad del corazón eso aumenta el riesgo de un evento cardíaco. Dolor en el pecho después de fumar es para llamar al 131, con marihuana también.",s:"marihuana"},
 {q:"Si alguien está inconsciente pero respira, conviene darle agua o café para que reaccione.",v:false,e:"Falso. A una persona inconsciente nunca se le da nada por la boca: puede ahogarse. Se la pone de lado, se vigila que siga respirando y se llama al 131 si no despierta con estímulos fuertes.",s:"general"}
 );
+
+/* Preguntas agregadas el 10 de noviembre de 2026. Salen de la guía de sustancias (MDMA, anfetaminas, pasta base, tusi). */
+window.PREGUNTAS.push(
+{q:"Apretar la mandíbula o rechinar los dientes con MDMA es señal de que la pastilla venía adulterada.",v:false,e:"Falso. El bruxismo es un efecto propio del MDMA, no una señal de adulteración. Lo que la pastilla trae además no se nota por cómo se siente ni mirándola: sin análisis no hay forma de saberlo.",s:"mdma"},
+{q:"Después de días sin dormir con metanfetamina, en algunas personas las voces o la sensación de persecución pueden durar semanas aunque ya no consuman.",v:true,e:"Verdadero. Suele mejorar con días de sueño y sin consumir, pero en algunas personas dura semanas o vuelve con el estrés. Si hay agitación, miedo intenso o ideas de hacerse daño, 131; para orientarse, 1412.",s:"anfetaminas"},
+{q:"La pasta base produce pérdida rápida de peso y de sueño, con un deterioro físico que se nota en semanas.",v:true,e:"Verdadero. Y es reversible: la mejora clara del cuerpo se nota entre el primer y el segundo mes sin consumir. El tratamiento gratuito de SENDA (1412), incluso residencial, ayuda a llegar ahí.",s:"pasta-base"},
+{q:"Si el tusi te dejó con sueño o 'ido' en vez de con energía, es que venía malo.",v:false,e:"Falso. Lo que se vende como tusi suele traer ketamina, un anestésico disociativo: quedar 'ido', torpe o con sueño es efecto de la ketamina, no una falla de la bolsa. Si la persona no responde o vomita, se la pone de lado y se llama al 131, diciendo que fue tusi.",s:"tusi"}
+);

@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-10-contenido", titulo:"Cuatro preguntas y una frase más", cambios:[
+    "Cuatro preguntas nuevas de verdadero o falso: la mandíbula apretada con MDMA, cuánto puede durar la paranoia por metanfetamina, el deterioro visible de la pasta base y por qué el tusi puede dejar con sueño.",
+    "En Lo que dice la voz: la excusa de consumir para no estar insoportable con la familia.",
+    "El aviso de PIN incorrecto ahora lo anuncian también los lectores de pantalla."
+  ]},
   {id:"2026-11-09-kay-floy-esperan", titulo:"Kay y Floy esperan su momento", cambios:[
     "Kay y Floy ya no aparecen encima de \"Tengo ganas de consumir\", del compromiso del día, de los botones de \"Ahora mismo\" en Noche ni de un botón Llamar: si uno de esos está abajo en la pantalla, esperan a otro momento."
   ]},
