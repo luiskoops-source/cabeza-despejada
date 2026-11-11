@@ -84,3 +84,8 @@ window.VOZ.push(
 window.VOZ.push(
  {f:"Si no consumo voy a estar insoportable con mi familia.",r:"La irritabilidad de los primeros días es abstinencia, y pasa: lo peor suele ser la primera semana. Avisarles que estás en eso (\"ando corto de paciencia estos días, no es con ustedes\") protege más que consumir para parecer tranquilo. Lo que de verdad los aleja no es tu mal humor de esta semana: es la sustancia."}
 );
+
+/* Frase agregada el 11 de noviembre de 2026: cuando la voz usa un sueño de consumo como prueba. */
+window.VOZ.push(
+ {f:"Soñé que consumía: en el fondo lo sigo queriendo, para qué seguir.",r:"Soñar que consumes es muy común en la recuperación, sobre todo los primeros meses, y no significa que lo quieras ni que vayas a recaer: es el cerebro ordenando lo que vivió. Despertar con susto, con culpa o con ganas pasa en un rato. Anótalo si quieres, y sigue el día: el sueño no cuenta como consumo."}
+);

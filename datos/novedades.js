@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-11-contenido", titulo:"Cuatro preguntas, una frase y un mito más", cambios:[
+    "Cuatro preguntas nuevas de verdadero o falso: dejar la ketamina, las señales de emergencia con tusi, benzodiacepinas con opioides y la pasta base con alcohol.",
+    "En Lo que dice la voz: cuando un sueño en que consumes parece prueba de que lo sigues queriendo.",
+    "En la guía de MDMA, el mito de tomar \"otra\" porque la primera no hizo efecto."
+  ]},
   {id:"2026-11-10-contenido", titulo:"Cuatro preguntas y una frase más", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: la mandíbula apretada con MDMA, cuánto puede durar la paranoia por metanfetamina, el deterioro visible de la pasta base y por qué el tusi puede dejar con sueño.",
     "En Lo que dice la voz: la excusa de consumir para no estar insoportable con la familia.",
