@@ -201,6 +201,12 @@
     <p class="small">La voz que dice "ya da igual, sigue" es la adicción hablando con tu voz. Un consumo no borra los días anteriores: tu cerebro los vivió igual.</p>
     <p class="eyebrow">Las próximas 48 horas <span class="pill" id="volverCount"></span></p>
     <div class="stack" id="volverList"></div>
+    <!-- Corté a tiempo: aparte y opcional. Registra que la persona paró antes de terminar (lógica en js/app.js, renderCorte) -->
+    <div class="aparte" id="corteBox">
+      <p class="small"><b>¿Paraste antes de terminar?</b> Botar lo que quedaba o no comprar más en plena noche es de lo más difícil que hay. Si lo hiciste, márcalo (opcional): también es avanzar.</p>
+      <button class="ghost small" type="button" id="corteBtn">Corté a tiempo</button>
+      <p class="small muted" id="corteEstado" role="status"></p>
+    </div>
     <button class="ghost" id="volverLeer">Leer "Si recaíste": sin culpa, con calma</button>
     <button class="ghost" id="volverCalma">Me siento paranoico o raro: abrir Modo calma</button>
   </div>

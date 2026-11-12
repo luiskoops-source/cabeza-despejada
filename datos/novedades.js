@@ -2,6 +2,10 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-12-corte", titulo:"Corté a tiempo", cambios:[
+    "En Volver a empezar hay un botón nuevo y opcional: Corté a tiempo. Si paraste antes de terminar (botaste lo que quedaba o no compraste más), márcalo: también es avanzar.",
+    "La app cuenta cuántas veces lo has hecho y lo muestra en tu Registro como un logro, en verde."
+  ]},
   {id:"2026-11-12-contenido", titulo:"Cuatro preguntas, una frase y un mito más", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: convulsiones después de cocaína, el \"corazón de fiesta\" por una borrachera fuerte, el monóxido de carbono al primer día sin fumar, y el hambre, la rabia, la soledad y el cansancio detrás de las ganas.",
     "En Lo que dice la voz: cuando la desconfianza de los demás parece un permiso para consumir.",

@@ -249,9 +249,24 @@ function renderVolver(d){
   $("volverTotal").textContent=acum.total;
   $("volverCount").textContent=S.volverOk.length+" de "+VOLVER.length;
   $("volverList").innerHTML=VOLVER.map(x=>{ const on=S.volverOk.includes(x.id); return `<div class="salir ${on?"on":""}"><input type="checkbox" id="volver-${x.id}" ${on?"checked":""}><label for="volver-${x.id}"><span class="small"><b>${esc(x.t)}</b></span><span class="small muted">${esc(x.por)}</span></label></div>`; }).join("");
+  renderCorte();
   $("volverList").querySelectorAll("input").forEach(i=>i.onchange=()=>{ const id=i.id.replace("volver-",""); S.volverOk=i.checked?S.volverOk.concat(id):S.volverOk.filter(x=>x!==id); save(); renderVolver(d); });
 }
 $("volverCalma").onclick=()=>$("openCalma").click();
+
+/* ---------- Corté a tiempo ---------- */
+/* Dentro de Volver a empezar: marcar que se paró antes de terminar (botar lo que quedaba, no comprar más).
+   Se guarda como evento "corte" en S.events, así viaja en la copia de seguridad. Una vez por Día 0. */
+function renderCorte(){
+  const cortes=S.events.filter(e=>e.type==="corte");
+  const yaHoy=cortes.some(e=>S.day0&&todayStrDe(e.ts)>=S.day0);
+  const n=cortes.length;
+  $("corteBtn").hidden=yaHoy;
+  $("corteEstado").textContent=yaHoy
+    ?"Guardado ✓ "+(n===1?"La primera vez que cortas a tiempo. Eso lo hiciste tú.":"Ya van "+n+" veces que cortas a tiempo. Cada una le enseña a tu cabeza que sí puede parar.")
+    :n?"Has cortado a tiempo "+n+(n===1?" vez.":" veces."):"";
+}
+$("corteBtn").onclick=()=>{ addEvent("corte",{did:"Paré antes de terminar"}); renderCorte(); renderRegistro(); toast("Guardado. Parar a mitad de camino es de valientes."); };
 
 /* ---------- Lo que viene ---------- */
 /* Muestra la etapa en que va la persona, la siguiente, una frase de ánimo y el acceso a los foros */
@@ -1280,7 +1295,7 @@ function renderRegistro(){
   const max=Math.max(1,...days.map(d=>d.c));
   $("chart").innerHTML=days.map(d=>`<div class="${d.r?"r":""}" style="height:${d.r?100:Math.max(d.c?8:2,d.c/max*100)}%" ${d.c||d.r?`data-n="${d.r?"C":d.c}"`:""} title="${d.label}"></div>`).join("");
   $("axisFrom").textContent=days[0].label; $("axisTo").textContent=days[13].label;
-  $("log").innerHTML=S.events.length?S.events.slice(0,60).map(e=>{ const t=new Date(e.ts); return `<div class="e"><time>${t.toLocaleDateString("es-CL",{day:"2-digit",month:"2-digit"})} ${t.toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"})}</time><div><span class="pill ${e.type==="relapse"?"bad":e.type==="win"?"good":""}">${e.type==="relapse"?"consumo":e.type==="win"?"ola superada":e.type==="checkin"?"dormí "+esc(e.sueno)+" h · ánimo "+esc(e.animo)+"/5":e.type==="calma"?"modo calma":e.type==="discusion"?"después de una discusión":"ganas "+esc(e.i)+"/10"}</span>${e.trig?" · "+esc(e.trig):""}${e.did?"<br>"+esc(e.did):""}</div></div>`; }).join(""):`<p class="small muted">Nada todavía. Lo primero que anotes empieza a mostrar tu patrón.</p>`;
+  $("log").innerHTML=S.events.length?S.events.slice(0,60).map(e=>{ const t=new Date(e.ts); return `<div class="e"><time>${t.toLocaleDateString("es-CL",{day:"2-digit",month:"2-digit"})} ${t.toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"})}</time><div><span class="pill ${e.type==="relapse"?"bad":e.type==="win"||e.type==="corte"?"good":""}">${e.type==="relapse"?"consumo":e.type==="win"?"ola superada":e.type==="corte"?"corté a tiempo":e.type==="checkin"?"dormí "+esc(e.sueno)+" h · ánimo "+esc(e.animo)+"/5":e.type==="calma"?"modo calma":e.type==="discusion"?"después de una discusión":"ganas "+esc(e.i)+"/10"}</span>${e.trig?" · "+esc(e.trig):""}${e.did?"<br>"+esc(e.did):""}</div></div>`; }).join(""):`<p class="small muted">Nada todavía. Lo primero que anotes empieza a mostrar tu patrón.</p>`;
   renderPatterns();
   renderCal();
   renderCartas();
