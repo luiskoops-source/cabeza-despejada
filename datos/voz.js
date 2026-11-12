@@ -89,3 +89,8 @@ window.VOZ.push(
 window.VOZ.push(
  {f:"Soñé que consumía: en el fondo lo sigo queriendo, para qué seguir.",r:"Soñar que consumes es muy común en la recuperación, sobre todo los primeros meses, y no significa que lo quieras ni que vayas a recaer: es el cerebro ordenando lo que vivió. Despertar con susto, con culpa o con ganas pasa en un rato. Anótalo si quieres, y sigue el día: el sueño no cuenta como consumo."}
 );
+
+/* Frase agregada el 12 de noviembre de 2026: cuando la voz usa la desconfianza de los demás como permiso. */
+window.VOZ.push(
+ {f:"Igual nadie me cree que estoy dejando, da lo mismo lo que haga.",r:"La confianza vuelve más lento que los días limpios: ellos vieron muchas promesas, y necesitan ver tiempo. Consumir hoy les daría la razón; seguir sin consumir es lo único que la recupera, aunque tarde. Y esto no lo haces para que te crean: lo haces para ti. Que no lo vean todavía no borra lo que llevas."}
+);

@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-12-contenido", titulo:"Cuatro preguntas, una frase y un mito más", cambios:[
+    "Cuatro preguntas nuevas de verdadero o falso: convulsiones después de cocaína, el \"corazón de fiesta\" por una borrachera fuerte, el monóxido de carbono al primer día sin fumar, y el hambre, la rabia, la soledad y el cansancio detrás de las ganas.",
+    "En Lo que dice la voz: cuando la desconfianza de los demás parece un permiso para consumir.",
+    "En la guía de anfetaminas, el mito de que las pastillas para bajar de peso no son droga."
+  ]},
   {id:"2026-11-11-contenido", titulo:"Cuatro preguntas, una frase y un mito más", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: dejar la ketamina, las señales de emergencia con tusi, benzodiacepinas con opioides y la pasta base con alcohol.",
     "En Lo que dice la voz: cuando un sueño en que consumes parece prueba de que lo sigues queriendo.",
