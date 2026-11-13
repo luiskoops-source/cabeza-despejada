@@ -94,3 +94,8 @@ window.VOZ.push(
 window.VOZ.push(
  {f:"Igual nadie me cree que estoy dejando, da lo mismo lo que haga.",r:"La confianza vuelve más lento que los días limpios: ellos vieron muchas promesas, y necesitan ver tiempo. Consumir hoy les daría la razón; seguir sin consumir es lo único que la recupera, aunque tarde. Y esto no lo haces para que te crean: lo haces para ti. Que no lo vean todavía no borra lo que llevas."}
 );
+
+/* Frase agregada el 13 de noviembre de 2026: cuando la voz usa las vacaciones o un viaje como permiso. */
+window.VOZ.push(
+ {f:"Estoy de vacaciones, las reglas de siempre no corren.",r:"Las ganas y el bajón no miran el calendario: el lunes de vuelta llega igual, y con menos días limpios. Si para pasarlo bien en un viaje hace falta consumir, no era el viaje lo que lo hacía bueno. Las vacaciones son el mejor momento para probar que también sabes descansar sin eso."}
+);
