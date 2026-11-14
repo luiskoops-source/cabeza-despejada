@@ -99,3 +99,8 @@ window.VOZ.push(
 window.VOZ.push(
  {f:"Estoy de vacaciones, las reglas de siempre no corren.",r:"Las ganas y el bajón no miran el calendario: el lunes de vuelta llega igual, y con menos días limpios. Si para pasarlo bien en un viaje hace falta consumir, no era el viaje lo que lo hacía bueno. Las vacaciones son el mejor momento para probar que también sabes descansar sin eso."}
 );
+
+/* Frase agregada el 14 de noviembre de 2026: cuando la voz usa que lo ofrecieron gratis como permiso. */
+window.VOZ.push(
+ {f:"Me lo ofrecieron gratis, sería tonto desaprovecharlo.",r:"Gratis es el precio de entrada, no el costo: el bajón, la paranoia y las ganas de los próximos días los pagas igual. Y lo gratis de hoy suele ser la invitación a comprar mañana. Lo que no se recupera es lo que llevas avanzado: eso sí sería desaprovechar."}
+);

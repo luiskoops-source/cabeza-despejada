@@ -2,6 +2,12 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-14-contenido", titulo:"Cinco preguntas, una frase, un mito y una comunidad más", cambios:[
+    "Cinco preguntas nuevas de verdadero o falso: las pastillas de éxtasis que \"no pegan\", las benzodiacepinas para dormir a largo plazo, el tratamiento para la metanfetamina, cómo se debilitan las señales que encienden las ganas, y el olfato y el gusto al dejar el tabaco.",
+    "En Lo que dice la voz: cuando que te lo ofrezcan gratis parece un permiso.",
+    "En la guía del tusi, el mito de que con tusi no hay riesgo de sobredosis.",
+    "En Comunidades: Nar-Anon, para familiares y amigos de alguien que consume drogas."
+  ]},
   {id:"2026-11-13-contenido", titulo:"Cuatro preguntas, una frase y un mito más", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: por qué una misma bolsa de tusi no le hace lo mismo a todos, las benzodiacepinas al manejar, las heridas por rascarse con metanfetamina y por qué con ketamina conviene quedarse sentado.",
     "En Lo que dice la voz: cuando las vacaciones o un viaje parecen un permiso para consumir.",
