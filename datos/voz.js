@@ -104,3 +104,8 @@ window.VOZ.push(
 window.VOZ.push(
  {f:"Me lo ofrecieron gratis, sería tonto desaprovecharlo.",r:"Gratis es el precio de entrada, no el costo: el bajón, la paranoia y las ganas de los próximos días los pagas igual. Y lo gratis de hoy suele ser la invitación a comprar mañana. Lo que no se recupera es lo que llevas avanzado: eso sí sería desaprovechar."}
 );
+
+/* Frase agregada el 15 de noviembre de 2026: cuando la voz propone comprar "por si acaso", sin consumir todavía. */
+window.VOZ.push(
+ {f:"Solo lo voy a comprar y guardar, por si acaso. Hoy no lo voy a usar.",r:"Comprarlo ya es la mitad de la decisión. Lo que está guardado en la casa casi siempre termina usándose, y muchas veces esa misma noche. Si no está, la noche se resuelve de otra forma. Dejar pasar la compra es la forma más corta de dejar pasar el consumo."}
+);

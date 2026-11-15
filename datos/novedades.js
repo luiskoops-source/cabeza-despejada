@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-15-contenido", titulo:"Cuatro preguntas, una frase y un mito más", cambios:[
+    "Cuatro preguntas nuevas de verdadero o falso: los sueños vívidos al dejar la marihuana, la ketamina en la tina o la piscina, las sobredosis tardías con metadona o pastillas de liberación prolongada, y el sueño y el riesgo de recaer.",
+    "En Lo que dice la voz: cuando la voz propone comprar \"por si acaso\", sin consumir todavía.",
+    "En la guía de pasta base, el mito de que dejarla de golpe es peligroso como con el alcohol."
+  ]},
   {id:"2026-11-14-contenido", titulo:"Cinco preguntas, una frase, un mito y una comunidad más", cambios:[
     "Cinco preguntas nuevas de verdadero o falso: las pastillas de éxtasis que \"no pegan\", las benzodiacepinas para dormir a largo plazo, el tratamiento para la metanfetamina, cómo se debilitan las señales que encienden las ganas, y el olfato y el gusto al dejar el tabaco.",
     "En Lo que dice la voz: cuando que te lo ofrezcan gratis parece un permiso.",
