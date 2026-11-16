@@ -109,3 +109,8 @@ window.VOZ.push(
 window.VOZ.push(
  {f:"Solo lo voy a comprar y guardar, por si acaso. Hoy no lo voy a usar.",r:"Comprarlo ya es la mitad de la decisión. Lo que está guardado en la casa casi siempre termina usándose, y muchas veces esa misma noche. Si no está, la noche se resuelve de otra forma. Dejar pasar la compra es la forma más corta de dejar pasar el consumo."}
 );
+
+/* Frase agregada el 16 de noviembre de 2026: cuando alguien cercano consume y la voz usa eso como excusa. */
+window.VOZ.push(
+ {f:"En mi casa o en mi grupo todos consumen; así es imposible dejar.",r:"Es más difícil, no imposible. No tienes que convencer a nadie: basta con pedir una cosa concreta, que no consuman delante de ti o que no te ofrezcan. Y los ratos en que la casa se llena de eso, tener un lugar al que ir. Si nadie te cuida ahí, el 1412 y las comunidades de Saber sí lo hacen."}
+);

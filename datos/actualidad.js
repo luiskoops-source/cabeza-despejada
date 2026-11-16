@@ -53,5 +53,6 @@ window.COMUNIDADES=[
 {nombre:"SMART Recovery en español",que:"Alternativa a los 12 pasos, basada en herramientas prácticas. Reuniones por Zoom en español, organizadas desde España.",enlace:"https://smartrecovery.org.es"},
 {nombre:"DanceSafe",que:"Organización de reducción de daños (EE.UU.). Fichas por sustancia y kits de prueba para saber qué contiene algo.",enlace:"https://dancesafe.org/drug-information/"},
 {nombre:"Échele Cabeza (Colombia)",que:"Programa colombiano que analiza sustancias en fiestas y publica alertas sobre lo que realmente contienen (incluido el tusi).",enlace:"https://www.echelecabeza.com"},
+{nombre:"Energy Control (España)",que:"Programa español de reducción de riesgos, de la asociación ABD. Información por sustancia en español, alertas sobre lo que de verdad contienen las drogas que analizan y \"Habla con Energy\", un servicio en línea, confidencial y gratuito, para hacer preguntas sobre el consumo propio o el de alguien cercano.",enlace:"https://energycontrol.org"},
 {nombre:"TripSit",que:"Wiki y chat de reducción de daños en inglés, con tabla de combinaciones peligrosas.",enlace:"https://wiki.tripsit.me"}
 ];

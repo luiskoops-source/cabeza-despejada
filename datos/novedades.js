@@ -2,6 +2,12 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-16-contenido", titulo:"Cuatro preguntas, una frase, un mito y una comunidad más", cambios:[
+    "Cuatro preguntas nuevas de verdadero o falso: el bajón después de varios días de cocaína, fumar solo en fiestas, qué decirle al 131 cuando hubo mezcla, y el sueño en las primeras semanas sin alcohol.",
+    "En Lo que dice la voz: cuando en la casa o en el grupo todos consumen y eso parece volverlo imposible.",
+    "En la guía de marihuana, el mito de que es la misma hierba de siempre.",
+    "En Comunidades: Energy Control (España), reducción de riesgos en español con un servicio en línea, confidencial y gratuito, para hacer preguntas."
+  ]},
   {id:"2026-11-15-contenido", titulo:"Cuatro preguntas, una frase y un mito más", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: los sueños vívidos al dejar la marihuana, la ketamina en la tina o la piscina, las sobredosis tardías con metadona o pastillas de liberación prolongada, y el sueño y el riesgo de recaer.",
     "En Lo que dice la voz: cuando la voz propone comprar \"por si acaso\", sin consumir todavía.",
