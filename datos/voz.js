@@ -114,3 +114,8 @@ window.VOZ.push(
 window.VOZ.push(
  {f:"En mi casa o en mi grupo todos consumen; así es imposible dejar.",r:"Es más difícil, no imposible. No tienes que convencer a nadie: basta con pedir una cosa concreta, que no consuman delante de ti o que no te ofrezcan. Y los ratos en que la casa se llena de eso, tener un lugar al que ir. Si nadie te cuida ahí, el 1412 y las comunidades de Saber sí lo hacen."}
 );
+
+/* Frase agregada el 17 de noviembre de 2026: cuando un dolor físico se vuelve la excusa. */
+window.VOZ.push(
+ {f:"Estoy con dolor (de cabeza, de muela, de espalda) y esto me lo va a quitar.",r:"Lo tapa unas horas y lo devuelve con el bajón encima. El dolor real tiene tratamiento: en el consultorio o en el SAPU puedes decir que estás dejando una sustancia, y eso ayuda a que te indiquen algo que no te complique. Mientras tanto, agua, calor o frío en la zona y dormir, que casi siempre es lo que más falta."}
+);

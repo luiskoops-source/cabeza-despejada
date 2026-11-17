@@ -2,6 +2,12 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-17-contenido", titulo:"Cuatro preguntas, una frase y un mito más", cambios:[
+    "Cuatro preguntas nuevas de verdadero o falso: los cánceres que se asocian al alcohol, fumar cigarros junto con cocaína, la primera semana sin tabaco, y el plan escrito para los momentos de riesgo.",
+    "En Lo que dice la voz: cuando un dolor físico se vuelve la excusa para consumir.",
+    "En la guía de opioides, el mito de que después de semanas sin usar se aguanta lo mismo que antes.",
+    "En Comunidades: la ficha de Alcohólicos Anónimos ahora aclara que su página en español es un directorio de contactos por país, no un buscador de reuniones."
+  ]},
   {id:"2026-11-16-contenido", titulo:"Cuatro preguntas, una frase, un mito y una comunidad más", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: el bajón después de varios días de cocaína, fumar solo en fiestas, qué decirle al 131 cuando hubo mezcla, y el sueño en las primeras semanas sin alcohol.",
     "En Lo que dice la voz: cuando en la casa o en el grupo todos consumen y eso parece volverlo imposible.",
