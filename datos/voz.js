@@ -119,3 +119,8 @@ window.VOZ.push(
 window.VOZ.push(
  {f:"Estoy con dolor (de cabeza, de muela, de espalda) y esto me lo va a quitar.",r:"Lo tapa unas horas y lo devuelve con el bajón encima. El dolor real tiene tratamiento: en el consultorio o en el SAPU puedes decir que estás dejando una sustancia, y eso ayuda a que te indiquen algo que no te complique. Mientras tanto, agua, calor o frío en la zona y dormir, que casi siempre es lo que más falta."}
 );
+
+/* Frase agregada el 18 de noviembre de 2026: cuando la fecha "perfecta" para empezar se corre siempre un poco más. */
+window.VOZ.push(
+ {f:"Lo dejo después de las fiestas de fin de año; ahora no tiene sentido empezar.",r:"Después de las fiestas viene el verano, después las vacaciones, y el 'después' siempre tiene otro después. No existe una fecha perfecta para empezar: existe hoy. Cada día sin consumir desde ahora cuenta igual que uno de enero, y llegar a diciembre con semanas de ventaja te deja más firme para esas noches. Si te asustan, arma el plan en Antes de salir con tiempo, no el mismo día."}
+);

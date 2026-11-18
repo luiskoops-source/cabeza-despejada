@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-18-contenido", titulo:"Cuatro preguntas, una frase y un mito más", cambios:[
+    "Cuatro preguntas nuevas de verdadero o falso: el alcohol no es un estimulante, el alcohol en el embarazo, probar la cocaína con la lengua para 'saber si es buena', y el riesgo después de haber sobrevivido a una sobredosis de opioides.",
+    "En Lo que dice la voz: cuando dejar se posterga hasta después de las fiestas de fin de año.",
+    "En la guía de tabaco, el mito de que fumar con la ventana abierta protege a los demás de la casa."
+  ]},
   {id:"2026-11-17-contenido", titulo:"Cuatro preguntas, una frase y un mito más", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: los cánceres que se asocian al alcohol, fumar cigarros junto con cocaína, la primera semana sin tabaco, y el plan escrito para los momentos de riesgo.",
     "En Lo que dice la voz: cuando un dolor físico se vuelve la excusa para consumir.",
