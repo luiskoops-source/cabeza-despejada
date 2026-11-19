@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-19-contenido", titulo:"Cuatro preguntas, una frase y un mito más", cambios:[
+    "Cuatro preguntas nuevas de verdadero o falso: las bolsitas de nicotina sin humo, el alcohol y la leche materna, los opioides que sobran de una receta guardados en la casa, y la marihuana en el embarazo.",
+    "En Lo que dice la voz: cuando 'una recaída no borra nada' se usa como permiso para recaer.",
+    "En la guía de ketamina, el mito de que como es antidepresiva, usarla ayuda con la depresión."
+  ]},
   {id:"2026-11-18-contenido", titulo:"Cuatro preguntas, una frase y un mito más", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: el alcohol no es un estimulante, el alcohol en el embarazo, probar la cocaína con la lengua para 'saber si es buena', y el riesgo después de haber sobrevivido a una sobredosis de opioides.",
     "En Lo que dice la voz: cuando dejar se posterga hasta después de las fiestas de fin de año.",

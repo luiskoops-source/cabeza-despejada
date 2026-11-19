@@ -124,3 +124,8 @@ window.VOZ.push(
 window.VOZ.push(
  {f:"Lo dejo después de las fiestas de fin de año; ahora no tiene sentido empezar.",r:"Después de las fiestas viene el verano, después las vacaciones, y el 'después' siempre tiene otro después. No existe una fecha perfecta para empezar: existe hoy. Cada día sin consumir desde ahora cuenta igual que uno de enero, y llegar a diciembre con semanas de ventaja te deja más firme para esas noches. Si te asustan, arma el plan en Antes de salir con tiempo, no el mismo día."}
 );
+
+/* Frase agregada el 19 de noviembre de 2026: cuando la voz usa "una recaída no borra nada" como permiso para recaer. */
+window.VOZ.push(
+ {f:"Si una recaída no borra lo avanzado, da lo mismo si recaigo hoy.",r:"Que una recaída no borre lo avanzado es para levantarse después, no un permiso de antes. Lo que no se borra es lo aprendido; lo que sí llega es el bajón, la plata y las ganas más fuertes de los días siguientes, y cada una acorta el camino a la próxima. Y hoy todavía no es una recaída: es una ola de ganas, y las olas bajan solas en 15 a 30 minutos. Pon el reloj y decide del otro lado."}
+);
