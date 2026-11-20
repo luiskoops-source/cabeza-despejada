@@ -2,6 +2,9 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-20-fecha-comunidades", titulo:"Fecha de revisión corregida", cambios:[
+    "En Comunidades, la fecha \"Enlaces revisados el\" vuelve al 17 de noviembre, la última vez que de verdad se pudieron abrir los sitios."
+  ]},
   {id:"2026-11-19-contenido", titulo:"Cuatro preguntas, una frase y un mito más", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: las bolsitas de nicotina sin humo, el alcohol y la leche materna, los opioides que sobran de una receta guardados en la casa, y la marihuana en el embarazo.",
     "En Lo que dice la voz: cuando 'una recaída no borra nada' se usa como permiso para recaer.",
