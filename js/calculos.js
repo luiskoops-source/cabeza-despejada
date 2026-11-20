@@ -433,7 +433,27 @@ function resumenCalma(cosas, catalogo){
 /* Formato pesos chilenos. */
 function pesos(n){ return "$"+Math.round(n).toLocaleString("es-CL"); }
 
-const Calculos={ fechaTexto, diaDe, diaPico, diasDesde, diasDesdeHora, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, siguienteCapitulo, enlaceCodigoPastilla, recordatorioICS, enlaceGoogleCalendar, proximoDiaSemana, horaRecordatorio, fase478, faseTos, faseOlfatea, faseHablar, faseNervios, duracionNervios, fasePranayama, duracionPranayama, duracionHablar, tamanoCactus, esMadrugada, minutosRato, momentoSalida, momentoViernes, mananaSabado, novedadesPendientes, consumosTrasDiscusion, resumenCalma, HITOS, pesos };
+/* Fiestas de fin de año: en qué parte de la temporada estamos, según el día (mes y día locales).
+   "previa" del 20 de noviembre al 23 de diciembre, "navidad" el 24 y 25, "entre" del 26 al 30,
+   "anonuevo" el 31 y el 1 de enero, "despues" del 2 al 6 de enero. Fuera de eso, null (no hay temporada). */
+function temporadaFiestas(fecha){
+  if(!(fecha instanceof Date)||isNaN(fecha)) return null;
+  const mes=fecha.getMonth()+1, dia=fecha.getDate();
+  if(mes===11) return dia>=20?"previa":null;
+  if(mes===12){
+    if(dia<=23) return "previa";
+    if(dia<=25) return "navidad";
+    if(dia<=30) return "entre";
+    return "anonuevo";
+  }
+  if(mes===1){
+    if(dia===1) return "anonuevo";
+    if(dia<=6) return "despues";
+  }
+  return null;
+}
+
+const Calculos={ fechaTexto, diaDe, diaPico, diasDesde, diasDesdeHora, dineroAhorrado, horasTrabajo, rachaMasLarga, suenoVsGanas, horaPico, resumenSemana, hitos, semanaReduccion, calendario, limpiosAcumulados, avanzarHistoria, siguienteCapitulo, enlaceCodigoPastilla, recordatorioICS, enlaceGoogleCalendar, proximoDiaSemana, horaRecordatorio, fase478, faseTos, faseOlfatea, faseHablar, faseNervios, duracionNervios, fasePranayama, duracionPranayama, duracionHablar, tamanoCactus, esMadrugada, minutosRato, momentoSalida, momentoViernes, mananaSabado, novedadesPendientes, consumosTrasDiscusion, resumenCalma, temporadaFiestas, HITOS, pesos };
 if(typeof module!=="undefined"&&module.exports) module.exports=Calculos;
 else raiz.Calculos=Calculos;
 })(typeof window!=="undefined"?window:globalThis);

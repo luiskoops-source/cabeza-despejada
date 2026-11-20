@@ -117,7 +117,8 @@
 
   /* Las apariciones, al azar: caminar es la más común; correr, el paracaídas y el yoga son sorpresas.
      Cada una sabe cuándo se detiene y cuándo se va (los tiempos calzan con las animaciones de css/estilos.css, .paseo) */
-  const TIPOS=["camina","camina","floy","juntos","corre","paracaidas","yoga"];
+  /* Floy sale tanto como Kay: dos paseos de Floy sola, uno de los dos juntos (decisión del dueño, noviembre 2026) */
+  const TIPOS=["camina","camina","floy","floy","juntos","corre","paracaidas","yoga"];
   const PASOS={
     /* Camina hasta el medio (3,2 s), se detiene y lame (2,8 s), y sigue hasta salir (3 s).
        Si trae un dato (extra), se queda más rato con el globo abierto */
@@ -193,7 +194,7 @@
     const dato=Math.random()<0.5?datoAlAzar():null;
     const c=dato?{t:dato.t}:CONSEJOS[Math.floor(Math.random()*CONSEJOS.length)];
     /* A veces la visita es de Floy y no de Kay */
-    const esFloy=Math.random()<0.4, nombre=esFloy?"Floy":"Kay";
+    const esFloy=Math.random()<0.5, nombre=esFloy?"Floy":"Kay"; /* mitad y mitad */
     const el=document.createElement("div");
     el.className="compa"; el.setAttribute("role","status");
     el.innerHTML='<div class="compa-globo"><b class="compa-titulo"></b>'+'<p></p>'+(dato?'<small class="compa-fuente"></small>':'')+'<div class="compa-botones">'+(c.boton?'<button class="primary small" data-a="hacer"></button>':'')+(dato?'<button class="primary small" data-a="otro">Otro</button>':'')+

@@ -2,6 +2,12 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-20-fiestas", titulo:"Fiestas de fin de año", cambios:[
+    "Del 20 de noviembre al 6 de enero, Hoy tiene una guirnalda de luces y una tarjeta \"Fiestas de fin de año\" con un texto distinto para cada momento: la previa, Navidad, los días entre fiestas, Año Nuevo y después.",
+    "La tarjeta lleva con un toque a \"Antes de salir\", a las frases para poner límites y a la respiración 4-7-8.",
+    "Sin nieve, a propósito.",
+    "Floy aparece tanto como Kay en los paseos y las visitas."
+  ]},
   {id:"2026-11-20-montos-y-contenido", titulo:"Montos que caben, cuatro preguntas y una frase más", cambios:[
     "En Mi dinero, los montos largos (como el de un año limpio) ya no se salen de su casillero en pantallas angostas: se muestran un poco más chicos.",
     "Cuatro preguntas nuevas de verdadero o falso: el tabaco y la mitad de quienes fuman (cifra de la OMS), fumar y beber la misma noche, el hígado graso que se revierte al dejar el alcohol, y moverse para bajar las ganas.",

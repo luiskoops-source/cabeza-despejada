@@ -21,6 +21,18 @@ prueba("después de 90 días no sigue creciendo",()=>assert.strictEqual(C.tamano
 prueba("siempre crece: cada día mide más que el anterior hasta los 90",()=>{ for(let d=1;d<=90;d++) assert.ok(C.tamanoCactus(d)>C.tamanoCactus(d-1),"día "+d); });
 prueba("texto o vacío no rompe",()=>{ assert.strictEqual(C.tamanoCactus("abc"),0.62); assert.strictEqual(C.tamanoCactus(undefined),0.62); });
 
+console.log("temporadaFiestas");
+prueba("el 19 de noviembre todavía no hay fiestas",()=>assert.strictEqual(C.temporadaFiestas(new Date(2026,10,19)),null));
+prueba("el 20 de noviembre parte la previa",()=>assert.strictEqual(C.temporadaFiestas(new Date(2026,10,20)),"previa"));
+prueba("el 23 de diciembre sigue la previa",()=>assert.strictEqual(C.temporadaFiestas(new Date(2026,11,23,23,59)),"previa"));
+prueba("el 24 y el 25 son Navidad",()=>{ assert.strictEqual(C.temporadaFiestas(new Date(2026,11,24)),"navidad"); assert.strictEqual(C.temporadaFiestas(new Date(2026,11,25,22)),"navidad"); });
+prueba("del 26 al 30 es entre fiestas",()=>{ assert.strictEqual(C.temporadaFiestas(new Date(2026,11,26)),"entre"); assert.strictEqual(C.temporadaFiestas(new Date(2026,11,30)),"entre"); });
+prueba("el 31 y el 1 de enero son Año Nuevo",()=>{ assert.strictEqual(C.temporadaFiestas(new Date(2026,11,31)),"anonuevo"); assert.strictEqual(C.temporadaFiestas(new Date(2027,0,1)),"anonuevo"); });
+prueba("del 2 al 6 de enero es después de las fiestas",()=>{ assert.strictEqual(C.temporadaFiestas(new Date(2027,0,2)),"despues"); assert.strictEqual(C.temporadaFiestas(new Date(2027,0,6)),"despues"); });
+prueba("el 7 de enero ya no hay fiestas",()=>assert.strictEqual(C.temporadaFiestas(new Date(2027,0,7)),null));
+prueba("en julio no hay fiestas",()=>assert.strictEqual(C.temporadaFiestas(new Date(2026,6,15)),null));
+prueba("una fecha inválida no rompe",()=>{ assert.strictEqual(C.temporadaFiestas(new Date("x")),null); assert.strictEqual(C.temporadaFiestas("2026-12-24"),null); });
+
 console.log("esMadrugada");
 prueba("medianoche es madrugada",()=>assert.strictEqual(C.esMadrugada(0),true));
 prueba("las 5 es madrugada",()=>assert.strictEqual(C.esMadrugada(5),true));

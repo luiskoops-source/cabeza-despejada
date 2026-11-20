@@ -32,6 +32,8 @@
 
 <!-- HOY -->
 <section class="screen active" id="s-hoy" role="tabpanel">
+  <!-- Guirnalda de luces: solo en las fiestas de fin de año (js/app.js renderFiestas). Sin nieve, a propósito -->
+  <div class="guirnalda" id="guirnalda" aria-hidden="true" hidden></div>
   <div class="row" style="justify-content:space-between;align-items:center">
     <!-- El logo es un botón: al tocarlo, el salchicha aprieta el abrazo y se abre "¿Por qué abraza al cactus?" (js/app.js) -->
     <div class="logo"><button class="logo-boton" id="porQue" type="button" aria-expanded="false" aria-controls="porQueCard" aria-label="¿Por qué el salchicha abraza al cactus?"><svg viewBox="0 0 512 512" width="44" height="44" aria-hidden="true"><rect width="512" height="512" rx="112" fill="#F4EEE1"/><use href="#dibujoSalchicha"/></svg></button><h1 class="eyebrow">Cabeza Despejada</h1></div>
@@ -169,6 +171,21 @@
       <span><b class="num" id="bestStreak">0</b> racha más larga</span>
       <span><b class="num" id="resets">0</b> vueltas a empezar</span>
       <span><b class="num" id="heroSaved">$0</b> no gastados</span>
+    </div>
+  </div>
+
+  <!-- Fiestas de fin de año: aparece sola del 20 de noviembre al 6 de enero, con un texto para cada momento
+       (datos/fiestas.js, js/app.js renderFiestas, Calculos.temporadaFiestas). No guarda nada. -->
+  <div class="card fiestas-card" id="fiestasCard" hidden>
+    <p class="eyebrow">Fiestas de fin de año</p>
+    <h2 id="fiestasTitulo"></h2>
+    <p class="small" id="fiestasTexto"></p>
+    <ul class="small" id="fiestasIdeas"></ul>
+    <p class="small muted">Para prepararte, en la app ya tienes:</p>
+    <div class="row">
+      <button class="ghost small" type="button" id="fiestasSalir">Antes de salir (Noche)</button>
+      <button class="ghost small" type="button" id="fiestasLimites">Frases para poner límites</button>
+      <button class="ghost small" type="button" data-respira="478">Respirar 4&#8209;7&#8209;8</button>
     </div>
   </div>
 
@@ -443,7 +460,7 @@
     </div>
   </div>
 
-<div class="card">
+<div class="card" id="antesSalirCard">
     <div class="row" style="justify-content:space-between">
       <h2>Antes de salir</h2>
       <span class="pill" id="salirCount"></span>
@@ -1445,6 +1462,8 @@
 <!-- DATOS: la biblioteca de hechos, separada para editarla sin tocar la lógica -->
 <script src="datos/hechos.js"></script>
 <script src="datos/buenas.js"></script>
+<!-- DATOS: textos de la tarjeta Fiestas de fin de año -->
+<script src="datos/fiestas.js"></script>
 <!-- DATOS: guía de sustancias (reducción de daños) -->
 <script src="datos/sustancias.js"></script>
 <script src="datos/mati.js"></script>

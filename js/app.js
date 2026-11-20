@@ -144,7 +144,7 @@ function renderHoy(){
   renderHitos(d);
   renderLoQueViene(d);
   renderHistoria();
-  renderLive(); renderPledge(); renderSolo(); renderBuenaDelDia(); renderVolver(d);
+  renderLive(); renderPledge(); renderSolo(); renderBuenaDelDia(); renderFiestas(); renderVolver(d);
   checkCelebra(d);
   renderQuiz();
   renderReduccion();
@@ -153,6 +153,22 @@ function renderHoy(){
   renderTour();
   $("sustName").textContent=sustActual().nombre;
 }
+
+/* ---------- Fiestas de fin de año ---------- */
+/* Del 20 de noviembre al 6 de enero: la guirnalda de luces arriba de Hoy y la tarjeta con el texto del momento
+   (previa, Navidad, entre fiestas, Año Nuevo o después). Fuera de esas fechas, todo queda escondido */
+function renderFiestas(){
+  const parte=C.temporadaFiestas(new Date()), F=window.FIESTAS||{}, t=parte?F[parte]:null;
+  $("guirnalda").hidden=!t; $("fiestasCard").hidden=!t;
+  if(!t) return;
+  $("fiestasTitulo").textContent=t.titulo;
+  $("fiestasTexto").textContent=t.texto;
+  $("fiestasIdeas").innerHTML=t.ideas.map(i=>`<li>${esc(i)}</li>`).join("");
+}
+/* Los botones llevan a lo que ya existe: Antes de salir (en Noche) y las frases para poner límites (en Saber) */
+const irATarjeta=(tab,id)=>{ irA(tab); setTimeout(()=>{ const el=$(id); if(el) el.scrollIntoView({behavior:"smooth",block:"start"}); },150); };
+$("fiestasSalir").onclick=()=>irATarjeta("noche","antesSalirCard");
+$("fiestasLimites").onclick=()=>irATarjeta("saber","limitesCard");
 
 /* ---------- Mensaje y buena noticia del día ---------- */
 /* La fecha se escribe como "Lunes 2 de noviembre". El mensaje depende del día de la semana y cambia cada semana;

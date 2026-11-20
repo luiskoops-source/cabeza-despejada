@@ -676,3 +676,22 @@ a.llamar{background:var(--accent);color:var(--accent-ink);border-radius:10px;pad
 .si-frases{list-style:none;padding:0;margin:4px 0 12px;display:flex;flex-direction:column;gap:6px}
 .si-frases li{background:var(--surface2);border-left:3px solid var(--accent);border-radius:8px;padding:6px 10px;font-weight:600}
 .si-cuidado{border:1.5px solid var(--warm);border-radius:12px;padding:8px 12px;margin-top:12px}
+
+/* ---------- Fiestas de fin de año (Hoy, js/app.js renderFiestas) ---------- */
+/* La guirnalda: un cable fino y luces de cuatro colores que titilan de a dos grupos. Sin nieve, a propósito.
+   Si la persona pidió menos movimiento, las luces quedan quietas */
+.guirnalda{position:relative;height:26px;margin:-6px -4px 4px;background:linear-gradient(var(--muted),var(--muted)) 0 7px/100% 1.5px no-repeat}
+.guirnalda::before,.guirnalda::after{content:"";position:absolute;inset:0;background-repeat:repeat-x;background-size:96px 26px}
+.guirnalda::before{background-image:radial-gradient(circle at 12px 15px,#e0483e 0 5px,transparent 5.5px),radial-gradient(circle at 60px 15px,#f2b630 0 5px,transparent 5.5px)}
+.guirnalda::after{background-image:radial-gradient(circle at 36px 17px,#3f9a4a 0 5px,transparent 5.5px),radial-gradient(circle at 84px 17px,#4f86c6 0 5px,transparent 5.5px)}
+@media (prefers-reduced-motion:no-preference){
+  .guirnalda::before{animation:luces 1.8s ease-in-out infinite alternate}
+  .guirnalda::after{animation:luces 1.8s ease-in-out -.9s infinite alternate}
+}
+@keyframes luces{from{opacity:1}to{opacity:.4}}
+/* La tarjeta: una franja roja arriba y el título del momento. Un rojo para cada tema, con contraste suficiente */
+.fiestas-card{--fiesta:#b23a2e;box-shadow:var(--sombra),inset 0 4px 0 var(--fiesta)}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .fiestas-card{--fiesta:#f08a7a} }
+:root[data-theme="dark"] .fiestas-card{--fiesta:#f08a7a}
+.fiestas-card .eyebrow{color:var(--fiesta)}
+.fiestas-card h2{margin:0}
