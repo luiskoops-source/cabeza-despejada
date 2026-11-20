@@ -119,9 +119,11 @@ function renderHoy(){
   $("spendWeek").value=S.spendWeek||"";
   $("salary").value=S.salary||"";
   const dinero=C.dineroAhorrado(S.spendWeek,d);
-  $("saved").textContent=clp(dinero.total); $("heroSaved").textContent=clp(dinero.total);
-  $("savedMonth").textContent=clp(dinero.mes);
-  $("savedYear").textContent=clp(dinero.anio);
+  /* Un monto de 10 caracteres o más (como $3.128.571) no cabe en su casillero a 360 px: con la clase "largo" se muestra un poco más chico */
+  const ponerMonto=(id,valor)=>{ const el=$(id); el.textContent=clp(valor); el.classList.toggle("largo",el.textContent.length>=10); };
+  ponerMonto("saved",dinero.total); $("heroSaved").textContent=clp(dinero.total);
+  ponerMonto("savedMonth",dinero.mes);
+  ponerMonto("savedYear",dinero.anio);
   const horas=C.horasTrabajo(dinero.total,S.salary);
   $("savedHours").textContent=horas==null?"—":horas+" h";
   /* Sin sueldo no hay horas que mostrar: la etiqueta explica qué falta en vez de dejar un guion suelto */
@@ -802,7 +804,7 @@ $("buscarOut").addEventListener("click",e=>{
 });
 
 /* ---------- Diagnóstico para reportar problemas (sin datos personales) ---------- */
-const VERSION_APP="2026.11.19";
+const VERSION_APP="2026.11.20";
 $("copiarDiag").onclick=()=>copyText(`Cabeza Despejada ${VERSION_APP} · ${navigator.userAgent} · pantalla ${window.innerWidth}x${window.innerHeight} · modo ${document.documentElement.getAttribute("data-theme")||"auto"} · instalada: ${window.matchMedia("(display-mode: standalone)").matches?"sí":"no"}`);
 
 /* ---------- Compartir ---------- */

@@ -67,6 +67,7 @@ p{margin:0}
 .tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .tile{background:var(--surface2);border-radius:12px;padding:12px;min-width:0}
 .tile .v{font-family:var(--mono);font-size:1.35rem;font-weight:700;font-variant-numeric:tabular-nums}
+.tile .v.largo{font-size:1.1rem} /* montos de 10 caracteres o más, para que no se salgan del casillero a 360 px */
 .tile .l{font-size:.78rem;color:var(--muted)}
 button{font:inherit;cursor:pointer;border:1.5px solid var(--boton-borde);background:var(--boton);color:var(--fg);border-radius:11px;padding:8px 12px;font-weight:600;font-size:.95rem;box-shadow:0 2px 0 var(--boton-sombra);transition:transform .08s,box-shadow .08s,background-color .2s,border-color .2s,color .2s,filter .2s}
 button:active{transform:translateY(2px);box-shadow:none}

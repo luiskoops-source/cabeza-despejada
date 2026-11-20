@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-20-montos-y-contenido", titulo:"Montos que caben, cuatro preguntas y una frase más", cambios:[
+    "En Mi dinero, los montos largos (como el de un año limpio) ya no se salen de su casillero en pantallas angostas: se muestran un poco más chicos.",
+    "Cuatro preguntas nuevas de verdadero o falso: el tabaco y la mitad de quienes fuman (cifra de la OMS), fumar y beber la misma noche, el hígado graso que se revierte al dejar el alcohol, y moverse para bajar las ganas.",
+    "En Lo que dice la voz: cuando dice 'es mi vida y mi plata, no le hago daño a nadie'."
+  ]},
   {id:"2026-11-20-fecha-comunidades", titulo:"Fecha de revisión corregida", cambios:[
     "En Comunidades, la fecha \"Enlaces revisados el\" vuelve al 17 de noviembre, la última vez que de verdad se pudieron abrir los sitios."
   ]},

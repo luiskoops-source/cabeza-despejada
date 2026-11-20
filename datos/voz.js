@@ -129,3 +129,8 @@ window.VOZ.push(
 window.VOZ.push(
  {f:"Si una recaída no borra lo avanzado, da lo mismo si recaigo hoy.",r:"Que una recaída no borre lo avanzado es para levantarse después, no un permiso de antes. Lo que no se borra es lo aprendido; lo que sí llega es el bajón, la plata y las ganas más fuertes de los días siguientes, y cada una acorta el camino a la próxima. Y hoy todavía no es una recaída: es una ola de ganas, y las olas bajan solas en 15 a 30 minutos. Pon el reloj y decide del otro lado."}
 );
+
+/* Frase agregada el 20 de noviembre de 2026: cuando la voz usa "es mi vida" para que la persona deje de mirar lo que le cuesta a ella misma. */
+window.VOZ.push(
+ {f:"Es mi vida y mi plata, no le hago daño a nadie.",r:"Es tu vida, y por eso decides tú. Pero fíjate cuándo aparece esta frase: justo cuando la voz quiere que dejes de mirar lo que te cuesta a ti: el bajón, la plata, los días que se van. Que no dañe a otros no significa que no te dañe a ti, y tú eres quien está dejando. Si lo decidiste por ti y no por nadie más, esa razón no se gasta: léela en Mis razones."}
+);
