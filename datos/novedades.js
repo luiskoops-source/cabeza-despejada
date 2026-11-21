@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-21-contenido", titulo:"Cuatro preguntas, dos mitos y una frase más", cambios:[
+    "Cuatro preguntas nuevas de verdadero o falso: las tiras de fentanilo que no detectan todos los opioides sintéticos (los nitazenos), cuánto dura la marihuana comida, el trago de la mañana para la resaca, y dejar de fumar antes de los 40.",
+    "En la guía de cocaína, el mito de que la cocaína no da sobredosis; en la de pasta base, el de que un trago quita la angustia de después.",
+    "En Lo que dice la voz: cuando dice 'acabo de discutir con alguien que quiero; con esto se me pasa'."
+  ]},
   {id:"2026-11-20-fiestas", titulo:"Fiestas de fin de año", cambios:[
     "Del 20 de noviembre al 6 de enero, Hoy tiene una guirnalda de luces y una tarjeta \"Fiestas de fin de año\" con un texto distinto para cada momento: la previa, Navidad, los días entre fiestas, Año Nuevo y después.",
     "La tarjeta lleva con un toque a \"Antes de salir\", a las frases para poner límites y a la respiración 4-7-8.",

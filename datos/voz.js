@@ -134,3 +134,8 @@ window.VOZ.push(
 window.VOZ.push(
  {f:"Es mi vida y mi plata, no le hago daño a nadie.",r:"Es tu vida, y por eso decides tú. Pero fíjate cuándo aparece esta frase: justo cuando la voz quiere que dejes de mirar lo que te cuesta a ti: el bajón, la plata, los días que se van. Que no dañe a otros no significa que no te dañe a ti, y tú eres quien está dejando. Si lo decidiste por ti y no por nadie más, esa razón no se gasta: léela en Mis razones."}
 );
+
+/* Frase agregada el 21 de noviembre de 2026: cuando la voz aprovecha el cuerpo acelerado que queda después de una pelea. */
+window.VOZ.push(
+ {f:"Acabo de discutir con alguien que quiero; con esto se me pasa.",r:"Después de una pelea el cuerpo queda acelerado, y lo que pide es bajar, no borrar. Consumir no cierra la discusión: la deja igual y le suma el bajón de mañana, cuando igual vas a tener que hablar. Primero el cuerpo: agua, caminar, respirar hondo. En Hoy está 'Después de una discusión' para este rato justo, y nada se decide ni se arregla en caliente."}
+);
