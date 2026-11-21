@@ -66,6 +66,8 @@ const horaDia0=(fecha,hora)=>hora?new Date(fecha+"T"+hora+":00").toISOString():f
 const dia0Exacto=()=>Boolean(S.day0&&S.day0Hora&&todayStrDe(S.day0Hora)===S.day0);
 /* Días sin consumir: con hora conocida, días completos de 24 h desde ese momento; si no, días del calendario */
 const diasSobrio=()=>dia0Exacto()?C.diasDesdeHora(S.day0Hora):daysSince(S.day0);
+/* Si una fecha (AAAA-MM-DD) no es de este año, se muestra con su año: desde enero, "15 de septiembre" solo ya no dice de cuál */
+const conAnio=f=>String(f).slice(0,4)!==todayStr().slice(0,4)?{year:"numeric"}:{};
 
 /* ---------- Día 0 desde el link ---------- */
 /* Si la app se abre con ?dia0=AAAA-MM-DD, fija ese Día 0 en este teléfono.
@@ -105,15 +107,18 @@ document.querySelectorAll('.tabs [role="tab"]').forEach(b=>b.addEventListener("c
 }));
 
 /* ---------- Hoy ---------- */
+/* El día (AAAA-MM-DD) que muestra Hoy la última vez que se dibujó: si cambia con la app abierta, renderLive la redibuja */
+let diaPintado=null;
 function renderHoy(){
+  diaPintado=todayStr(); /* primero, porque renderLive (más abajo) lo compara y si no, volvería a llamar a renderHoy */
   const now=new Date();
   const h=now.getHours();
-  $("greet").textContent=h<12?"Buenos días":h<20?"Buenas tardes":"Buenas noches";
+  $("greet").textContent=h<5?"Buenas noches":h<12?"Buenos días":h<20?"Buenas tardes":"Buenas noches"; /* de madrugada (antes de las 5) sigue siendo de noche */
   $("today").textContent=now.toLocaleDateString("es-CL",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
   const d=diasSobrio();
   $("days").textContent=d;
   $("daysLabel").textContent=d===1?"día":"días";
-  $("sinceText").textContent=S.day0?("Día 0: "+new Date(S.day0+"T12:00:00").toLocaleDateString("es-CL",{day:"numeric",month:"long"})+(dia0Exacto()?" a las "+new Date(S.day0Hora).toTimeString().slice(0,5):"")+(S.craveWins?" · "+S.craveWins+(S.craveWins===1?" ola de ganas superada":" olas de ganas superadas"):"")):"Marca la fecha de tu último consumo para empezar a contar.";
+  $("sinceText").textContent=S.day0?("Día 0: "+new Date(S.day0+"T12:00:00").toLocaleDateString("es-CL",{day:"numeric",month:"long",...conAnio(S.day0)})+(dia0Exacto()?" a las "+new Date(S.day0Hora).toTimeString().slice(0,5):"")+(S.craveWins?" · "+S.craveWins+(S.craveWins===1?" ola de ganas superada":" olas de ganas superadas"):"")):"Marca la fecha de tu último consumo para empezar a contar.";
   $("day0").value=S.day0||"";
   $("day0HoraInput").value=dia0Exacto()?new Date(S.day0Hora).toTimeString().slice(0,5):"";
   $("spendWeek").value=S.spendWeek||"";
@@ -198,7 +203,8 @@ function renderLive(){
   const h=Math.floor(ms/3600000)%24, m=Math.floor(ms/60000)%60, s=Math.floor(ms/1000)%60;
   $("liveTime").textContent=`${String(h).padStart(2,"0")} h ${String(m).padStart(2,"0")} min ${String(s).padStart(2,"0")} s`;
   /* Con hora exacta, el número de días cambia a la misma hora del último consumo, no a medianoche: si cambió, se redibuja Hoy */
-  if($("days").textContent!==String(diasSobrio())) renderHoy();
+  /* También a medianoche, aunque el número no cambie (con hora exacta cambia a otra hora): fecha, fiestas y compromiso son del día nuevo */
+  if($("days").textContent!==String(diasSobrio())||diaPintado!==todayStr()) renderHoy();
 }
 setInterval(renderLive,1000);
 
@@ -1117,7 +1123,7 @@ function renderAprendi(){
   /* Solo se rellena si el cuadro no está en uso, para no borrar lo que estás escribiendo cuando se redibuja Hoy */
   if(document.activeElement!==$("aprendiTexto")) $("aprendiTexto").value=deHoy?deHoy.texto:"";
   $("aprendiGuardar").textContent=deHoy?"Cambiar lo de hoy":"Guardar lo de hoy";
-  const fecha=f=>new Date(f+"T12:00:00").toLocaleDateString("es-CL",{day:"numeric",month:"long"});
+  const fecha=f=>new Date(f+"T12:00:00").toLocaleDateString("es-CL",{day:"numeric",month:"long",...conAnio(f)});
   const item=a=>`<div class="mito small"><span><b>${esc(fecha(a.fecha))}.</b> ${esc(a.texto)}</span></div>`;
   /* Las 5 más recientes a la vista; las demás, plegadas */
   $("aprendiLista").innerHTML=A.slice(0,5).map(item).join("")+
@@ -1149,7 +1155,7 @@ const CALMA=[
 ];
 let calmaElegidas=[];
 /* "Sábado 7 de noviembre": con mayúscula y sin la coma que pone el navegador después del día de la semana */
-const fechaLarga=f=>{ const t=new Date(f+"T12:00:00").toLocaleDateString("es-CL",{weekday:"long",day:"numeric",month:"long"}).replace(",",""); return t.charAt(0).toUpperCase()+t.slice(1); };
+const fechaLarga=f=>{ const t=new Date(f+"T12:00:00").toLocaleDateString("es-CL",{weekday:"long",day:"numeric",month:"long",...conAnio(f)}).replace(",",""); return t.charAt(0).toUpperCase()+t.slice(1); };
 /* Agrega un punto final si la persona no lo puso */
 const conPunto=t=>/[.!?…]$/.test(t)?t:t+".";
 /* Los botones se dibujan una vez; al tocarlos se marcan o desmarcan (aria-pressed para el lector de pantalla) */

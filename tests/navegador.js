@@ -300,6 +300,18 @@ const path = require("path");
   const quedan = await pagina.evaluate(() => Object.keys(localStorage));
   for (const k of ["cd.nube", "cd.rato"]) if (quedan.includes(k)) errores.push("Borrar todos mis datos dejó " + k);
   if (!quedan.includes("otra.app")) errores.push("Borrar todos mis datos borró cosas que no son de la app");
+  /* 10. Con la app abierta a medianoche del 31 de diciembre, Hoy pasa al 1 de enero aunque el contador (con hora exacta) no cambie,
+     y el Día 0 del año anterior se muestra con su año */
+  const reloj = await navegador.newContext({ locale: "es-CL", timezoneId: "America/Santiago" });
+  const nochevieja = await reloj.newPage();
+  nochevieja.on("pageerror", e => errores.push("Error de página (medianoche): " + e.message));
+  await nochevieja.clock.install({ time: new Date("2027-01-01T02:59:50Z") }); /* 23:59:50 del 31 de diciembre en Chile */
+  await nochevieja.addInitScript(() => { if (!localStorage.getItem("cd.v1")) localStorage.setItem("cd.v1", JSON.stringify({ day0: "2026-12-20", day0Hora: "2026-12-21T01:00:00.000Z", sustancia: "alcohol", modo: "dejar", edad: true, tourVisto: true, events: [] })); });
+  await nochevieja.goto(url);
+  await nochevieja.clock.runFor(30000);
+  if (!/1 de enero/.test(await nochevieja.textContent("#today"))) errores.push("Con la app abierta, Hoy no pasa al día nuevo a medianoche");
+  if (!/de 2026/.test(await nochevieja.textContent("#sinceText"))) errores.push("El Día 0 del año anterior no muestra su año");
+  await reloj.close();
   await navegador.close();
   if (errores.length) { console.error("FALLÓ:\n  " + errores.join("\n  ")); process.exit(1); }
   console.log("OK: la app abre y lo esencial funciona.");
