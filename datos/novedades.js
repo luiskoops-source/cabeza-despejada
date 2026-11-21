@@ -5,7 +5,8 @@ window.NOVEDADES=[
   {id:"2026-11-21-contenido", titulo:"Cuatro preguntas, dos mitos y una frase más", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: las tiras de fentanilo que no detectan todos los opioides sintéticos (los nitazenos), cuánto dura la marihuana comida, el trago de la mañana para la resaca, y dejar de fumar antes de los 40.",
     "En la guía de cocaína, el mito de que la cocaína no da sobredosis; en la de pasta base, el de que un trago quita la angustia de después.",
-    "En Lo que dice la voz: cuando dice 'acabo de discutir con alguien que quiero; con esto se me pasa'."
+    "En Lo que dice la voz: cuando dice 'acabo de discutir con alguien que quiero; con esto se me pasa'.",
+    "Comunidades: los enlaces se volvieron a revisar el 21 de noviembre; todos siguen activos."
   ]},
   {id:"2026-11-20-fiestas", titulo:"Fiestas de fin de año", cambios:[
     "Del 20 de noviembre al 6 de enero, Hoy tiene una guirnalda de luces y una tarjeta \"Fiestas de fin de año\" con un texto distinto para cada momento: la previa, Navidad, los días entre fiestas, Año Nuevo y después.",
