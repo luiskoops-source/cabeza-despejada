@@ -3,6 +3,18 @@
    Regla: solo cosas verificadas en la fuente enlazada. Si una cifra no está en la fuente, no se pone.
    Para actualizar: agregar entradas nuevas arriba del todo. Las más viejas se pueden borrar cuando dejen de ser "actualidad". */
 window.ACTUALIDAD=[
+{fecha:"Noviembre 2026",tipo:"Datos Chile",fuente:"Ministerio de Salud de Chile",
+ titulo:"Entre escolares chilenos, el vaper ya supera al cigarrillo",
+ resumen:"Según la Encuesta Nacional de Consumo de Tabaco en Jóvenes (EMTJ 2024), uno de cada tres estudiantes de 13 a 15 años ha probado vapers con nicotina alguna vez, y el 15% de los escolares los usó en el último mes, más que quienes fuman cigarrillos. El Minsal lo informó el 13 de noviembre, al lanzar la campaña \"¿Pa' qué fumas?\". También estima que el tabaco causa en Chile 19.371 muertes al año, unas 52 por día.",
+ nota:"El sabor a fruta no le quita la nicotina, y la nicotina crea dependencia igual. Si quieres dejar el cigarro o el vaper, en esta app puedes elegir \"Tabaco y nicotina\" y contar tus días como con cualquier otra sustancia.",
+ enlace:"https://www.minsal.cl/pa-que-fumas-nueva-campana-ministerio-de-salud-alerta-el-dano-del-tabaco-y-vapeadores-en-adolescentes/"},
+
+{fecha:"Octubre 2026",tipo:"Informe",fuente:"OMS Europa",
+ titulo:"El alcohol puede causar cáncer de mama, pero pocos lo saben",
+ resumen:"En una encuesta de la OMS Europa en 14 países, solo el 15% de las personas sabía que el alcohol puede causar cáncer de mama; entre las mujeres, el 21%. El alcohol causa al menos 7 tipos de cáncer, y en 2020 se le atribuyeron unos 39.200 casos nuevos de cáncer de mama en la región europea. La OMS pide que en las consultas se pregunte más por el alcohol, que suele ser el factor de riesgo del que menos se habla.",
+ nota:"Dejar o bajar el alcohol también es cuidar el cuerpo a largo plazo. Si en tu próxima consulta nadie te pregunta por el alcohol, puedes sacar el tema tú.",
+ enlace:"https://www.who.int/europe/news/item/14-10-2026-alcohol-can-cause-breast-cancer--but-very-few-patients-get-asked-about-their-drinking"},
+
 {fecha:"Septiembre 2026",tipo:"Estudio",fuente:"JAMA Network Open · Universidad de Alabama en Birmingham",
  titulo:"Un ensayo clínico probó psilocibina con terapia para la adicción a la cocaína",
  resumen:"40 adultos que querían dejar la cocaína recibieron una sola dosis de psilocibina o un placebo activo, ambos con terapia cognitivo-conductual. A los 180 días, el 30% del grupo con psilocibina logró abstinencia completa; nadie del grupo placebo. Es un estudio pequeño y los propios autores piden ensayos más grandes.",

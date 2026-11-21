@@ -2,6 +2,10 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-21-actualidad", titulo:"Dos noticias nuevas en Lo que está pasando ahora", cambios:[
+    "Del Minsal (noviembre): entre escolares chilenos, el vaper con nicotina ya se usa más que el cigarrillo.",
+    "De la OMS Europa (octubre): el alcohol puede causar cáncer de mama, pero pocas personas lo saben."
+  ]},
   {id:"2026-11-21-fin-de-ano", titulo:"Lista para el cambio de año", cambios:[
     "Desde enero, el Día 0 y las fechas de Lo que aprendí y Un día en calma muestran el año cuando no son de este año. Así \"15 de septiembre\" no queda en duda.",
     "Si la app queda abierta pasada la medianoche, Hoy pasa solo al día nuevo: la fecha, la tarjeta de fiestas y el compromiso del día. Antes, con la hora exacta del Día 0, esperaba hasta que cambiara el contador.",
