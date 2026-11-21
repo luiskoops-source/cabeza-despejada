@@ -35,7 +35,7 @@ window.FIESTAS={
     texto:"La medianoche pasa en un minuto; lo que decidas antes de salir dura toda la noche. Empezar el año contigo ya es un buen comienzo.",
     ideas:[
       "Antes de salir, deja listo cómo vuelves y a qué hora.",
-      "Brinda con lo que quieras tomar: el gesto es el mismo.",
+      "Brinda con algo sin alcohol si quieres: el gesto es el mismo.",
       "Si alguien se pone mal, el 131 atiende toda la noche."
     ]
   },

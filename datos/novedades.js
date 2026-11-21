@@ -5,7 +5,9 @@ window.NOVEDADES=[
   {id:"2026-11-21-fin-de-ano", titulo:"Lista para el cambio de año", cambios:[
     "Desde enero, el Día 0 y las fechas de Lo que aprendí y Un día en calma muestran el año cuando no son de este año. Así \"15 de septiembre\" no queda en duda.",
     "Si la app queda abierta pasada la medianoche, Hoy pasa solo al día nuevo: la fecha, la tarjeta de fiestas y el compromiso del día. Antes, con la hora exacta del Día 0, esperaba hasta que cambiara el contador.",
-    "De madrugada, el saludo dice \"Buenas noches\" en vez de \"Buenos días\"."
+    "De madrugada, el saludo dice \"Buenas noches\" en vez de \"Buenos días\".",
+    "En la tarjeta de Año Nuevo, la idea del brindis ahora dice \"Brinda con algo sin alcohol si quieres: el gesto es el mismo\".",
+    "En Saber, la etiqueta de \"Lo que está pasando ahora\" muestra el año de la noticia más reciente."
   ]},
   {id:"2026-11-21-contenido", titulo:"Cuatro preguntas, dos mitos y una frase más", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: las tiras de fentanilo que no detectan todos los opioides sintéticos (los nitazenos), cuánto dura la marihuana comida, el trago de la mañana para la resaca, y dejar de fumar antes de los 40.",

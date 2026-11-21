@@ -847,6 +847,9 @@ function renderPA(){
 /* ---------- Actualidad y comunidades ---------- */
 function renderActualidad(){
   const A=window.ACTUALIDAD||[], K=window.COMUNIDADES||[];
+  /* La etiqueta de la tarjeta dice el año de la noticia más reciente (la primera de la lista), para no tener que cambiarla a mano */
+  const anio=A.length?(String(A[0].fecha).match(/\d{4}/)||[""])[0]:"";
+  $("actualidadAnio").textContent=anio; $("actualidadAnio").hidden=!anio;
   $("actualidadList").innerHTML=A.map(x=>`<div class="study">
     <div class="row"><span class="pill ${x.tipo==="Alerta"?"bad":x.tipo==="Estudio"?"good":""}">${esc(x.tipo)}</span><span class="small muted">${esc(x.fecha)} · ${esc(x.fuente)}</span></div>
     <h3>${esc(x.titulo)}</h3>
