@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-22-contenido", titulo:"Cinco preguntas, un mito y una frase más", cambios:[
+    "Cinco preguntas nuevas de verdadero o falso, sacadas de la biblioteca: la materia gris que se recupera con meses sin cocaína, dejar de fumar y la salud mental, el ánimo plano que dura meses (distimia), la parte del cerebro que frena los impulsos, y las nueve sustancias en una muestra de tusi.",
+    "En la guía de MDMA, el mito de que tomar antidepresivos protege porque 'pega menos'.",
+    "En Lo que dice la voz: cuando una pena o un duelo hacen que consumir parezca la única forma de pasarlo."
+  ]},
   {id:"2026-11-21-contenido", titulo:"Cuatro preguntas, dos mitos y una frase más", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: las tiras de fentanilo que no detectan todos los opioides sintéticos (los nitazenos), cuánto dura la marihuana comida, el trago de la mañana para la resaca, y dejar de fumar antes de los 40.",
     "En la guía de cocaína, el mito de que la cocaína no da sobredosis; en la de pasta base, el de que un trago quita la angustia de después.",

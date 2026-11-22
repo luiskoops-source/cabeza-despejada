@@ -139,3 +139,8 @@ window.VOZ.push(
 window.VOZ.push(
  {f:"Acabo de discutir con alguien que quiero; con esto se me pasa.",r:"Después de una pelea el cuerpo queda acelerado, y lo que pide es bajar, no borrar. Consumir no cierra la discusión: la deja igual y le suma el bajón de mañana, cuando igual vas a tener que hablar. Primero el cuerpo: agua, caminar, respirar hondo. En Hoy está 'Después de una discusión' para este rato justo, y nada se decide ni se arregla en caliente."}
 );
+
+/* Frase agregada el 22 de noviembre de 2026: cuando la voz usa una pena o un duelo para que consumir parezca la única forma de pasarlo. */
+window.VOZ.push(
+ {f:"Se murió alguien que quería; hoy no puedo con esto sobrio.",r:"La pena es de las cosas más difíciles de sentir sin nada encima, y por eso la voz la usa. Consumir no la saca: la congela y la devuelve mañana, con bajón encima. Hoy no tienes que poder con todo; tienes que pasar la próxima hora acompañado: alguien al lado, o el 1412 si no hay nadie, agua, y dormir cuando se pueda. Llorar sobrio también es despedirse."}
+);
