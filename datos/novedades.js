@@ -2,6 +2,12 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-23-contenido", titulo:"Cinco preguntas, dos mitos y una frase más", cambios:[
+    "Cinco preguntas nuevas de verdadero o falso: el corazón al año sin fumar, el 'trago estándar' (cerveza, vino y destilado traen más o menos el mismo alcohol), recaer después de un tratamiento, la cocaína y el golpe de calor, y los dolores abdominales por ketamina.",
+    "En la guía de benzodiacepinas, el mito de que la ansiedad entre una pastilla y otra prueba que hace falta; en la de tusi, el de que con alcohol no pasa nada.",
+    "En Lo que dice la voz: cuando dice 'ya esperé y las ganas no se me pasan; esto no funciona'.",
+    "Comunidades: los enlaces se volvieron a revisar el 23 de noviembre; todos siguen activos."
+  ]},
   {id:"2026-11-22-contenido", titulo:"Cinco preguntas, un mito y una frase más", cambios:[
     "Cinco preguntas nuevas de verdadero o falso, sacadas de la biblioteca: la materia gris que se recupera con meses sin cocaína, dejar de fumar y la salud mental, el ánimo plano que dura meses (distimia), la parte del cerebro que frena los impulsos, y las nueve sustancias en una muestra de tusi.",
     "En la guía de MDMA, el mito de que tomar antidepresivos protege porque 'pega menos'.",

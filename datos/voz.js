@@ -144,3 +144,8 @@ window.VOZ.push(
 window.VOZ.push(
  {f:"Se murió alguien que quería; hoy no puedo con esto sobrio.",r:"La pena es de las cosas más difíciles de sentir sin nada encima, y por eso la voz la usa. Consumir no la saca: la congela y la devuelve mañana, con bajón encima. Hoy no tienes que poder con todo; tienes que pasar la próxima hora acompañado: alguien al lado, o el 1412 si no hay nadie, agua, y dormir cuando se pueda. Llorar sobrio también es despedirse."}
 );
+
+/* Frase agregada el 23 de noviembre de 2026: cuando la voz usa que las ganas no se pasaron en el tiempo esperado para decir que las herramientas no sirven. */
+window.VOZ.push(
+ {f:"Ya esperé y las ganas no se me pasan; esto no funciona.",r:"Las ganas vienen en olas: una baja y a veces viene otra detrás, sobre todo si sigues en el mismo lugar o con la misma gente. Que vuelva una ola no significa que falló lo que hiciste: cada ola que pasa sin consumir debilita la señal para la próxima vez. Cambia de lugar, muévete o llama a alguien, y si se hace muy largo, el 1412 atiende a cualquier hora."}
+);
