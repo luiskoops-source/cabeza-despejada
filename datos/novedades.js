@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-24-contenido", titulo:"Cuatro preguntas, un mito y una frase más", cambios:[
+    "Cuatro preguntas nuevas de verdadero o falso: la metanfetamina y el corazón en personas jóvenes, la abstinencia brusca después de la naloxona, fumar y la diabetes tipo 2, y el alcohol y las defensas.",
+    "En la guía de anfetaminas y metanfetamina, el mito de que a un corazón joven y sano no le pasa nada.",
+    "En Lo que dice la voz: cuando dice 'si dejo de ir a las juntas donde consumen, me quedo sin amigos'."
+  ]},
   {id:"2026-11-23-contenido", titulo:"Cinco preguntas, dos mitos y una frase más", cambios:[
     "Cinco preguntas nuevas de verdadero o falso: el corazón al año sin fumar, el 'trago estándar' (cerveza, vino y destilado traen más o menos el mismo alcohol), recaer después de un tratamiento, la cocaína y el golpe de calor, y los dolores abdominales por ketamina.",
     "En la guía de benzodiacepinas, el mito de que la ansiedad entre una pastilla y otra prueba que hace falta; en la de tusi, el de que con alcohol no pasa nada.",

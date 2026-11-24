@@ -352,3 +352,11 @@ window.PREGUNTAS.push(
 {q:"La cocaína sube la temperatura del cuerpo, y con calor o mucho esfuerzo físico puede llegar a un golpe de calor.",v:true,e:"Verdadero. La cocaína altera el control de la temperatura y hace que el cuerpo genere más calor. En una fiesta calurosa, bailando sin pausa, la temperatura puede subir a niveles peligrosos: piel muy caliente y confusión son señales para llamar al 131.",s:"cocaina"},
 {q:"Un dolor fuerte y repetido en la parte baja del abdomen en quien usa ketamina seguido es solo una molestia pasajera.",v:false,e:"Falso. Son los llamados 'k-cramps': dolores abdominales intensos que aparecen con el uso frecuente de ketamina, junto con el daño en la vejiga y las vías urinarias. Es motivo para consultar y para dejarla a tiempo.",s:"ketamina"}
 );
+
+/* Preguntas agregadas el 24 de noviembre de 2026. Hechos establecidos en guías médicas: daño al corazón por metanfetamina (NIDA), abstinencia brusca tras la naloxona (CDC y SAMHSA), fumar y diabetes tipo 2 (Cirujano General de EE.UU.), alcohol y defensas (NIAAA). */
+window.PREGUNTAS.push(
+{q:"Si eres joven y sano, la metanfetamina no le hace nada al corazón.",v:false,e:"Falso. Sube el pulso y la presión cada vez, y con el uso repetido puede dañar el músculo del corazón y provocar arritmias e infartos también en personas jóvenes. Dolor en el pecho o palpitaciones fuertes después de consumir: 131.",s:"anfetaminas"},
+{q:"Si después de la naloxona la persona despierta agitada, con vómitos y temblando, es que la naloxona le hizo daño.",v:false,e:"Falso. Es la abstinencia brusca de opioides: desagradable, pero no peligrosa. La naloxona le salvó la vida. Que no vuelva a consumir para 'calmarla' (la naloxona dura menos que el opioide) y esperar al 131.",s:"opioides"},
+{q:"Fumar aumenta el riesgo de desarrollar diabetes tipo 2.",v:true,e:"Verdadero. La nicotina y el humo alteran cómo el cuerpo maneja la insulina. Al dejar de fumar ese riesgo extra baja con los años, y la diabetes que ya existe se controla mejor.",s:"tabaco"},
+{q:"Beber mucho alcohol debilita las defensas y hace más probables infecciones como la neumonía.",v:true,e:"Verdadero. El alcohol en exceso baja la respuesta del sistema inmune, y además el vómito con la persona dormida puede llevar líquido a los pulmones. Al dejar de beber, las defensas se recuperan.",s:"alcohol"}
+);
