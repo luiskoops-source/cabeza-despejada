@@ -152,5 +152,6 @@ window.VOZ.push(
 
 /* Frase agregada el 24 de noviembre de 2026: cuando la voz amenaza con la soledad para que la persona vuelva a las juntas donde se consume. */
 window.VOZ.push(
- {f:"Si dejo de ir a las juntas donde consumen, me quedo sin amigos.",r:"Puede que algunas amistades estuvieran pegadas a la sustancia, y eso duele descubrirlo. Las que valen aguantan un 'hoy no voy' o un plan distinto: un almuerzo, un partido, una caminata. Las primeras semanas conviene cuidarse de esos lugares, no para siempre. Y si por ahora se siente mucha soledad, Un rato contigo y las comunidades de Saber están para eso; el 1412 también."}
+ {f:"Si dejo de ir a las juntas donde consumen, me quedo sin amigos.",r:"Puede que algunas amistades estuvieran pegadas a la sustancia, y eso duele descubrirlo. Las que valen aguantan un 'hoy no voy' o un plan distinto: un almuerzo, un partido, una caminata. Las primeras semanas conviene cuidarse de esos lugares, no para siempre. Y si por ahora se siente mucha soledad, Un rato contigo y las comunidades de Saber están para eso; el 1412 también."},
+ {f:"Solo quiero probar si todavía me hace lo mismo.",r:"Eso no es curiosidad, es la voz disfrazada: la respuesta ya la conoces, y para saberla no hace falta repetirla. Lo único nuevo que podrías descubrir es que tu cuerpo ya no lo aguanta como antes, y después de un tiempo sin consumir eso es más riesgo, no menos. Lo que sí vale la pena probar es qué pasa si dejas pasar esta vez: en 20 minutos lo sabes."}
 );

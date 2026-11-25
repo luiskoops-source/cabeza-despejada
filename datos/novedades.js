@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-25-contenido", titulo:"Cuatro preguntas, un mito y una frase más", cambios:[
+    "Cuatro preguntas nuevas de verdadero o falso: dejar la metanfetamina de golpe, el MDMA y el corazón, la abstinencia tardía del clonazepam y el tusi con antidepresivos.",
+    "En la guía de alcohol, el mito de que a alguien muy borracho basta con dejarlo dormir.",
+    "En Lo que dice la voz: cuando dice 'solo quiero probar si todavía me hace lo mismo'."
+  ]},
   {id:"2026-11-24-contenido", titulo:"Cuatro preguntas, un mito y una frase más", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: la metanfetamina y el corazón en personas jóvenes, la abstinencia brusca después de la naloxona, fumar y la diabetes tipo 2, y el alcohol y las defensas.",
     "En la guía de anfetaminas y metanfetamina, el mito de que a un corazón joven y sano no le pasa nada.",
