@@ -76,7 +76,7 @@
     hombrosArriba:"Hombros arriba", hombrosCaen:"Déjalos caer", aprietaManos:"Aprieta las manos", abreManos:"Ábrelas", mandibula:"Mandíbula floja", cuenta:"Suelta, y cuenta",
     pranaA:"Nariz alterna", pranaB:"Ahora, la abeja", pranaC:"Para cerrar, entra en cuatro y sale en seis",
     izqInhala:"Inhala por la izquierda", derSuelta:"Cambia, y suelta por la derecha", derInhala:"Inhala por la derecha", izqSuelta:"Cambia, y suelta por la izquierda", zumba:"Zumba, como abeja" };
-  let pref={ vueltas:4, vibrar:true, voz:false, vozNombre:"", ejercicio:"478" };
+  let pref={ vueltas:4, vibrar:true, voz:false, vozNombre:"", ejercicio:"478", sonido:true };
   try{ pref=Object.assign(pref,JSON.parse(localStorage.getItem(PREF)||"{}")); }catch(e){}
   if(!EJERCICIOS[pref.ejercicio]) pref.ejercicio="478";
   const ej=()=>EJERCICIOS[pref.ejercicio];
@@ -131,6 +131,41 @@
   }
   function vibrar(){ if(pref.vibrar&&navigator.vibrate) navigator.vibrate(40); }
 
+  /* Sonido con vaivén: un tono suave y bajito que sube al inhalar, se queda quieto al sostener y baja al botar el aire.
+     Se crea aquí mismo con el sintetizador del navegador (no hay archivos de audio) y dura lo mismo que la fase. */
+  let audio=null, sonando=[];
+  const SIN_SONIDO={ descansa:1, parte1:1, parte2:1, parte3:1, parte4:1, parte5:1, pranaA:1, pranaB:1, pranaC:1 };
+  function prepararAudio(){ /* el teléfono solo deja sonar después de un toque: se llama desde el botón Empezar */
+    try{ if(!audio){ const A=window.AudioContext||window.webkitAudioContext; if(A) audio=new A(); } if(audio&&audio.state==="suspended") audio.resume(); }catch(e){ audio=null; }
+  }
+  function callarSonido(){
+    const t=audio?audio.currentTime:0;
+    sonando.forEach(([nodo,volumen])=>{ try{ volumen.gain.cancelScheduledValues(t); volumen.gain.setValueAtTime(volumen.gain.value,t); volumen.gain.linearRampToValueAtTime(0,t+.25); nodo.stop(t+.3); }catch(e){} });
+    sonando=[];
+  }
+  function sonidoFase(fase, dura){
+    callarSonido();
+    if(!pref.sonido||!audio||SIN_SONIDO[fase]) return;
+    const tipo=DIBUJO[fase], t=audio.currentTime, d=Math.max(1,dura||1);
+    const desde=tipo==="inhala"?220:293.66, hasta=tipo==="exhala"?220:293.66; /* La3 a Re4: sube, se queda o baja */
+    try{
+      const tono=audio.createOscillator(), volumen=audio.createGain(), vaiven=audio.createOscillator(), cuanto=audio.createGain();
+      tono.type="sine"; tono.frequency.setValueAtTime(desde,t); tono.frequency.linearRampToValueAtTime(hasta,t+d);
+      vaiven.frequency.value=.5; cuanto.gain.value=.01; vaiven.connect(cuanto); cuanto.connect(volumen.gain); /* el vaivén: el volumen se mece medio ciclo por segundo */
+      volumen.gain.setValueAtTime(0,t); volumen.gain.linearRampToValueAtTime(.03,t+.5);
+      volumen.gain.setValueAtTime(.03,t+Math.max(.6,d-.4)); volumen.gain.linearRampToValueAtTime(0,t+d);
+      tono.connect(volumen); volumen.connect(audio.destination);
+      tono.start(t); vaiven.start(t); tono.stop(t+d+.1); vaiven.stop(t+d+.1);
+      sonando.push([tono,volumen],[vaiven,cuanto]);
+    }catch(e){}
+  }
+  function sonidoFinal(){ /* dos notas suaves para cerrar */
+    if(!pref.sonido||!audio) return;
+    [[261.63,0],[329.63,.5]].forEach(([f,espera])=>{ try{ const t=audio.currentTime+espera, o=audio.createOscillator(), g=audio.createGain();
+      o.type="sine"; o.frequency.value=f; g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(.05,t+.08); g.gain.exponentialRampToValueAtTime(.0001,t+1.8);
+      o.connect(g); g.connect(audio.destination); o.start(t); o.stop(t+1.9); }catch(e){} });
+  }
+
   /* El círculo crece o se achica durante lo que dura la fase */
   function mover(fase, dura){
     const c=$("respiraCirculo");
@@ -146,7 +181,7 @@
     const f=ej().fase((performance.now()-inicio)/1000);
     if(f.terminado){ terminar(); return; }
     const segundos=(performance.now()-inicio)/1000;
-    if(f.fase!==faseAnterior){ faseAnterior=f.fase; $("respiraFase").textContent=TEXTO[f.fase]; mover(f.fase,f.dura); vibrar(); decir(HABLA[f.fase]); }
+    if(f.fase!==faseAnterior){ faseAnterior=f.fase; $("respiraFase").textContent=TEXTO[f.fase]; mover(f.fase,f.dura); vibrar(); sonidoFase(f.fase,f.dura); decir(HABLA[f.fase]); }
     $("respiraNum").textContent=f.quedan;
     /* Abajo: en los de vueltas, en qué vuelta vas; en los de una vez, qué hacer y cuánto falta */
     $("respiraVuelta").textContent=ej().unaVez
@@ -158,14 +193,14 @@
     detener();
     /* Seguro: si los archivos de la app quedaron de versiones distintas, avisar en vez de quedarse pegado */
     if(!C||typeof C.fase478!=="function"||typeof C.faseTos!=="function"||typeof C.faseNervios!=="function"||typeof C.fasePranayama!=="function"){ $("respiraVuelta").textContent="Falta actualizar la app: ciérrala del todo y vuelve a abrirla."; return; }
-    inicio=performance.now(); faseAnterior="";
+    prepararAudio(); inicio=performance.now(); faseAnterior="";
     $("respiraEmpezar").textContent="Detener";
     /* Que la pantalla no se apague a mitad del ejercicio (si el teléfono lo permite) */
     try{ navigator.wakeLock&&navigator.wakeLock.request("screen").then(w=>{ if(reloj) pantallaEncendida=w; else w.release(); }).catch(()=>{}); }catch(e){}
     tic(); reloj=setInterval(tic,200);
   }
   function detener(){
-    clearInterval(reloj); reloj=null;
+    clearInterval(reloj); reloj=null; callarSonido();
     try{ speechSynthesis.cancel(); }catch(e){}
     try{ pantallaEncendida&&pantallaEncendida.release(); }catch(e){} pantallaEncendida=null;
     $("respiraEmpezar").textContent="Empezar";
@@ -179,7 +214,7 @@
     detener();
     $("respiraFase").textContent="Bien hecho";
     $("respiraVuelta").textContent=(ej().unaVez?"Terminaste.":"Terminaste "+pref.vueltas+" vueltas.")+" Nota cómo está tu cuerpo ahora. Puedes repetir cuando quieras.";
-    vibrar(); decir(HABLA.fin);
+    vibrar(); sonidoFinal(); decir(HABLA.fin);
     /* Al terminar, Kay y Floy pasan juntos a felicitarte con una lamida (js/paseo.js) */
     setTimeout(()=>{ if(window.paseoSalchicha) window.paseoSalchicha("juntos"); },900);
   }
@@ -189,7 +224,7 @@
     const pedido=e&&e.currentTarget&&e.currentTarget.dataset?e.currentTarget.dataset.respira:"";
     if(pedido&&EJERCICIOS[pedido]&&pedido!==pref.ejercicio){ pref.ejercicio=pedido; guardar(); }
     $("respiraVueltas").value=String(pref.vueltas); mostrarEjercicio();
-    $("respiraVibrar").checked=!!pref.vibrar; $("respiraVoz").checked=!!pref.voz;
+    $("respiraVibrar").checked=!!pref.vibrar; $("respiraVoz").checked=!!pref.voz; $("respiraSonido").checked=pref.sonido!==false;
     llenarVoces(); $("respiraVozOpciones").hidden=!pref.voz||!("speechSynthesis" in window);
     $("respiraVibrar").closest("label").hidden=!navigator.vibrate; /* Si el teléfono no vibra, no se ofrece */
     $("respiraVoz").closest("label").hidden=!("speechSynthesis" in window);
@@ -213,6 +248,7 @@
   /* Cambiar de ejercicio: si estaba corriendo, parte de nuevo con el ritmo nuevo */
   $("respiraEjercicio").onchange=()=>{ pref.ejercicio=EJERCICIOS[$("respiraEjercicio").value]?$("respiraEjercicio").value:"478"; guardar(); mostrarEjercicio(); if(reloj) empezar(); else $("respiraVuelta").textContent=ej().duracion(pref.vueltas); };
   $("respiraVibrar").onchange=()=>{ pref.vibrar=$("respiraVibrar").checked; guardar(); };
+  $("respiraSonido").onchange=()=>{ pref.sonido=$("respiraSonido").checked; guardar(); if(!pref.sonido) callarSonido(); };
   $("respiraVoz").onchange=()=>{ pref.voz=$("respiraVoz").checked; guardar(); $("respiraVozOpciones").hidden=!pref.voz; };
   /* Elegir y probar la voz */
   $("respiraVozElegida").onchange=()=>{ pref.vozNombre=$("respiraVozElegida").value; guardar(); decir(HABLA.inhala,true); };
