@@ -2,6 +2,9 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-25-contenido", titulo:"Un mito más en dos guías", cambios:[
+    "En las guías de cocaína y de marihuana, el mito de que fumar marihuana reemplaza el consumo de cocaína."
+  ]},
   {id:"2026-11-24-contenido", titulo:"Cuatro preguntas, un mito y una frase más", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: la metanfetamina y el corazón en personas jóvenes, la abstinencia brusca después de la naloxona, fumar y la diabetes tipo 2, y el alcohol y las defensas.",
     "En la guía de anfetaminas y metanfetamina, el mito de que a un corazón joven y sano no le pasa nada.",
