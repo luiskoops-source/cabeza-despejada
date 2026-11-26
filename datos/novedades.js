@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-26-contenido", titulo:"Cuatro preguntas, un mito y una frase más", cambios:[
+    "Cuatro preguntas nuevas de verdadero o falso: la vejiga y la ketamina, la tos con sangre con pasta base, por cuánto tiempo están pensadas las benzodiacepinas y si el tusi puede enganchar.",
+    "En la guía de opioides, el mito de que con receta no se puede volver dependiente.",
+    "En Lo que dice la voz: cuando dice 'ya estoy bien, no necesito seguir con el tratamiento ni con la app'."
+  ]},
   {id:"2026-11-25-sonido-vaiven", titulo:"Respira con sonido", cambios:[
     "En Respira conmigo cada paso tiene ahora un sonido suave con vaivén: sube al inhalar, se queda quieto al sostener y baja al botar el aire. Dura lo mismo que el paso.",
     "Si prefieres silencio, desmarca \"Sonido suave\" abajo del ejercicio."
