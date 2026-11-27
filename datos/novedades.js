@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-27-contenido", titulo:"Cuatro preguntas, un mito y una frase más", cambios:[
+    "Cuatro preguntas nuevas de verdadero o falso: pasta base en el embarazo, por qué con MDMA el agua de más es más peligrosa, si la ketamina baja o sube el pulso, y dejar de fumar antes de una operación.",
+    "En la guía de marihuana, el mito de que no tiene abstinencia.",
+    "En Lo que dice la voz: cuando pasas por el lugar de siempre y el cuerpo ya lo pidió."
+  ]},
   {id:"2026-11-26-contenido", titulo:"Cuatro preguntas, un mito y una frase más", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: la vejiga y la ketamina, la tos con sangre con pasta base, por cuánto tiempo están pensadas las benzodiacepinas y si el tusi puede enganchar.",
     "En la guía de opioides, el mito de que con receta no se puede volver dependiente.",
