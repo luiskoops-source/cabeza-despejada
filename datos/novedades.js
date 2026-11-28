@@ -2,6 +2,11 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-28-contenido", titulo:"Cuatro preguntas, un mito y una frase más", cambios:[
+    "Cuatro preguntas nuevas de verdadero o falso: si los cigarros mentolados dañan menos, empezar con marihuana en la adolescencia, el efecto de una benzodiacepina a la mañana siguiente, y la tolerancia a la ketamina.",
+    "En la guía de tabaco, el mito de que la pipa de agua (narguile) es más suave porque el agua filtra el humo.",
+    "En Lo que dice la voz: cuando llevas pocos días y la voz dice que no vale la pena cuidar algo tan chico."
+  ]},
   {id:"2026-11-28-racha-quiz", titulo:"Un detalle en la pregunta del día", cambios:[
     "Con un solo acierto, la racha de la pregunta del día dice \"1 acertada\" en vez de \"1 seguidas\"."
   ]},

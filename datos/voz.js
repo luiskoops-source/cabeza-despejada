@@ -157,3 +157,8 @@ window.VOZ.push(
  {f:"Ya estoy bien, no necesito seguir con el tratamiento ni con la app.",r:"Sentirte bien es justo lo que el apoyo estaba logrando, no la señal de que sobra. Las ganas vuelven cuando uno se confía: en una fiesta, en un mal día o en uno muy bueno. Seguir un tiempo más cuando ya no cuesta es lo que afirma lo ganado. Si de verdad quieres cerrar una etapa, conversarlo con quien te acompaña (o con el 1412) es mejor que desaparecer de un día para otro."},
  {f:"Pasé por el lugar de siempre y el cuerpo ya lo pidió.",r:"Eso son las ganas que enciende una señal: un lugar, una hora, una esquina, una cara. Suben rápido y bajan solas si no terminan en consumo, y cada vez que pasa eso la señal pierde un poco de fuerza. Sigue de largo, cambia de ruta si puedes, y pon el reloj de 15 minutos: no es tu decisión la que habla, es un reflejo que se desaprende."}
 );
+
+/* Frase agregada el 28 de noviembre de 2026: cuando la voz usa que el contador va recién empezando para restarle valor a cuidarlo. */
+window.VOZ.push(
+ {f:"Llevo pocos días, no vale la pena cuidar algo tan chico.",r:"Los primeros días son los más caros: cuestan más que cualquiera de los que vienen después, porque el cuerpo y la cabeza todavía están pidiendo. Que el número sea chico no lo hace poco; es justo lo que hay que cuidar hoy. Las semanas y los meses se hacen de estos días, y este ya casi está."}
+);
