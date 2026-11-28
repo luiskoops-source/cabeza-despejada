@@ -423,7 +423,8 @@ function renderQuiz(){
   if(S.quizDate!==t){ const pool=PREG.filter(q=>!q.s||q.s===S.sustancia||q.s==="general"); const pick=pool.length?pool[Math.floor(Math.random()*pool.length)]:PREG[0]; S.quizDate=t; S.quizDone=false; S.quizIdx=Math.max(0,PREG.indexOf(pick)); save(); }
   const q=PREG[S.quizIdx%PREG.length]; if(!q) return;
   $("quizQ").textContent=q.q;
-  $("quizStreak").textContent=S.quizStreak?S.quizStreak+" seguidas":"";
+  /* Racha de aciertos: con una sola no tiene sentido decir "seguidas" */
+  $("quizStreak").textContent=!S.quizStreak?"":S.quizStreak===1?"1 acertada":S.quizStreak+" seguidas";
   $("quizBtns").hidden=S.quizDone; $("quizA").hidden=!S.quizDone;
   if(S.quizDone){ $("quizA").textContent=q.e; }
 }
@@ -820,7 +821,7 @@ $("buscarOut").addEventListener("click",e=>{
 });
 
 /* ---------- Diagnóstico para reportar problemas (sin datos personales) ---------- */
-const VERSION_APP="2026.11.27";
+const VERSION_APP="2026.11.28";
 $("copiarDiag").onclick=()=>copyText(`Cabeza Despejada ${VERSION_APP} · ${navigator.userAgent} · pantalla ${window.innerWidth}x${window.innerHeight} · modo ${document.documentElement.getAttribute("data-theme")||"auto"} · instalada: ${window.matchMedia("(display-mode: standalone)").matches?"sí":"no"}`);
 
 /* ---------- Compartir ---------- */

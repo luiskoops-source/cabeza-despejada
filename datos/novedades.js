@@ -2,6 +2,9 @@
    La primera de la lista es la más reciente. Ya no aparecen como tarjeta en Hoy.
    Al publicar algo que se note, se agrega una entrada arriba con un id nuevo (la fecha sirve). */
 window.NOVEDADES=[
+  {id:"2026-11-28-racha-quiz", titulo:"Un detalle en la pregunta del día", cambios:[
+    "Con un solo acierto, la racha de la pregunta del día dice \"1 acertada\" en vez de \"1 seguidas\"."
+  ]},
   {id:"2026-11-27-contenido", titulo:"Cuatro preguntas, un mito y una frase más", cambios:[
     "Cuatro preguntas nuevas de verdadero o falso: pasta base en el embarazo, por qué con MDMA el agua de más es más peligrosa, si la ketamina baja o sube el pulso, y dejar de fumar antes de una operación.",
     "En la guía de marihuana, el mito de que no tiene abstinencia.",
